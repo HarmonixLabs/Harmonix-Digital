@@ -9,7 +9,9 @@ import Dashboard from "@/pages/dashboard";
 import Marketplace from "@/pages/marketplace";
 import Wallet from "@/pages/wallet";
 import AgentCash from "@/pages/agent-cash";
+import AgentDashboard from "@/pages/agent-dashboard";
 import NFTMarketplace from "@/pages/nft-marketplace";
+import NFTMint from "@/pages/nft-mint";
 import NotFound from "@/pages/not-found";
 
 function Router() {

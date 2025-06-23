@@ -19,7 +19,9 @@ export function Navbar() {
 
   const navigationLinks = [
     { href: "/dashboard", label: "Dashboard" },
+    { href: "/agent-dashboard", label: "Agent Control" },
     { href: "/marketplace", label: "Marketplace" },
+    { href: "/nft-mint", label: "Mint NFTs" },
     { href: "/wallet", label: "Wallet" },
   ];
 
