@@ -13,6 +13,7 @@ import { Link } from "wouter";
 import { ChartLine, Cog, Shield, Search, Users, UserRoundCheck, Lock, TrendingUp, Activity } from "lucide-react";
 
 export default function Home() {
+  const [showOnboardingDemo, setShowOnboardingDemo] = useState(false);
   const { isAuthenticated, user } = useAuth();
   
   const { data: agentTypes = [] } = useQuery({

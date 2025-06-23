@@ -2,15 +2,18 @@ import { Navbar } from "@/components/layout/navbar";
 import { TokenMeter } from "@/components/token-meter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/lib/auth";
 import { useWebSocket } from "@/hooks/use-websocket";
-import { UserRoundCheck, Clock, CheckCircle, Activity } from "lucide-react";
+import { useOnboarding } from "@/hooks/use-onboarding";
+import { UserRoundCheck, Clock, CheckCircle, Activity, HelpCircle } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 
 export default function Dashboard() {
   const { user, organization } = useAuth();
   const { isConnected } = useWebSocket();
+  const { showOnboarding, isLoading, completeOnboarding, skipOnboarding, resetOnboarding } = useOnboarding();
 
   const { data: agents = [], isLoading: agentsLoading } = useQuery({
     queryKey: ['/api/agents'],
@@ -39,15 +42,44 @@ export default function Dashboard() {
     );
   }
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-teal-900 to-slate-900">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-harmony-gold border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-harmony-gold">Loading Harmonix...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen">
       <Navbar />
       
+      {/* Onboarding Wizard */}
+      {showOnboarding && (
+        <OnboardingWizard 
+          onComplete={completeOnboarding}
+          onSkip={skipOnboarding}
+        />
+      )}
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">
-            <span className="harmony-gold">Central Command</span> Dashboard
-          </h1>
+          <div className="flex items-center justify-between">
+            <h1 className="text-4xl font-bold mb-2">
+              <span className="harmony-gold">Central Command</span> Dashboard
+            </h1>
+            <Button
+              variant="outline"
+              onClick={resetOnboarding}
+              className="border-harmony-gold text-harmony-gold hover:bg-harmony-gold hover:text-slate-900"
+            >
+              <HelpCircle className="h-4 w-4 mr-2" />
+              Take Tour
+            </Button>
+          </div>
           <p className="text-xl text-gray-300">
             Monitor all your AI agents from a single, unified interface
           </p>
