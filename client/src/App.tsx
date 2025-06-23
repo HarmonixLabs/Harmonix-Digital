@@ -30,6 +30,8 @@ import AgentCash from "@/pages/agent-cash";
 import AgentDashboard from "@/pages/agent-dashboard";
 import NFTMarketplace from "@/pages/nft-marketplace";
 import NFTMint from "@/pages/nft-mint";
+import ThankYou from "@/pages/thank-you";
+import Checkout from "@/pages/checkout";
 import NotFound from "@/pages/not-found";
 
 function Router() {

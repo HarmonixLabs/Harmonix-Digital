@@ -416,6 +416,114 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Stripe payment routes
+  app.post('/api/checkout/create-session', async (req, res) => {
+    try {
+      const { 
+        tier, 
+        customOptions, 
+        industry, 
+        useCase, 
+        roiAdjustment = 0,
+        promoCode,
+        isDeposit = false 
+      } = req.body;
+
+      const pricingTiers = {
+        starter: { setupFee: 440000, name: 'Harmony Starter Package' },
+        growth: { setupFee: 800000, name: 'Harmony Growth Package' },
+        expansion: { setupFee: 1500000, name: 'Harmony Expansion Package' },
+        enterprise: { setupFee: 2150000, name: 'Harmony Enterprise Package' },
+        deposit: { setupFee: 44400, name: 'Harmony Early Bird Deposit' }
+      };
+
+      const selectedTier = isDeposit ? 'deposit' : tier;
+      const tierData = pricingTiers[selectedTier];
+      
+      if (!tierData) {
+        return res.status(400).json({ error: 'Invalid tier selected' });
+      }
+
+      let finalAmount = tierData.setupFee;
+      if (promoCode === 'EARLYBIRD30' || isDeposit) {
+        finalAmount = Math.round(finalAmount * 0.7);
+      }
+
+      if (!process.env.STRIPE_SECRET_KEY) {
+        return res.status(500).json({ error: 'Stripe not configured' });
+      }
+
+      const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+      
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: [{
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: tierData.name,
+              description: isDeposit 
+                ? 'Early bird deposit - secure your 30% discount' 
+                : `AI automation package with ${tier} tier agents`,
+            },
+            unit_amount: finalAmount,
+          },
+          quantity: 1,
+        }],
+        mode: 'payment',
+        success_url: `${req.protocol}://${req.get('host')}/thank-you?payment=success&tier=${selectedTier}`,
+        cancel_url: `${req.protocol}://${req.get('host')}/checkout?payment=cancelled`,
+        metadata: {
+          tier: selectedTier,
+          industry: industry || '',
+          useCase: useCase || '',
+          promoCode: promoCode || '',
+          isDeposit: isDeposit.toString(),
+          originalAmount: tierData.setupFee.toString(),
+          discountApplied: finalAmount < tierData.setupFee ? 'true' : 'false'
+        },
+        billing_address_collection: 'required',
+        phone_number_collection: { enabled: true },
+      });
+
+      res.json({ 
+        sessionId: session.id,
+        url: session.url,
+        amount: finalAmount,
+        originalAmount: tierData.setupFee
+      });
+
+    } catch (error) {
+      console.error('Stripe session creation error:', error);
+      res.status(500).json({ 
+        error: 'Failed to create payment session',
+        message: error.message 
+      });
+    }
+  });
+
+  app.post('/api/crm/payment-success', async (req, res) => {
+    try {
+      const { timestamp, source, page } = req.body;
+      
+      const crmData = {
+        email: req.user?.email || 'payment@harmonix.ai',
+        name: req.user?.name || 'New Customer',
+        source: `payment_${source}`,
+        activity: `Payment completed via ${page}`,
+        tier: 'paid_customer',
+        timestamp
+      };
+
+      const result = await updateCRM(crmData);
+      res.json({ success: true, crmResult: result });
+
+    } catch (error) {
+      console.error('CRM payment update error:', error);
+      res.status(500).json({ error: 'Failed to update CRM' });
+    }
+  });
+
   // Add GHL webhook endpoint
   app.post('/api/webhooks/ghl', async (req, res) => {
     try {

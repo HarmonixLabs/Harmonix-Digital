@@ -11,9 +11,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/lib/auth";
 import { Link } from "wouter";
+import { cn } from "@/lib/utils";
 import { ChartLine, Cog, Shield, Search, Users, UserRoundCheck, Lock, TrendingUp, Activity, ArrowRight, Play, Zap, Link2, Clock, Brain, Bot, FileText, MessageSquare, Sparkles, CheckCircle, Timer, Star } from "lucide-react";
 
 // Platform Pillars Section
