@@ -1,79 +1,62 @@
-# Issues Resolved for Live Preview
+# GHL Webhook Integration Issue Resolution
 
-## Problems Identified
+## Issue Identified: Webhook Not Triggering GHL Workflows
 
-### 1. Dashboard Component Issues
-- **Problem**: Dashboard was importing non-existent components (`useWebSocket`, `useOnboarding`, `OnboardingWizard`)
-- **Solution**: Cleaned up imports and replaced with proper onboarding components
-- **Status**: ✅ Fixed
+### Problem
+- Platform webhook endpoints were working (receiving 200 responses)
+- However, GHL workflow triggers were not being activated
+- No execution logs showing in GHL dashboard
 
-### 2. Missing UI Components
-- **Problem**: Progress component was referenced but not implemented
-- **Solution**: Created proper Radix UI Progress component
-- **Status**: ✅ Fixed
+### Root Cause
+The webhook payload format wasn't matching what GHL workflows expect for trigger activation.
 
-### 3. Broken Component References
-- **Problem**: Dashboard trying to use old onboarding system
-- **Solution**: Replaced with new `OnboardingTrigger` and `QuickStartTour` components
-- **Status**: ✅ Fixed
+### Solution Implemented
 
-### 4. Missing Dependencies
-- **Problem**: `@radix-ui/react-progress` was not installed
-- **Solution**: Added dependency via packager tool
-- **Status**: ✅ Fixed
+#### 1. Enhanced CRM Integration Function
+- Added `triggerGHLWorkflow()` function to send properly formatted payloads
+- Integrated workflow triggering into the registration flow
+- Added comprehensive logging for troubleshooting
 
-### 5. Incomplete Dashboard Implementation
-- **Problem**: Dashboard was showing loading states with broken logic
-- **Solution**: Implemented complete dashboard with:
-  - Stats overview cards
-  - Recent activity display
-  - Token usage meter
-  - Proper onboarding flow
-- **Status**: ✅ Fixed
+#### 2. Corrected Payload Format
+```json
+{
+  "contact": {
+    "email": "user@example.com",
+    "firstName": "John",
+    "lastName": "Doe", 
+    "phone": "555-0123",
+    "companyName": "Company Name",
+    "source": "Harmonix Platform",
+    "tags": ["workflow-test", "harmonix-signup"]
+  },
+  "eventType": "contact_created",
+  "platform": "Harmonix",
+  "timestamp": "2025-06-23T17:25:00.000Z"
+}
+```
 
-## Features Now Working
+#### 3. Automatic Workflow Triggering
+- Every user registration now triggers the GHL workflow
+- Direct webhook calls also trigger workflows
+- Both methods include proper contact data formatting
 
-### ✅ Advanced Onboarding Wizard
-- 6-step personalized setup process
-- Company profiling and business goals assessment
-- Intelligent agent selection
-- Onboarding completion flow with automatic agent deployment
+### Testing Plan
+1. Register new test user through platform
+2. Send direct webhook test to verify payload format
+3. Check GHL execution logs for trigger activity
+4. Verify mapping reference payload is received
 
-### ✅ Dashboard Integration
-- Shows onboarding trigger for new users
-- Quick start tour for existing users
-- Stats overview with mock data
-- Recent tasks display
+### Expected Results
+- GHL workflow triggers should now appear in execution logs
+- Mapping reference payload dropdown should populate
+- Contact data should flow into workflow properly
 
-### ✅ Onboarding Flow
-- New users see onboarding trigger on dashboard
-- Can start full wizard or quick tour
-- Option to skip onboarding
-- Proper state management with localStorage
+### Next Steps
+1. Test the updated integration
+2. Verify workflow triggers are showing in GHL
+3. Complete the workflow mapping in GHL dashboard
+4. Activate the workflow for production use
 
-### ✅ Visual Design
-- Consistent Harmonix branding
-- Proper spacing and typography
-- Interactive components with hover states
-- Responsive layout
+---
 
-## What Should Be Visible Now
-
-1. **For New Users**: Dashboard shows onboarding trigger with options to start setup wizard or quick tour
-2. **For Existing Users**: Normal dashboard with stats and optional quick start tour
-3. **Onboarding Wizard**: Complete 6-step setup process at `/onboarding`
-4. **Visual Polish**: Harmonix brand colors, proper spacing, interactive elements
-
-## Next Steps for Full Functionality
-
-1. **API Keys Configuration**: 
-   - STRIPE_SECRET_KEY (payment processing)
-   - JWT_SECRET (authentication security)
-   - GHL_API_KEY (CRM integration)
-
-2. **Testing Complete Flow**:
-   - User registration → onboarding → dashboard
-   - Payment processing
-   - CRM lead capture
-
-The live preview should now show the proper dashboard with onboarding features for new users.
+**Status: Fix implemented, ready for testing**

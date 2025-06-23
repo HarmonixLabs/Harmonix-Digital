@@ -232,6 +232,8 @@ Harmonix is a comprehensive AI infrastructure platform that enables businesses t
 - June 23, 2025: Added production-ready CORS middleware and health monitoring endpoints
 - June 23, 2025: Fixed webhook handler to properly process all GHL contact events
 - June 23, 2025: Platform achieved 100% production readiness - ready for launch and waitlist collection
+- June 23, 2025: Enhanced GHL workflow triggering to properly activate workflow triggers in GHL dashboard
+- June 23, 2025: Added direct workflow triggering function for seamless CRM integration and lead capture
 
 ## User Preferences
 
