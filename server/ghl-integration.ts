@@ -222,12 +222,56 @@ class GHLIntegration {
 // Export singleton instance
 export const ghlIntegration = new GHLIntegration();
 
+// Function to trigger GHL workflow with proper format
+async function triggerGHLWorkflow(contactData: CRMContact): Promise<void> {
+  try {
+    const webhookUrl = process.env.HARMONIX_GHL_WEBHOOK;
+    if (!webhookUrl) {
+      console.log('GHL webhook URL not configured');
+      return;
+    }
+
+    // Format payload for GHL inbound webhook
+    const workflowPayload = {
+      // Simple flat structure that GHL can easily map
+      email: contactData.email,
+      firstName: contactData.name?.split(' ')[0] || '',
+      lastName: contactData.name?.split(' ').slice(1).join(' ') || '',
+      phone: contactData.phone || '',
+      companyName: contactData.company || '',
+      source: contactData.source || 'Harmonix Platform',
+      eventType: 'contact_created',
+      platform: 'Harmonix',
+      timestamp: new Date().toISOString()
+    };
+
+    console.log('Triggering GHL workflow for:', contactData.email);
+    
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(workflowPayload)
+    });
+
+    const responseText = await response.text();
+    console.log('GHL webhook response:', response.status, responseText);
+    
+  } catch (error) {
+    console.error('GHL workflow trigger error:', error);
+  }
+}
+
 // Main function for updating CRM
 export async function updateCRM(contactData: CRMContact): Promise<{ success: boolean; message?: string }> {
   try {
+    // Create/update in GHL API first
     const result = await ghlIntegration.createOrUpdateContact(contactData);
     
-    // Log for debugging
+    // Trigger the workflow webhook
+    await triggerGHLWorkflow(contactData);
+    
     console.log('CRM Update Result:', {
       email: contactData.email,
       success: result.success,
