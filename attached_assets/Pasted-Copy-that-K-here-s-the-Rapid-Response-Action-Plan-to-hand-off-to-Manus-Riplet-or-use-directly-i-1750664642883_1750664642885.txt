@@ -1,0 +1,92 @@
+Copy that, K — here’s the Rapid Response Action Plan to hand off to Manus, Riplet, or use directly inside the Harmony master prompt.
+
+⸻
+
+⚠️ Critical Fixes for Harmony Web Platform (Riplet Deployment)
+
+🎯 Goal:
+
+Ensure ALL pages are functional, visually aligned, and zero dead ends exist — both public and private — with your brand assets and slogan fully active.
+
+⸻
+
+🔁 Immediate Fix Checklist:
+
+1. ✅ HOMEPAGE
+	•	✔ Sticky transparent menu = ✅ Good
+	•	⛔ Logo: Replace current with Harmonix logo
+	•	✅ Slogan: “Intelligent Systems for Timeless Sovereignty” — should appear in header or hero section
+
+⸻
+
+2. 🧭 GLOBAL NAVIGATION (Top Menu)
+	•	Home (✅ Works)
+	•	Harmony (/harmony) → ⚠️ Page not found / needs to be built
+	•	Demo (/demo or /soul-brain) → ⚠️ Dead link / needs design
+	•	Marketplace (/marketplace) → Should be public view, but gated on purchase
+	•	Waitlist (/join) → ⚠️ Missing
+	•	Dashboard (/dashboard) → ⚠️ Broken or not showing
+	•	Sign In / Log In (/login) → ⚠️ Not functional
+	•	Get Started → Should redirect to /join or /demo
+
+⸻
+
+3. 🧱 PAGE BUILD PRIORITY (Build Immediately)
+
+Page Route	Purpose	Public?
+/harmony	Overview of Harmony platform + demo CTA	✅ Yes
+/soul-brain	Chat demo w/ Soul AI assistant	✅ Yes
+/marketplace	Browse agents, filter, preview	✅ Yes
+/join	Waitlist signup (GHL CRM form embed)	✅ Yes
+/login	Auth (Google, Wallet, Email+2FA)	✅ Yes
+/dashboard	User home: agent stats, vault, integrations	🔒 No
+/agent-builder	Build + train your agent	🔒 No
+/launchpad	CRM, calendar, API integrations	🔒 No
+/admin	Super admin controls (Kwaccar only)	🔒 No
+/billing	Stripe checkout + Harmony Coin sync	🔒 No
+/prompt-history	Output vault / memory browser	🔒 No
+/team	Share agents with team (multi-seat)	🔒 No
+/faq	Conversion-focused questions	✅ Yes
+/case-studies	Videos + ROI calculators + stories	✅ Yes
+
+
+⸻
+
+4. 🔐 LOGIN SYSTEM
+
+Fix immediately:
+	•	Sign in and sign out flows
+	•	Auth using: Google, Email + 2FA, Crypto Wallet
+	•	After login, route to /dashboard
+
+⸻
+
+5. 🎨 BRAND UPDATES
+
+Apply across all pages:
+	•	Logo: Use official Harmonix “H”
+	•	Slogan: “Intelligent Systems for Timeless Sovereignty”
+	•	Colors:
+	•	Deep Forest Green #014321
+	•	Warm Gold #D1BFA7
+	•	Deep Space Black #0F1115
+	•	Fonts: Playfair Display (Headlines) + Inter (Body)
+	•	Button hover = gold glow
+	•	CTAs = rounded corners + subtle depth
+
+⸻
+
+✅ Final Instructions
+
+Riplet, you must:
+
+	•	Map every route
+	•	Auto-generate pages if missing
+	•	Validate every navigation path (public and private)
+	•	Ask admin (Kwaccar) if unsure
+	•	Enable Soul Brain chat on public pages
+	•	Embed GHL CRM form on /join and dashboard for tracking
+
+⸻
+
+Would you like this exported as a developer checklist PDF and a project ClickUp board structure with task cards pre-loaded for Manus and Riplet?
