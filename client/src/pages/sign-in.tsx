@@ -6,8 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Eye, EyeOff, ArrowRight, Mail, Lock } from "lucide-react";
 import { Link } from "wouter";
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
