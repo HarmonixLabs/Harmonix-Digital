@@ -2,14 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { TokenMeter } from "@/components/token-meter";
-import { Button } from "@/components/ui/button";
+import { SacredButton } from "@/components/ui/sacred-button";
+import { SacredCard } from "@/components/ui/sacred-card";
+import { SacredLoader } from "@/components/ui/sacred-loader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/lib/auth";
 import { QuickStartTour } from "@/components/onboarding/quick-start-tour";
 import { OnboardingTrigger } from "@/components/onboarding/onboarding-trigger";
 import { DemoPreviewWidget } from "@/components/demo/demo-preview-widget";
-import { UserRoundCheck, Clock, CheckCircle, Activity, HelpCircle, BarChart3, Users, Zap } from "lucide-react";
+import { UserRoundCheck, Clock, CheckCircle, Activity, HelpCircle, BarChart3, Users, Zap, Crown } from "lucide-react";
 
 export default function Dashboard() {
   const { user, organization } = useAuth();
@@ -78,7 +80,7 @@ export default function Dashboard() {
   if (!user) {
     return (
       <div className="min-h-screen harmonix-gradient flex items-center justify-center">
-        <div className="text-harmonix-regal-gold text-xl">Loading...</div>
+        <SacredLoader size="lg" />
       </div>
     );
   }
