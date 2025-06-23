@@ -1,14 +1,14 @@
+import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
 import { TokenMeter } from "@/components/token-meter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/lib/auth";
-import { useWebSocket } from "@/hooks/use-websocket";
-import { useOnboarding } from "@/hooks/use-onboarding";
-import { UserRoundCheck, Clock, CheckCircle, Activity, HelpCircle } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
+import { QuickStartTour } from "@/components/onboarding/quick-start-tour";
+import { OnboardingTrigger } from "@/components/onboarding/onboarding-trigger";
+import { UserRoundCheck, Clock, CheckCircle, Activity, HelpCircle, BarChart3, Users, Zap } from "lucide-react";
 
 export default function Dashboard() {
   const { user, organization } = useAuth();
@@ -26,8 +26,6 @@ export default function Dashboard() {
       setShowQuickStartTour(true);
     }
   }, [user]);
-  const { isConnected } = useWebSocket();
-  const { showOnboarding, isLoading, completeOnboarding, skipOnboarding, resetOnboarding } = useOnboarding();
 
   const { data: agents = [], isLoading: agentsLoading } = useQuery({
     queryKey: ['/api/agents'],
@@ -44,14 +42,59 @@ export default function Dashboard() {
   const currentAgent = agents[0]; // For demo, show first agent as "current"
   const recentTasks = tasks.slice(0, 5);
 
+  // Mock data for demonstration
+  const mockStats = {
+    totalAgents: 3,
+    activeTasks: 12,
+    tokensUsed: 2847,
+    tokensRemaining: 7153
+  };
+
+  const mockTasks = [
+    {
+      id: 1,
+      title: "Process new leads from website",
+      agent: "Agent CA$H",
+      status: "completed",
+      completedAt: new Date(Date.now() - 1000 * 60 * 30) // 30 minutes ago
+    },
+    {
+      id: 2,
+      title: "Send follow-up emails to prospects",
+      agent: "Agent CA$H", 
+      status: "in_progress",
+      createdAt: new Date(Date.now() - 1000 * 60 * 15) // 15 minutes ago
+    },
+    {
+      id: 3,
+      title: "Update CRM with lead scoring",
+      agent: "Concierge Agent",
+      status: "completed",
+      completedAt: new Date(Date.now() - 1000 * 60 * 45) // 45 minutes ago
+    }
+  ];
+
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Card className="w-full max-w-md">
-          <CardContent className="pt-6">
-            <p className="text-center text-gray-400">Please log in to access the dashboard.</p>
-          </CardContent>
-        </Card>
+      <div className="min-h-screen harmonix-gradient flex items-center justify-center">
+        <div className="text-harmonix-regal-gold text-xl">Loading...</div>
+      </div>
+    );
+  }
+
+  // Show onboarding trigger for new users who haven't completed setup
+  const hasSkippedOnboarding = localStorage.getItem('harmonix_onboarding_skipped');
+  if (!user.onboardingCompleted && !hasSkippedOnboarding) {
+    return (
+      <div className="min-h-screen harmonix-gradient">
+        <Navbar />
+        <div className="flex items-center justify-center min-h-[80vh] p-4">
+          <OnboardingTrigger
+            onStart={() => setShowQuickStartTour(true)}
+            className="max-w-lg w-full"
+          />
+        </div>
+        <Footer />
       </div>
     );
   }
