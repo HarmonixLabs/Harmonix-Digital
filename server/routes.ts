@@ -46,25 +46,82 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/health', healthCheck);
   app.get('/health/ready', readinessCheck);
   
-  // WebSocket setup for real-time updates
-  const wss = new WebSocketServer({ server: httpServer, path: '/ws' });
+  // WebSocket setup for real-time updates with connection management
+  const wss = new WebSocketServer({ 
+    server: httpServer, 
+    path: '/ws',
+    perMessageDeflate: false,
+    maxPayload: 1024 * 1024 // 1MB max message size
+  });
+  
+  // Connection rate limiting
+  const connectionAttempts = new Map<string, { count: number; lastAttempt: number }>();
   
   wss.on('connection', (ws: WebSocket, req) => {
+    const clientIP = req.socket.remoteAddress || 'unknown';
+    const now = Date.now();
+    
+    // Rate limiting: max 3 connections per 10 seconds per IP
+    const attempts = connectionAttempts.get(clientIP) || { count: 0, lastAttempt: 0 };
+    if (now - attempts.lastAttempt < 10000 && attempts.count >= 3) {
+      ws.close(1008, 'Too many connection attempts');
+      return;
+    }
+    
+    connectionAttempts.set(clientIP, { count: attempts.count + 1, lastAttempt: now });
     console.log('WebSocket client connected');
+    
+    // Heartbeat mechanism
+    let heartbeatInterval: NodeJS.Timeout;
+    const startHeartbeat = () => {
+      heartbeatInterval = setInterval(() => {
+        if (ws.readyState === WebSocket.OPEN) {
+          ws.ping();
+        }
+      }, 30000); // 30 second heartbeat
+    };
+    
+    ws.on('pong', () => {
+      // Client responded to ping
+    });
     
     ws.on('message', (message) => {
       try {
         const data = JSON.parse(message.toString());
-        // Handle WebSocket messages for real-time updates
         console.log('Received WebSocket message:', data);
+        
+        // Handle different message types
+        switch (data.type) {
+          case 'user_identify':
+            // Store user session info
+            break;
+          case 'sol_analyze':
+            // Handle SŌL brain analysis requests
+            break;
+          default:
+            console.log('Unhandled WebSocket message type:', data.type);
+        }
       } catch (error) {
         console.error('Invalid WebSocket message:', error);
+        ws.send(JSON.stringify({ type: 'error', message: 'Invalid message format' }));
       }
     });
 
     ws.on('close', () => {
       console.log('WebSocket client disconnected');
+      if (heartbeatInterval) {
+        clearInterval(heartbeatInterval);
+      }
     });
+    
+    ws.on('error', (error) => {
+      console.error('WebSocket error:', error);
+      if (heartbeatInterval) {
+        clearInterval(heartbeatInterval);
+      }
+    });
+    
+    startHeartbeat();
   });
 
   // Helper function to broadcast to all connected clients

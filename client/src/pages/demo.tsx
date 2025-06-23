@@ -77,27 +77,28 @@ export default function DemoPage() {
     }
   ];
 
-  const handleFeatureSelect = (featureId: string) => {
-    setSelectedDemo(featureId);
+  const handleSolResponse = (input: string) => {
+    // Enhanced SŌL Brain response with business intelligence
+    const context = {
+      industry: businessProfile.industry || 'general',
+      goal: businessProfile.goal.toLowerCase(),
+      budget: businessProfile.budget || 'unknown'
+    };
     
-    switch (featureId) {
-      case "soul-brain":
-        window.location.href = "/soul-brain";
-        break;
-      case "agent-cards":
-        window.location.href = "/marketplace";
-        break;
-      case "automation":
-        window.location.href = "/demo-deploy";
-        break;
-      case "dashboard":
-        if (user) {
-          window.location.href = "/dashboard";
-        } else {
-          window.location.href = "/login";
-        }
-        break;
-    }
+    const responses = {
+      sales: `Perfect! For ${context.industry} sales optimization, I recommend our Sales Rep Agent ($320/month). Based on your ${context.budget} budget, this agent can automate lead qualification and follow-ups, typically saving 22 hours per week and generating 3x ROI within 6 months. Would you like to see it in action?`,
+      
+      marketing: `Excellent choice! For ${context.industry} marketing automation, our Content Producer ($280/month) paired with Social Media Agent creates a powerful combination. This setup saves 25+ hours weekly and typically increases engagement by 40%. Given your ${context.budget} budget, this offers optimal value. Shall we explore this setup?`,
+      
+      operations: `Great insight! Your ${context.industry} operations would be transformed by our SOP Architect ($240/month). It intelligently maps processes and creates workflows automatically, reducing operational overhead by 35%. For your ${context.budget} budget range, this delivers exceptional efficiency gains. Ready for a live demonstration?`,
+      
+      default: `Based on your ${context.industry} background and ${context.budget} budget, I can recommend the perfect agent combination. What's your primary business goal today - increasing sales velocity, scaling marketing efforts, or optimizing operations? Each path offers distinct advantages for your specific situation.`
+    };
+    
+    if (context.goal.includes('sales') || context.goal.includes('revenue') || context.goal.includes('lead')) return responses.sales;
+    if (context.goal.includes('marketing') || context.goal.includes('content') || context.goal.includes('brand')) return responses.marketing;
+    if (context.goal.includes('operations') || context.goal.includes('process') || context.goal.includes('efficiency')) return responses.operations;
+    return responses.default;
   };
 
   return (
@@ -155,13 +156,7 @@ export default function DemoPage() {
               </div>
             </div>
           </div>
-        </section>
-              </Badge>
-              <h1 className="text-5xl lg:text-6xl font-bold text-white font-serif leading-tight">
-                Experience <span className="text-harmony-gold">Harmonix</span> in Action
-              </h1>
-              <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-                Explore the future of intelligent automation through interactive demos, 
+        </section> 
                 agent previews, and live platform experiences.
               </p>
             </div>
