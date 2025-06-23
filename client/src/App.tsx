@@ -63,10 +63,12 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <TooltipProvider>
-          <div className="min-h-screen bg-background text-foreground">
-            <Toaster />
+          <Suspense fallback={<div className="min-h-screen harmonix-gradient flex items-center justify-center">
+            <div className="text-harmonix-regal-gold text-xl">Loading Harmonix...</div>
+          </div>}>
             <Router />
-          </div>
+          </Suspense>
+          <Toaster />
         </TooltipProvider>
       </AuthProvider>
     </QueryClientProvider>
