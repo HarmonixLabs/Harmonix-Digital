@@ -1,0 +1,158 @@
+🔥 Copy that — let’s lock in Phase 3: Pricing & Checkout Logic, developer-ready with Instructions.md and full implementation structure. This is the payment engine that turns interest into income.
+
+⸻
+
+📁 Instructions.md (Phase 3: Pricing, Checkout, Stripe Logic)
+
+# 💸 Harmonix Phase 3 Developer Instructions – Pricing Table, Checkout Flow, Stripe Connect v1.0
+
+This phase activates the pricing matrix, dynamic checkout, and payment pipeline for both new customers and agent marketplace buyers.
+
+---
+
+## 🛒 Pricing Table Design (`/pricing`)
+
+Responsive table or card-based layout with 4 core plans:
+
+| Plan        | Agents      | Setup Fee (One-Time)      | Monthly MRR       |
+|-------------|-------------|----------------------------|-------------------|
+| Starter     | 1 Agent     | $4,400 – $6,200            | $800 – $1,200     |
+| Growth      | 3–5 Agents  | $8,000 – $12,500           | $3,200 – $4,400   |
+| Expansion   | 6–8 Agents  | $15,000 – $18,000          | ~$6,000           |
+| Enterprise  | 9–12+ Agents + SŌL | $21,500+             | $8,000+           |
+
+✅ Optional CTA:
+- “Reserve My Spot – 30% Off for First 280 Clients” → `/checkout?discount=earlybird`
+- “Chat with SŌL to Find Your Plan” → `/sol-brain?usecase=diagnosis`
+
+---
+
+## ✅ Checkout Flow (`/checkout`)
+
+Dynamic agent/package-based checkout engine.
+
+### 1. Checkout Entry Points
+- `/checkout?agent=xyz`
+- `/checkout?plan=starter`
+- `/checkout?deposit=444`
+
+📌 If “agent” is selected:
+- Pull agent data
+- Show monthly fee
+- Add optional setup fee if no Harmony system installed
+
+📌 If “plan” is selected:
+- Pull plan details
+- Apply deposit amount (33% default or 15% if `?financed=true`)
+- Optional: auto-prompt wallet connection
+
+---
+
+### 2. Checkout Form
+
+Fields:
+- Name
+- Email
+- Business Name
+- Industry (optional)
+- Tools You Use (tags, optional)
+- Need Financing? (checkbox)
+
+📌 Show:
+- ROI Calculator
+- Setup fee (based on plan selected)
+- Monthly Fee (based on agents or plan)
+
+---
+
+### 3. Stripe Logic
+
+#### Stripe API Setup
+Use Stripe Checkout Session for both one-time setup + recurring.
+
+Stripe Metadata:
+```json
+{
+  "agent_slug": "sop-architect",
+  "plan": "growth",
+  "monthly_fee": 4400,
+  "setup_fee": 9500,
+  "wallet": "0xabc123",
+  "email": "founder@brand.com"
+}
+
+Stripe Routes
+	•	✅ success_url: /thank-you?status=success
+	•	❌ cancel_url: /checkout?status=cancelled
+	•	Optional upsell: “Join the waitlist for 30% off?”
+
+⸻
+
+4. Dynamic Deposit Logic
+
+🧮 If joining early → use dynamic deposit logic:
+	•	Default: 33% of total setup fee
+	•	With ?discount=true: 15%
+
+📌 Prompt: “Secure your spot with a $___ deposit — 30% off for early adopters.”
+
+⸻
+
+5. Post-Payment Routing
+	•	Send webhook to:
+	•	Add user to CRM (GHL / Airtable)
+	•	Tag as “Customer: Active”
+	•	Trigger Zapier or webhook to onboarding pipeline
+	•	Show success page:
+“Welcome to Harmony 🎉
+You’ll be contacted within 24 hours to begin onboarding.”
+
+✅ Start Setup Wizard (optional modal)
+
+⸻
+
+📈 ROI Calculator Logic (Optional Add-On)
+
+Let user enter:
+	•	of weekly hours wasted (manual ops)
+	•	of team members
+	•	Estimated hourly cost
+
+Auto-output:
+	•	Time Saved
+	•	Annual ROI Estimate
+	•	Suggested Agent Plan
+
+Example:
+
+“With 22 hours/week saved at $55/hr → You’re saving $63,000/year.”
+
+⸻
+
+🔁 CRM Integration
+
+Trigger after successful checkout:
+	•	Add user to HighLevel (or Zapier)
+	•	Tag: customer, plan_tier, agent_selected
+	•	Assign to onboarding rep
+
+⸻
+
+🧠 Dev Tasks Checklist
+	•	Build /pricing page w/ dynamic CTA
+	•	Dynamic /checkout w/ agent or plan pre-fill
+	•	Stripe Checkout session creation
+	•	Early bird discount & deposit logic
+	•	ROI Calculator
+	•	Post-checkout logic → thank you + CRM
+	•	Optional Stripe Connect support (creator agent checkout)
+
+⸻
+
+Let’s move to:
+
+✅ /sol-brain AI Interactivity + Use Case Advisor
+…or
+🔁 /dashboard + Token Meter & Agent Management
+
+Type: ✅ Sol Brain Phase or ✅ Dashboard Phase to proceed.

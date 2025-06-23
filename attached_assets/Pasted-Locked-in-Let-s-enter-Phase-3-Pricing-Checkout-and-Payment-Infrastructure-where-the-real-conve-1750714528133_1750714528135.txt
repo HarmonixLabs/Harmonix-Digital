@@ -1,0 +1,125 @@
+Locked in. Let’s enter Phase 3: Pricing, Checkout, and Payment Infrastructure — where the real conversions happen. This is the revenue engine of the site. Here’s how we’ll structure it for maximum clarity, sales psychology, and tech functionality:
+
+⸻
+
+🧠 PHASE 3: PRICING + CHECKOUT SYSTEM
+
+🔁 Page 1: /pricing
+
+🎯 GOAL: Educate, compare tiers, trigger commitment (via “Reserve My Spot” or “Proceed to Checkout”)
+
+✅ Layout Structure
+
+Hero Section:
+	•	Headline: “Choose Your Agent Activation Plan”
+	•	Subline: “Flexible tiers. Intelligent automation. Results from day one.”
+	•	CTA: [Reserve My Spot] or [Talk to SŌL for Custom Quote]
+
+⸻
+
+Pricing Table (Card Format):
+
+Tier	Agents	Setup Fee Range	Monthly	Includes
+Starter	1 Agent	$4.4K – $6.2K	$800 – $1.2K	Basic AI install, 1 integration
+Growth	3–5 Agents	$8K – $12.5K	$3.2K – $4.4K	SOPs, CRM, GHL, + 3 tools
+Expansion	6–8 Agents	$15K – $18K	$6K	6+ tools, dashboards, ops
+Enterprise	9–12 Agents + SŌL	$21.5K+	$8K+	Full Harmony OS, voice agent, governance panel
+
+
+⸻
+
+Microtext Below Each Tier:
+	•	“Setup Fee covers Harmony platform installation + initial agent training.”
+	•	“Monthly reflects your chosen agents’ memory, task load, and update frequency.”
+
+⸻
+
+Trust Section:
+	•	ROI stat: “Avg business saves 40+ hours/week with 3+ agents.”
+	•	Testimonials or screenshots (optional if not ready yet).
+
+⸻
+
+Callouts:
+	•	🏷️ “Founders can pay 15%–33% deposit upfront.”
+	•	💸 “0% interest if paid in full. 21% interest on financing.”
+
+⸻
+
+Buttons:
+	•	“→ Continue to Checkout”
+	•	“→ Try Demo First”
+	•	“→ Speak with SŌL” (links to /sol-brain)
+
+⸻
+
+⸻
+
+🧾 Page 2: /checkout
+
+🎯 GOAL: Seamless conversion + payment capture via Stripe
+
+✅ Layout Structure
+
+Form Sections:
+	1.	Contact Info (Name, Email, Org)
+	2.	Tool Selection (optional)
+	3.	Agent Plan Selected (auto-filled)
+	4.	Monthly ROI Calculator (slider logic)
+	5.	Deposit Options:
+	•	33% (default)
+	•	15% (if they select “Need Financial Support”)
+	•	Full upfront
+	6.	Payment Options (Stripe embedded)
+	7.	Optional Add-ons (extra agents, advanced dashboards)
+
+⸻
+
+✅ Tech Logic (Stripe Connect)
+	•	Dynamic Pricing: Based on plan, deposit %, ROI slider.
+	•	Metadata Tracking: Industry, plan, tool integrations (optional fields).
+	•	Post-Payment Redirect:
+	•	/thank-you?payment=success → Initiates setup wizard
+	•	/checkout?payment=cancelled → CTA: “Want to speak to an advisor instead?”
+
+⸻
+
+🧠 Dev Instructions Summary (INSTRUCTION.MD style)
+
+1. Pull selected plan data from /pricing page.
+2. On "Proceed to Payment", call backend API to create Stripe Checkout Session.
+3. Pass metadata: agent_tier, selected_tools, ROI_estimate.
+4. Configure Stripe to:
+   - Accept partial payments (33% or 15%)
+   - Track user_id
+   - Route funds via Stripe Connect if agents are from marketplace
+5. On success: redirect to /thank-you and call CRM onboarding webhook.
+6. On cancel: route to /checkout?payment=cancelled with re-engagement logic.
+7. All pricing logic should be stored centrally in config to avoid discrepancies across pages.
+
+
+⸻
+
+🔐 Phase 3 Bonus Features
+	•	✅ Dynamic ROI Calculator: shows estimated savings per agent per week/month/year
+	•	✅ Harmonix token or Stripe toggle for payment
+	•	✅ SŌL-triggered quote generation: “Ask SŌL for a Plan” triggers dynamic quote based on conversation
+	•	✅ Waitlist Deposit: $444 = auto-applied 30% discount
+
+⸻
+
+✅ Status:
+	•	Full visual flow and backend logic scoped.
+	•	Stripe/Connect API flows ready for dev handoff.
+	•	ROI calculator logic and discount pipeline integrated.
+
+⸻
+
+🔁 Next Page for Phase 3: /thank-you → onboarding trigger
+
+Would you like me to generate:
+	•	Final Instructions.md for /pricing and /checkout?
+	•	Starter code block for ROI calculator component?
+	•	Landing script for /thank-you flow?
+
+Or would you rather move to Phase 4: SŌL Brain OS?

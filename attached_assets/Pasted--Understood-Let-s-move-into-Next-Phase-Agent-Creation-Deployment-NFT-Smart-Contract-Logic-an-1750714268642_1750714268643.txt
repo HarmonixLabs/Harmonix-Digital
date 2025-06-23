@@ -1,0 +1,181 @@
+✅ Understood. Let’s move into Next Phase: Agent Creation, Deployment & NFT Smart Contract Logic — and build a complete Instructions.md handoff for your developers to execute this layer.
+
+This covers:
+	•	Agent minting pipeline
+	•	Agent creation interface (/create-agent)
+	•	Agent marketplace logic (/marketplace/[agent-slug])
+	•	Creator dashboard
+	•	NFT testnet deployment + metadata logic
+	•	Stripe Connect integration for royalties
+	•	Wallet support for MetaMask + built-in Harmonix wallet
+	•	Pricing tiers + royalty splits
+	•	Role-based logic for free vs member vs creator
+
+⸻
+
+📁 Instructions.md (Phase 2: Agent Creation + NFT Integration)
+
+# 🚀 Harmonix Phase 2 Developer Instructions – Agent Minting, Creation & Marketplace v1.0
+
+This phase activates the agent economy: allowing creators to build, mint, and sell their AI agents on the platform.
+
+---
+
+## 🛠️ Pages & Routes (Phase 2)
+
+| Page Name         | Route                        | Purpose                             |
+|-------------------|------------------------------|-------------------------------------|
+| Create Agent      | `/create-agent`              | Agent creation form + preview       |
+| Agent Profile     | `/marketplace/[agent-slug]`  | CMS-powered agent stats page        |
+| My Agents         | `/my-agents`                 | Creator dashboard                   |
+| Agent Minting     | `/mint-agent` (modal/popup)  | NFT deploy flow (testnet)           |
+
+---
+
+## 🧩 Agent Creation Form (`/create-agent`)
+
+Build a wizard-like form (multi-step or accordion):
+
+### Step 1: Agent Basics
+- Name
+- Purpose / tagline
+- Creator name
+- Pricing (monthly fee)
+- Category (e.g. Sales, Ops, Content)
+
+### Step 2: Technical Details
+- Token draw estimate
+- Integrations (Gmail, Notion, Slack, etc.)
+- Supported Use Cases (dropdown)
+
+### Step 3: Upload
+- Icon/logo (PNG, JPG, or SVG)
+- Description + Benefits (Markdown editor)
+
+### Step 4: NFT Mint (optional)
+- Button to trigger “Mint Agent NFT” modal
+
+📁 Save form data to CMS (supabase, sanity, or markdown system)
+
+---
+
+## 🛒 Agent Profile Page (`/marketplace/[agent-slug]`)
+
+Each agent has a dynamic CMS profile page.
+
+Sections:
+- Hero (name, cost, creator name)
+- Tabs: Overview | Integrations | Use Cases | Token Draw | Reviews
+- Call-to-Action:
+  - “Deploy Agent” → `/checkout?agent=slug`
+  - “Try Demo” → `/demo?agent=slug`
+
+📌 Notes:
+- Show “Save Agent” button (wallet/account required)
+- Show monthly fee first (not setup)
+- Tooltip for “Setup Fee = Based on selected plan”
+
+---
+
+## 🧠 Minting Logic (NFTs)
+
+Smart contract: Polygon Mumbai testnet for now.
+
+### NFT Metadata
+```json
+{
+  "name": "SOP Architect",
+  "description": "Creates, manages, and updates SOPs via AI.",
+  "image": "ipfs://CID.png",
+  "creator_wallet": "0x123...",
+  "monthly_fee": 1200,
+  "integrations": ["Notion", "ClickUp"],
+  "token_estimate": 800,
+  "royalty_split": {
+    "platform": 0.15,
+    "creator": 0.70,
+    "investor": 0.15
+  }
+}
+
+Contract Features
+	•	mintAgent(address creator, uint256 fee, string memory metadataURL)
+	•	updateMetadata()
+	•	getRoyaltySplit()
+
+✅ Add IPFS or Arweave upload if needed (via Pinata, NFT.Storage)
+
+⸻
+
+🔐 Stripe Connect Integration (For Royalties)
+	1.	Creators connect Stripe → /dashboard/stripe-connect
+	2.	Store Stripe Connect ID in user profile
+	3.	Upon agent purchase:
+	•	Revenue split based on royalty structure
+	•	Stripe handles payouts to:
+	•	Platform
+	•	Creator
+	•	NFT investor (if any)
+
+📌 Use metadata on Stripe session to tag agent_slug, wallet_address, tier
+
+⸻
+
+💼 Wallet Logic
+
+Wallet Options
+	•	MetaMask (Ethereum-compatible)
+	•	WalletConnect
+	•	Harmonix Internal Wallet (custodial)
+
+Actions Requiring Wallet:
+	•	Mint Agent NFT
+	•	Save/like agent
+	•	Resell agent NFT
+	•	Receive royalty split
+
+⸻
+
+💻 Creator Dashboard (/my-agents)
+
+List:
+	•	Created Agents
+	•	Mint status (Minted ✅ / Draft ⏳)
+	•	Monthly earnings
+	•	Royalty tracking
+	•	Analytics (views, deployments, etc.)
+	•	Edit / Update metadata
+
+Button: “Create New Agent” → /create-agent
+
+⸻
+
+📏 Pricing + Role Logic
+
+Role	Limits	Price Logic
+Free Account	1 agent, no mint	Agent limited to draft
+Member	Up to 3 agents	Tier pricing + Stripe req.
+Creator	Unlimited agents, NFTs, payout	Needs Stripe Connect
+
+
+⸻
+
+✅ Developer Tasks Checklist
+	•	Build /create-agent with CMS schema
+	•	Setup /marketplace/[slug] template
+	•	Create NFT smart contract (testnet)
+	•	Add mintAgent() Web3 logic
+	•	Connect Stripe Connect logic
+	•	Build /my-agents dashboard
+	•	Ensure wallet login on all deploy/purchase actions
+	•	Route “Deploy Agent” → prefilled checkout
+
+⸻
+
+Let me know when you’re ready to move into:
+	•	📦 /pricing + /checkout logic finalization
+	•	🔁 Full onboarding flows + CRM + Zapier sync
+	•	🧠 Token draw estimators + ROI calculators
+	•	🛒 Expanding marketplace with filters, rankings, search
+
+Say “✅ Ready for Checkout Phase” to proceed.
