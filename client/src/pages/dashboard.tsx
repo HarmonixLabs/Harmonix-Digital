@@ -282,19 +282,24 @@ export default function Dashboard() {
               </SacredCard>
             </AnimatedCard>
 
-          <SacredCard variant="default" className="p-6">
-            <div className="mb-4">
-              <h3 className="harmonix-header-font text-xl text-white mb-2">Token Usage</h3>
-              <div className="w-16 h-0.5 bg-gradient-to-r from-warm-gold to-transparent" />
-            </div>
-            <TokenMeter 
-              used={mockStats.tokensUsed} 
-              total={mockStats.tokensUsed + mockStats.tokensRemaining} 
-            />
-          </SacredCard>
+            <AnimatedCard delay={0.9}>
+              <SacredCard variant="default" className="p-6">
+                <div className="mb-4">
+                  <h3 className="harmonix-header-font text-xl text-white mb-2">Token Usage</h3>
+                  <div className="w-16 h-0.5 bg-gradient-to-r from-warm-gold to-transparent" />
+                </div>
+                <TokenMeter 
+                  used={mockStats.tokensUsed} 
+                  total={mockStats.tokensUsed + mockStats.tokensRemaining} 
+                />
+              </SacredCard>
+            </AnimatedCard>
 
-          <DemoPreviewWidget />
-        </div>
+            <AnimatedCard delay={1.1}>
+              <DemoPreviewWidget />
+            </AnimatedCard>
+          </div>
+        </FadeIn>
       </div>
 
       <Footer />

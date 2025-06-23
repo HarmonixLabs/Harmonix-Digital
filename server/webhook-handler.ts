@@ -39,13 +39,17 @@ interface GHLWebhookPayload {
 
 export async function handleGHLWebhook(req: Request, res: Response) {
   try {
-    console.log('GHL Webhook received:', req.body);
+    console.log('🚀 Harmonix GHL Webhook received:', {
+      body: req.body,
+      timestamp: new Date().toISOString(),
+      headers: req.headers['content-type']
+    });
     
     const payload: GHLWebhookPayload = req.body;
     
-    // Verify webhook authenticity (you can add signature verification here)
-    if (!payload.type || !payload.data) {
-      return res.status(400).json({ error: 'Invalid webhook payload' });
+    // Handle different payload structures
+    if (!payload.type && !payload.contact) {
+      return res.status(400).json({ error: 'Invalid webhook payload - missing type or contact data' });
     }
 
     switch (payload.type) {
