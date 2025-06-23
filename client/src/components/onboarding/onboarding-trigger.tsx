@@ -1,53 +1,109 @@
-import { useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
-import { OnboardingWizard } from "./onboarding-wizard";
-import { HelpCircle, Play } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { HarmonixLogo } from "@/components/brand/HarmonixLogo";
+import { useLocation } from "wouter";
+import { 
+  Rocket, 
+  ArrowRight, 
+  CheckCircle, 
+  Settings, 
+  Target,
+  Sparkles
+} from "lucide-react";
 
 interface OnboardingTriggerProps {
-  variant?: "button" | "help" | "tour";
-  size?: "sm" | "md" | "lg";
+  onStart: () => void;
   className?: string;
 }
 
-export function OnboardingTrigger({ variant = "button", size = "md", className = "" }: OnboardingTriggerProps) {
-  const [showOnboarding, setShowOnboarding] = useState(false);
+export function OnboardingTrigger({ onStart, className = "" }: OnboardingTriggerProps) {
+  const [, setLocation] = useLocation();
 
-  const buttonContent = {
-    button: {
-      icon: Play,
-      text: "Take Platform Tour"
+  const benefits = [
+    {
+      icon: Target,
+      title: "Personalized Setup",
+      description: "Configure AI agents based on your specific business needs"
     },
-    help: {
-      icon: HelpCircle,
-      text: "Help & Tour"
+    {
+      icon: Settings,
+      title: "Smart Integrations",
+      description: "Connect your existing tools for seamless automation"
     },
-    tour: {
-      icon: Play,
-      text: "Interactive Tour"
+    {
+      icon: Sparkles,
+      title: "Optimized Performance",
+      description: "Get recommendations for maximum ROI and efficiency"
     }
-  };
-
-  const content = buttonContent[variant];
-  const IconComponent = content.icon;
+  ];
 
   return (
-    <>
-      <Button
-        variant="outline"
-        size={size}
-        onClick={() => setShowOnboarding(true)}
-        className={`border-harmony-gold text-harmony-gold hover:bg-harmony-gold hover:text-slate-900 ${className}`}
-      >
-        <IconComponent className="h-4 w-4 mr-2" />
-        {content.text}
-      </Button>
+    <Card className={`harmonix-card-enhanced ${className}`}>
+      <CardHeader className="text-center">
+        <div className="flex justify-center mb-4">
+          <HarmonixLogo size="md" variant="scenic" />
+        </div>
+        <CardTitle className="text-2xl text-white">
+          Complete Your Platform Setup
+        </CardTitle>
+        <CardDescription className="text-harmonix-sage-fade">
+          Unlock the full potential of your AI automation platform with our guided setup wizard
+        </CardDescription>
+      </CardHeader>
+      
+      <CardContent className="space-y-6">
+        {/* Benefits */}
+        <div className="space-y-4">
+          {benefits.map((benefit, index) => (
+            <div key={index} className="flex items-start space-x-3">
+              <div className="w-8 h-8 rounded-full bg-harmonix-regal-gold/20 flex items-center justify-center mt-0.5">
+                <benefit.icon className="w-4 h-4 text-harmonix-regal-gold" />
+              </div>
+              <div>
+                <h4 className="font-semibold text-white">{benefit.title}</h4>
+                <p className="text-sm text-harmonix-sage-fade">{benefit.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
 
-      {showOnboarding && (
-        <OnboardingWizard 
-          onComplete={() => setShowOnboarding(false)}
-          onSkip={() => setShowOnboarding(false)}
-        />
-      )}
-    </>
+        {/* Action Buttons */}
+        <div className="space-y-3 pt-4">
+          <Button
+            onClick={() => setLocation('/onboarding')}
+            className="w-full bg-harmonix-regal-gold hover:bg-harmonix-regal-gold/90 text-harmonix-deep-forest font-semibold py-3"
+            size="lg"
+          >
+            <Rocket className="w-5 h-5 mr-2" />
+            Start Setup Wizard
+          </Button>
+          
+          <Button
+            onClick={onStart}
+            variant="outline"
+            className="w-full border-harmonix-sage-fade text-harmonix-sage-fade hover:bg-harmonix-sage-fade hover:text-harmonix-deep-forest"
+            size="lg"
+          >
+            Quick Tour Instead
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </Button>
+        </div>
+
+        {/* Skip Option */}
+        <div className="text-center pt-2">
+          <Button
+            variant="ghost"
+            className="text-harmonix-sage-fade hover:text-white text-sm"
+            onClick={() => {
+              localStorage.setItem('harmonix_onboarding_skipped', 'true');
+              window.location.reload();
+            }}
+          >
+            Skip for now
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

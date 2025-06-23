@@ -12,6 +12,20 @@ import { formatDistanceToNow } from "date-fns";
 
 export default function Dashboard() {
   const { user, organization } = useAuth();
+  const [showQuickStartTour, setShowQuickStartTour] = useState(false);
+
+  // Check if user should see onboarding/tour
+  useEffect(() => {
+    const hasSeenTour = localStorage.getItem('harmonix_tour_completed');
+    const hasSkippedOnboarding = localStorage.getItem('harmonix_onboarding_skipped');
+    
+    if (!hasSeenTour && !hasSkippedOnboarding && user && !user.onboardingCompleted) {
+      // Show onboarding trigger instead of tour for new users
+      return;
+    } else if (!hasSeenTour && user && user.onboardingCompleted) {
+      setShowQuickStartTour(true);
+    }
+  }, [user]);
   const { isConnected } = useWebSocket();
   const { showOnboarding, isLoading, completeOnboarding, skipOnboarding, resetOnboarding } = useOnboarding();
 

@@ -1,5 +1,4 @@
 // Go High Level CRM Integration
-import fetch from 'node-fetch';
 
 interface CRMContact {
   email: string;
