@@ -50,7 +50,7 @@ function Router() {
       <Route path="/my-agents" component={MyAgents} />
       <Route path="/create" component={Create} />
       <Route path="/settings" component={Settings} />
-      <Route path="/pricing" component={lazy(() => import("./pages/pricing"))} />
+      <Route path="/pricing" component={lazy(() => import("./pages/pricing-enhanced"))} />
       <Route path="/success" component={lazy(() => import("./pages/success"))} />
       <Route path="/get-started" component={lazy(() => import("./pages/get-started"))} />
       <Route path="/sign-in" component={lazy(() => import("./pages/sign-in"))} />

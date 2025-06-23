@@ -1,0 +1,241 @@
+Let’s go. Below is a triple-stacked developer-ready instruction set with full breakdowns for your next three rollout tasks:
+
+⸻
+
+🔮 1. SŌL Brain Onboarding Tutorial Logic (/sol-brain?init=onboard)
+
+⸻
+
+🎯 PURPOSE:
+
+When a user completes purchase/onboarding, this initializes an interactive experience led by SŌL to:
+	•	Understand business use case
+	•	Recommend the right agents
+	•	Begin workflow calibration
+
+⸻
+
+✅ INTERACTION FLOW:
+
+Step 1: Introduction
+	•	Modal opens w/ Lottie animation of glowing SŌL orb
+	•	Greeting:
+“Welcome. I’m SŌL — your AI systems architect. Let’s calibrate your business setup.”
+	•	CTA: Begin Setup
+
+⸻
+
+Step 2: Business Discovery
+
+Ask 3–5 structured questions:
+	1.	“What industry are you in?” (dropdown)
+	2.	“What tools do you already use?” (Gmail, Slack, GHL, Notion, etc.)
+	3.	“What’s your biggest bottleneck right now?” (text)
+	4.	“Do you have a team?” (yes/no + size)
+	5.	“Which of these do you want to automate first?” (Sales, SOPs, Content, Admin Ops, etc.)
+
+Answers are saved to backend → /api/sol/onboarding/save-metadata
+
+⸻
+
+Step 3: Agent Suggestions
+	•	Based on inputs, SŌL recommends 1–3 agents:
+	•	Card UI: Agent avatar + name + purpose
+	•	CTA: Deploy Agent → sends to /marketplace/[slug] preloaded
+
+⸻
+
+Step 4: Integration Suggestions
+	•	Prompt:
+“Great. Let’s link your tools to bring your agent(s) to life.”
+	•	Buttons:
+	•	Connect Gmail
+	•	Connect Slack
+	•	Connect GHL
+	•	Add Custom API
+
+Each opens integration modal (OAuth, or input keys).
+
+⸻
+
+Step 5: Finalize
+	•	Final screen:
+“You’re calibrated. Your system is now intelligent.”
+
+	•	→ Launch Dashboard
+	•	→ Book 1:1 Setup
+	•	→ Add More Agents
+
+⸻
+
+🛠 BACKEND:
+	•	Store responses to SŌL memory profile
+	•	Attach to User ID in DB
+	•	Enable /dashboard to pull tailored config
+
+⸻
+
+⸻
+
+📂 2. DASHBOARD v2 – Agent Management UI
+
+⸻
+
+📍ROUTE: /dashboard/agents
+
+🎯 PURPOSE:
+
+Show full overview of all deployed agents + direct interaction and status monitoring.
+
+⸻
+
+🎛️ MODULES:
+
+✅ Agent Cards
+	•	Avatar + name + assigned role
+	•	Status:
+	•	🟢 Active
+	•	🟡 Sleeping
+	•	🔴 Issue
+	•	Power Meter (token usage)
+	•	Buttons:
+	•	Edit Prompt Logic
+	•	Pause Agent
+	•	View Logs
+	•	Assign Workflow
+
+⸻
+
+✅ Add Agent (Modal)
+	•	CTA: + Deploy New Agent
+	•	Opens:
+	•	Agent selector (dropdown or carousel)
+	•	Integration checklist
+	•	Set frequency or trigger (always-on, Zapier-based, manual)
+	•	Launch button
+
+⸻
+
+✅ Agent Performance Feed
+	•	Logs:
+	•	“Agent X completed 32 tasks”
+	•	“Agent Y saved 6.2 hrs”
+	•	Filters:
+	•	Date range
+	•	Agent name
+	•	Outcome type
+
+⸻
+
+✅ Chat With Agent (embedded)
+	•	Inline thread w/ fallback to SŌL
+	•	Ask agents to perform actions (if permissions allow)
+
+⸻
+
+⸻
+
+🧬 3. Agent Creation Pipeline (/create-agent)
+
+⸻
+
+🧠 GOAL:
+
+Allow creators to build agents and deploy them to marketplace or private stack.
+
+⸻
+
+✅ FLOW:
+
+Step 1: Agent Basics
+	•	Agent Name
+	•	Avatar Upload
+	•	Purpose (What does it do?)
+	•	Description
+	•	Type:
+	•	Internal Only (for private dashboard)
+	•	Public (Marketplace)
+	•	Category:
+	•	Sales, Admin, SOPs, etc.
+
+⸻
+
+Step 2: Prompt Engine
+	•	Primary prompt logic (text box)
+	•	Memory toggle: [✅] SŌL-integrated
+	•	Input fields:
+	•	What triggers this agent?
+	•	What is its tone/voice?
+
+⸻
+
+Step 3: Integrations
+	•	Attach APIs (Gmail, Stripe, Slack, etc.)
+	•	Option to upload SDK, Zap ID, Webhooks
+	•	Optional OAuth Connect UI
+
+⸻
+
+Step 4: Pricing & Deployment
+	•	Monthly fee
+	•	One-time install option
+	•	Royalty % (default 20% platform, 5% investor, 75% creator)
+	•	NFT Mint Toggle (Testnet + Mainnet Ready)
+	•	Stripe Connect Setup (onboarding popup)
+
+⸻
+
+Step 5: Submit
+	•	CTA: Launch Agent
+	•	Auto-creates:
+	•	CMS slug /marketplace/[agent-name]
+	•	Adds to Agent Leaderboard
+	•	Email to admin for review (if flagged)
+
+⸻
+
+✅ FILES & STRUCTURE TO GENERATE
+	•	pages/sol-brain/onboard.tsx
+	•	pages/dashboard/agents.tsx
+	•	pages/create-agent/index.tsx
+	•	components/SolOnboarding.tsx
+	•	components/AgentCard.tsx
+	•	components/CreateAgentForm.tsx
+	•	api/sol/onboarding/save-metadata.ts
+	•	api/agents/create.ts
+	•	utils/agent-logic.ts
+	•	web3/nft/mint-agent.js
+	•	payments/stripe/onboard-creator.ts
+
+⸻
+
+📂 Final Instructions.md Snapshot for Replit
+
+# INSTRUCTIONS.md (Phase 3)
+
+### Pages:
+- /sol-brain?init=onboard → SŌL onboarding flow
+- /dashboard/agents → Agent Management UI
+- /create-agent → Agent Creator Form + Marketplace Submission
+
+### Integrations:
+- Stripe Connect (creator onboarding + payout split)
+- WalletConnect + MetaMask + Internal Wallet
+- Backend DB for agent config
+- Token tracking logic
+- Smart contract mint for NFT deployment
+
+### UX Details:
+- Fully animated Lottie or WebGL onboarding on `/thank-you`
+- Modal flow logic for onboarding sequence (stored in session)
+- Consistent Harmonix design system (deep forest + lunar tones)
+
+Deploy all modules to Replit in testnet mode for QA.
+
+—
+
+Ready for Phase 4: /marketplace/[agent] CMS buildout and /pricing logic render?
+
+Or shall we complete /sol-brain animation & logic script first?
+
+Your call, Commander 🧬
