@@ -1,0 +1,75 @@
+INSTRUCTIONS.md — PRICING + CHECKOUT FLOW (for Dev + Replit)
+
+⸻
+
+🧾 /pricing PAGE SETUP
+
+GOAL: Inform users of plans, encourage action, pass metadata → checkout
+
+🔧 FRONTEND TASKS:
+	•	Create responsive Pricing Grid with 4 cards: Starter, Growth, Expansion, Enterprise
+	•	Add Monthly Fee as the primary visible cost (Setup Fee = tooltip only)
+	•	Highlight benefits per tier (dynamic copy injection OK)
+	•	Add microcopy under each card:
+	•	“Setup fee includes Harmony install + agent training”
+	•	Add CTA Buttons:
+	•	→ Proceed to Checkout (pass planId)
+	•	→ Try Demo First → /demo
+	•	→ Talk to SŌL → /sol-brain
+
+🛠 INTERACTIONS:
+	•	All plan cards inject selected planId as GET param to /checkout
+
+⸻
+
+✅ /checkout PAGE SETUP
+
+GOAL: Collect info, show ROI, route to Stripe, log metadata
+
+🔧 FRONTEND TASKS:
+	•	Step-based UI: Contact Info → ROI Calculator → Deposit → Payment
+	•	Optional Add-Ons Section:
+	•	“Need extra agents?” → update pricing dynamically
+
+🎯 FORM FIELDS:
+	•	Full Name, Email, Org Name
+	•	Selected Agent Plan (auto-filled)
+	•	ROI Calculator (see component below)
+	•	Deposit Type: 15% / 33% / 100%
+	•	Payment Type: Stripe / Token
+	•	Accept TOS checkbox
+	•	“Proceed to Payment” triggers backend checkout session
+
+⸻
+
+🧠 BACKEND TASKS:
+	•	Create /api/checkout-session
+	•	On POST:
+	•	Parse metadata
+	•	Call Stripe API to create session
+	•	Store user+transaction metadata in backend
+	•	Set success_url: /thank-you?payment=success
+	•	Set cancel_url: /checkout?payment=cancelled
+
+⸻
+
+💸 STRIPE PRODUCT CONFIG
+
+Stripe Dashboard Setup:
+	•	Create Product IDs for:
+	•	starter, growth, expansion, enterprise
+	•	Enable partial payment support (manual config via Payment Links or API logic)
+	•	Route to Stripe Connect accounts if agent is 3rd-party
+
+⸻
+
+✅ Optional Logic:
+	•	If early bird discount applies → deduct 30% from total
+	•	If ROI input projects 2X savings → show “Projected ROI” badge on summary
+	•	If plan selected includes 9+ agents → pre-fill SŌL Brain toggle as “ON”
+
+⸻
+
+⸻
+
+💻 ROI CALCULATOR (React Starter Component)

@@ -52,6 +52,7 @@ function Router() {
       <Route path="/settings" component={Settings} />
       <Route path="/pricing" component={lazy(() => import("./pages/pricing-enhanced"))} />
       <Route path="/success" component={lazy(() => import("./pages/success"))} />
+      <Route path="/thank-you" component={lazy(() => import("./pages/thank-you"))} />
       <Route path="/get-started" component={lazy(() => import("./pages/get-started"))} />
       <Route path="/sign-in" component={lazy(() => import("./pages/sign-in"))} />
       <Route path="/waitlist" component={lazy(() => import("./pages/waitlist"))} />

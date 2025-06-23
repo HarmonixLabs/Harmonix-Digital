@@ -9,96 +9,15 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Check, Star, Zap, ArrowRight, Calculator, TrendingUp, Wallet, Users, Bot, Clock, DollarSign } from "lucide-react";
 import { Link } from "wouter";
+import { PRICING_CONFIG, PricingUtils } from "@shared/config/pricing";
 
-// Enhanced pricing tiers with Phase 3 specifications
-const pricingTiers = [
-  {
-    id: "starter",
-    name: "Starter",
-    description: "Perfect for small businesses beginning their automation journey",
-    setupFee: { min: 4400, max: 6200 },
-    monthlyMRR: { min: 800, max: 1200 },
-    agents: { min: 1, max: 2 },
-    deposit: { min: 15, max: 25 },
-    features: [
-      "1-2 AI Agents",
-      "Basic integrations",
-      "Standard support",
-      "SŌL brain access",
-      "Monthly analytics",
-      "Email automation"
-    ],
-    popular: false,
-    color: "blue"
-  },
-  {
-    id: "growth",
-    name: "Growth",
-    description: "Ideal for growing companies scaling operations",
-    setupFee: { min: 8000, max: 12500 },
-    monthlyMRR: { min: 3200, max: 4400 },
-    agents: { min: 3, max: 5 },
-    deposit: { min: 15, max: 30 },
-    features: [
-      "3-5 AI Agents",
-      "Advanced integrations",
-      "Priority support",
-      "Custom workflows",
-      "Real-time analytics",
-      "CRM automation",
-      "Team collaboration"
-    ],
-    popular: true,
-    color: "gold"
-  },
-  {
-    id: "expansion",
-    name: "Expansion",
-    description: "For established businesses ready for full automation",
-    setupFee: { min: 15000, max: 18000 },
-    monthlyMRR: { min: 6000, max: 6000 },
-    agents: { min: 6, max: 10 },
-    deposit: { min: 15, max: 33 },
-    features: [
-      "6-10 AI Agents",
-      "Enterprise integrations",
-      "Dedicated support",
-      "Custom agent creation",
-      "Advanced analytics",
-      "Multi-location support",
-      "API access",
-      "White-label options"
-    ],
-    popular: false,
-    color: "purple"
-  },
-  {
-    id: "enterprise",
-    name: "Enterprise",
-    description: "Complete automation ecosystem for large organizations",
-    setupFee: { min: 21500, max: 50000 },
-    monthlyMRR: { min: 8000, max: 15000 },
-    agents: { min: 10, max: 999 },
-    deposit: { min: 20, max: 40 },
-    features: [
-      "Unlimited AI Agents",
-      "Custom integrations",
-      "24/7 dedicated support",
-      "Agent marketplace access",
-      "Custom SŌL brain",
-      "Enterprise security",
-      "Multi-tenant setup",
-      "Custom contracts"
-    ],
-    popular: false,
-    color: "emerald"
-  }
-];
+// Use centralized pricing configuration
+const pricingTiers = Object.values(PRICING_CONFIG.TIERS);
 
 export default function PricingEnhanced() {
   const [selectedTier, setSelectedTier] = useState<string>("growth");
-  const [depositPercentage, setDepositPercentage] = useState([20]);
-  const [isEarlyBird, setIsEarlyBird] = useState(true);
+  const [depositPercentage, setDepositPercentage] = useState([PRICING_CONFIG.FINANCING.defaultDepositPercent]);
+  const [isEarlyBird, setIsEarlyBird] = useState(PRICING_CONFIG.EARLY_BIRD.enabled);
   const [showROICalculator, setShowROICalculator] = useState(false);
   const [roiInputs, setRoiInputs] = useState({
     currentHourlyRate: 50,
@@ -106,41 +25,27 @@ export default function PricingEnhanced() {
     expectedSavings: 80
   });
 
-  // Calculate pricing with early bird discount
+  // Use centralized pricing calculations
   const getCalculatedPrice = (tier: any) => {
-    const baseSetup = (tier.setupFee.min + tier.setupFee.max) / 2;
-    const discountedSetup = isEarlyBird ? baseSetup * 0.7 : baseSetup; // 30% early bird discount
-    const depositAmount = (discountedSetup * depositPercentage[0]) / 100;
-    const remainingAmount = discountedSetup - depositAmount;
+    const tierPrice = PricingUtils.calculateTierPrice(tier.id, isEarlyBird);
+    if (!tierPrice) return null;
+
+    const depositCalc = PricingUtils.calculateDeposit(tierPrice.discountedSetup, depositPercentage[0]);
     
     return {
-      baseSetup,
-      discountedSetup,
-      depositAmount,
-      remainingAmount,
-      monthlyMRR: (tier.monthlyMRR.min + tier.monthlyMRR.max) / 2
+      ...tierPrice,
+      ...depositCalc
     };
   };
 
-  // ROI Calculator
+  // Use centralized ROI calculation
   const calculateROI = () => {
     const { currentHourlyRate, hoursSpentWeekly, expectedSavings } = roiInputs;
-    const currentMonthlyCost = currentHourlyRate * hoursSpentWeekly * 4.33; // avg weeks per month
-    const savedHours = hoursSpentWeekly * (expectedSavings / 100);
-    const monthlySavings = savedHours * currentHourlyRate * 4.33;
     const selectedTierData = pricingTiers.find(t => t.id === selectedTier);
     const tierPrice = selectedTierData ? getCalculatedPrice(selectedTierData) : null;
     const monthlyMRR = tierPrice?.monthlyMRR || 1000;
-    const netMonthlySavings = monthlySavings - monthlyMRR;
-    const yearlyROI = ((netMonthlySavings * 12) / (tierPrice?.discountedSetup || 10000)) * 100;
     
-    return {
-      currentMonthlyCost,
-      monthlySavings,
-      netMonthlySavings,
-      yearlyROI,
-      savedHours
-    };
+    return PricingUtils.calculateROI(hoursSpentWeekly, currentHourlyRate, expectedSavings, monthlyMRR);
   };
 
   const roi = calculateROI();
@@ -154,11 +59,11 @@ export default function PricingEnhanced() {
           
           {/* Enhanced Header with Early Bird */}
           <div className="text-center mb-16">
-            {isEarlyBird && (
+            {PRICING_CONFIG.EARLY_BIRD.enabled && (
               <div className="inline-flex items-center gap-2 bg-harmonix-gold/20 border border-harmonix-gold rounded-full px-6 py-2 mb-6">
                 <Star className="w-4 h-4 text-harmonix-gold" />
                 <span className="text-harmonix-gold font-semibold">
-                  Early Bird Special: 30% Off - Limited to First 280 Customers
+                  Early Bird Special: {Math.round(PRICING_CONFIG.EARLY_BIRD.discount * 100)}% Off - Limited to First {PRICING_CONFIG.EARLY_BIRD.maxCustomers} Customers ({PRICING_CONFIG.EARLY_BIRD.currentCount} spots taken)
                 </span>
               </div>
             )}
@@ -383,15 +288,15 @@ export default function PricingEnhanced() {
                       <Slider
                         value={depositPercentage}
                         onValueChange={setDepositPercentage}
-                        max={33}
-                        min={15}
+                        max={PRICING_CONFIG.FINANCING.maxDepositPercent}
+                        min={PRICING_CONFIG.FINANCING.minDepositPercent}
                         step={1}
                         className="mt-2"
                       />
                       <div className="flex justify-between text-sm text-harmonix-sage mt-1">
-                        <span>15%</span>
+                        <span>{PRICING_CONFIG.FINANCING.minDepositPercent}%</span>
                         <span className="text-harmonix-gold font-semibold">{depositPercentage[0]}%</span>
-                        <span>33%</span>
+                        <span>{PRICING_CONFIG.FINANCING.maxDepositPercent}%</span>
                       </div>
                     </div>
                   </div>
@@ -425,8 +330,16 @@ export default function PricingEnhanced() {
                             </div>
                           </div>
                           
-                          <Link href={`/checkout?tier=${selectedTier}&deposit=${depositPercentage[0]}`}>
-                            <Button className="w-full bg-harmonix-gold text-harmonix-black hover:bg-harmonix-gold/90 mt-4">
+                          <Link href={`/checkout?tier=${selectedTier}&deposit=${depositPercentage[0]}&early_bird=${isEarlyBird}`}>
+                            <Button 
+                              className="w-full bg-harmonix-gold text-harmonix-black hover:bg-harmonix-gold/90 mt-4"
+                              onClick={() => {
+                                // Store data for checkout page
+                                sessionStorage.setItem("selectedTier", selectedTier);
+                                sessionStorage.setItem("depositPercentage", depositPercentage[0].toString());
+                                sessionStorage.setItem("isEarlyBird", isEarlyBird.toString());
+                              }}
+                            >
                               <DollarSign className="w-4 h-4 mr-2" />
                               Proceed to Checkout
                             </Button>
@@ -509,8 +422,8 @@ export default function PricingEnhanced() {
               <div className="grid md:grid-cols-3 gap-6">
                 <div className="text-center p-6 bg-harmonix-black border border-harmonix-cedar rounded-lg">
                   <Clock className="w-8 h-8 text-harmonix-gold mx-auto mb-3" />
-                  <h3 className="font-semibold text-harmonix-gold mb-2">12-Month Plan</h3>
-                  <p className="text-harmonix-sage text-sm mb-3">21% APR</p>
+                  <h3 className="font-semibold text-harmonix-gold mb-2">{PRICING_CONFIG.FINANCING.termMonths}-Month Plan</h3>
+                  <p className="text-harmonix-sage text-sm mb-3">{Math.round(PRICING_CONFIG.FINANCING.apr * 100)}% APR</p>
                   <p className="text-harmonix-sage text-sm">Split your investment into manageable monthly payments</p>
                 </div>
                 
@@ -539,7 +452,7 @@ export default function PricingEnhanced() {
                   Ready to Build, Automate, and Exit?
                 </h2>
                 <p className="text-xl text-harmonix-sage mb-8 max-w-2xl mx-auto">
-                  Join the first 280 customers to receive 30% early bird discount. Transform your business with intelligent automation designed for timeless sovereignty.
+                  Join the first {PRICING_CONFIG.EARLY_BIRD.maxCustomers} customers to receive {Math.round(PRICING_CONFIG.EARLY_BIRD.discount * 100)}% early bird discount. Transform your business with intelligent automation designed for timeless sovereignty.
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
@@ -575,7 +488,7 @@ export default function PricingEnhanced() {
                 {isEarlyBird && (
                   <div className="inline-flex items-center gap-2 text-sm text-harmonix-gold">
                     <Star className="w-4 h-4" />
-                    <span>Early bird pricing expires when we reach 280 customers</span>
+                    <span>Early bird pricing expires when we reach {PRICING_CONFIG.EARLY_BIRD.maxCustomers} customers</span>
                   </div>
                 )}
               </CardContent>
