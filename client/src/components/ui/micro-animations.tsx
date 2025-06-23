@@ -339,14 +339,14 @@ export const SacredLoader = ({ size = 40, className = "" }: { size?: number; cla
       animate={{ rotate: 360 }}
       transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
     >
-      <div className="absolute inset-0 border-2 border-harmonix-gold/30 rounded-full" />
+      <div className="absolute inset-0 border-2 border-[#d7b76d]/30 rounded-full" />
       <motion.div
-        className="absolute inset-1 border-2 border-harmonix-gold rounded-full border-t-transparent"
+        className="absolute inset-1 border-2 border-[#d7b76d] rounded-full border-t-transparent"
         animate={{ rotate: -360 }}
         transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
       />
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-2 h-2 bg-harmonix-gold rounded-full animate-pulse" />
+        <div className="w-2 h-2 bg-[#d7b76d] rounded-full animate-pulse" />
       </div>
     </motion.div>
   </div>
