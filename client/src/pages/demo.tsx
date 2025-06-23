@@ -217,31 +217,99 @@ export default function DemoPage() {
                     </div>
                   </div>
                 </Card>
-                    
+              ))}
+            </div>
+
+            {/* Active Agent Details */}
+            <div className="lg:w-2/3">
+              <Card className="harmonix-card-enhanced p-6 sm:p-8 h-full">
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-2xl sm:text-3xl font-bold text-harmonix-regal-gold mb-3 font-serif">
+                        {demoAgents[selectedAgent].name}
+                      </h3>
+                      <p className="text-lg text-harmonix-sage-fade">
+                        {demoAgents[selectedAgent].description}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-3xl font-bold text-harmonix-regal-gold">
+                        ${demoAgents[selectedAgent].monthlyPrice}
+                      </div>
+                      <div className="text-xs text-harmonix-sage-fade">per month</div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="text-center p-3 bg-harmonix-night-pine/30 rounded-lg">
+                      <div className="text-xl font-bold text-harmonix-regal-gold">
+                        {demoAgents[selectedAgent].timeSaved}
+                      </div>
+                      <div className="text-xs text-harmonix-sage-fade">Time Saved</div>
+                    </div>
+                    <div className="text-center p-3 bg-harmonix-night-pine/30 rounded-lg">
+                      <div className="text-xl font-bold text-harmonix-regal-gold">
+                        {demoAgents[selectedAgent].tokenUsage}
+                      </div>
+                      <div className="text-xs text-harmonix-sage-fade">Token Usage</div>
+                    </div>
+                    <div className="text-center p-3 bg-harmonix-night-pine/30 rounded-lg">
+                      <div className="text-xl font-bold text-harmonix-regal-gold">
+                        {demoAgents[selectedAgent].integrations.length}+
+                      </div>
+                      <div className="text-xs text-harmonix-sage-fade">Integrations</div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h5 className="text-sm font-medium text-harmonix-sage-fade">Integrations:</h5>
+                    <div className="flex flex-wrap gap-2">
+                      {demoAgents[selectedAgent].integrations.map((integration, i) => (
+                        <Badge 
+                          key={i} 
+                          variant="outline" 
+                          className="text-xs border-harmonix-sage-fade/30 text-harmonix-sage-fade"
+                        >
+                          {integration}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-lg font-semibold text-white mb-3">Key Capabilities:</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {demoAgents[selectedAgent].features.map((feature, i) => (
+                        <div key={i} className="flex items-center space-x-2">
+                          <CheckCircle className="w-4 h-4 text-harmonix-regal-gold" />
+                          <span className="text-sm text-harmonix-sage-fade">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-3">
                     <Button 
-                      className={`w-full ${
-                        feature.available 
-                          ? "bg-harmony-gold text-harmony-dark hover:bg-harmony-gold/90" 
-                          : "bg-gray-600 text-gray-300 cursor-not-allowed"
-                      }`}
-                      disabled={!feature.available}
+                      className="touch-friendly-btn bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90"
+                      onClick={() => window.location.href = demoAgents[selectedAgent].previewUrl}
+                      disabled={!demoAgents[selectedAgent].demoAvailable}
                     >
-                      {feature.available ? (
-                        <>
-                          <Play className="mr-2 h-4 w-4" />
-                          {feature.demoType === "live" ? "Enter Dashboard" : "Try Demo"}
-                        </>
-                      ) : (
-                        <>
-                          <Lock className="mr-2 h-4 w-4" />
-                          Login Required
-                        </>
-                      )}
+                      <Play className="w-4 h-4 mr-2" />
+                      {demoAgents[selectedAgent].demoAvailable ? "Try Agent" : "Coming Soon"}
+                    </Button>
+                    <Button 
+                      variant="outline"
+                      className="touch-friendly-btn border-harmonix-regal-gold text-harmonix-regal-gold hover:bg-harmonix-regal-gold/10"
+                      onClick={() => window.location.href = '/checkout'}
+                    >
+                      <DollarSign className="w-4 h-4 mr-2" />
+                      Deploy Agent
                     </Button>
                   </div>
-                </CardContent>
+                </div>
               </Card>
-            ))}
+            </div>
           </div>
         </div>
       </section>
@@ -406,6 +474,16 @@ export default function DemoPage() {
           </div>
         </div>
       </section>
+
+        {/* Enhanced SŌL Interface */}
+        <EnhancedSolInterface
+          isExpanded={solExpanded}
+          onClose={() => setSolExpanded(false)}
+          onResponse={handleSolResponse}
+          businessProfile={businessProfile}
+          onProfileUpdate={setBusinessProfile}
+        />
+      </div>
 
       <Footer />
     </div>

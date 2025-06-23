@@ -141,12 +141,12 @@ className="harmonix-card-enhanced"
 - [x] Create missing waitlist.tsx page
 - [x] Create missing legal/privacy.tsx page
 
-### Phase 2: Routing Updates
-- [ ] Update App.tsx with new route mappings
-- [ ] Verify all navigation links point to correct routes
+### Phase 2: Routing Updates ✅
+- [x] Update App.tsx with new route mappings
+- [x] Add missing legal/terms.tsx page
+- [x] Add missing legal/cookies.tsx page
+- [x] Verify all navigation links point to correct routes
 - [ ] Test mobile navigation functionality
-- [ ] Add missing legal/terms.tsx page
-- [ ] Add missing legal/cookies.tsx page
 
 ### Phase 3: Brand Consistency
 - [ ] Audit all pages for color palette compliance

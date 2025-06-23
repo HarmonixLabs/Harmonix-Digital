@@ -1,0 +1,46 @@
+I am trying to fix these critical issues in my Harmony platform:
+
+- The entire app has crashed or is unstable.
+- Navbar logo is misaligned or displaying incorrectly across pages.
+- "Proceed to Payment" button is non-functional.
+- Setup Wizard fails on final deployment step.
+- Page transitions (Skip Onboarding, Quick Tour) break flow.
+- Sōl Brain interaction inconsistencies.
+- Platform load speed and layout shifts on mobile and desktop.
+
+Please:
+
+1. Research deeply across my full codebase:
+   - /components
+   - /pages (especially /demo, /marketplace, /checkout, /sol-brain)
+   - /api (Stripe integration, onboarding logic, session creation)
+   - /public/assets (logo/logo-mono, animations, etc.)
+
+2. Run a full **diagnostic scan** to detect:
+   - Crashing pages or broken routes
+   - Corrupted or missing component imports
+   - Memory leaks or token overflow bugs
+   - Navbar/logo rendering issues
+
+3. Fix these immediately:
+   - Rebuild navigation logic to show correct logo variant (monogram on all pages, full logo on homepage only).
+   - Ensure Stripe checkout redirects properly with success/cancel URLs.
+   - Repair Setup Wizard: ensure “Deploy” creates starter workflow.
+   - Fix “Skip Onboarding” to redirect to Dashboard or Join Success Page.
+   - Ensure Sol Brain chat is clickable from nav and working in demo.
+
+4. Apply global styles:
+   - Navbar sticky + transparent across all pages
+   - Green cosmic background theme with soft animations
+   - Harmonix color palette: Deep Forest #0A1C16, Emerald Gold #D1BFA7, Sacred Flame #EED68C
+
+5. Test functionality after reboot:
+   - Homepage loads properly with no crashes
+   - Checkout proceeds to Stripe
+   - Agent Marketplace cards load + Learn More opens CMS
+   - All buttons and links are responsive
+   - Demo works and Sol Brain responds
+
+6. Write your **fix summary** to `Instructions.md` and `RecoveryLog.md`.
+
+This prompt is mission-critical. Fix all root-level breakage and confirm platform is back in working flow. Then we can continue page-by-page rollout with confidence.

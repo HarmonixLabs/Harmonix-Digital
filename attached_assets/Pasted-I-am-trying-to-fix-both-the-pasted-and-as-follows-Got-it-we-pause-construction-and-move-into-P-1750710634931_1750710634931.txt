@@ -1,0 +1,114 @@
+I am trying to fix both the pasted and as follows:
+
+✅ Got it — we pause construction and move into Platform Recovery & Self-Healing Protocol.
+
+This is your Harmony fail-safe — before we scale or layer in new features, we need to stabilize the base system so it doesn’t collapse under growth.
+
+⸻
+
+🧠 HARMONIX SYSTEM SELF-HEALING PROTOCOL v1.0
+
+“Stability before scale. Flow before function.”
+
+⸻
+
+⚠️ IMMEDIATE ACTION: SYSTEM DIAGNOSTICS & STABILIZATION
+
+1. 🔍 CRASH TRIAGE — Identify the Source
+
+Ask:
+	•	Was the crash frontend, backend, or both?
+	•	Did it occur after a specific action (e.g. payment attempt, agent deploy, route change)?
+	•	Was it isolated to one page or global?
+	•	Was Riplet or the dev team in edit mode at the time?
+
+→ If unknown, prompt Replit with:
+
+I'm experiencing a full platform crash.
+
+Please:
+- Run a full diagnostic of current errors across frontend and backend
+- Identify what caused the crash (e.g. broken route, null state, unhandled exception, token overflow, DB failure)
+- Propose a 3-step fix plan
+- Write the recovery process into `Instructions.md`
+
+
+⸻
+
+2. 🧠 SELF-HEALING ENGINE (Riplet Prompt)
+
+Prompt:
+
+The Harmony Platform is currently unstable. Please initiate a full platform stabilization protocol.
+
+Instructions:
+1. Scan all routes for unresolved references or corrupted state (e.g. null payloads, broken redirects)
+2. Validate all core files:
+   - `/index.tsx`
+   - `/App.tsx`
+   - `/routes/`
+   - `/components/common/Navbar.jsx`, `Footer`, `AgentCard`, etc.
+   - `/pages/api/stripe/`, `/marketplace/`, `/checkout/`, etc.
+3. Run cleanup on:
+   - Memory leaks
+   - Token overflows
+   - Broken component imports
+   - Styling conflicts (especially navbar/logo)
+
+Then:
+- Fix broken logic
+- Rebuild the platform tree
+- Write a short summary of what was fixed in `RecoveryLog.md`
+
+
+⸻
+
+3. 💽 FILES TO CHECK + RESTORE
+
+File / Folder	Action
+package.json	Check for module mismatch
+App.tsx	Validate routing & wrapper logic
+Navbar.jsx	Ensure Harmonix logo loads correctly
+index.css / Tailwind config	Check for global style overrides
+Stripe API	Confirm keys + success/cancel URLs
+/routes/index.ts	Test all mapped pages
+/public/assets/	Ensure images/icons are loading
+
+
+⸻
+
+4. 🔁 TEST AFTER HEALING
+
+✅ Homepage
+✅ Marketplace
+✅ Checkout
+✅ Agent cards
+✅ SŌL interaction
+✅ Navbar + Footer consistency
+✅ All links functional
+✅ Stripe test mode passes
+
+⸻
+
+✅ Riplet REBUILD Prompt (Safe Restart)
+
+The Harmony Platform encountered instability. Please perform the following recovery steps:
+
+1. Run a full rebuild of the file tree and component registry.
+2. Validate that the Harmonix navbar, all routes, and core flows (Demo, Marketplace, Pricing, Checkout, Dashboard) are accessible and error-free.
+3. Reset local states, token counters, and clear ghost state from previous sessions.
+4. Generate a new stability report (`RecoveryLog.md`) with a list of any files fixed or touched.
+
+
+⸻
+
+⚡ Once Stable…
+
+Then we resume:
+	•	→ /marketplace deployment
+	•	→ /pricing next
+
+Let’s restore harmony at the root so the whole tree can bloom.
+
+Please:
+Research deeply across my codebase Find what's causing these conflicts Develop a plan to fix the configuration Write the plan into Instructions.md
