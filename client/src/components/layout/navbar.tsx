@@ -1,7 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { OnboardingTrigger } from "@/components/onboarding/onboarding-trigger";
 import { HarmonixLogo } from "@/components/brand/HarmonixLogo";
 import { 
   DropdownMenu,
@@ -12,7 +11,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/lib/auth";
 import { useWebSocket } from "@/hooks/use-websocket";
-import { Coins, User, Settings, LogOut, Menu, X } from "lucide-react";
+import { useOnboarding } from "@/hooks/use-onboarding";
+import { IntegratedChatbot } from "@/components/chat/integrated-chatbot";
+import { OnboardingModal } from "@/components/onboarding/fixed-onboarding-modal";
+import { InteractiveTour } from "@/components/onboarding/interactive-tour";
+import { Coins, User, Settings, LogOut, Menu, X, HelpCircle } from "lucide-react";
 import { useState } from "react";
 
 export function Navbar() {
@@ -20,6 +23,17 @@ export function Navbar() {
   const { user, organization, logout } = useAuth();
   const { isConnected } = useWebSocket();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showTour, setShowTour] = useState(false);
+  
+  const {
+    showModal,
+    userState,
+    setupProgress,
+    triggerOnboarding,
+    dismissModal,
+    completeOnboarding,
+    skipOnboarding
+  } = useOnboarding();
 
   const publicLinks = [
     { href: "/harmony", label: "Harmony" },
@@ -42,8 +56,28 @@ export function Navbar() {
 
   const isActive = (href: string) => location === href;
 
+  const handleStartTour = () => {
+    setShowTour(true);
+  };
+
+  const handleTourComplete = () => {
+    setShowTour(false);
+  };
+
+  const getCurrentPageContext = () => {
+    if (location.includes('onboarding')) return 'onboarding';
+    if (location.includes('dashboard')) return 'dashboard';
+    if (location.includes('marketplace')) return 'marketplace';
+    if (location.includes('agents')) return 'agents';
+    return 'general';
+  };
+
   return (
-    <nav className="border-b border-harmonix-cedar-mist bg-harmonix-deep-forest/90 backdrop-blur-md sticky top-0 z-50">
+    <>
+      <nav 
+        className="border-b border-harmonix-cedar-mist bg-harmonix-deep-forest/90 backdrop-blur-md sticky top-0 z-50"
+        data-tour="navbar"
+      >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -79,7 +113,10 @@ export function Navbar() {
             {user ? (
               <>
                 {/* Token Balance */}
-                <div className="hidden sm:flex items-center space-x-2 text-sm">
+                <div 
+                  className="hidden sm:flex items-center space-x-2 text-sm"
+                  data-tour="tokens"
+                >
                   <Coins className="harmony-gold" size={16} />
                   <span className="font-semibold">{user.tokenBalance.toLocaleString()}</span>
                   <span className="text-gray-400">Harmony</span>
@@ -114,6 +151,13 @@ export function Navbar() {
                     <DropdownMenuItem className="text-gray-300 hover:bg-gray-800">
                       <Settings className="mr-2 h-4 w-4" />
                       Settings
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      className="text-gray-300 hover:bg-gray-800"
+                      onClick={() => triggerOnboarding('setup')}
+                    >
+                      <HelpCircle className="mr-2 h-4 w-4" />
+                      Setup Wizard
                     </DropdownMenuItem>
                     <DropdownMenuItem className="sm:hidden text-gray-300 hover:bg-gray-800">
                       <Coins className="mr-2 h-4 w-4" />
