@@ -102,22 +102,43 @@ export default function DemoPage() {
   };
 
   return (
-    <div className="min-h-screen harmonix-gradient">
+    <div className="min-h-screen bg-harmonix-deep-forest">
       <Navbar />
       
-      {/* Constellation Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="starfall-animation"></div>
-      </div>
-      
-      <div className="pt-16 relative z-10">
-        {/* Hero Section - Sacred Design */}
+      <div className="pt-20">
+        {/* Hero Section */}
         <section className="py-16 sm:py-20 lg:py-24">
           <div className="harmonix-container">
-            <div className="text-center max-w-5xl mx-auto">
-              <div className="mb-8">
-                <HarmonixLogo variant="icon" className="h-16 mx-auto mb-6 animate-pulse" />
-              </div>
+            <div className="text-center mb-12 sm:mb-16">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-white font-serif">
+                AI Agent
+                <span className="text-harmonix-regal-gold block">Demo Platform</span>
+              </h1>
+              <p className="text-xl text-harmonix-sage-fade max-w-4xl mx-auto leading-relaxed">
+                Experience the power of specialized AI agents with live demonstrations
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+              <Button 
+                size="lg"
+                className="touch-friendly-btn bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90"
+                onClick={() => window.location.href = '/join'}
+              >
+                Join Waitlist
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="touch-friendly-btn border-harmonix-sage-fade text-harmonix-sage-fade hover:bg-harmonix-sage-fade/10"
+                onClick={() => window.location.href = '/marketplace'}
+              >
+                <ArrowRight className="w-5 h-5 mr-2" />
+                Deploy Agent Demo
+              </Button>
+            </div>
+          </div>
+        </section>
               
               <h1 className="hero-responsive-title text-harmonix-regal-gold mb-6 font-serif animate-fade-in">
                 Experience Harmony in Action
@@ -158,8 +179,8 @@ export default function DemoPage() {
           </div>
         </section>
 
-      {/* Enhanced Agent Demo Cards Section */}
-      <section className="py-16 sm:py-20 lg:py-24">
+        {/* Enhanced Agent Demo Cards Section */}
+        <section className="py-16 sm:py-20 lg:py-24">
         <div className="harmonix-container">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-harmonix-regal-gold font-serif">
@@ -475,14 +496,6 @@ export default function DemoPage() {
         </div>
       </section>
 
-        {/* Enhanced SŌL Interface */}
-        <EnhancedSolInterface
-          isExpanded={solExpanded}
-          onClose={() => setSolExpanded(false)}
-          onResponse={handleSolResponse}
-          businessProfile={businessProfile}
-          onProfileUpdate={setBusinessProfile}
-        />
       </div>
 
       <Footer />
