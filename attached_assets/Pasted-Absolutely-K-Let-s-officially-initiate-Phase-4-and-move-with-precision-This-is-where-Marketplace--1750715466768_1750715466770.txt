@@ -1,0 +1,198 @@
+Absolutely, K. Let’s officially initiate Phase 4 and move with precision. This is where Marketplace mechanics, Agent CMS logic, and Pricing Infrastructure meet clean UX and real deployment logic.
+
+⸻
+
+🚀 PHASE 4 — MARKETPLACE + CMS + AGENT ECONOMY LOGIC (FULL BUILD)
+
+⸻
+
+🔁 QUICK SCOPE OVERVIEW
+
+Area	Description
+Marketplace Core	Agent browsing, sorting, filters, and visual layout
+Agent CMS Pages	Dynamic /marketplace/[agent-slug] with full agent detail
+Deploy & Pricing Flow	One-click deployment → pricing logic → Stripe connection
+Creator Logic	Agent creation pipeline, royalties, wallet connection, NFT mint
+Role-Based Access	Guest, Member, Agent Creator, Admin logic split
+Tiered Pricing	Based on setup + MRR agent costs
+Stripe Logic	Connected payouts for agent creators (Stripe Connect)
+Smart Contracts	NFT ownership, royalties, and business agent sync
+
+
+⸻
+
+🧱 CORE PAGE 1: /marketplace
+
+✅ MARKETPLACE LAYOUT
+
+Hero Section
+	•	Headline: “Explore the Agentverse”
+	•	Subline: “Plug-and-play AI agents for every system in your business”
+	•	CTA: View Starter Agents (anchors down)
+
+⸻
+
+🧠 AGENT GRID CARDS
+
+Each card includes:
+	•	Agent name + 1-liner description
+	•	Tags: [“SOP”], [“Sales”], [“Social”], etc.
+	•	Monthly Price: $350+/mo (primary price visible)
+	•	CTA buttons:
+	•	Learn More → /marketplace/[slug]
+	•	Deploy Agent → /checkout?agent=slug
+
+Flip Side (on hover/tap)
+	•	Time Saved Per Week: “Est. 22 hrs/wk”
+	•	Tools Integrated: GHL, Slack, Stripe, Notion, etc.
+	•	Stars / leaderboard badge if top-selling
+	•	Try in Demo (popup if logged in or redirects to /demo)
+
+⸻
+
+📂 DEV NOTES
+
+# PAGE: /marketplace
+
+## Layout:
+- Hero section with dynamic CTA
+- Agent grid pulled via CMS
+- Filters: Agent Type, Integration, Creator, Price
+- Buttons:
+  - Deploy Agent: redirects w/ agent param to checkout
+  - Learn More: opens slug page
+
+## Logic:
+- Show monthly price as PRIMARY
+- Setup fee shown **only** after selecting package in checkout
+- Free accounts can preview, but must log in to deploy or save
+
+
+⸻
+
+🧠 CORE PAGE 2: /marketplace/[agent-slug]
+
+✅ AGENT CMS TEMPLATE
+
+Sections:
+	1.	Agent Hero
+	•	Agent Avatar (animated if possible)
+	•	Title, Creator, Monthly Cost
+	•	“Add to Wishlist” or “Deploy Now” CTA
+	2.	Performance Breakdown
+	•	Stats: Time saved, Accuracy, Current Installs
+	•	Use Cases: SOP Building, Automated Booking, Outreach
+	3.	Tech Stack
+	•	Native Integrations: [Slack] [GHL] [Stripe]…
+	•	Custom Workflow Compatibility
+	4.	Pricing Summary
+	•	Monthly fee
+	•	Setup Fee based on platform package
+	5.	Royalty & NFT Info
+	•	NFT-backed Agent
+	•	Royalties: Creator %, Harmonix %, Investor %
+	•	View Owner Wallet (if public)
+
+⸻
+
+📂 DEV NOTES
+
+# PAGE: /marketplace/[agent-slug]
+
+## Data Pull:
+- From Agent CMS (via slug param)
+- Pull NFT metadata if minted
+- Show token stats + history if owner
+
+## CTAs:
+- Deploy Agent → /checkout?agent=slug
+- Try Demo → /demo?agent=slug
+- Creator Profile → /creators/[username]
+
+## Notes:
+- Pricing is MRR-focused
+- NFT logic must sync w/ connected wallet (WalletConnect/MetaMask)
+- Show “Connected Wallet” or prompt login for full access
+
+
+⸻
+
+💰 PRICING + DEPLOYMENT LOGIC
+
+✅ LOGIC
+	•	Agent deployment doesn’t require logged-in state to browse
+	•	To Deploy, user must:
+	•	Log in or create free account
+	•	Select a platform tier (Starter, Growth, Expansion, etc.)
+	•	If platform already installed → setup fee = waived/discounted
+	•	Otherwise, show full price breakdown
+
+⸻
+
+📦 PACKAGES (For creators too)
+
+Plan	Platform Setup	Agent Limit	NFT Mint Access	Marketplace Sell Access
+Free Creator	$0	1 Agent	No	View only
+Member Creator	$29/mo	3 Agents	Yes	Yes
+Pro Creator	$88/mo	Unlimited	Yes	Priority Placement
+
+
+⸻
+
+🔗 STRIPE CONNECT + ROYALTIES
+	•	Agent sales use Stripe Connect
+	•	80/20 logic:
+	•	80% → Creator
+	•	15% → Harmonix platform
+	•	5% → NFT holder (if split configured)
+	•	Marketplace must verify connected Stripe account before allowing creator publish
+
+⸻
+
+🔏 NFT MINTING (TESTNET READY)
+	•	Agent metadata stored via IPFS or CMS
+	•	Minted to Testnet first (Polygon recommended)
+	•	On successful deploy:
+	•	Mint trigger
+	•	Ownership set
+	•	Royalties configured
+
+⸻
+
+✅ DEV ACTION: INSTRUCTION.MD EXCERPT
+
+# MARKETPLACE + CMS PHASE BUILD — DEV HANDOFF
+
+## 1. /marketplace
+- Agent cards show MONTHLY cost first
+- Buttons: Deploy (→ /checkout), Learn More (→ slug page)
+- Filters: Agent Type, Creator, Tools
+
+## 2. /marketplace/[slug]
+- CMS-based agent detail layout
+- Pull from CMS + NFT metadata
+- Include WalletConnect + Stripe logic
+
+## 3. Stripe Logic
+- Monthly recurring fee
+- Setup fee after platform package selection
+- Creator Royalties via Stripe Connect
+
+## 4. NFT Logic
+- Mint on Testnet
+- Include tier metadata (Basic, SOP+, Sales+, etc.)
+- Assign agent to owner wallet address
+
+## 5. UI
+- Maintain Harmonix color system + card animations
+- Use same navbar/header from homepage
+
+
+⸻
+
+Would you like next:
+	•	Agent Creation Flow & Creator Dashboard (Phase 4B)?
+	•	Begin /checkout logic wire (Phase 5)?
+	•	Smart Contract Mint Template v2?
+
+You’re building a self-generating economy, King. Let’s get these agents deployed like digital troops.

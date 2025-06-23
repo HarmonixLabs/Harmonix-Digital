@@ -1,0 +1,212 @@
+Perfect. Let’s initiate Phase 4: Marketplace & Pricing Engine Buildout with full CMS templates, logic scripts, and developer handoff structure.
+
+This rollout covers:
+
+⸻
+
+🛒 PHASE 4 — MARKETPLACE CMS + PRICING LOGIC DEPLOYMENT
+
+⸻
+
+✅ OBJECTIVE:
+
+Build a fully dynamic Agent Marketplace that supports:
+	•	Agent browsing, preview, purchase, and deployment
+	•	CMS-powered detail pages
+	•	Creator + Platform + Investor royalty logic
+	•	Tier-based pricing automation (based on number of agents)
+	•	NFT minting on testnet with royalty metadata embedded
+	•	Responsive UI + UX that flows with existing Harmonix design system
+
+⸻
+
+1. 🌐 PAGE: /marketplace
+
+🎯 PURPOSE:
+
+Browse and preview all available agents, filter by category, deploy or learn more.
+
+⸻
+
+✅ FEATURES
+
+⬛ Agent Cards (CMS-Powered)
+	•	Name + Role Badge
+	•	Avatar (interactive flip/hover)
+	•	Monthly Cost (Primary)
+	•	Learn More → /marketplace/[agent-slug]
+	•	Deploy Agent → opens sign-up/payment logic
+
+Design Note: Show monthly price first, not setup fee.
+
+⬛ Filters:
+	•	Category: Sales, SOP, Content, Admin, etc.
+	•	Token Cost Range
+	•	Time Savings
+	•	Creator / Verified / Top Agents
+
+⬛ CTA Buttons:
+	•	Deploy Agent → Triggers auth check:
+	•	Not logged in = redirect /login
+	•	Logged in = start onboarding + payment setup
+	•	Try in Demo → /demo?agent=xyz
+	•	Request Custom Setup → /get-started?agent=xyz
+
+⸻
+
+2. 📄 PAGE: /marketplace/[agent-slug]
+
+🎯 PURPOSE:
+
+Agent CMS detail page, NFT-ready. Mirrors template structure for all listings.
+
+⸻
+
+✅ SECTIONS:
+
+🔹 Agent Overview
+	•	Avatar + Name + Role + Creator
+	•	Primary Function: “Automates Your Sales Follow-Ups”
+
+🔹 Integration Support
+	•	Tool Logos (e.g., Gmail, Notion, ClickUp, etc.)
+	•	Integration Readiness (Yes / No toggle)
+
+🔹 Estimated ROI Block
+	•	“Saves 16–28 hours/month”
+	•	“Increases response time by 71%”
+	•	Tokens used: ~3,200/month
+
+🔹 Pricing
+	•	Monthly Cost: $444/month
+	•	Setup Fee (shown only if no platform installed): “Requires Harmony Platform Setup – from $4.4K”
+
+🔹 Royalty Info:
+
+20% Platform | 5% Investor | 75% Creator
+NFT Owner gets split from deployed agent sales.
+
+🔹 Buttons:
+	•	Deploy Agent
+	•	Connect Wallet / Create Account to Save
+	•	View Creator Profile
+
+⸻
+
+3. 💸 PRICING LOGIC
+
+🎯 PURPOSE:
+
+Dynamically calculate agent + setup pricing based on:
+	•	Selected tier
+	•	Agent count
+	•	Early bird discounts
+	•	Agent ownership status
+
+⸻
+
+⚙️ LOGIC FLOW:
+
+function calculateSetupFee(plan) {
+  const plans = {
+    starter: 4400,
+    growth: 8000,
+    expansion: 15000,
+    enterprise: 21500
+  }
+  return plans[plan]
+}
+
+function calculateAgentMonthly(agentCount) {
+  const base = 444
+  if (agentCount >= 6) return base * agentCount * 0.85
+  if (agentCount >= 3) return base * agentCount * 0.9
+  return base * agentCount
+}
+
+function showSetupFee(user) {
+  return user.hasPlatformInstalled ? false : true
+}
+
+
+⸻
+
+4. 🔗 SMART CONTRACT LOGIC (NFT MINT)
+	•	Each public agent = ERC-1155 token (if minted)
+	•	Stores:
+	•	Agent Slug
+	•	Royalty Splits (75/20/5)
+	•	Creator Wallet
+	•	Monthly MRR tied to Token ID
+	•	Integrated with:
+	•	Stripe Connect
+	•	WalletConnect or MetaMask
+	•	Harmony Internal Wallet
+
+⸻
+
+5. 📁 FILE STRUCTURE
+
+/pages
+  /marketplace
+    index.tsx
+    [agent-slug].tsx
+/utils
+  /pricing
+    calculatePricing.ts
+/components
+  AgentCard.tsx
+  AgentDetail.tsx
+/api
+  /agents
+    getAll.ts
+    getBySlug.ts
+/payments
+  /stripe
+    createCheckout.ts
+    getCreatorRoyalty.ts
+/web3
+  /mint
+    deployAgentNFT.ts
+
+
+⸻
+
+📂 FINAL Instructions.md for Riplet
+
+# INSTRUCTIONS.md — PHASE 4
+
+## Pages to Build:
+- `/marketplace` → Browse agents
+- `/marketplace/[agent-slug]` → Agent CMS profile page
+- `/api/agents` → Fetch logic
+- `/pricing/calculatePricing.ts` → Agent cost based on count + plan
+- `/payments/stripe/checkout.ts` → MRR + setup
+- `/web3/mint/deployAgentNFT.ts` → ERC-1155 token
+
+## UX/UI:
+- Use Harmonix design palette (#0A1C16, #D1BFA7, #C1DAFF, etc.)
+- Consistent card grid with hover animation
+- Show monthly price first, setup fee later
+- Tooltip icons to explain custom setup vs base install
+
+## Logic:
+- If user has Harmony installed → hide setup fee
+- Deploy = triggers payment + onboarding
+- Mint = triggers NFT testnet w/ royalties
+- Display ROI & token usage on agent page
+
+## Required:
+- Stripe Connect setup for creators
+- Full CMS template logic for agents
+- Responsive layout for all devices
+
+
+⸻
+
+Would you like to:
+	•	Queue /pricing next?
+	•	Begin live testnet mint & Stripe simulation?
+	•	Or map the full /dashboard integration flow post-purchase?
+
+You’re locked in. Ready when you are. 🧠🔥
