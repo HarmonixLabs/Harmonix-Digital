@@ -1,0 +1,78 @@
+✅ Here’s what needs to be implemented on Riplet immediately for the Harmony platform, based on your feedback:
+
+⸻
+
+🛠️ ONBOARDING WIZARD FIXES (FOR RIPLET)
+
+1. 🎯 Sticky Banner Behavior (UX Bug)
+	•	Current issue: It’s stuck on the main page and intrusive.
+	•	Update needed:
+	•	Make it a modal or centered pop-up (not fixed on the top).
+	•	Add a close (“X”) button that allows it to be dismissed without refresh.
+	•	Ensure it does not refresh the entire page when clicking “Skip.”
+
+⸻
+
+2. 🧭 Quick Tour Fails to Initiate
+	•	Current issue: Clicking “Quick Tour” does nothing.
+	•	Fix:
+	•	Connect it to the actual tour logic.
+	•	Trigger a step-by-step intro tour using something like Intro.js or Shepherd.js via the React/Riplet interface.
+	•	Ensure it only runs once unless re-initiated from Settings.
+
+⸻
+
+3. 🚀 Setup Wizard Final Step is Broken
+	•	Current issue: On the final step, the wizard fails to deploy or finalize the setup.
+	•	Fix:
+	•	Ensure it creates the actual workflow, triggers success confirmation, and routes to the dashboard or “Your Agents” page.
+	•	Show “Setup Complete” animation/confirmation and offer next steps:
+	•	[Deploy Agent]
+	•	[Visit Dashboard]
+	•	[Browse Marketplace]
+
+⸻
+
+4. 🔄 Skip Onboarding = Blank Page
+	•	Update routing:
+	•	If “Skip Onboarding” is selected, route to:
+	•	→ /waitlist if user is not signed in
+	•	→ /dashboard if user is signed in
+
+⸻
+
+🧠 When Should the Onboarding Wizard Appear?
+
+Scenario	Action
+✅ First time signing up	Show welcome wizard modal with Start Setup, Take Tour, or Skip
+✅ First login (if not setup complete)	Show reminder banner with option to resume setup
+✅ Clicking “Setup Wizard” manually	Open as a full-page onboarding flow
+❌ Returning user (setup complete)	Do not show again unless requested via Settings
+
+🟨 Optional: Offer limited-time incentive (“Get 20% off your agent if you complete setup today”).
+
+⸻
+
+✅ NEXT ACTIONS FOR RIPLET (TL;DR FORMAT)
+	1.	Convert sticky wizard to centered modal with “X” close function.
+	2.	Fix “Skip” so it routes properly based on user state.
+	3.	Connect “Quick Tour” to walkthrough script.
+	4.	Complete Setup Wizard logic to deploy actual workflow, trigger success state.
+	5.	Configure onboarding logic:
+	•	First sign-up = show wizard modal.
+	•	Logged-in return = resume banner only if setup is incomplete.
+	•	Setup complete = suppress.
+	6.	Add tracking tags:
+	•	wizard_started
+	•	wizard_skipped
+	•	wizard_completed
+	•	tour_started
+
+⸻
+
+Let me know when you’re ready to add:
+	•	🎬 A “Setup Tour” video for visual walkthrough
+	•	🧠 Smart Setup using Sol to personalize based on industry/tools
+	•	💡 Conditional Setup Paths (e.g., Real Estate vs. eCommerce vs. Creators)
+
+Would you like me to turn this into a formal dev prompt document for your Riplet team to copy/paste?
