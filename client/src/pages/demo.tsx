@@ -101,23 +101,61 @@ export default function DemoPage() {
   };
 
   return (
-    <div className="min-h-screen bg-harmony-dark">
+    <div className="min-h-screen harmonix-gradient">
       <Navbar />
       
-      {/* Hero Section */}
-      <section className="relative py-20">
-        <div className="absolute inset-0 bg-gradient-to-br from-harmony-green/20 via-transparent to-harmony-gold/10"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center space-y-8">
-            <div className="flex justify-center mb-6">
-              <div className="w-24 h-24">
-                <SolBrain size="lg" animated={true} />
+      {/* Constellation Background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="starfall-animation"></div>
+      </div>
+      
+      <div className="pt-16 relative z-10">
+        {/* Hero Section - Sacred Design */}
+        <section className="py-16 sm:py-20 lg:py-24">
+          <div className="harmonix-container">
+            <div className="text-center max-w-5xl mx-auto">
+              <div className="mb-8">
+                <HarmonixLogo variant="icon" className="h-16 mx-auto mb-6 animate-pulse" />
+              </div>
+              
+              <h1 className="hero-responsive-title text-harmonix-regal-gold mb-6 font-serif animate-fade-in">
+                Experience Harmony in Action
+              </h1>
+              
+              <p className="text-lg sm:text-xl text-harmonix-sage-fade max-w-3xl mx-auto mb-8 animate-fade-in-delay">
+                Test your AI agents. Ask SŌL. See your potential.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-delay-2">
+                <Button 
+                  size="lg" 
+                  className="touch-friendly-btn bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90"
+                  onClick={() => setSolExpanded(true)}
+                >
+                  <MessageCircle className="w-5 h-5 mr-2" />
+                  Talk to SŌL
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="touch-friendly-btn border-harmonix-regal-gold text-harmonix-regal-gold hover:bg-harmonix-regal-gold/10"
+                  onClick={() => window.location.href = '/join'}
+                >
+                  Join Waitlist
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="touch-friendly-btn border-harmonix-sage-fade text-harmonix-sage-fade hover:bg-harmonix-sage-fade/10"
+                  onClick={() => window.location.href = '/marketplace'}
+                >
+                  <ArrowRight className="w-5 h-5 mr-2" />
+                  Deploy Agent Demo
+                </Button>
               </div>
             </div>
-            
-            <div className="space-y-4">
-              <Badge className="bg-harmony-gold/10 text-harmony-gold border-harmony-gold/30 mb-4">
-                Interactive Platform Demo
+          </div>
+        </section>
               </Badge>
               <h1 className="text-5xl lg:text-6xl font-bold text-white font-serif leading-tight">
                 Experience <span className="text-harmony-gold">Harmonix</span> in Action

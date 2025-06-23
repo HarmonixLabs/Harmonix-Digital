@@ -58,70 +58,132 @@ The homepage has been transformed into a complete sales engine with 8 strategic 
 - ✓ Optional $444 deposit for 30% off + priority access
 - ✓ CRM integration for lead capture
 
-## Comprehensive Platform Audit & Fixes - December 23, 2025
+## Deep Codebase Analysis & Configuration Conflicts Resolution - December 23, 2025
 
-### Critical Issues Identified
+### ROOT CAUSE ANALYSIS COMPLETE
 
-#### 1. Authentication System Conflicts
-- **Issue**: AuthProvider has duplicate `retry: false` in query configuration
-- **Impact**: Causes React warnings and potential auth failures
-- **Fix**: Remove duplicate retry property
+After comprehensive deep research across the entire codebase, I've identified the exact sources of WebSocket disconnections and demo page conflicts:
 
-#### 2. Routing Configuration Issues  
-- **Issue**: Duplicate route definitions for `/nft-marketplace` 
-- **Impact**: Route conflicts causing navigation issues
-- **Fix**: Remove duplicate route, standardize marketplace routing
+#### 1. **WebSocket Architecture Conflicts** (CRITICAL)
+- **Root Issue**: Multiple competing WebSocket implementations causing connection conflicts
+  - `useWebSocket` hook in `/lib/websocket.ts` (primary)
+  - `useWebSocketConnection` in `/components/websocket/connection-manager.tsx` (secondary)
+  - `wsManager` global instance creating singleton conflicts
+  - Different reconnection strategies competing with each other
 
-#### 3. WebSocket Connection Instability
-- **Issue**: Frequent SŌL brain engine disconnections
-- **Impact**: Real-time features failing, poor user experience
-- **Fix**: Implement connection pooling and retry logic
+- **Technical Details**:
+  - Both hooks attempt to establish WebSocket connections simultaneously
+  - Reconnection timeouts overlap causing rapid connect/disconnect cycles
+  - Multiple event listeners attached to same WebSocket path `/ws`
+  - Connection state management conflicts between React hooks and class instance
 
-#### 4. Demo Page Architectural Problems
-- **Issue**: Demo page uses outdated styling and lacks homepage consistency
-- **Impact**: Poor conversion flow, inconsistent branding
-- **Fix**: Complete refactor to match homepage design system
+#### 2. **Demo Page CSS Class Conflicts** (HIGH)
+- **Root Issue**: Mixed CSS naming conventions causing style conflicts
+  - Demo page uses `bg-harmony-dark`, `harmony-gold` classes
+  - Homepage uses `harmonix-gradient`, `harmonix-regal-gold` classes
+  - CSS variables not consistently defined across components
+  - Tailwind config missing custom color definitions
 
-### Comprehensive Fix Plan
+- **Evidence Found**:
+  ```bash
+  # Conflicting class usage patterns:
+  bg-harmony-dark vs harmonix-gradient
+  harmony-gold vs harmonix-regal-gold
+  text-harmony-gold vs text-harmonix-regal-gold
+  ```
 
-#### Phase 1: Emergency Stability Fixes (Priority: Critical)
-1. **Fix Authentication Provider**
-   - Remove duplicate query options
-   - Add proper error boundaries
-   - Implement graceful fallbacks
+#### 3. **Component Import Chain Conflicts** (MEDIUM)
+- **Root Issue**: Circular dependencies and missing component exports
+  - `EnhancedSolInterface` component references missing in demo page
+  - `handleSolResponse` function incomplete causing React errors
+  - Missing imports for business profile state management
 
-2. **Resolve Routing Conflicts**
-   - Standardize marketplace routing 
-   - Remove duplicate routes
-   - Add catch-all error handling
+#### 4. **Authentication Provider Configuration** (FIXED)
+- **Issue**: Duplicate retry property in useQuery configuration
+- **Status**: Already resolved in auth.tsx
 
-3. **Stabilize WebSocket Connections**
-   - Implement connection retry logic
-   - Add heartbeat mechanism
-   - Graceful degradation for offline states
+#### 5. **Routing Conflicts** (FIXED)  
+- **Issue**: Duplicate /nft-marketplace route definitions
+- **Status**: Already resolved in App.tsx
 
-#### Phase 2: Demo Page Complete Refactor (Priority: High)
-1. **Apply Homepage Design System**
-   - Harmonix Green Core Palette
-   - Sacred typography (Playfair Display + Inter)
-   - Constellation background animations
-   - Consistent spacing and components
+### COMPREHENSIVE TECHNICAL FIX PLAN
 
-2. **Implement SŌL Brain Integration**
-   - Live chat interface with contextual responses
-   - Voice mode toggle capability
-   - Business profiling and agent recommendations
+#### Phase 1: WebSocket Architecture Consolidation (CRITICAL - 15 minutes)
 
-3. **Enhanced Agent Demo Cards**
-   - Monthly pricing primary display
-   - Token usage indicators
-   - Integration badges
-   - Interactive sandbox previews
+**Problem**: Multiple competing WebSocket implementations causing rapid connect/disconnect cycles
 
-4. **Conversion Optimization**
-   - Sticky waitlist capture
-   - ROI calculator integration
-   - Direct checkout pathways
+**Solution**: Consolidate to single WebSocket architecture
+1. **Remove Duplicate WebSocket Managers**
+   - Delete `/components/websocket/connection-manager.tsx` (redundant)
+   - Remove `wsManager` global instance from `/lib/websocket.ts`
+   - Standardize on `useWebSocket` hook as single source of truth
+
+2. **Implement Connection Debouncing**
+   - Add connection state locking to prevent simultaneous connections
+   - Implement exponential backoff with jitter to reduce server load
+   - Add heartbeat mechanism with 30-second intervals
+
+3. **Fix Server-Side WebSocket Handling**
+   - Add connection rate limiting (max 3 attempts per 10 seconds)
+   - Implement proper cleanup on server disconnect
+   - Add WebSocket health monitoring
+
+**Technical Implementation**:
+```typescript
+// Single WebSocket instance with debounced reconnection
+const CONNECTION_DEBOUNCE = 2000;
+const MAX_RECONNECT_ATTEMPTS = 3;
+const HEARTBEAT_INTERVAL = 30000;
+```
+
+#### Phase 2: CSS Class Standardization (HIGH - 10 minutes)
+
+**Problem**: Inconsistent CSS class naming causing style conflicts between demo page and homepage
+
+**Solution**: Standardize all CSS classes to Harmonix naming convention
+1. **Global CSS Variable Consolidation**
+   - Replace all `harmony-*` classes with `harmonix-*` equivalents
+   - Update Tailwind config to include missing Harmonix colors
+   - Add proper CSS variable fallbacks
+
+2. **Demo Page Style Migration**
+   - Convert `bg-harmony-dark` → `harmonix-gradient`
+   - Convert `harmony-gold` → `harmonix-regal-gold`
+   - Apply sacred design typography and spacing
+   - Add constellation background animations
+
+3. **Component Consistency Enforcement**
+   - Update all components to use consistent class naming
+   - Apply proper responsive breakpoints
+   - Implement touch-friendly button sizing
+
+**CSS Migration Map**:
+```css
+bg-harmony-dark → harmonix-gradient
+harmony-gold → harmonix-regal-gold  
+text-harmony-gold → text-harmonix-regal-gold
+border-harmony-gold → border-harmonix-regal-gold
+```
+
+#### Phase 3: Component Architecture Fixes (MEDIUM - 10 minutes)
+
+**Problem**: Missing component implementations and circular dependencies
+
+**Solution**: Complete component implementation and fix imports
+1. **Complete Demo Page Components**
+   - Implement missing `handleSolResponse` function logic
+   - Fix business profile state management
+   - Add proper error boundaries and loading states
+
+2. **Enhanced SŌL Interface Integration**
+   - Connect to real-time WebSocket for live responses
+   - Implement voice mode toggle functionality
+   - Add contextual business profiling
+
+3. **Agent Demo Cards Enhancement**
+   - Add interactive sandbox previews
+   - Implement monthly pricing display priority
+   - Include token usage indicators and integration badges
 
 #### Phase 3: System-Wide Consistency (Priority: Medium)
 1. **Standardize Component Architecture**
@@ -134,30 +196,60 @@ The homepage has been transformed into a complete sales engine with 8 strategic 
    - WebSocket connection pooling
    - Database query optimization
 
-### Implementation Strategy
+### EXECUTION PLAN WITH TECHNICAL SPECIFICATIONS
 
-#### Step 1: Critical Fixes (15 minutes)
-- Fix auth provider duplicate properties
-- Remove routing conflicts
-- Add connection stability measures
+#### IMMEDIATE IMPLEMENTATION (35 minutes total)
 
-#### Step 2: Demo Page Refactor (30 minutes)
-- Complete design system implementation
-- Live SŌL brain integration
-- Enhanced agent showcase
-- Conversion flow optimization
+**Step 1: WebSocket Consolidation** (15 minutes)
+1. Remove redundant WebSocket manager from connection-manager.tsx
+2. Implement connection debouncing in primary useWebSocket hook
+3. Add server-side rate limiting and proper cleanup
+4. Test connection stability with browser developer tools
 
-#### Step 3: Platform-Wide Consistency (15 minutes)
-- Apply fixes across all pages
-- Standardize component usage
-- Ensure mobile responsiveness
+**Step 2: CSS Standardization** (10 minutes)  
+1. Update demo page to use consistent harmonix-* classes
+2. Add missing CSS variables to index.css
+3. Apply sacred design system throughout demo page
+4. Test visual consistency across all breakpoints
 
-### Expected Outcomes
-- 100% platform stability across all pages
-- Consistent sacred design aesthetic
-- Enhanced conversion rates on demo page
-- Improved real-time feature reliability
-- Seamless user experience flow
+**Step 3: Component Integration** (10 minutes)
+1. Complete handleSolResponse implementation
+2. Fix business profile state management
+3. Enhance EnhancedSolInterface with real-time features
+4. Test full demo workflow end-to-end
+
+#### VERIFICATION CHECKLIST
+
+**WebSocket Stability**:
+- [ ] Single persistent connection maintained
+- [ ] No rapid connect/disconnect cycles in logs
+- [ ] Reconnection works properly after network interruption
+- [ ] Server logs show stable client connections
+
+**Demo Page Consistency**:
+- [ ] Matches homepage design system exactly
+- [ ] All animations and interactions work smoothly
+- [ ] Mobile responsiveness maintained
+- [ ] No CSS class conflicts in browser inspector
+
+**Functional Integration**:
+- [ ] SŌL Brain interface responds to user input
+- [ ] Business profiling updates contextual recommendations
+- [ ] Agent cards display correctly with pricing
+- [ ] Checkout flow works from demo page
+
+#### SUCCESS METRICS
+- WebSocket connection uptime: 99%+ (measured over 10 minutes)
+- Demo page load time: <2 seconds
+- Visual consistency score: 100% match with homepage
+- User flow completion rate: Test all major paths
+
+#### ROLLBACK PLAN
+If issues arise:
+1. Revert to previous WebSocket implementation
+2. Restore original demo page CSS classes
+3. Use fallback static content for SŌL interface
+4. Maintain functional checkout pathways
 
 ## Agent Pricing Display Logic Implementation
 

@@ -33,7 +33,9 @@ export function useWebSocket(options: UseWebSocketOptions = {}) {
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const connect = useCallback(() => {
-    if (wsRef.current?.readyState === WebSocket.OPEN) {
+    // Prevent multiple simultaneous connection attempts
+    if (wsRef.current?.readyState === WebSocket.OPEN || 
+        wsRef.current?.readyState === WebSocket.CONNECTING) {
       return;
     }
 
@@ -68,12 +70,17 @@ export function useWebSocket(options: UseWebSocketOptions = {}) {
         onDisconnect?.();
         console.log('WebSocket disconnected from SŌL brain engine');
 
-        // Attempt reconnection if we haven't exceeded max attempts
+        // Debounced reconnection with exponential backoff
         if (reconnectAttempts < maxReconnectAttempts) {
+          const backoffDelay = Math.min(
+            reconnectInterval * Math.pow(2, reconnectAttempts) + Math.random() * 1000,
+            30000 // Max 30 second delay
+          );
+          
           reconnectTimeoutRef.current = setTimeout(() => {
             setReconnectAttempts(prev => prev + 1);
             connect();
-          }, reconnectInterval);
+          }, backoffDelay);
         }
       };
 
@@ -131,130 +138,7 @@ export function useWebSocket(options: UseWebSocketOptions = {}) {
   };
 }
 
-export class WebSocketManager {
-  private ws: WebSocket | null = null;
-  private reconnectInterval = 3000;
-  private maxReconnectAttempts = 5;
-  private reconnectAttempts = 0;
-  private reconnectTimeout: NodeJS.Timeout | null = null;
-  private listeners: Map<string, ((data: any) => void)[]> = new Map();
-
-  constructor() {
-    this.connect();
-  }
-
-  private connect() {
-    if (this.ws?.readyState === WebSocket.OPEN) {
-      return;
-    }
-
-    try {
-      const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-      const wsUrl = `${protocol}//${window.location.host}/ws`;
-      
-      this.ws = new WebSocket(wsUrl);
-
-      this.ws.onopen = () => {
-        console.log('WebSocket connected to SŌL brain engine');
-        this.reconnectAttempts = 0;
-        this.emit('connect', null);
-      };
-
-      this.ws.onmessage = (event) => {
-        try {
-          const message = JSON.parse(event.data);
-          this.emit(message.type, message);
-        } catch (error) {
-          console.error('Failed to parse WebSocket message:', error);
-        }
-      };
-
-      this.ws.onclose = () => {
-        console.log('WebSocket disconnected from SŌL brain engine');
-        this.emit('disconnect', null);
-
-        // Attempt reconnection
-        if (this.reconnectAttempts < this.maxReconnectAttempts) {
-          this.reconnectTimeout = setTimeout(() => {
-            this.reconnectAttempts++;
-            this.connect();
-          }, this.reconnectInterval);
-        }
-      };
-
-      this.ws.onerror = (error) => {
-        console.error('WebSocket error:', error);
-        this.emit('error', error);
-      };
-
-    } catch (error) {
-      console.error('Failed to create WebSocket connection:', error);
-    }
-  }
-
-  public on(event: string, callback: (data: any) => void) {
-    if (!this.listeners.has(event)) {
-      this.listeners.set(event, []);
-    }
-    this.listeners.get(event)!.push(callback);
-  }
-
-  public off(event: string, callback: (data: any) => void) {
-    const callbacks = this.listeners.get(event);
-    if (callbacks) {
-      const index = callbacks.indexOf(callback);
-      if (index > -1) {
-        callbacks.splice(index, 1);
-      }
-    }
-  }
-
-  private emit(event: string, data: any) {
-    const callbacks = this.listeners.get(event);
-    if (callbacks) {
-      callbacks.forEach(callback => callback(data));
-    }
-  }
-
-  public send(message: WebSocketMessage) {
-    if (this.ws?.readyState === WebSocket.OPEN) {
-      this.ws.send(JSON.stringify(message));
-    } else {
-      console.warn('WebSocket is not connected. Message not sent:', message);
-    }
-  }
-
-  public disconnect() {
-    if (this.reconnectTimeout) {
-      clearTimeout(this.reconnectTimeout);
-      this.reconnectTimeout = null;
-    }
-
-    if (this.ws) {
-      this.ws.close();
-      this.ws = null;
-    }
-
-    this.reconnectAttempts = 0;
-  }
-
-  public getConnectionState(): 'connecting' | 'connected' | 'disconnected' {
-    if (!this.ws) return 'disconnected';
-    
-    switch (this.ws.readyState) {
-      case WebSocket.CONNECTING:
-        return 'connecting';
-      case WebSocket.OPEN:
-        return 'connected';
-      default:
-        return 'disconnected';
-    }
-  }
-
-  public isConnected(): boolean {
-    return this.ws?.readyState === WebSocket.OPEN;
-  }
-}
-
-// Global WebSocket manager instance
-export const wsManager = new WebSocketManager();
+// REMOVED: Global WebSocket manager to eliminate singleton conflicts
+// This class was causing competition with the useWebSocket hook, resulting in
+// multiple simultaneous connections and rapid connect/disconnect cycles.
+// All WebSocket functionality is now centralized in the useWebSocket hook above.
