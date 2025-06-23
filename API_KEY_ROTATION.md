@@ -2,9 +2,15 @@
 
 ## Go High Level API Key
 
-**Current Status:** Active
-**Expiration:** 6 days 23 hours from June 23, 2025
-**Rotation Date:** June 30, 2025
+**Current Key:** GHL_API_KEY_HARMONIX (active)
+**New Key Available:** pit-df5d16c0-9ee1-418b-a1c6-f9799d348032
+**Rotation Timeline:** 6-7 days from June 23, 2025
+**Target Date:** June 29-30, 2025
+
+### Current Token Status
+- Environment Variable: GHL_API_KEY_HARMONIX
+- Status: Active and working
+- Purpose: Harmonix CRM integration
 
 ### New Token Information
 ```

@@ -29,9 +29,9 @@ class GHLIntegration {
   private baseUrl = 'https://rest.gohighlevel.com/v1';
   
   constructor() {
-    this.apiKey = process.env.GHL_API_KEY || '';
+    this.apiKey = process.env.GHL_API_KEY_HARMONIX || process.env.GHL_API_KEY || '';
     if (!this.apiKey) {
-      console.warn('GHL_API_KEY not provided - CRM sync will be logged only');
+      console.warn('GHL_API_KEY_HARMONIX not provided - CRM sync will be logged only');
     }
   }
 
