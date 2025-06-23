@@ -12,6 +12,10 @@ import Join from "@/pages/join";
 import FAQ from "@/pages/faq";
 import CaseStudies from "@/pages/case-studies";
 import DemoDeploy from "@/pages/demo-deploy";
+import Demo from "@/pages/demo";
+import MyAgents from "@/pages/my-agents";
+import Create from "@/pages/create";
+import Settings from "@/pages/settings";
 import Login from "@/pages/login";
 import Signup from "@/pages/signup";
 import Marketplace from "@/pages/marketplace";
@@ -33,6 +37,10 @@ function Router() {
       <Route path="/faq" component={FAQ} />
       <Route path="/case-studies" component={CaseStudies} />
       <Route path="/demo-deploy" component={DemoDeploy} />
+      <Route path="/demo" component={Demo} />
+      <Route path="/my-agents" component={MyAgents} />
+      <Route path="/create" component={Create} />
+      <Route path="/settings" component={Settings} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
       <Route path="/dashboard" component={Dashboard} />

@@ -23,8 +23,7 @@ export function Navbar() {
 
   const publicLinks = [
     { href: "/harmony", label: "Harmony" },
-    { href: "/soul-brain", label: "Demo" },
-    { href: "/demo-deploy", label: "Deploy" },
+    { href: "/demo", label: "Demo" },
     { href: "/marketplace", label: "Marketplace" },
     { href: "/case-studies", label: "Success Stories" },
     { href: "/faq", label: "FAQ" },
@@ -32,9 +31,9 @@ export function Navbar() {
 
   const privateLinks = [
     { href: "/dashboard", label: "Dashboard" },
-    { href: "/agent-dashboard", label: "Agent Control" },
+    { href: "/my-agents", label: "My Agents" },
     { href: "/marketplace", label: "Marketplace" },
-    { href: "/nft-mint", label: "Mint NFTs" },
+    { href: "/create", label: "Create" },
     { href: "/wallet", label: "Wallet" },
   ];
 
