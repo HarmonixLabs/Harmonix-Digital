@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { SolBrain } from "@/components/sol-brain";
@@ -89,15 +89,6 @@ export default function Home() {
             </Card>
           </div>
         </div>
-        <Footer />
-
-      {/* Onboarding Demo */}
-      {showOnboardingDemo && (
-        <OnboardingWizard 
-          onComplete={() => setShowOnboardingDemo(false)}
-          onSkip={() => setShowOnboardingDemo(false)}
-        />
-      )}
       </div>
     );
   }
@@ -383,6 +374,14 @@ export default function Home() {
       </section>
 
       <Footer />
+      
+      {/* Onboarding Demo */}
+      {showOnboardingDemo && (
+        <OnboardingWizard 
+          onComplete={() => setShowOnboardingDemo(false)}
+          onSkip={() => setShowOnboardingDemo(false)}
+        />
+      )}
     </div>
   );
 }
