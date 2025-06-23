@@ -174,14 +174,20 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div className="space-y-4">
-                <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
-                  Discover the
-                  <span className="harmony-gold"> Power of AI</span>
-                  <br />Agents for Your Business
-                </h1>
+                <div className="flex items-center space-x-4 mb-6">
+                  <HarmonixLogo size="xl" variant="gold" />
+                  <div>
+                    <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
+                      <span className="harmony-gold">Harmonix</span> AI Platform
+                    </h1>
+                    <p className="text-xl text-harmony-teal font-medium">
+                      Powered by Regal Wisdom & Trust
+                    </p>
+                  </div>
+                </div>
                 <p className="text-xl text-gray-300 leading-relaxed">
-                  Automate tasks and boost productivity with our AI-powered agents.
-                  Scale your business with intelligent automation that learns and evolves.
+                  Build, Automate, and Exit with intelligent AI agents orchestrated by the SŌL brain engine.
+                  Transform your business with spiritual tech wisdom.
                 </p>
               </div>
               

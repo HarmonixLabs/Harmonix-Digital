@@ -2,6 +2,7 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { OnboardingTrigger } from "@/components/onboarding/onboarding-trigger";
+import { HarmonixLogo } from "@/components/harmonix-logo";
 import { 
   DropdownMenu,
   DropdownMenuContent,
@@ -10,12 +11,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/lib/auth";
+import { useWebSocket } from "@/hooks/use-websocket";
 import { Coins, User, Settings, LogOut, Menu, X } from "lucide-react";
 import { useState } from "react";
 
 export function Navbar() {
   const [location] = useLocation();
   const { user, organization, logout } = useAuth();
+  const { isConnected } = useWebSocket();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navigationLinks = [
@@ -98,8 +101,17 @@ export function Navbar() {
             </Link>
           </div>
 
-          {/* User Section */}
+          {/* User Menu */}
           <div className="flex items-center space-x-4">
+            {/* Onboarding Trigger */}
+            <OnboardingTrigger variant="help" size="sm" className="hidden md:flex" />
+            
+            {/* SŌL Connection Status */}
+            <div className="flex items-center space-x-2 text-sm text-gray-400">
+              <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`}></div>
+              <span>{isConnected ? 'SŌL Connected' : 'SŌL Disconnected'}</span>
+            </div>
+            
             {user ? (
               <>
                 {/* Token Balance */}
