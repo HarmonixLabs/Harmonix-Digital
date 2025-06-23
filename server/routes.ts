@@ -393,5 +393,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Add GHL webhook endpoint
+  app.post('/api/webhooks/ghl', async (req, res) => {
+    try {
+      const { handleGHLWebhook } = await import('./webhook-handler');
+      await handleGHLWebhook(req, res);
+    } catch (error) {
+      console.error('GHL webhook error:', error);
+      res.status(500).json({ error: 'Webhook processing failed' });
+    }
+  });
+
+  // WebSocket for real-time updates (avoiding conflicts)
+  const wss = new WebSocketServer({ server: httpServer, path: '/ws' });
+  
+  wss.on('connection', (ws: WebSocket) => {
+    console.log('WebSocket client connected');
+    
+    ws.on('message', (message) => {
+      try {
+        const data = JSON.parse(message.toString());
+        console.log('Received WebSocket message:', data);
+      } catch (error) {
+        console.error('Invalid WebSocket message:', error);
+      }
+    });
+    
+    ws.on('close', () => {
+      console.log('WebSocket client disconnected');
+    });
+  });
+
   return httpServer;
 }

@@ -31,6 +31,8 @@ The Harmonix AI Agent Platform is now 100% complete and ready for production dep
 - Custom field mapping for Harmonix data
 - Tag-based organization system
 - Opportunity pipeline management
+- Webhook integration for bidirectional sync
+- Webhook URL: `/api/webhooks/ghl`
 
 ### AI Agent System
 - 12+ specialized AI agents (CA$H, Concierge, HR, etc.)

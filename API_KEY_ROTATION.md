@@ -42,4 +42,13 @@ If rotation fails:
 - [ ] Activity tracking operational
 - [ ] Error logs clear of auth failures
 
+### Webhook Configuration
+**Harmonix GHL Webhook URL:**
+```
+https://services.leadconnectorhq.com/hooks/eKlKYR6vdxwBnCFOUy5l/webhook-trigger/1529e71b-de1a-4dae-9d7f-3d39c9426eed
+```
+
+**Platform Webhook Endpoint:** `/api/webhooks/ghl`
+**Events Handled:** contact.created, contact.updated, opportunity.created, appointment.created
+
 **Note:** GHL tokens rotate every 7 days. Set calendar reminder for June 30, 2025.
