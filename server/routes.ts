@@ -105,6 +105,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         user: { ...user, password: undefined },
         organization: org,
         token,
+        isNewUser: true,
+        message: 'Registration successful'
       });
     } catch (error) {
       console.error('Registration error:', error);
@@ -331,6 +333,63 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Get NFTs error:', error);
       res.status(500).json({ message: 'Failed to get NFTs' });
+    }
+  });
+
+  // Onboarding completion route
+  app.post('/api/onboarding/complete', authenticateToken, async (req: any, res) => {
+    try {
+      const { onboardingData } = req.body;
+      const userId = req.user.id;
+
+      // Update user with onboarding completion
+      await storage.updateUser(userId, {
+        onboardingCompleted: true,
+        onboardingData: JSON.stringify(onboardingData),
+      });
+
+      // Create initial agents based on selections
+      if (onboardingData.selectedAgents && onboardingData.selectedAgents.length > 0) {
+        const agentTypes = await storage.getAgentTypes();
+        
+        for (const agentId of onboardingData.selectedAgents) {
+          const agentType = agentTypes.find(t => 
+            t.name.toLowerCase().includes(agentId) || 
+            t.category === agentId
+          );
+          
+          if (agentType) {
+            await storage.createAgent({
+              name: `${agentType.name} - ${req.user.name}`,
+              agentTypeId: agentType.id,
+              organizationId: req.user.organizationId,
+              isActive: true,
+              config: onboardingData
+            });
+          }
+        }
+      }
+
+      // Update CRM with onboarding completion
+      await updateCRM({
+        email: req.user.email,
+        name: req.user.name,
+        activity: 'onboarding_completed',
+        tier: onboardingData.tier,
+        selectedAgents: onboardingData.selectedAgents,
+        industry: onboardingData.industry,
+        companySize: onboardingData.companySize,
+        timestamp: new Date().toISOString()
+      });
+
+      res.json({ 
+        success: true, 
+        message: 'Onboarding completed successfully',
+        redirectTo: '/dashboard'
+      });
+    } catch (error) {
+      console.error('Onboarding completion error:', error);
+      res.status(500).json({ message: 'Failed to complete onboarding' });
     }
   });
 

@@ -10,6 +10,8 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { HarmonixLogo } from "@/components/brand/HarmonixLogo";
+import { OnboardingProgress } from "./onboarding-progress";
+import { cn } from "@/lib/utils";
 import { 
   CheckCircle, 
   ArrowRight, 
@@ -76,6 +78,15 @@ export function AdvancedOnboardingWizard({ onComplete, onSkip }: WizardProps) {
   const totalSteps = 6;
   const progress = (currentStep / totalSteps) * 100;
   const { toast } = useToast();
+
+  const stepTitles = [
+    "Profile",
+    "Goals", 
+    "Challenges",
+    "Technical",
+    "Agents",
+    "Workflow"
+  ];
 
   const updateData = (field: keyof OnboardingData, value: any) => {
     setData(prev => ({ ...prev, [field]: value }));
@@ -146,13 +157,13 @@ export function AdvancedOnboardingWizard({ onComplete, onSkip }: WizardProps) {
           </p>
         </div>
 
-        {/* Progress Bar */}
+        {/* Progress */}
         <div className="mb-8">
-          <div className="flex justify-between text-sm text-harmonix-sage-fade mb-2">
-            <span>Step {currentStep} of {totalSteps}</span>
-            <span>{Math.round(progress)}% Complete</span>
-          </div>
-          <Progress value={progress} className="h-2" />
+          <OnboardingProgress 
+            currentStep={currentStep}
+            totalSteps={totalSteps}
+            stepTitles={stepTitles}
+          />
         </div>
 
         {/* Main Card */}

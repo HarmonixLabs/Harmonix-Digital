@@ -100,6 +100,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setToken(data.token);
       setIsAuthenticated(true);
       queryClient.invalidateQueries({ queryKey: ['/api/auth/me'] });
+      
+      // Redirect new users to onboarding
+      if (data.isNewUser) {
+        window.location.href = '/onboarding';
+      }
     },
   });
 
