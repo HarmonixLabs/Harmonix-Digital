@@ -55,6 +55,7 @@ function Router() {
       <Route path="/thank-you" component={lazy(() => import("./pages/thank-you"))} />
       <Route path="/sol-brain" component={lazy(() => import("./pages/sol-brain"))} />
       <Route path="/dashboard/roi" component={lazy(() => import("./pages/dashboard/roi"))} />
+      <Route path="/gamified-onboarding" component={lazy(() => import("./pages/gamified-onboarding"))} />
       <Route path="/get-started" component={lazy(() => import("./pages/get-started"))} />
       <Route path="/sign-in" component={lazy(() => import("./pages/sign-in"))} />
       <Route path="/waitlist" component={lazy(() => import("./pages/waitlist"))} />
