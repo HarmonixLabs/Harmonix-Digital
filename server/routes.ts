@@ -10,6 +10,7 @@ import { z } from "zod";
 import { processAgentTask } from "./openai";
 import { updateCRM } from "./ghl-integration";
 import { healthCheck, readinessCheck } from "./health-check";
+import { corsMiddleware } from "./middleware/cors";
 
 const JWT_SECRET = process.env.JWT_SECRET || "harmonix-secret-key";
 
@@ -37,6 +38,9 @@ const authenticateToken = async (req: any, res: any, next: any) => {
 
 export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
+
+  // Apply CORS middleware
+  app.use(corsMiddleware);
 
   // Health check endpoints
   app.get('/health', healthCheck);
