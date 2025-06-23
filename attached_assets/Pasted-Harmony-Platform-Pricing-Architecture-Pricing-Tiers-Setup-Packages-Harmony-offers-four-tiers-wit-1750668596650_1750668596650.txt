@@ -1,0 +1,93 @@
+Harmony Platform Pricing Architecture
+
+Pricing Tiers & Setup Packages: Harmony offers four tiers with clear one-time setup fees and included agent counts.  For example, Starter includes 1 core agent at $4,400–$6,200, Growth includes 3 agents at $8,000–$12,500, Expansion includes 6 agents at $21,500–$28,000, and Enterprise (custom pricing) covers all 12 core agents (plus an optional Sol-brain add-on).  We store these in a pricing table (e.g. a database table or config) mapping each tier to its one-time price range and features.  In Stripe, we would create separate Product or Price objects for each tier and its billing components.  For example, create a Stripe Product “Harmony Starter” and attach two Price objects: one for the one-time setup fee (type=one_time) and one for any base monthly maintenance (type=recurring).  (Stripe docs recommend: “If you want to add a one-time charge for something like a setup fee, create a third product with a one-time price.” ￼.)  In practice our integration can pass multiple Price IDs to Checkout (one-time + recurring) in a single session.
+
+Tier	One-Time Setup	Agents Included
+Starter	$4,400–$6,200	1 core agent
+Growth	$8,000–$12,500	3 agents
+Expansion	$21,500–$28,000	6 agents
+Enterprise	Custom (negotiable)	12 agents + optional Sol-brain
+
+Each tier’s prices are parameterized (to allow upper/lower bounds) and indexed by SKU or ID.  The Agent count can also be stored as part of tier metadata (in our database or Stripe metadata) so the checkout UI can display what’s included.  We will maintain a pricing table (e.g. JSON or database) in which each plan object includes fields like tierName, minPrice, maxPrice, and included features.  This allows the front-end and APIs to dynamically render the pricing table and apply selected custom options.
+
+Monthly Recurring Revenue (MRR): Each paid tier also entails a monthly subscription for maintenance and support.  We define additional Stripe Price objects for the recurring MRR: for Starter this is $800–$1,200 per month, for Growth $3,200–$4,400 per month, and for Enterprise (premium support) up to $8,000 per month (flexible for larger clients).  These are implemented as Stripe recurring prices (type=recurring) tied to the subscription.  We can attach metadata or nicknames to each Stripe Price (e.g. metadata: { tier: "Starter", description: "Basic support & updates" } ￼).  If a customer opts for financing instead of full upfront payment, we calculate the interest and installment plan: e.g. apply a 21% interest on the setup fee and divide the total over 12 or 24 months.  This can be done by creating a Subscription Schedule or a custom plan in Stripe where the setup fee becomes a series of monthly payments.  (Stripe’s Subscription Schedules API can define phases – e.g. 12-month installments with interest – as an alternative to a lump sum.)  In implementation, we would compute:
+
+total_with_interest = setup_fee * 1.21
+monthly_installment = total_with_interest / num_months
+
+and create a Stripe price (or adjust the subscription price) equal to monthly_installment.  We would also tag the customer’s subscription metadata as “financed” with terms, or even use Stripe Capital/Financing Offers for transparency.  The system must track both the deposit and the ongoing installment schedule in our CRM, ensuring the correct amounts and interest are billed.
+
+Waitlist & Early-Bird Incentive: To manage the priority list, the first 280–500 sign-ups who place a deposit receive 30% off their tier’s pricing.  On the waitlist page, the user selects a tier and pays a deposit (say 10–30% of the setup fee) via Stripe.  We create a one-time PaymentIntent (or Checkout Session) for this deposit.  In our database, we mark the user’s record with deposit_paid = true and note the discount.  When the client later upgrades to full onboarding, we apply the 30% discount in their final invoice.  Technically, we can implement this with a Promotion Code/Coupon in Stripe or by adjusting the final invoice line items.  For example, after deposit, we might create a negative invoice item credit equal to the deposit amount, or simply apply a coupon to the upcoming subscription.  All deposit transactions and remaining balances are tracked in our backend so we know exactly how much of the setup fee remains.  (Stripe’s Customer Balance feature could also be used: credit the customer’s balance by the deposit, which auto-applies to future invoices.)
+
+Stripe Checkout Flow: We integrate Stripe Checkout (or the Stripe API) to handle payments.  The flow is: 1) User selects a tier (and any optional add-ons).  2) The frontend calls our server to create a Stripe Checkout Session or PaymentIntent.  We pass the corresponding Price IDs for that tier’s one-time and recurring items: e.g.
+
+const session = await stripe.checkout.sessions.create({
+  mode: 'subscription',
+  line_items: [
+    { price: 'price_startup_setup', quantity: 1 },      // one-time setup
+    { price: 'price_startup_monthly', quantity: 1 }     // recurring monthly
+  ],
+  // metadata to track customer details
+  metadata: { tier: 'Starter', userId: '12345' },
+  success_url: 'https://.../success?session_id={CHECKOUT_SESSION_ID}',
+  cancel_url: 'https://.../cancel'
+});
+
+Stripe then handles the payment.  On successful payment, a webhook listener (via Stripe events) records the new customer subscription.  We store relevant IDs (customer, subscription, latest invoice) and track in our system.  We use the Price metadata (or our own database) to link the Stripe price back to the Harmony tier details ￼.  All Stripe objects (Customer, Subscription, Invoice) can use the metadata field to store our internal IDs (e.g. metadata: { harmonyUserId: 'ABC' }), which simplifies reconciliation.  For deposits, we create a separate Checkout Session with only the deposit amount (a one-time payment).  When the final plan is paid, we ensure the deposit credit is applied (by reducing the one-time price or adding a coupon).
+
+Agent Marketplace & NFT Licensing: Harmony’s marketplace lets users browse and purchase additional agents individually.  Each agent listing has a creator-defined setup price ($100–$10,000) and recurring fee ($25–$1,000/month).  In our database we store each marketplace agent’s data, including SKU, prices, and creator address.  On purchase, the buyer pays the setup + first month of MRR via Stripe (similar flow as above, with one-time and recurring price).  Simultaneously, we mint (or transfer) an NFT license to the buyer’s crypto wallet.  This NFT serves as proof of license and encodes royalty rules.  Using a standard like ERC-721 with EIP-2981, we embed in the token metadata the creator’s royalty percentage and other split info ￼.  For example, the NFT metadata JSON might include fields:
+
+{
+  "name": "AgentLicense#123",
+  "description": "License for Sales Agent by CreatorX",
+  "creator": "0xCreatorWallet",
+  "platformShare": 2000,
+  "investorShare": 1000,
+  "creatorShare": 7000
+}
+
+(Here percentages are expressed in basis points; e.g. 70%, 20%, 10% splitting of revenue.)  The royalty logic is: whenever the agent generates MRR, each payment is split according to these shares.  Concretely, our backend or a smart contract tracks revenue and issues payouts to the creator’s and investor’s wallets on a recurring schedule (e.g. monthly).  We enforce that creatorShare + platformShare + investorShare = 100% of the NFT’s royalty pool.  NFT holders (investors) thus passively earn their share of that agent’s revenue.  Note: typical NFT royalty rates are around 5–10% in resale markets ￼; for agent licenses we can allow higher splits since revenue flows are ongoing.
+
+Demo Agents & ROI Calculator: We provide interactive demo agents to showcase the platform’s value.  Each demo can be parameterized by the customer’s context (e.g. number of leads, hours saved).  We implement an ROI calculator: users input metrics (e.g. “my sales team saves X hours per week using this agent” or “my current cost per lead is $Y and this agent generates Z leads per month”).  The calculator computes estimated time saved and cost savings.  For example:
+
+time_saved_hours = agents_deployed * hours_saved_per_agent_per_week * 4 (weeks)
+dollar_savings = time_saved_hours * average_hourly_wage
+
+We present this in real time as part of the demo.  To aid sales, the demo agent’s UI can suggest personalized pricing: e.g. “If you save N hours/mo at $W/hour, that’s $D in value – this pays for the Starter package of $X setup + $Y/mo.”  This decision support can be shown as overlays or charts.  We also implement bundling logic: the user can “add on” agents to their plan (e.g. start with a Concierge Agent and add a Sales Agent).  The UI dynamically updates the total setup cost and MRR in real time.  For example, if adding a second agent reduces the incremental setup (bundle discount), our pricing logic calculates bundle_price = price(agent1) + price(agent2) - bundle_discount.  We may predefine discounts for bundles or compute a formula (e.g. 10% off each additional agent).  The code to recalc the quote runs on the client, with final values stored in a cart object.
+
+Stripe API Integration: On the backend, we use Stripe’s Node/Python/Ruby library to create products/prices.  Example pseudocode:
+
+# Create product and prices for Starter tier
+product = stripe.Product.create(name="Harmony Starter", metadata={"tier": "Starter"})
+price_setup = stripe.Price.create(
+    unit_amount=500000, currency="usd", product=product.id, 
+    metadata={"description": "Starter setup fee"}, 
+    lookup_key="harmony_starter_setup", # optional
+    **{"type": "one_time"}
+)
+price_monthly = stripe.Price.create(
+    unit_amount=100000, currency="usd", product=product.id,
+    recurring={"interval": "month"},
+    metadata={"description": "Starter MRR"}, lookup_key="harmony_starter_monthly"
+)
+
+Each Price object has a unique ID (e.g. price_Gxyz) that we use in checkout.  We attach relevant metadata (e.g. tier name, agent count) for easy lookup ￼.  When creating a checkout session, we pass these price IDs.  After payment, our webhook handler captures the checkout.session.completed event, extracts customer, subscription, etc., and stores them.  We also handle Stripe tax: we enable Stripe Tax so that sales tax/VAT is automatically calculated on invoices ￼.  During product creation, we can specify default_tax_rates or leave it to Stripe Tax to infer based on customer location.
+
+Geo/Tax Compliance: Because Harmony sells digital services globally, we enforce regional pricing rules.  We store each customer’s location (via billing address or IP geolocation) and apply appropriate tax treatment.  Using Stripe Tax (or Tax Rates API), we attach the correct tax rates for US sales tax or EU VAT.  For example, EU customers will see VAT added to the invoice by Stripe (VAT is applied to SaaS internationally ￼).  We enable multi-currency billing if needed: Stripe supports major currencies, so we can set product prices in USD by default and allow checkout in EUR/GBP/etc., with real-time conversion.  We also flag certain country-specific pricing in our system if required (e.g. separate price table entries for APAC regions).  All tax settings (nexus states, VAT rules) are managed via the Stripe dashboard or Tax Automation APIs.  Our code ensures each Stripe Charge or Invoice line item includes the right tax code (e.g. tax_behavior = exclusive and associated tax_rates) so we remain compliant.
+
+Onboarding & UX Flow: The user flow is as follows:
+	1.	Select Plan: User picks a tier on the pricing page. They can also configure add-ons (additional agents from the marketplace).  The page uses the pricing table data (or our markdown table) to show prices and features.
+	2.	Quote & Checkout: The total price (setup + first month MRR) is summarized. The user proceeds to payment, entering company details. A Stripe Checkout Session is created with the selected price IDs.
+	3.	Payment & Confirmation: Upon successful payment, Stripe redirects to a success page. We show an onboarding form (to collect any extra details needed for setup). In the background, a webhook triggers creation of the customer record and subscription in our system.
+	4.	Onboarding Kickoff: The customer sees an onboarding dashboard with next steps. Our system marks the agent creation and setup tasks as pending. We also send an email confirming the plan and support contact. The CRM tracks deposit (if any), active MRR subscriptions, and agent licenses per customer.
+
+Data Structures & Metadata: Developer notes:
+	•	Pricing Table: JSON schema: { tier: string, setupMin: number, setupMax: number, agentsIncluded: number, mrrRange: [min, max] }.
+	•	Stripe Products/Prices: Use metadata on Product/Price for internal IDs (e.g. tier code). Use lookup_key for easy price retrieval.
+	•	NFT Metadata: Include creator address and royalty splits. Use an on-chain or off-chain registry so that when an agent’s MRR invoice is paid, the system programmatically transfers crypto to NFT holders based on defined percentages.
+	•	Royalty Distribution: A server-side job or smart contract distributes each month’s agent revenue: e.g. payout_creator = revenue * creatorShare, payout_platform = revenue * platformShare, payout_investor = revenue * investorShare. (Typical NFT royalties are ~6% on sales ￼; here splits may be higher because they cover ongoing service revenue.)
+	•	Tax Handling: Tag Stripe Prices with tax_behavior and let Stripe Tax automate calculation ￼ ￼.
+
+By combining a well-structured pricing table (as above) with Stripe’s flexible billing APIs and a smart NFT-based license system, we create a robust, developer-ready pricing architecture. This system cleanly separates setup vs recurring fees, supports discounts/financing, visualizes ROI for demo agents, and ensures all global tax rules (VAT/Sales Tax) are applied automatically ￼ ￼. The attached markdown pricing table and illustrated royalty split provide intuitive references for the development of the pricing engine and license distribution logic.
+
+Sources: We follow Stripe’s recommended billing patterns (e.g. using separate price objects for one-time vs recurring items ￼) and leverage metadata fields for custom info ￼. Tax compliance is achieved via Stripe Tax (supports VAT and U.S. sales tax) ￼ ￼.  NFT royalty splits (typically ~5–10%) inform our creator/investor revenue-sharing model ￼. All integrations (Stripe Checkout, Subscriptions, Tax) are implemented using Stripe’s API and webhooks as documented.

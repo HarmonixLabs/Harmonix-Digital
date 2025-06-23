@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Check, Sparkles, Crown, Zap, Building2 } from "lucide-react";
+import { StripeCheckout } from "./stripe-checkout";
 
 interface PricingTier {
   id: string;
@@ -25,7 +26,7 @@ const pricingTiers: PricingTier[] = [
   {
     id: "starter",
     name: "Starter",
-    description: "Perfect for small businesses getting started with AI automation",
+    description: "Perfect for solopreneurs and simple team integration",
     setupMin: 4400,
     setupMax: 6200,
     mrrMin: 800,
@@ -36,7 +37,7 @@ const pricingTiers: PricingTier[] = [
       "Basic CRM Integration",
       "Email Support",
       "Standard Templates",
-      "Monthly Reports",
+      "Monthly Health Checks",
       "Community Access"
     ],
     icon: Zap
@@ -44,18 +45,18 @@ const pricingTiers: PricingTier[] = [
   {
     id: "growth",
     name: "Growth", 
-    description: "Scale your operations with multiple AI agents working together",
+    description: "Growing teams with multi-function automation setups",
     setupMin: 8000,
     setupMax: 12500,
     mrrMin: 3200,
     mrrMax: 4400,
-    agentsIncluded: 3,
+    agentsIncluded: 5,
     features: [
-      "3 AI Agents",
+      "3-5 AI Agents",
       "Advanced CRM Integration",
       "Priority Support",
       "Custom Workflows",
-      "Real-time Analytics",
+      "Ongoing Training & Optimization",
       "SŌL Brain Coordination",
       "API Access"
     ],
@@ -65,42 +66,42 @@ const pricingTiers: PricingTier[] = [
   {
     id: "expansion",
     name: "Expansion",
-    description: "Comprehensive automation suite for growing enterprises",
-    setupMin: 21500,
-    setupMax: 28000,
-    mrrMin: 5500,
-    mrrMax: 7200,
-    agentsIncluded: 6,
+    description: "Mid-sized operations automating complex workflows",
+    setupMin: 15000,
+    setupMax: 18000,
+    mrrMin: 4800,
+    mrrMax: 6400,
+    agentsIncluded: 8,
     features: [
-      "6 AI Agents",
+      "6-8 AI Agents",
       "Full Integration Suite",
       "Dedicated Support Manager",
       "Custom Agent Training",
       "Advanced Analytics Dashboard",
       "White-label Options",
       "Multi-location Support",
-      "Custom Reporting"
+      "Platform Discount (21-30% off future agents)"
     ],
     icon: Crown
   },
   {
     id: "enterprise",
     name: "Enterprise",
-    description: "Complete AI ecosystem with all 12+ agents and premium support",
-    setupMin: 0,
+    description: "Large teams with full-suite AI integration and SŌL Brain",
+    setupMin: 21500,
     setupMax: 0,
     mrrMin: 8000,
     mrrMax: 12000,
     agentsIncluded: 12,
     features: [
-      "All 12+ AI Agents",
-      "SŌL Brain Orchestration",
+      "8-12+ AI Agents",
+      "SŌL Brain Orchestration Included",
       "24/7 Premium Support",
       "Custom Development",
       "Enterprise Security",
       "On-premise Options",
       "Dedicated Success Team",
-      "Custom Integration",
+      "Full Agent Concierge Service",
       "ROI Guarantee"
     ],
     enterprise: true,
@@ -111,6 +112,8 @@ const pricingTiers: PricingTier[] = [
 export function PricingTiers() {
   const [isAnnual, setIsAnnual] = useState(false);
   const [showEarlyBird, setShowEarlyBird] = useState(true);
+  const [selectedTier, setSelectedTier] = useState<PricingTier | null>(null);
+  const [showCheckout, setShowCheckout] = useState(false);
 
   const formatPrice = (min: number, max: number) => {
     if (min === 0 && max === 0) return "Custom";
@@ -125,6 +128,20 @@ export function PricingTiers() {
     if (discountedMin === discountedMax) return `$${discountedMin.toLocaleString()}`;
     return `$${discountedMin.toLocaleString()} - $${discountedMax.toLocaleString()}`;
   };
+
+  const handleGetStarted = (tier: PricingTier) => {
+    setSelectedTier(tier);
+    setShowCheckout(true);
+  };
+
+  const handleBackToPlans = () => {
+    setShowCheckout(false);
+    setSelectedTier(null);
+  };
+
+  if (showCheckout && selectedTier) {
+    return <StripeCheckout tier={selectedTier} onBack={handleBackToPlans} />;
+  }
 
   return (
     <div className="py-24 px-4 sm:px-6 lg:px-8">
@@ -262,6 +279,7 @@ export function PricingTiers() {
                   {/* CTA Button */}
                   <div className="pt-6">
                     <Button 
+                      onClick={() => handleGetStarted(tier)}
                       className={`w-full py-3 font-semibold transition-all duration-300 ${
                         tier.popular
                           ? 'bg-harmonix-regal-gold hover:bg-harmonix-regal-gold/90 text-harmonix-deep-forest'

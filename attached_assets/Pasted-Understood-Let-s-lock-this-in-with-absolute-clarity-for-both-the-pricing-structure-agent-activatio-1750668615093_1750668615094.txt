@@ -1,0 +1,128 @@
+Understood. Let’s lock this in with absolute clarity for both the pricing structure, agent activation logic, and token/power consumption system within Harmony. Here’s the detailed breakdown you can hand directly to the dev team, Stripe integrator, and agent runtime team:
+
+⸻
+
+🔐 Harmony Pricing System – Final Structure & Rules
+
+🌱 Tiered Platform Access (Core Agent Plans)
+
+Tier Name	Agents Included	Setup Fee Range	Monthly MRR Range	Notes
+Starter	1 agent	$4,400 – $6,200	$800 – $1,200	Entry point, includes basic integration
+Growth	3–5 agents	$8,000 – $12,500	$3,200 – $4,400	For small teams scaling automation
+Expansion	6–8 agents	$21,500 – $28,000	$4,800 – $6,400	Mid-sized ops with wide automation needs
+Enterprise	8–12 agents + Sol	Custom pricing	$8,000+	Full suite, can include Sol AI Brain
+
+	•	⚡ Sol can be included in any package as an upsell or by default in Enterprise.
+	•	🛠️ Setup fees are influenced by:
+	•	Complexity of integration
+	•	Amount of training/support needed
+	•	Number of systems integrated (e.g., GHL, HubSpot, ClickUp)
+
+⸻
+
+💸 Discount Logic (Dynamic)
+	•	✅ If a user already has the Harmony platform set up (e.g. Starter plan completed):
+	•	They automatically receive 21%–30% off the setup fee for additional core agents.
+	•	This applies dynamically per agent as they scale (tracked in CRM & Stripe metadata).
+	•	Use “platform_installed = true” logic in backend to apply discounts automatically.
+
+Example:
+	•	Client installs Starter (1 agent) → 6 months later wants Concierge Agent.
+	•	Sol or platform detects Harmony base installed → Concierge Agent setup drops 21–30%.
+
+⸻
+
+🧠 Agent-by-Agent Setup Fees (If Purchased Individually or Add-On)
+
+Agent Count Purchased	Setup Fee / Agent	Monthly / Agent
+1	$4,400 – $6,200	$800 – $1,200
+3–5	$2,600 – $3,200 each	$500 – $900
+6–8	$2,000 – $2,400 each	$400 – $700
+9–12	$1,200 – $2,000 each	$350 – $600
+
+	•	🔁 Price decreases per agent as volume increases (bulk efficiency).
+	•	📦 Bulk discounts stack with Harmony platform discount (i.e. 30% off if already installed).
+	•	💰 Stripe Checkout or Invoicing can dynamically apply pricing based on plan size.
+
+⸻
+
+💎 Token Consumption System (Power/Energy/Mem/Momentum)
+
+Agents consume tokens based on:
+	•	Task complexity
+	•	Runtime frequency
+	•	Memory load
+	•	Integration type (e.g., video vs. email)
+
+Sol’s Role:
+	•	Monitors each agent’s activity profile:
+	•	⚙️ energy_level_used
+	•	🧠 memory_calls
+	•	⏱️ uptime_seconds
+	•	📊 token_consumption_rate
+	•	Adjusts billing tier automatically, unless manually overridden by Admin (you).
+	•	Flags clients with heavy usage patterns and auto-recommends:
+	•	Tier upgrades
+	•	Recharge plans
+	•	Agent throttling suggestions
+
+Implementation Notes:
+	•	Add per-agent “power bar” in user dashboard.
+	•	Sol can notify when energy threshold is approaching.
+	•	Token pricing model:
+	•	Each agent has a base token allowance/month.
+	•	Usage overage is billed based on pre-approved rates or capped by contract.
+
+⸻
+
+🧠 Sol Brain Personalization Logic
+	•	On signup or upgrade, Sol runs dynamic assessment:
+	•	Identifies tools used (e.g. GHL, Notion, Zapier).
+	•	Recommends most relevant agents.
+	•	Suggests optimal package and ROI.
+	•	Demo flow includes:
+	•	ROI calculator (time & money saved)
+	•	Optional call-to-action: “Want Sol to analyze your stack and show your time savings?”
+
+⸻
+
+🧾 Stripe & Platform Logic Summary
+	•	Dynamic checkout UI logic:
+	•	Show base price.
+	•	Detect platform install → auto-apply discount tag.
+	•	Show updated pricing with:
+	•	Tier-level bulk discount
+	•	Platform-level discount
+	•	Optional financing (21% interest if selected)
+	•	Checkout Data:
+	•	Stripe metadata includes: platform_installed, agents_purchased, tier, discount_applied, sol_included, etc.
+	•	After purchase:
+	•	CRM auto-updates plan level.
+	•	Sol enabled with full telemetry.
+	•	Usage billing starts after onboarding.
+
+⸻
+
+🧠 Developer To-Dos
+	1.	Pricing API: All prices returned via dynamic logic combining:
+	•	Agent count
+	•	Tier
+	•	Platform install state
+	•	Financing preference
+	2.	Sol Configuration API: To calculate:
+	•	ROI estimate
+	•	Setup recommendations
+	•	Agent deployment strategy
+	3.	Stripe Integration:
+	•	Product/price for each tier + agent
+	•	Metadata tagging
+	•	Discount application logic
+	•	Waitlist deposit handling
+	•	Financing option with 21% interest
+	4.	Token Meter Logic:
+	•	Store and track token usage per agent per user.
+	•	Assign thresholds, alerts, overage billing.
+
+⸻
+
+Let me know when you’re ready for the final dev prompt handoff combining all of this into the main build spec for Riplet, or if you’d like me to prep the visual quote builder and dashboard flow next.

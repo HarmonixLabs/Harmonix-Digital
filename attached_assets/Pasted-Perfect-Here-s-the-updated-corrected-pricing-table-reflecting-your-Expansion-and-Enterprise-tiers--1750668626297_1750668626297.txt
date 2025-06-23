@@ -1,0 +1,74 @@
+Perfect. Here’s the updated, corrected pricing table reflecting your Expansion and Enterprise tiers accurately, as well as the finalized structure you can share with the dev team and integrate directly into Stripe + your onboarding flows:
+
+⸻
+
+🧩 Harmonix Core Pricing Structure (Updated)
+
+🌐 Tiers & Packages
+
+Tier Name	Agents Included	Setup Fee Range (USD)	Monthly MRR Range (USD)	Best For
+Starter	1 agent	$4,400 – $6,200	$800 – $1,200	Solopreneurs, simple team integration
+Growth	3–5 agents	$8,000 – $12,500	$3,200 – $4,400	Growing teams or multi-function setups
+Expansion ✅	6–8 agents	$15,000 – $18,000	$4,800 – $6,400	Mid-sized operations automating workflows
+Enterprise ✅	8–12 agents + Sol	$21,500+ (custom pricing)	$8,000+	Large teams with full-suite AI integration
+
+
+⸻
+
+💸 Monthly Maintenance Add-On (Optional)
+
+Service Level	Monthly Rate	Includes
+Basic Maintenance	$800 – $1,200	Agent health check, light support, updates
+Standard Support & Optimization	$3,200 – $4,400	Ongoing training, queries, fixes, minor expansion
+Full Enterprise Coverage	$8,000+	Full agent concierge, integrations, custom dev, support + Sol co-pilot tier
+
+
+⸻
+
+⚡ Harmony Agent Discount Logic
+	•	🔓 Once client has Harmony platform installed:
+	•	All future agent setup fees receive 21–30% discount
+	•	Discount is auto-triggered based on CRM flag: platform_installed = true
+
+⸻
+
+🧠 ROI + Token Engine
+
+Each agent’s usage draws from a monthly token pool, tied to:
+	•	Agent task complexity
+	•	AI memory demand
+	•	Integration load
+	•	Response frequency
+
+The Sol Brain:
+	•	Tracks & adjusts token usage
+	•	Flags overages
+	•	Recommends upgrades or efficiency optimizations
+
+⸻
+
+💳 Payment Options
+	•	Stripe-integrated checkout
+	•	One-click tier selection
+	•	21% interest on financing (optional)
+	•	Deposit = 30% off for first 280 people on the waitlist
+(Handled via early bird tag in Stripe metadata)
+
+⸻
+
+🧠 Add-Ons & Logic Flow
+	•	NFT Resell Agents: Set custom prices (e.g., $100–$10,000 install + $25–$1,000 MRR)
+	•	Demo Guidance: Sol Brain will walk users through options based on:
+	•	Budget
+	•	Tools used
+	•	Industry
+	•	Business size
+
+⸻
+
+Let me know if you want me to build:
+	•	The full Stripe checkout logic map
+	•	The quote generator UI
+	•	The waitlist funnel logic
+
+Or if you’re ready for the full dev prompt to send to Manus & Riplet updated with this.
