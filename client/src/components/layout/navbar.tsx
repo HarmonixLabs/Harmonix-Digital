@@ -21,13 +21,23 @@ export function Navbar() {
   const { isConnected } = useWebSocket();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const navigationLinks = [
+  const publicLinks = [
+    { href: "/harmony", label: "Harmony" },
+    { href: "/soul-brain", label: "Demo" },
+    { href: "/marketplace", label: "Marketplace" },
+    { href: "/case-studies", label: "Success Stories" },
+    { href: "/faq", label: "FAQ" },
+  ];
+
+  const privateLinks = [
     { href: "/dashboard", label: "Dashboard" },
     { href: "/agent-dashboard", label: "Agent Control" },
     { href: "/marketplace", label: "Marketplace" },
     { href: "/nft-mint", label: "Mint NFTs" },
     { href: "/wallet", label: "Wallet" },
   ];
+
+  const navigationLinks = user ? privateLinks : publicLinks;
 
   const isActive = (href: string) => location === href;
 
@@ -42,7 +52,7 @@ export function Navbar() {
 
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center space-x-6">
-            {user && navigationLinks.map((link) => (
+            {navigationLinks.map((link) => (
               <Link key={link.href} href={link.href}>
                 <Button 
                   variant={location === link.href ? "default" : "ghost"}

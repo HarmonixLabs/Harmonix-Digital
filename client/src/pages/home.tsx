@@ -181,14 +181,14 @@ export default function Home() {
                     <h1 className="text-5xl lg:text-6xl font-bold leading-tight font-serif">
                       <span className="text-harmony-gold">Harmonix</span> AI Platform
                     </h1>
-                    <p className="text-xl text-harmony-green font-medium">
-                      Powered by Regal Wisdom & Trust
+                    <p className="text-xl text-harmony-gold font-medium">
+                      Intelligent Systems for Timeless Sovereignty
                     </p>
                   </div>
                 </div>
                 <p className="text-xl text-gray-300 leading-relaxed">
-                  Build, Automate, and Exit with intelligent AI agents orchestrated by the SŌL brain engine.
-                  Transform your business with spiritual tech wisdom.
+                  The complete AI automation platform that helps visionary businesses Build, Automate, and Exit 
+                  through intelligent systems orchestrated by the SŌL brain engine.
                 </p>
               </div>
               
