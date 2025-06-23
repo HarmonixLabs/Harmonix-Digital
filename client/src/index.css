@@ -163,16 +163,36 @@
 
   /* Button enhancements for better visual hierarchy */
   .harmonix-btn-primary {
-    @apply bg-harmonix-regal-gold hover:bg-harmonix-regal-gold/90 text-harmonix-deep-forest font-semibold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105;
+    background-color: var(--harmonix-regal-gold);
+    color: var(--harmonix-deep-forest);
+    @apply font-semibold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105;
+  }
+
+  .harmonix-btn-primary:hover {
+    background-color: hsl(42, 46%, 55%);
   }
 
   .harmonix-btn-secondary {
-    @apply border-2 border-harmonix-sage-fade text-harmonix-sage-fade hover:bg-harmonix-sage-fade hover:text-harmonix-deep-forest font-semibold px-8 py-4 rounded-xl transition-all duration-300;
+    border: 2px solid var(--harmonix-sage-fade);
+    color: var(--harmonix-sage-fade);
+    @apply font-semibold px-8 py-4 rounded-xl transition-all duration-300;
+  }
+
+  .harmonix-btn-secondary:hover {
+    background-color: var(--harmonix-sage-fade);
+    color: var(--harmonix-deep-forest);
   }
 
   /* Card enhancements with better visual depth */
   .harmonix-card-enhanced {
-    @apply bg-harmonix-cedar-mist/10 border border-harmonix-cedar-mist rounded-2xl p-8 backdrop-blur-sm transition-all duration-300 hover:border-harmonix-sage-fade hover:bg-harmonix-cedar-mist/20;
+    background-color: rgba(47, 78, 70, 0.1);
+    border: 1px solid var(--harmonix-cedar-mist);
+    @apply rounded-2xl p-8 backdrop-blur-sm transition-all duration-300;
+  }
+
+  .harmonix-card-enhanced:hover {
+    border-color: var(--harmonix-sage-fade);
+    background-color: rgba(47, 78, 70, 0.2);
   }
 
   .harmonix-card-enhanced:hover {

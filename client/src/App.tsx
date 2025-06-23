@@ -1,3 +1,4 @@
+import React, { Suspense, lazy } from "react";
 import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -41,6 +42,7 @@ function Router() {
       <Route path="/my-agents" component={MyAgents} />
       <Route path="/create" component={Create} />
       <Route path="/settings" component={Settings} />
+      <Route path="/pricing" component={lazy(() => import("./pages/pricing"))} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
       <Route path="/dashboard" component={Dashboard} />
