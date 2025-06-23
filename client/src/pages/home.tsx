@@ -30,20 +30,20 @@ export default function Home() {
       <div className="min-h-screen">
         <Navbar />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center mb-12">
-            <h1 className="text-5xl font-bold mb-4">
+          <div className="text-center mb-16 harmonix-visual-rhythm">
+            <h1 className="harmonix-text-hierarchy text-6xl font-bold mb-6">
               Welcome back, <span className="text-harmonix-regal-gold">{user.name}</span>
             </h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <p className="harmonix-text-hierarchy text-harmonix-sage-fade max-w-4xl mx-auto">
               Your SŌL brain is ready to orchestrate your AI agents. Access your dashboard to monitor tasks and deploy new capabilities.
             </p>
           </div>
 
-          <div className="flex justify-center space-x-4 mb-12">
-            <Button size="lg" className="bg-harmonix-regal-gold hover:bg-harmonix-regal-gold/90 text-harmonix-deep-forest">
+          <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6 mb-16">
+            <Button className="harmonix-btn-primary">
               <Link href="/dashboard">Go to Dashboard</Link>
             </Button>
-            <Button size="lg" variant="outline" className="border-harmonix-regal-gold text-harmonix-regal-gold hover:bg-harmonix-regal-gold hover:text-harmonix-deep-forest">
+            <Button className="harmonix-btn-secondary">
               <Link href="/marketplace">Explore Marketplace</Link>
             </Button>
           </div>

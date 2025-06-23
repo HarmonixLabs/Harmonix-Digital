@@ -25,6 +25,7 @@ export function Navbar() {
     { href: "/harmony", label: "Harmony" },
     { href: "/demo", label: "Demo" },
     { href: "/marketplace", label: "Marketplace" },
+    { href: "/pricing", label: "Pricing" },
     { href: "/case-studies", label: "Success Stories" },
     { href: "/faq", label: "FAQ" },
   ];

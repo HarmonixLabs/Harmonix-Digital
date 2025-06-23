@@ -131,6 +131,70 @@
   .border-harmonix-sage-fade { border-color: var(--harmonix-sage-fade); }
   .border-harmonix-regal-gold { border-color: var(--harmonix-regal-gold); }
   .border-harmonix-night-pine { border-color: var(--harmonix-night-pine); }
+
+  /* Enhanced spacing and typography for psychological appeal */
+  .harmonix-section-spacing {
+    @apply py-20 px-4 sm:px-6 lg:px-8;
+  }
+
+  .harmonix-content-width {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .harmonix-card-spacing {
+    @apply p-8;
+  }
+
+  .harmonix-text-hierarchy h1 {
+    @apply text-5xl lg:text-6xl font-bold leading-tight tracking-tight;
+  }
+
+  .harmonix-text-hierarchy h2 {
+    @apply text-3xl lg:text-4xl font-bold leading-tight;
+  }
+
+  .harmonix-text-hierarchy h3 {
+    @apply text-xl lg:text-2xl font-bold leading-tight;
+  }
+
+  .harmonix-text-hierarchy p {
+    @apply text-lg leading-relaxed;
+  }
+
+  /* Button enhancements for better visual hierarchy */
+  .harmonix-btn-primary {
+    @apply bg-harmonix-regal-gold hover:bg-harmonix-regal-gold/90 text-harmonix-deep-forest font-semibold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105;
+  }
+
+  .harmonix-btn-secondary {
+    @apply border-2 border-harmonix-sage-fade text-harmonix-sage-fade hover:bg-harmonix-sage-fade hover:text-harmonix-deep-forest font-semibold px-8 py-4 rounded-xl transition-all duration-300;
+  }
+
+  /* Card enhancements with better visual depth */
+  .harmonix-card-enhanced {
+    @apply bg-harmonix-cedar-mist/10 border border-harmonix-cedar-mist rounded-2xl p-8 backdrop-blur-sm transition-all duration-300 hover:border-harmonix-sage-fade hover:bg-harmonix-cedar-mist/20;
+  }
+
+  .harmonix-card-enhanced:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(215, 183, 109, 0.15);
+  }
+
+  /* Improved visual rhythm and spacing */
+  .harmonix-visual-rhythm > * + * {
+    @apply mt-6;
+  }
+
+  .harmonix-visual-rhythm h1 + p,
+  .harmonix-visual-rhythm h2 + p,
+  .harmonix-visual-rhythm h3 + p {
+    @apply mt-4;
+  }
+
+  /* Enhanced focus states for accessibility */
+  .harmonix-focus:focus {
+    @apply outline-none ring-2 ring-harmonix-regal-gold ring-offset-2 ring-offset-harmonix-deep-forest;
+  }
 }
 
 @keyframes pulse {
