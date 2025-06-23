@@ -1,6 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { OnboardingTrigger } from "@/components/onboarding/onboarding-trigger";
 import { 
   DropdownMenu,
   DropdownMenuContent,

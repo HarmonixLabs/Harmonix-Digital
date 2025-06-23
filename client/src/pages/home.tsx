@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { SolBrain } from "@/components/sol-brain";
 import { TokenMeter } from "@/components/token-meter";
 import { AgentCard } from "@/components/agent-card";
+import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -10,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/lib/auth";
 import { Link } from "wouter";
-import { ChartLine, Cog, Shield, Search, Users, UserRoundCheck, Lock, TrendingUp, Activity } from "lucide-react";
+import { ChartLine, Cog, Shield, Search, Users, UserRoundCheck, Lock, TrendingUp, Activity, ArrowRight, Play } from "lucide-react";
 
 export default function Home() {
   const [showOnboardingDemo, setShowOnboardingDemo] = useState(false);
@@ -88,6 +90,14 @@ export default function Home() {
           </div>
         </div>
         <Footer />
+
+      {/* Onboarding Demo */}
+      {showOnboardingDemo && (
+        <OnboardingWizard 
+          onComplete={() => setShowOnboardingDemo(false)}
+          onSkip={() => setShowOnboardingDemo(false)}
+        />
+      )}
       </div>
     );
   }
