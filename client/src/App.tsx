@@ -19,6 +19,7 @@ import Create from "@/pages/create";
 import Settings from "@/pages/settings";
 import Login from "@/pages/login";
 import OnboardingPage from "@/pages/onboarding";
+import DemoScenariosPage from "@/pages/demo-scenarios";
 import Signup from "@/pages/signup";
 import Marketplace from "@/pages/marketplace";
 import AgentMarketplace from "@/pages/agent-marketplace";
@@ -40,6 +41,7 @@ function Router() {
       <Route path="/case-studies" component={CaseStudies} />
       <Route path="/demo-deploy" component={DemoDeploy} />
       <Route path="/demo" component={Demo} />
+      <Route path="/demo-scenarios" component={DemoScenariosPage} />
       <Route path="/my-agents" component={MyAgents} />
       <Route path="/create" component={Create} />
       <Route path="/settings" component={Settings} />

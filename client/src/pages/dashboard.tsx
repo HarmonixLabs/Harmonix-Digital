@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/lib/auth";
 import { QuickStartTour } from "@/components/onboarding/quick-start-tour";
 import { OnboardingTrigger } from "@/components/onboarding/onboarding-trigger";
+import { DemoPreviewWidget } from "@/components/demo/demo-preview-widget";
 import { UserRoundCheck, Clock, CheckCircle, Activity, HelpCircle, BarChart3, Users, Zap } from "lucide-react";
 
 export default function Dashboard() {
