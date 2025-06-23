@@ -8,6 +8,7 @@ import Home from "@/pages/home";
 import Dashboard from "@/pages/dashboard";
 import Marketplace from "@/pages/marketplace";
 import Wallet from "@/pages/wallet";
+import AgentCash from "@/pages/agent-cash";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -16,6 +17,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/marketplace" component={Marketplace} />
+      <Route path="/agents/cash" component={AgentCash} />
       <Route path="/wallet" component={Wallet} />
       <Route component={NotFound} />
     </Switch>

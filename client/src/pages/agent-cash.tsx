@@ -21,12 +21,12 @@ export default function AgentCash() {
   const [businessType, setBusinessType] = useState("");
 
   const { data: cashAgent, isLoading: agentLoading } = useQuery({
-    queryKey: ['/api/agents', 'cash'],
+    queryKey: ['/api/agents'],
     enabled: !!user
   });
 
   const { data: recentTasks = [], isLoading: tasksLoading } = useQuery({
-    queryKey: ['/api/tasks', 'cash'],
+    queryKey: ['/api/tasks'],
     enabled: !!user
   });
 
@@ -268,7 +268,7 @@ export default function AgentCash() {
                   <div>
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-400">Response Time</span>
-                      <span className="text-green-400">< 2 min</span>
+                      <span className="text-green-400">&lt; 2 min</span>
                     </div>
                     <div className="w-full bg-gray-700 rounded-full h-2 mt-1">
                       <div className="bg-green-400 h-2 rounded-full" style={{ width: '95%' }}></div>

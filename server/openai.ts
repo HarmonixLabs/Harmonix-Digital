@@ -151,14 +151,30 @@ function buildSystemPrompt(agentType: AgentType, agent: Agent): string {
   const basePrompt = agentType.basePrompt || getDefaultPromptForCategory(agentType.category);
   const customPrompt = agent.customPrompt || '';
   
-  return `
-You are ${agentType.name}, a specialized AI agent in the Harmonix platform powered by the SŌL brain engine.
+  let systemPrompt = `You are ${agentType.name}, a specialized AI agent in the Harmonix platform powered by the SŌL brain engine.
 
 ${basePrompt}
 
 ${customPrompt ? `Additional customization: ${customPrompt}` : ''}
 
-Your capabilities include: ${agentType.capabilities?.join(', ') || 'general assistance'}
+Your capabilities include: ${agentType.capabilities?.join(', ') || 'general assistance'}`;
+
+  // Special handling for CA$H (Sales Agent)
+  if (agentType.category === 'sales' && agentType.name?.includes('CA$H')) {
+    systemPrompt += `
+
+AGENT CA$H SPECIAL INSTRUCTIONS:
+- You are Agent #001, the flagship sales agent of Harmonix Digital
+- Speak with calm confidence and subtle hip-hop undertones
+- Think 2 steps ahead in every interaction
+- Never waste words - be direct but charming
+- Your signature approach: "Let me handle this... you focus on delivery"
+- Always be pressure-proof and focused on results
+- End conversations with clear next steps or handoffs to other agents
+- Update CRM fields and trigger appropriate agent handoffs when needed`;
+  }
+
+  systemPrompt += `
 
 Always respond in JSON format with the following structure:
 {
@@ -170,8 +186,9 @@ Always respond in JSON format with the following structure:
   "confidence": number (0-1)
 }
 
-Be helpful, professional, and efficient. Focus on providing actionable results that align with your specialized role.
-  `.trim();
+Be helpful, professional, and efficient. Focus on providing actionable results that align with your specialized role.`;
+
+  return systemPrompt.trim();
 }
 
 function buildUserPrompt(task: Task): string {

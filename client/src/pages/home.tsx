@@ -159,17 +159,7 @@ export default function Home() {
       gradient: "from-teal-500 to-green-600",
       available: false
     },
-    {
-      id: 4,
-      name: "Sales Agent",
-      description: "Automate lead generation and follow-ups",
-      icon: TrendingUp,
-      category: "sales",
-      performance: "+59%",
-      royalty: "5%", 
-      gradient: "from-orange-500 to-red-600",
-      available: true
-    }
+
   ];
 
   return (
@@ -194,11 +184,20 @@ export default function Home() {
               </div>
               
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="bg-harmony-gold hover:bg-yellow-500 text-harmony-dark font-semibold px-8 py-4">
-                  Get Started
+                <Button 
+                  size="lg" 
+                  className="bg-harmony-gold hover:bg-yellow-500 text-harmony-dark font-semibold px-8 py-4"
+                  onClick={() => window.location.href = '/marketplace'}
+                >
+                  Explore Digital Team Members
                 </Button>
-                <Button variant="outline" size="lg" className="border-harmony-gold text-harmony-gold hover:bg-harmony-gold hover:text-harmony-dark font-semibold px-8 py-4">
-                  Watch Demo
+                <Button 
+                  variant="outline" 
+                  size="lg" 
+                  className="border-harmony-gold text-harmony-gold hover:bg-harmony-gold hover:text-harmony-dark font-semibold px-8 py-4"
+                  onClick={() => window.location.href = '/agents/cash'}
+                >
+                  Meet Agent CA$H
                 </Button>
               </div>
 
