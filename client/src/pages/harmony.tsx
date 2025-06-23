@@ -60,15 +60,15 @@ export default function HarmonyPage() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link href="/soul-brain">
+              <Link href="/demo-deploy">
                 <Button size="lg" className="bg-harmony-gold text-harmony-dark hover:bg-harmony-gold/90 font-semibold">
                   <PlayCircle className="mr-2 h-5 w-5" />
-                  Try SŌL Brain Demo
+                  Deploy Demo Now
                 </Button>
               </Link>
-              <Link href="/join">
+              <Link href="/soul-brain">
                 <Button size="lg" variant="outline" className="border-harmony-gold text-harmony-gold hover:bg-harmony-gold/10">
-                  Join Waitlist
+                  Try SŌL Brain Chat
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>

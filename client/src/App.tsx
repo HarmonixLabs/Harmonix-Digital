@@ -11,6 +11,7 @@ import SoulBrain from "@/pages/soul-brain";
 import Join from "@/pages/join";
 import FAQ from "@/pages/faq";
 import CaseStudies from "@/pages/case-studies";
+import DemoDeploy from "@/pages/demo-deploy";
 import Login from "@/pages/login";
 import Signup from "@/pages/signup";
 import Marketplace from "@/pages/marketplace";
@@ -30,6 +31,7 @@ function Router() {
       <Route path="/join" component={Join} />
       <Route path="/faq" component={FAQ} />
       <Route path="/case-studies" component={CaseStudies} />
+      <Route path="/demo-deploy" component={DemoDeploy} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
       <Route path="/dashboard" component={Dashboard} />

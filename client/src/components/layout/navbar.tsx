@@ -24,6 +24,7 @@ export function Navbar() {
   const publicLinks = [
     { href: "/harmony", label: "Harmony" },
     { href: "/soul-brain", label: "Demo" },
+    { href: "/demo-deploy", label: "Deploy" },
     { href: "/marketplace", label: "Marketplace" },
     { href: "/case-studies", label: "Success Stories" },
     { href: "/faq", label: "FAQ" },
