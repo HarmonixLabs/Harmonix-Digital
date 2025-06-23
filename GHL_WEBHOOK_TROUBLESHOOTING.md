@@ -1,98 +1,69 @@
-# GHL Webhook Troubleshooting Guide
+# GHL Webhook Integration Troubleshooting
 
 ## Current Status
-- Webhook endpoint is configured and responding with 200 status
-- Test payloads are being sent successfully 
-- However, workflow triggers are not appearing in GHL dashboard
+✅ Webhook endpoint responding (200 status)
+✅ Workflow triggered and published
+❌ Contacts not appearing in CRM dashboard
 
 ## Issue Analysis
+The webhook is successfully triggering your GHL workflow, but contacts aren't being created in the CRM. This indicates the workflow is receiving the data but missing a "Create Contact" action.
 
-### What's Working
-✅ Webhook URL is accessible and responding
-✅ JSON payload is being accepted 
-✅ Server is sending proper Content-Type headers
-✅ Platform registration flow is functioning
+## Solution Steps
 
-### What's Not Working
-❌ GHL workflow triggers not showing in execution logs
-❌ Mapping reference payload dropdown is empty
-❌ Workflow automation not activating
+### 1. Add Create Contact Action to Workflow
+In your GHL workflow builder:
+1. After the webhook trigger, add a "Create Contact" action
+2. Map the webhook fields to contact fields:
+   - `email` → Contact Email
+   - `firstName` → First Name
+   - `lastName` → Last Name
+   - `phone` → Phone Number
+   - `companyName` → Company Name
+   - `source` → Source (or custom field)
 
-## Potential Solutions
-
-### 1. Webhook Setup in GHL
-The webhook trigger in GHL requires:
-- Proper inbound webhook configuration
-- Correct payload structure 
-- Initial test request to populate mapping reference
-
-### 2. Payload Format
-Current payload structure:
+### 2. Verify Field Mapping
+Ensure these webhook fields are properly mapped:
 ```json
 {
-  "contact": {
-    "email": "user@example.com",
-    "firstName": "John",
-    "lastName": "Doe",
-    "phone": "555-0123", 
-    "companyName": "Company Name",
-    "source": "Harmonix Platform"
-  },
-  "eventType": "contact_created",
-  "platform": "Harmonix",
-  "timestamp": "2025-06-23T17:30:00.000Z"
+  "email": "user@example.com",
+  "firstName": "John",
+  "lastName": "Doe", 
+  "phone": "555-1234",
+  "companyName": "Example Corp",
+  "source": "Harmonix Platform"
 }
 ```
 
-### 3. GHL Dashboard Steps
-To activate the workflow:
-1. Send test payload (done)
-2. Go to GHL workflow builder
-3. Click "Check for new requests" in mapping reference
-4. Select the received payload
-5. Map the fields as needed
-6. Save and activate the workflow
+### 3. Test Contact Creation
+After adding the Create Contact action:
+1. Save and activate the workflow
+2. Test with a new registration on the platform
+3. Check CRM dashboard for the new contact
 
-### 4. Verification Steps
-After mapping in GHL:
-- Send another test registration
-- Check GHL execution logs
-- Verify workflow triggers are firing
-- Confirm contact data is being processed
+## Workflow Structure Should Be:
+1. **Webhook Trigger** (receiving data) ✅
+2. **Create Contact** (missing - add this)
+3. **Optional: Add Tags/Custom Fields**
+4. **Optional: Send notification/email**
 
-## Test Commands
+## Alternative: Manual Contact Import
+If workflow approach fails, we can implement direct GHL API contact creation as backup.
 
-### Register New User (Triggers Workflow)
-```bash
-curl -X POST http://localhost:5000/api/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "Test User",
-    "email": "test@harmonix.com", 
-    "password": "Test123!",
-    "phone": "555-TEST",
-    "company": "Test Company"
-  }'
+## Current Webhook Data Format
+The platform sends properly formatted data:
+```json
+{
+  "email": "test@harmonix.com",
+  "firstName": "Test",
+  "lastName": "User",
+  "phone": "555-TEST",
+  "companyName": "Test Company",
+  "source": "Harmonix Platform",
+  "eventType": "contact_created",
+  "platform": "Harmonix",
+  "timestamp": "2025-06-23T17:45:00Z"
+}
 ```
 
-### Direct Webhook Test
-```bash
-curl "${HARMONIX_GHL_WEBHOOK}" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "contact": {
-      "email": "direct@harmonix.com",
-      "firstName": "Direct",
-      "lastName": "Test"
-    },
-    "eventType": "contact_created"
-  }'
-```
-
-## Next Steps
-1. Check GHL workflow builder for new requests
-2. Complete the mapping setup in GHL dashboard  
-3. Activate the workflow
-4. Test with new registration to verify triggers
-
-The platform is sending the data correctly - the remaining step is configuring the mapping in your GHL dashboard.
+---
+**Next Action**: Add "Create Contact" action to your GHL workflow after the webhook trigger.
