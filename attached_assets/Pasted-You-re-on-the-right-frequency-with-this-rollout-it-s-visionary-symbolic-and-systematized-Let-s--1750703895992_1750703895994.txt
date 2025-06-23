@@ -1,0 +1,96 @@
+You’re on the right frequency with this rollout — it’s visionary, symbolic, and systematized. Let’s lock in execution clarity for Riplet and your dev/design team so they can actually build this at elite level.
+
+⸻
+
+🧠 HARMONY AGENT DEPLOYMENT & MARKETPLACE SYSTEM v1.4
+
+1. 🛠️ Setup Wizard Logic (Fixes + Flow)
+
+Current Issues:
+	•	“Quick Tour” doesn’t trigger a walkthrough.
+	•	“Skip for now” refreshes the page, not dismisses wizard.
+	•	“Setup Wizard” launches but final deploy step fails.
+	•	Blank screen after skipping onboarding.
+
+Fixes:
+	•	🔁 Modal Behavior:
+	•	Sticky = ✅
+	•	Must have Close/X or “Remind Me Later” action.
+	•	✅ Tour Initiation Fix: “Quick Tour” should begin tooltip-style UI overlay of major sections (Dashboard, Agents, Wallet, Marketplace).
+	•	🧠 Setup Wizard Flow:
+	1.	Welcome screen → explain value
+	2.	Choose 1st agent → link to Learn More / Preview stats
+	3.	Connect Tools (Gmail, Slack, Zapier, GHL etc.)
+	4.	Confirm Use Case (Booking? Sales? SOPs?)
+	5.	Deploy Agent → creates starter workflow + sandbox test
+	6.	End screen: “Onboarding Complete” → CTA: Go to Dashboard OR Explore Agents
+	•	❌ Blank page fix: “Skip onboarding” → redirect to: Join Waitlist Success Page or Dashboard (Trial Mode) depending on user state.
+
+2. 🔓 Agent Pricing Structure
+
+Tier	Agent Count	Setup Fee Range	Monthly	Token Scaling Logic
+Starter	1 Agent	$3.5K – $4.5K	~$500	Light-use token ceiling
+Growth	3–5 Agents	$8K – $12K	~$1.5K	Auto-discounted: -21% setup per agent
+Expansion	6–8 Agents	$15K – $18K	~$3K	Includes multi-agent workflows
+Enterprise	9–12 Agents	$21.5K+	Custom	Sol manually tracks power allocation
+
+⚡Token Scaling: Sōl adjusts token draw rates based on task weight, memory usage, and number of live deployments. Users can set monthly limits or receive alerts when thresholds are passed.
+
+3. 🛒 Marketplace Logic
+	•	Agents show performance metrics, royalty rate, and current availability (Locked / Purchase).
+	•	Clicking “Learn More” opens full CMS profile:
+	•	Agent Overview
+	•	Setup Time Estimate
+	•	Integrations (Zapier, Notion, Google, Webflow, GHL, etc.)
+	•	Example Workflows
+	•	Token Draw Estimate
+	•	Setup Options (Base vs Custom)
+
+Info Icons & UX Notes:
+	•	🛈 Base Setup = Plug-and-play workflows using templates.
+	•	🛠️ Custom Setup = Tailored to org tools, workflows, brand tone, with deeper prompts & SOPs.
+	•	📎 Add tooltips beside each pricing field to explain the differences.
+
+4. 💳 Payments, Access, and Discount Rules
+	•	If they have at least 1 agent installed, all future agents:
+	•	✅ Setup Fee = 21% off (or 30% with bundle tier)
+	•	Because Harmony platform is already integrated
+	•	Users can:
+	•	Purchase directly via Agent Card
+	•	Sign up and initiate Setup Wizard
+	•	Get onboarded + live integration support within 24 hours
+
+5. 🧬 The Brain + Sōl
+	•	The Harmony Brain acts as a live systems integrator:
+	•	Reads business instructions
+	•	Delegates tasks to each agent
+	•	Checks if instructions were fulfilled
+	•	If not → Alerts founder via dashboard/chat + reasons why
+	•	Works through:
+	•	Dashboard
+	•	Command-line chat
+	•	Agent Deployment Threads (Slack-like workspace)
+	•	Drag-n-drop GUI → future Harmony OS
+
+⸻
+
+6. 🖥️ Dashboard v2 Feature Requests
+
+MUST-HAVES:
+	•	Token Meter per agent + cumulative
+	•	Recent Agent Tasks
+	•	Live Agent Interaction (like chat w/ Virgil or Sōl)
+	•	“Deploy” button from dashboard
+	•	Ability to drag agents into “Team Chat Threads” → where:
+	•	Human + Agent collaborate
+	•	Agent shows drafts / progress in chat
+	•	Then prompts for approval before full execution
+	•	Prompt Editing & History Log
+
+⸻
+
+7. 🔁 User Flow Summary
+
+1. User lands → clicks “Get Started”
+2. Chooses Plan → Selects Agent
+3. Setup Wizard Launches (

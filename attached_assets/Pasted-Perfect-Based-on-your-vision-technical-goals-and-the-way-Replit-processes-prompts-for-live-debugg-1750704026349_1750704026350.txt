@@ -1,0 +1,111 @@
+Perfect. Based on your vision, technical goals, and the way Replit processes prompts for live debugging or builds, here is a clean, developer-ready prompt specifically structured for Riplet (or Replit’s AI pair programmer) to execute at a full-stack, self-healing, and Harmony-branded level:
+
+⸻
+
+🧠 Prompt to Riplet:
+
+⸻
+
+🚧 PROJECT GOAL:
+I am building a full-stack AI agent platform called Harmony, hosted under Harmonix Digital, that lets users purchase, install, and train digital agents to automate their business systems. This includes a marketplace, onboarding wizard, live dashboard, voice/text agent interactions, and system integrations.
+
+⸻
+
+✅ CURRENT OBJECTIVE:
+
+Deploy the full MVP Harmony platform with all UI/UX routes, agent CMS templates, Stripe checkout integration, wallet connect, Sol brain assistant, and onboarding logic.
+
+⸻
+
+🚩 ISSUES + BLOCKERS:
+	•	⛔ Setup Wizard:
+	•	Stuck overlay
+	•	Skip + Quick Tour buttons broken
+	•	Final step does not deploy workflow or redirect
+	•	⛔ Blank redirect on skip/complete
+	•	⛔ Pages missing: /dashboard, /demo, /marketplace, /sol-brain, /waitlist-success, /agent/[id]
+	•	⛔ Sign-in/sign-out flow not fully working
+	•	⛔ Missing Harmony brand styles and current logo
+	•	⛔ Menu routes not working / go to dead ends
+
+⸻
+
+🧪 WHAT TO DO:
+
+Step 1: Scan + Repair Codebase
+	•	Detect and fix:
+	•	Conflicts in package.json, Next.js config, or Tailwind/PostCSS setup
+	•	Dead pages, 404s, broken route links
+	•	Outdated or redundant imports (esp. React, SSR issues)
+	•	Improper async handling in setup wizard
+
+⸻
+
+Step 2: Build Missing Pages
+	•	/login
+	•	/logout
+	•	/dashboard
+	•	/demo
+	•	/marketplace
+	•	/agent/[slug] (CMS format w/ agent stats + details)
+	•	/sol-brain (chat interface + onboarding Qs)
+	•	/waitlist-success
+
+⸻
+
+Step 3: Add Smart Routing Logic
+	•	🌐 Users do not need to be logged in to browse the Marketplace or Agent Pages
+	•	🔐 To purchase or install agents, require login
+	•	✅ Once a user completes setup or joins waitlist, show “Thank You” screen with discount code
+
+⸻
+
+Step 4: Install + Connect Tools
+	•	Integrate these third-party dependencies:
+	•	Stripe (Payments + Waitlist Deposits)
+	•	WalletConnect, MetaMask, or Harmony’s internal wallet for access
+	•	CRM API: HighLevel (trigger new contacts)
+	•	Analytics Layer: Simple event tracking (PageView, Agent Deploys, Waitlist Joins)
+
+⸻
+
+Step 5: Design + Style Fixes
+	•	Replace placeholder logo with Harmonix H emblem (uploaded in assets)
+	•	Ensure all headers, buttons, and UI colors follow our official color palette:
+	•	Primary: Deep Forest Green #0D2C22
+	•	Secondary: Emerald #0C8454
+	•	Gold Accent: Warm Champagne #D1BFA7
+	•	Neutrals: Charcoal Black #0F1115, Light Sand #EAE8E1
+
+⸻
+
+Step 6: Install Global Layout Behavior
+	•	Sticky top nav (already mostly working)
+	•	Global footer
+	•	Ensure no route returns blank or 404 unless explicitly coded
+	•	All broken links should default back to homepage or waitlist
+
+⸻
+
+Step 7: Final Admin Access Layer
+	•	SuperAdmin account (connected to my login email)
+	•	Can edit agent prices
+	•	Can approve updates
+	•	Can push platform updates
+	•	Sōl AI Brain must always report analytics to this SuperAdmin
+
+⸻
+
+Please:
+	•	Research all code conflicts
+	•	Clean up unused components, debug loops, or duplicate imports
+	•	Create/update Instructions.md for dev handoff
+	•	Ensure every build self-heals and flags incomplete routes or pages for rebuild
+
+⸻
+
+Ask me if anything is unclear, otherwise self-review logic as needed to ensure the platform works across login/logout, payment, agent deploy, dashboard views, and custom onboarding journeys.
+
+⸻
+
+Would you like me to generate this as a .md file or Notion doc so you can paste it straight into Riplet or your repo?

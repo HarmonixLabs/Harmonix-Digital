@@ -5,6 +5,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/lib/auth";
+import { ErrorBoundary } from "@/components/error-boundary";
 import Home from "@/pages/home";
 import Dashboard from "@/pages/dashboard";
 import Harmony from "@/pages/harmony";
@@ -64,18 +65,24 @@ function Router() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <TooltipProvider>
-          <Suspense fallback={<div className="min-h-screen harmonix-gradient flex items-center justify-center">
-            <div className="text-harmonix-regal-gold text-xl">Loading Harmonix...</div>
-          </div>}>
-            <Router />
-          </Suspense>
-          <Toaster />
-        </TooltipProvider>
-      </AuthProvider>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <TooltipProvider>
+            <Suspense fallback={
+              <div className="min-h-screen bg-harmonix-deep-forest flex items-center justify-center">
+                <div className="text-harmonix-regal-gold text-xl font-semibold">
+                  Loading Harmonix...
+                </div>
+              </div>
+            }>
+              <Router />
+            </Suspense>
+            <Toaster />
+          </TooltipProvider>
+        </AuthProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 }
 

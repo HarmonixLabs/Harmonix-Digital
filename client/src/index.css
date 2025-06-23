@@ -34,6 +34,59 @@
   --harmonix-night-pine: hsl(150, 30%, 9%);         /* #111f1a - Night Pine Shadow */
 }
 
+/* Emergency fallback styling to ensure app renders */
+body {
+  background: var(--harmonix-deep-forest, #0b0f0e) !important;
+  color: var(--harmonix-sage-fade, #768b7c) !important;
+  font-family: Inter, system-ui, -apple-system, sans-serif !important;
+}
+
+#root {
+  min-height: 100vh;
+  background: var(--harmonix-deep-forest, #0b0f0e);
+}
+
+/* Critical Harmonix utility classes */
+.harmonix-gradient {
+  background: linear-gradient(135deg, 
+    var(--harmonix-deep-forest, #0b0f0e) 0%, 
+    var(--harmonix-cedar-mist, #2f4e46) 35%, 
+    var(--harmonix-night-pine, #111f1a) 100%
+  ) !important;
+}
+
+.text-harmonix-regal-gold {
+  color: var(--harmonix-regal-gold, #d7b76d) !important;
+}
+
+.text-harmonix-sage-fade {
+  color: var(--harmonix-sage-fade, #768b7c) !important;
+}
+
+.bg-harmonix-deep-forest {
+  background-color: var(--harmonix-deep-forest, #0b0f0e) !important;
+}
+
+.harmonix-text-hierarchy {
+  color: var(--harmonix-sage-fade, #768b7c);
+}
+
+.harmonix-visual-rhythm {
+  margin-bottom: 2rem;
+}
+
+.harmonix-btn-primary {
+  background: var(--harmonix-regal-gold, #d7b76d);
+  color: var(--harmonix-deep-forest, #0b0f0e);
+  border: none;
+}
+
+.harmonix-btn-secondary {
+  background: transparent;
+  color: var(--harmonix-regal-gold, #d7b76d);
+  border: 1px solid var(--harmonix-regal-gold, #d7b76d);
+}
+
 .dark {
   --background: hsl(240, 10%, 3.9%);
   --foreground: hsl(0, 0%, 98%);

@@ -49,6 +49,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     queryKey: ['/api/auth/me'],
     enabled: !!token,
     retry: false,
+    refetchOnWindowFocus: false,
+    retry: false,
   });
 
   const user = authData?.user || null;
