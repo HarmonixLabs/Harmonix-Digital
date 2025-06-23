@@ -102,17 +102,33 @@ export default function AgentCash() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Agent Header */}
         <div className="mb-8">
-          <div className="flex items-center space-x-4 mb-6">
-            <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-red-500 to-black flex items-center justify-center relative">
-              <TrendingUp className="h-8 w-8 text-white" />
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-harmony-gold rounded-full animate-pulse"></div>
+          <div className="flex items-center space-x-6 mb-6">
+            <div className="relative">
+              <div className="w-24 h-24 rounded-xl bg-gradient-to-br from-red-500 via-black to-yellow-500 flex items-center justify-center relative overflow-hidden">
+                <TrendingUp className="h-12 w-12 text-white z-10" />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-400/20 to-transparent animate-pulse"></div>
+                <div className="absolute -top-1 -right-1 w-6 h-6 bg-harmony-gold rounded-full animate-pulse border-2 border-black"></div>
+              </div>
+              <div className="absolute -bottom-2 -right-2 bg-red-600 text-white text-xs px-2 py-1 rounded font-bold">
+                LIVE
+              </div>
             </div>
-            <div>
-              <h1 className="text-4xl font-bold">CA$H</h1>
-              <p className="text-harmony-gold font-mono text-sm">Agent #001 • Sales Division</p>
-              <p className="text-gray-400">Always Closing</p>
+            
+            <div className="flex-1">
+              <div className="flex items-center space-x-4 mb-2">
+                <h1 className="text-5xl font-bold">CA$HFLOW</h1>
+                <Badge className="bg-harmony-gold text-harmony-dark font-bold">FLAGSHIP</Badge>
+              </div>
+              <p className="text-harmony-gold font-mono text-lg mb-1">Agent #001 • The Sales Hunter</p>
+              <p className="text-gray-300 text-lg mb-2">Red/Black Luxury Techwear • Diamond Chain</p>
+              <p className="text-gray-400 italic">"Let me handle this... you focus on delivery."</p>
             </div>
-            <Badge className="bg-harmony-gold text-harmony-dark">FLAGSHIP</Badge>
+
+            <div className="text-right space-y-2">
+              <div className="text-sm text-gray-400">Performance</div>
+              <div className="text-3xl font-bold harmony-gold">+85%</div>
+              <div className="text-sm text-gray-400">Success Rate</div>
+            </div>
           </div>
           
           <p className="text-xl text-gray-300 max-w-3xl">

@@ -26,11 +26,13 @@
   --ring: hsl(240, 4.9%, 83.9%);
   --radius: 0.5rem;
   
-  /* Harmonix custom colors */
+  /* Harmonix custom colors - Regal wisdom and trust palette */
   --harmony-dark: hsl(210, 24%, 8%);
   --harmony-slate: hsl(213, 27%, 15%);
-  --harmony-gold: hsl(47, 84%, 52%);
-  --harmony-teal: hsl(188, 60%, 58%);
+  --harmony-gold: hsl(45, 100%, 50%);
+  --harmony-teal: hsl(175, 90%, 20%);
+  --harmony-forest: hsl(165, 100%, 15%);
+  --harmony-sage: hsl(150, 30%, 25%);
   --harmony-blue: hsl(210, 100%, 56%);
 }
 

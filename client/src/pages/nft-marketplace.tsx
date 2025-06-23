@@ -14,13 +14,13 @@ export default function NFTMarketplace() {
   const [searchTerm, setSearchTerm] = useState("");
   const [rarityFilter, setRarityFilter] = useState("all");
 
-  // Mock NFT agent skins data
+  // NFT agent skins data based on the actual character designs
   const agentSkins = [
     {
       id: 1,
-      name: "Diamond Chain CA$H",
+      name: "CA$HFLOW - The Sales Hunter",
       agentType: "CA$H Sales Agent",
-      description: "Luxury techwear with diamond chain and gold glow animations",
+      description: "Red/black luxury techwear with diamond chain. Confident, focused, aspirational with hip-hop undertones.",
       rarity: "legendary",
       price: 5000,
       isLimited: true,
@@ -28,7 +28,9 @@ export default function NFTMarketplace() {
       currentOwners: 12,
       avatar: "cash_diamond",
       colorScheme: "red-black-gold",
-      animations: ["gold_glow", "chain_sparkle"]
+      animations: ["gold_glow", "chain_sparkle"],
+      mantra: "Let me handle this... you focus on delivery.",
+      stats: { confidence: 95, focus: 98, charisma: 92 }
     },
     {
       id: 2,
