@@ -156,46 +156,34 @@ export default function DemoPage() {
               </div>
             </div>
           </div>
-        </section> 
-                agent previews, and live platform experiences.
-              </p>
-            </div>
+        </section>
 
-            {!user && (
-              <div className="bg-gray-900/50 border border-harmony-gold/30 rounded-lg p-6 max-w-2xl mx-auto">
-                <p className="text-harmony-gold font-semibold mb-2">Demo Access Available</p>
-                <p className="text-gray-300 text-sm">
-                  Some features require account access. Sign up for full platform experience 
-                  or browse our public demos below.
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* Demo Features Grid */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white font-serif mb-4">
-              Choose Your <span className="text-harmony-gold">Demo Experience</span>
+      {/* Enhanced Agent Demo Cards Section */}
+      <section className="py-16 sm:py-20 lg:py-24">
+        <div className="harmonix-container">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-harmonix-regal-gold font-serif">
+              Test Our AI Agents
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Each demo showcases different aspects of the Harmonix platform. 
-              Start with any that interests you most.
+            <p className="text-lg sm:text-xl text-harmonix-sage-fade max-w-4xl mx-auto">
+              Experience the power of specialized AI agents with live demonstrations
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {demoFeatures.map((feature) => (
-              <Card 
-                key={feature.id} 
-                className={`bg-gray-900/50 border-gray-800 hover:border-harmony-gold/50 transition-colors cursor-pointer ${
-                  !feature.available ? 'opacity-60' : ''
-                }`}
-                onClick={() => feature.available && handleFeatureSelect(feature.id)}
-              >
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+            {/* Agent Selection Tabs */}
+            <div className="lg:w-1/3 space-y-4">
+              {demoAgents.map((agent, index) => (
+                <Card 
+                  key={agent.id}
+                  className={cn(
+                    "p-4 cursor-pointer transition-all duration-300 border-2 hover:shadow-lg hover:shadow-harmonix-regal-gold/20",
+                    selectedAgent === index 
+                      ? "border-harmonix-regal-gold bg-harmonix-regal-gold/10" 
+                      : "border-harmonix-sage-fade/20 hover:border-harmonix-regal-gold/50"
+                  )}
+                  onClick={() => setSelectedAgent(index)}
+                >
                 <CardHeader className="text-center">
                   <div className="w-16 h-16 mx-auto mb-4 rounded-lg bg-harmony-gold/10 flex items-center justify-center relative">
                     <feature.icon className="h-8 w-8 text-harmony-gold" />
