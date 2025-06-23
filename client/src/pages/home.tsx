@@ -5,6 +5,7 @@ import { SolBrain } from "@/components/sol-brain";
 import { TokenMeter } from "@/components/token-meter";
 import { AgentCard } from "@/components/agent-card";
 import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";
+import { HarmonixLogo } from "@/components/harmonix-logo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";

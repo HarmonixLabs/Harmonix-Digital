@@ -35,70 +35,23 @@ export function Navbar() {
     <nav className="border-b border-gray-800 bg-black/20 backdrop-blur-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo Section */}
-          <Link href="/" className="flex items-center space-x-3">
-            <div className="w-10 h-10 relative">
-              <svg viewBox="0 0 100 100" className="w-full h-full">
-                <defs>
-                  <linearGradient id="harmonixGold" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#FFD700" />
-                    <stop offset="50%" stopColor="#D4AF37" />
-                    <stop offset="100%" stopColor="#B8860B" />
-                  </linearGradient>
-                </defs>
-                
-                {/* Outer Circle */}
-                <circle 
-                  cx="50" 
-                  cy="50" 
-                  r="45" 
-                  fill="none" 
-                  stroke="url(#harmonixGold)" 
-                  strokeWidth="4"
-                  opacity="0.9"
-                />
-                
-                {/* Letter H with geometric design */}
-                <g fill="url(#harmonixGold)" opacity="0.95">
-                  {/* Left vertical line */}
-                  <rect x="25" y="25" width="6" height="50" />
-                  
-                  {/* Right vertical line */}
-                  <rect x="69" y="25" width="6" height="50" />
-                  
-                  {/* Horizontal crossbar */}
-                  <rect x="31" y="47" width="38" height="6" />
-                  
-                  {/* Golden ratio inspired smaller elements */}
-                  <rect x="45" y="60" width="10" height="15" />
-                  <rect x="58" y="67" width="6" height="8" opacity="0.7" />
-                </g>
-              </svg>
-            </div>
-            <span className="text-xl font-bold text-harmony-gold">HARMONIX</span>
+          {/* Logo */}
+          <Link href="/" className="flex items-center">
+            <HarmonixLogo size="md" variant="gold" showText={true} />
           </Link>
 
           {/* Desktop Navigation Links */}
-          <div className="hidden md:flex space-x-8">
-            {navigationLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`transition-colors ${
-                  isActive(link.href)
-                    ? 'harmony-gold'
-                    : 'text-white hover:text-harmony-gold'
-                }`}
-              >
-                {link.label}
+          <div className="hidden md:flex items-center space-x-6">
+            {user && navigationLinks.map((link) => (
+              <Link key={link.href} href={link.href}>
+                <Button 
+                  variant={location === link.href ? "default" : "ghost"}
+                  className={location === link.href ? "bg-harmony-gold text-slate-900" : "text-gray-300 hover:text-white"}
+                >
+                  {link.label}
+                </Button>
               </Link>
             ))}
-            <Link
-              href="/sol-brain"
-              className="harmony-teal hover:text-white transition-colors"
-            >
-              SŌL Brain
-            </Link>
           </div>
 
           {/* User Menu */}
