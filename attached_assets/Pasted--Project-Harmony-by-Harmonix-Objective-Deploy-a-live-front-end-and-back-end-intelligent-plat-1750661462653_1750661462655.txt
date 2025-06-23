@@ -1,0 +1,145 @@
+🧠 Project: Harmony by Harmonix
+🎯 Objective: Deploy a live, front-end and back-end intelligent platform for AI-powered digital agents, built under the Harmonix brand guidelines. The system must self-heal, avoid duplicate/looped code, and reject any irrelevant or harmful logic.
+
+⸻
+
+INSTRUCTIONS FOR RIPLET AI
+
+You are now in charge of building the Harmony platform by Harmonix — an AI-driven infrastructure that allows users to:
+1. Log in (Email, Google, Wallet, Apple, 2FA options)
+2. Demo and purchase intelligent digital agents
+3. Train, license, and deploy agents
+4. Access dashboards, analytics, and team management tools
+5. Seamlessly integrate their own business tools (CRM, calendar, Stripe, ClickUp, etc.)
+
+Follow these directives exactly:
+
+---
+
+### 🛠️ 1. SYSTEM BEHAVIOR
+
+- SELF-HEAL: Continuously review all existing files for:
+  - Duplicate/looped code
+  - Missing pages/components
+  - Routing errors
+  - Broken logic or uncalled functions
+  - Outdated or conflicting syntax
+
+- DISCERN: If content, pages, or features are **not relevant** to:
+  - Harmony platform
+  - Harmonix services
+  - AI agents, dashboards, onboarding, login flows
+  Then **exclude them** from the build. Ask for confirmation if unsure.
+
+---
+
+### 🎨 2. BRAND SYSTEM: Harmonix Design DNA
+
+- **Core Brand Name:** Harmonix
+- **Platform Name:** Harmony (by Harmonix)
+- **Visual Language:**
+  - **Primary Colors**:
+    - `#0F1115` Deep-Space Black
+    - `#1F2A24` Forest Green (Special Edition Highlight)
+    - `#D1BFA7` Warm Champagne Gold
+    - `#B8A379` Dusty Bronze (Support Color)
+  - **Typography:**
+    - **Headlines:** Playfair Display
+    - **Body:** Inter
+  - **Design Language:** Timeless Futurism + Sacred Geometry
+  - **Logo:** Use latest Harmonix "H" symbol (uploaded)
+
+---
+
+### 🧩 3. FRONTEND ROUTING STRUCTURE
+
+- **Logged-Out Pages**:
+  - `/` — Harmonix Landing
+  - `/harmony` — Platform Overview
+  - `/demo` — Interactive Agent Walkthrough
+  - `/join` — Waitlist Sign-up (HighLevel Integration)
+  - `/faq` — Dynamic FAQs
+  - `/login`, `/signup`, `/auth/wallet`
+
+- **Logged-In Core**:
+  - `/dashboard` — Harmony Home
+  - `/agents` — Agent Manager
+  - `/marketplace` — Discover & Mint Agents
+  - `/team` — Team & Permissions
+  - `/billing` — Stripe-powered Billing + NFT Credits
+  - `/launchpad` — Business Tool Integrations
+  - `/vault` — Prompt Logs + Agent Outputs
+  - `/settings` — Profile, Integrations, Notifications
+  - `/case-studies` — Agent Demos + Use Cases
+
+---
+
+### ⚙️ 4. CORE FEATURES TO INCLUDE
+
+- Agent Builder (Train, Name, Mint, Price, Royalty)
+- Agent Minting Engine (NFT-backed licenses)
+- Self-Updating “Soul Agent” (learns from global agent activity)
+- Agent Stats & ROI Calculator (time + dollar saved)
+- Subscription & Credit Packs (via Stripe)
+- Launchpad Integration Setup (Google, CRMs, Stripe, Socials)
+- Team Role Access (NFT/license-based permissions)
+- Prompt Vault (Output & History Logs)
+- Agent Chat Portals
+- Public/Private Agent Listing Toggle
+
+---
+
+### 🧠 5. INTELLIGENCE LOGIC
+
+- “Soul” Agent syncs with all global agents
+- Agents only learn from owner’s inputs unless shared
+- All training stays sandboxed per NFT wallet
+- Admin (Kwaccar Jok) can:
+  - Push updates to global agents
+  - Override price models
+  - Veto malicious uploads
+  - Set priorities across the platform
+
+---
+
+### 🧾 6. PLATFORM RULES
+
+- All pricing logic (agent packs, royalties, licenses) must follow creator-first model.
+- All UI/UX must default to frictionless interactions — minimal clicks.
+- No destructive overrides — always backup existing data before patching.
+- Auto-check for:
+  - Missing input fields
+  - Dead UI buttons
+  - Incomplete onboarding flows
+
+---
+
+### 🧪 7. DEVOPS + SECURITY
+
+- 2FA: Email, SMS, Biometric
+- OAuth: Google, Apple, WalletConnect
+- JWT-based Role Control
+- GDPR / CCPA compliant structure
+- CI/CD: Riplet deploy now → Next.js/Vercel later
+- Rate limiting, spam filters, prompt-injection protection
+
+---
+
+### 🧠 8. QUESTIONS FOR THE FOUNDER
+
+If you (Riplit AI) encounter unclear requirements, or platform components that don’t obviously map to:
+- The Harmony agent system
+- The Harmonix dashboard logic
+- The services offered
+
+Then pause and ask: **"Does this belong in the Harmonix platform?"**
+
+Do not assume. Validate with the founder (Kwaccar) or flag for review.
+
+---
+
+Build it clean.
+Build it modular.
+Build it with soul.
+
+— End of Master Prompt —

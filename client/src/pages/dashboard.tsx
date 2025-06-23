@@ -91,9 +91,10 @@ export default function Dashboard() {
                 
                 <div className="text-center mb-6">
                   <h4 className="text-2xl font-bold harmony-gold">
-                    {currentAgent?.name || "Virgil"}
+                    {currentAgent?.name || "CA$H"}
                   </h4>
-                  <p className="text-gray-400">Executive Assistant</p>
+                  <p className="text-gray-400">Agent #001 • Sales Division</p>
+                  <div className="text-xs text-harmony-gold font-mono mt-1">Always Closing</div>
                 </div>
 
                 {/* Agent Stats */}

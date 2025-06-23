@@ -95,13 +95,13 @@ export default function Home() {
   const featuredAgents = [
     {
       id: 1,
-      name: "Sales Agent",
-      description: "Lead generation, follow-up, and revenue optimization",
+      name: "CA$H (Sales Agent)",
+      description: "Lead generation, follow-up, and revenue optimization - Always Closing",
       icon: TrendingUp,
       category: "sales", 
       performance: "+85%",
       tier: "flagship",
-      gradient: "from-green-500 to-emerald-600",
+      gradient: "from-red-500 to-black",
       available: true
     },
     {
