@@ -1,0 +1,206 @@
+Locked in. Below are all three mission-critical deliverables you requested — written to perfection for your devs and Riplet team to execute immediately:
+
+⸻
+
+🧾 1. AgentFormStructure – Agent Creation UI for Creators
+
+This is what creators will see when submitting a new agent into the marketplace:
+
+{
+  "agentForm": {
+    "basicInfo": {
+      "agentName": "string",
+      "category": ["Sales", "Ops", "Content", "SOP", "Concierge", "Custom"],
+      "tagline": "string",
+      "agentAvatar": "upload_image_url",
+      "agentType": ["Base Setup", "Custom Setup"],
+      "monthlyMRR": "$[min $444]",
+      "setupFee": "[auto-calculated based on platform plan]",
+      "tokenUseEstimate": "string (e.g. 'Low', 'Medium', 'High')"
+    },
+    "performance": {
+      "avgTimeSaved": "number (hours/week)",
+      "avgROI": "percentage",
+      "toolIntegrations": ["Zapier", "GHL", "Slack", "Notion", "Webflow"],
+      "exampleUseCases": ["Book calls", "Schedule posts", "Build SOPs"]
+    },
+    "ownership": {
+      "creatorWalletAddress": "wallet_connect",
+      "NFTMintToggle": "true/false",
+      "NFTName": "string (if enabled)",
+      "royaltySplit": {
+        "creator": "70-90%",
+        "platform": "10-30%",
+        "investorSplit": "optional field"
+      }
+    },
+    "customization": {
+      "description": "long_form",
+      "prebuiltPrompts": ["prompt1", "prompt2"],
+      "targetPersona": "string (e.g. 'SMB Coach', 'Clinic Admin')",
+      "agentPreviewDemoLink": "url (optional)",
+      "availableLanguages": ["English", "Spanish", "French"]
+    },
+    "visibility": {
+      "public": "true/false",
+      "displayOnLeaderboard": "true/false",
+      "featureInMarketplace": "optional admin toggle"
+    }
+  }
+}
+
+
+⸻
+
+🧠 2. Instructions.md – Developer Deployment Plan for Marketplace
+
+# 🧠 Harmony Agent Marketplace – Developer Instructions
+
+## Objective:
+Deploy a fully functional Agent Marketplace with dynamic card views, profile CMS, agent creation form, and wallet-connected permissions.
+
+---
+
+## 1. Marketplace Grid View
+- Dynamic grid layout pulling agent data from CMS
+- Each Agent Card:
+  - Shows monthly MRR
+  - Has tooltip for time saved, integrations, and token draw
+  - Flips to show Deploy / Learn More
+  - Responsive across desktop/tablet/mobile
+
+---
+
+## 2. Agent Profile Page (`/marketplace/agent-slug`)
+- Dynamically generated CMS profile from form submission
+- Sections:
+  - Hero with avatar + stats
+  - Time savings + use case grid
+  - Integration icons (Zapier, Slack etc.)
+  - Demo preview (if available)
+  - Setup options: Base vs Custom
+  - NFT ownership and royalties (if enabled)
+  - CTA to Deploy or Chat with SŌL
+
+---
+
+## 3. Agent Creation Flow
+- Route: `/create-agent`
+- Access:
+  - Wallet connected OR Harmony Account required
+  - Free accounts limited to 1 agent
+  - Creator subscriptions enable full access
+- Form: Uses `AgentFormStructure` JSON
+- On submission:
+  - Agent is stored in CMS
+  - If NFT toggle is enabled:
+    - Trigger minting process via backend (IPFS + contract)
+  - Added to marketplace if public
+  - Added to creator’s dashboard
+
+---
+
+## 4. Checkout Integration
+- "Deploy Agent" triggers Stripe Checkout
+- Pass monthly MRR to payment
+- On success:
+  - Agent added to user dashboard
+  - CRM (HighLevel) tagged
+  - Token meter initialized
+  - Sol sets up starter sandbox
+
+---
+
+## 5. Dashboard Integration (Post-Purchase)
+- User can:
+  - View installed agents
+  - Interact via chat
+  - View reports: time saved, task history, token use
+
+---
+
+## 6. Design Requirements
+- Brand colors from Harmonix palette
+- Consistent animations & spacing from homepage
+- Sticky transparent header
+- Mobile-first layout
+
+---
+
+## 7. Next Steps
+- Integrate real agent data
+- Hook up Stripe & Wallet APIs
+- Complete `/create-agent` permissions
+- Finalize Leaderboard logic for Top Agents
+
+
+⸻
+
+🧬 3. Marketplace Agent CMS Profile Template – /marketplace/agent-slug
+
+Each profile page is dynamically rendered per agent and should include:
+
+⸻
+
+/marketplace/virgil-brand-strategist
+
+🧠 Agent Hero:
+	•	Agent Avatar (circular)
+	•	Name + Tagline
+	•	Category Icon (e.g. Branding)
+	•	Monthly Price (Primary)
+	•	Setup Type: Base / Custom
+	•	Deploy Agent CTA
+	•	Chat with SŌL about this agent (opens SŌL Chatbot with auto-prompt)
+
+⸻
+
+📈 Performance Section
+	•	Avg. Hours Saved/Week
+	•	Tool Integrations (icons)
+	•	Token Usage Estimate (Low/Med/High)
+	•	Built For: Use Case Tags
+	•	Compatibility: Zapier, GHL, Notion, etc.
+
+⸻
+
+🛠 Setup Options
+	•	Info Tooltip: Difference between Base & Custom
+	•	Setup Timeline Estimate (e.g. 24–48hrs)
+
+⸻
+
+🎯 Preview Workflows
+	•	Example Tasks
+	•	Prompts it can run
+	•	Automation map (optional SVG or PNG flowchart)
+
+⸻
+
+💰 Ownership / NFT
+	•	Creator wallet ID (truncated + copy)
+	•	Royalty split: Platform / Creator / NFT owner
+	•	of NFTs in circulation (if enabled)
+	•	Mint Date
+
+⸻
+
+🛒 CTA Buttons
+	•	Deploy Now (checkout route)
+	•	Try Demo (demo + agent auto-prompt)
+	•	Add to Wishlist (wallet/login required)
+
+⸻
+
+💬 Testimonials / Ratings
+	•	(Optional) customer reviews
+	•	Feedback slider with performance stats
+
+⸻
+
+Let me know if you want:
+	•	🔐 Login/Access Flows for Agent Owners
+	•	📦 NFT minting pipeline on testnet
+	•	💼 Stripe Connect logic for royalties
+
+Ready for next rollout phase?

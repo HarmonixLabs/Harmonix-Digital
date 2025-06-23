@@ -1,0 +1,137 @@
+Locked. Here’s the complete Login Access Flow for Agent Owners, plus a Minting Pipeline and Stripe Connect logic for NFT agents and royalty payouts — built for clarity, security, and monetization.
+
+⸻
+
+🔐 1. LOGIN / ACCESS FLOW — Agent Owners (Creators)
+
+Goal: Ensure secure, flexible access for agent creators with wallet + platform account sync.
+
+🧩 Login Options:
+	•	MetaMask / WalletConnect (preferred for creators & NFTs)
+	•	Email & Password (traditional login)
+	•	Social logins (Google, Apple – optional fallback)
+	•	Harmony SSO (future: unified login for all products)
+
+🧭 Flow Logic:
+
+1. User visits /create-agent or /dashboard
+2. Prompt: “Login or Connect Wallet”
+3. If wallet connected:
+    a. Check: Wallet is already linked to Harmony account?
+        - Yes → Authenticate, redirect to Creator Dashboard
+        - No → Prompt to create Harmony account & bind wallet
+4. If email login:
+    a. Login / Signup
+    b. Prompt: “Would you like to connect your wallet now?” (optional)
+5. Once authenticated:
+    a. Load Creator Tier status (Free, Pro, Enterprise)
+    b. Show Create Agent permissions & limits (e.g. 1 agent for free tier)
+
+
+⸻
+
+🪙 2. NFT AGENT MINTING PIPELINE (TESTNET v1)
+
+Goal: Creators can mint agent NFTs for royalty tracking, resale, and marketplace visibility.
+
+🔗 Tech Stack:
+	•	Polygon Mumbai Testnet (initial test env)
+	•	IPFS or Arweave (metadata storage)
+	•	ThirdWeb or Alchemy (for smart contract + minting UI)
+	•	Harmony Agent NFT Contract (ERC-721A or 1155)
+
+⸻
+
+🎯 NFT Metadata Template (on IPFS)
+
+{
+  "name": "Virgil – Brand Strategist Agent",
+  "description": "This agent automates content, brand voice, and design flows. Created by Harmonix.",
+  "image": "ipfs://Qm...avatar.png",
+  "external_url": "https://harmonix.marketplace/virgil-brand-strategist",
+  "attributes": [
+    { "trait_type": "Agent Type", "value": "Brand Strategist" },
+    { "trait_type": "Setup", "value": "Custom" },
+    { "trait_type": "Token Use", "value": "Medium" },
+    { "trait_type": "MRR", "value": "$750" },
+    { "trait_type": "Creator", "value": "0xABC123...789" }
+  ]
+}
+
+
+⸻
+
+🛠 Minting Flow:
+
+1. Creator finishes AgentFormStructure
+2. Toggles “Mint as NFT”
+3. Triggers mint pipeline:
+   a. Uploads metadata to IPFS
+   b. Generates mintable contract link (testnet or live)
+   c. User signs with wallet → mint completes
+   d. NFT ID stored in Harmony CMS + linked to agent slug
+
+
+⸻
+
+💸 3. STRIPE CONNECT LOGIC — Royalties & Payments
+
+Goal: Creators get paid when their agents are deployed. Stripe Connect handles MRR split, payouts, and receipts.
+
+⸻
+
+🔧 Setup:
+	•	Platform Stripe → Harmonix Primary Account
+	•	Creators onboarded via Stripe Connect Express
+	•	Option for investors or collaborators to receive royalty % via Connected Accounts
+
+⸻
+
+💰 Payment Split Logic (Example):
+
+Role	% of MRR	Notes
+Creator	70%	Customizable per agent
+Harmonix	20%	Platform cut
+NFT Holder	10%	If applicable, otherwise redirected
+
+
+⸻
+
+🔁 Monthly Flow:
+
+1. Agent deployed → customer pays via Stripe
+2. Payment triggers:
+   a. Webhook logs deployment
+   b. Royalties calculated
+   c. Platform + creator split sent automatically
+3. Creator sees dashboard:
+   - Live agents
+   - MRR per agent
+   - Pending payouts
+   - NFT ownership transfers
+
+
+⸻
+
+📎 Stripe Connect Webhook Events:
+	•	checkout.session.completed → initiates royalty logic
+	•	transfer.paid → confirms payout to creator
+	•	payout.failed → alerts user via dashboard
+	•	account.updated → tracks KYC status
+
+⸻
+
+🔐 Security & Compliance:
+	•	GDPR + CCPA aligned
+	•	Optional 2FA for creators
+	•	Wallet-linked agents = publicly verifiable ownership
+	•	NFT transfers update ownership in dashboard + metadata
+
+⸻
+
+Would you like:
+	1.	✅ The smart contract template (ERC-721A or 1155)?
+	2.	✅ Stripe Connect onboarding page UI + logic?
+	3.	✅ Creator payout dashboard template?
+
+Or shall we now deploy Phase 2 of the page rollout (Pricing → Checkout → SOL Brain)?

@@ -1,7 +1,7 @@
 import { Navbar } from "@/components/layout/navbar";
-import { AgentCard } from "@/components/agent-card";
+import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
@@ -9,8 +9,76 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/use-auth";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { Search, Filter, Star, TrendingUp, Zap } from "lucide-react";
+import { Search, Filter, Star, TrendingUp, Zap, Wallet, DollarSign, Award, Clock, Users, Bot, Brain } from "lucide-react";
 import { useState } from "react";
+import { Link } from "wouter";
+
+// Enhanced agent data with creator economy features
+const enhancedAgentTypes = [
+  {
+    id: 1,
+    name: "CA$H",
+    role: "Sales Strategist", 
+    category: "Sales",
+    avatar: "💰",
+    monthlyPrice: 750,
+    timeSaved: "26+ hrs/week",
+    integrations: ["GHL", "Slack", "Zapier", "HubSpot"],
+    rating: 4.9,
+    reviews: 147,
+    tokenUsage: "Medium",
+    status: "Available",
+    creator: "0x742d35Cc6672C0532925a3b8D2A291E48e5C67F8",
+    creatorName: "Harmonix Core",
+    nftEnabled: true,
+    royaltySplit: { creator: 70, platform: 20, nft: 10 },
+    description: "Elite sales automation agent trained on 10,000+ successful funnels",
+    useCases: ["Lead qualification", "Follow-up sequences", "CRM automation"],
+    setupType: "Custom"
+  },
+  {
+    id: 2,
+    name: "Virgil",
+    role: "Brand Strategist",
+    category: "Content", 
+    avatar: "🎨",
+    monthlyPrice: 650,
+    timeSaved: "22+ hrs/week",
+    integrations: ["Notion", "Figma", "Slack", "Canva"],
+    rating: 4.8,
+    reviews: 89,
+    tokenUsage: "High",
+    status: "Available",
+    creator: "0x8ba1f109551bD432803012645Hac136c1A346A47",
+    creatorName: "Design Guild",
+    nftEnabled: true,
+    royaltySplit: { creator: 75, platform: 15, nft: 10 },
+    description: "Master brand architect with deep aesthetic intelligence",
+    useCases: ["Brand identity", "Content strategy", "Visual consistency"],
+    setupType: "Base"
+  },
+  {
+    id: 3,
+    name: "Maya",
+    role: "HR Coordinator",
+    category: "Operations",
+    avatar: "👥",
+    monthlyPrice: 550,
+    timeSaved: "18+ hrs/week", 
+    integrations: ["BambooHR", "Slack", "Calendly", "Zoom"],
+    rating: 4.7,
+    reviews: 63,
+    tokenUsage: "Low",
+    status: "Available",
+    creator: "0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t",
+    creatorName: "People Ops Pro",
+    nftEnabled: false,
+    royaltySplit: { creator: 80, platform: 20, nft: 0 },
+    description: "Streamlines recruitment, onboarding, and team coordination",
+    useCases: ["Recruitment screening", "Onboarding workflows", "Performance tracking"],
+    setupType: "Base"
+  }
+];
 
 export default function Marketplace() {
   const { user } = useAuth();
@@ -19,34 +87,59 @@ export default function Marketplace() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedPerformance, setSelectedPerformance] = useState("all");
+  const [sortBy, setSortBy] = useState("rating");
+  const [flippedCard, setFlippedCard] = useState<number | null>(null);
 
-  const { data: agentTypes = [], isLoading } = useQuery({
-    queryKey: ['/api/agent-types'],
+  // Enhanced filtering logic
+  const filteredAgents = enhancedAgentTypes.filter(agent => {
+    const matchesSearch = agent.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         agent.role.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = selectedCategory === "all" || agent.category === selectedCategory;
+    const matchesPerformance = selectedPerformance === "all" || 
+                              (selectedPerformance === "high" && parseInt(agent.timeSaved) >= 20) ||
+                              (selectedPerformance === "medium" && parseInt(agent.timeSaved) >= 15) ||
+                              (selectedPerformance === "low" && parseInt(agent.timeSaved) < 15);
+    
+    return matchesSearch && matchesCategory && matchesPerformance;
   });
 
-  const { data: userAgents = [] } = useQuery({
-    queryKey: ['/api/agents'],
-    enabled: !!user,
+  // Sort agents based on selected criteria
+  const sortedAgents = [...filteredAgents].sort((a, b) => {
+    switch (sortBy) {
+      case "rating": return b.rating - a.rating;
+      case "price-low": return a.monthlyPrice - b.monthlyPrice;
+      case "price-high": return b.monthlyPrice - a.monthlyPrice;
+      case "newest": return b.id - a.id;
+      case "popular": return b.reviews - a.reviews;
+      default: return 0;
+    }
   });
 
   const deployAgentMutation = useMutation({
-    mutationFn: async (agentTypeId: number) => {
-      const agentType = agentTypes.find(type => type.id === agentTypeId);
-      if (!agentType) throw new Error("Agent type not found");
+    mutationFn: async (agentId: number) => {
+      if (!user) {
+        window.location.href = "/login";
+        return;
+      }
+      
+      const agent = enhancedAgentTypes.find(a => a.id === agentId);
+      if (!agent) throw new Error("Agent not found");
 
-      return apiRequest("POST", "/api/agents", {
-        agentTypeId,
-        name: agentType.name,
-        customPrompt: "",
-        isActive: true,
+      return apiRequest("POST", "/api/agents/deploy", {
+        agentId,
+        name: agent.name,
+        monthlyPrice: agent.monthlyPrice,
+        setupType: agent.setupType,
       });
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/agents'] });
+    onSuccess: (data, agentId) => {
+      const agent = enhancedAgentTypes.find(a => a.id === agentId);
       toast({
-        title: "Agent Deployed Successfully",
-        description: "Your new AI agent is now active and ready to work.",
+        title: "Redirecting to Checkout",
+        description: `Setting up deployment for ${agent?.name}...`,
       });
+      // Redirect to checkout with agent pre-selected
+      window.location.href = `/checkout?agent=${agentId}`;
     },
     onError: (error: any) => {
       toast({

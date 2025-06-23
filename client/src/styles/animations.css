@@ -1,0 +1,220 @@
+/* Enhanced 3D Card Animations for Marketplace */
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Flip Card Animation */
+.flip-card {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.7s;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+/* Sacred Geometry Overlays */
+.sacred-geometry-bg {
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(209, 191, 167, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(209, 191, 167, 0.1) 0%, transparent 50%);
+}
+
+/* Wallet Connection Glow */
+.wallet-glow {
+  box-shadow: 0 0 20px rgba(147, 51, 234, 0.3);
+  transition: box-shadow 0.3s ease;
+}
+
+.wallet-glow:hover {
+  box-shadow: 0 0 30px rgba(147, 51, 234, 0.5);
+}
+
+/* NFT Badge Animation */
+.nft-badge {
+  background: linear-gradient(45deg, #8b5cf6, #a855f7);
+  animation: nft-pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes nft-pulse {
+  0% { box-shadow: 0 0 5px rgba(139, 92, 246, 0.5); }
+  100% { box-shadow: 0 0 15px rgba(139, 92, 246, 0.8); }
+}
+
+/* Creator Card Hover Effects */
+.creator-card {
+  transition: all 0.3s ease;
+  border: 1px solid rgba(209, 191, 167, 0.2);
+}
+
+.creator-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(209, 191, 167, 0.4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Royalty Split Visualization */
+.royalty-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(
+    to right,
+    #22c55e 0% var(--creator-percent),
+    #d1bfa7 var(--creator-percent) var(--platform-percent),
+    #8b5cf6 var(--platform-percent) 100%
+  );
+}
+
+/* Integration Badge Animations */
+.integration-badge {
+  transition: all 0.2s ease;
+}
+
+.integration-badge:hover {
+  transform: scale(1.05);
+}
+
+.integration-badge.selected {
+  background: linear-gradient(45deg, #d1bfa7, #f3e8d1);
+  color: #0a1c16;
+  box-shadow: 0 2px 10px rgba(209, 191, 167, 0.3);
+}
+
+/* Step Progress Animation */
+.step-indicator {
+  transition: all 0.3s ease;
+}
+
+.step-indicator.active {
+  background: linear-gradient(45deg, #d1bfa7, #f3e8d1);
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(209, 191, 167, 0.5);
+}
+
+.step-indicator.completed {
+  background: #22c55e;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
+}
+
+/* Form Field Focus Effects */
+.form-input:focus {
+  border-color: #d1bfa7;
+  box-shadow: 0 0 0 3px rgba(209, 191, 167, 0.1);
+}
+
+/* Submission Animation */
+.submit-button.loading {
+  position: relative;
+  color: transparent;
+}
+
+.submit-button.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid #0a1c16;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Marketplace Stats Animation */
+.stat-number {
+  animation: count-up 2s ease-out;
+}
+
+@keyframes count-up {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Enhanced Floating Effects */
+.float-gentle {
+  animation: float-gentle 6s ease-in-out infinite;
+}
+
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.float-medium {
+  animation: float-medium 4s ease-in-out infinite;
+}
+
+@keyframes float-medium {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+}
+
+/* Sacred Breathing Glow */
+.sacred-breathing {
+  animation: sacred-breathing 4s ease-in-out infinite;
+}
+
+@keyframes sacred-breathing {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(209, 191, 167, 0.2);
+    opacity: 0.8;
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(209, 191, 167, 0.4);
+    opacity: 1;
+  }
+}
+
+/* Success State Animations */
+.success-checkmark {
+  animation: success-scale 0.6s ease-out;
+}
+
+@keyframes success-scale {
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 1; }
+}

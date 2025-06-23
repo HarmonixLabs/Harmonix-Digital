@@ -1,0 +1,152 @@
+Excellent — this is how we solidify the Marketplace Page as the central engine of both monetization and ecosystem scalability. Below is your updated, fully developer-ready Riplet prompt — merging your new features, wallet access rules, creator flows, animations, and UX logic into one clear directive.
+
+⸻
+
+🔁 Updated Prompt for Riplet: Marketplace Page (Agent Ecosystem)
+
+Goal: Fully develop the Harmony Marketplace Page where users can browse, deploy, purchase, or create AI agents — using connected wallets, free or premium accounts, and integrated Stripe payment logic.
+
+⸻
+
+🎯 CORE OBJECTIVES:
+	•	Users must be able to:
+	1.	Browse agents (even if not logged in)
+	2.	Click Learn More → CMS-style Agent Profile
+	3.	Click Deploy Agent → If logged in, go to checkout. If not, redirect to sign-up/login.
+	4.	Save or Create Agents = Must connect wallet or create an account (free or paid)
+	5.	Creators = Can create agents, mint them to the marketplace, and set monthly MRR + royalty splits.
+	6.	Buyers = Can install agents (subscription) or buy NFTs for royalties
+	7.	All agents shown with monthly pricing up front — not setup fees.
+
+⸻
+
+🧠 FUNCTIONAL SECTIONS (STRUCTURED)
+
+🔹 Hero Section (Top of Page)
+	•	Title: “Deploy Your Dream Team”
+	•	Sub: “Your automated workforce — trained and ready to scale your business.”
+	•	CTA:
+	•	“Try a Demo” → /demo (updated version)
+	•	“Create Agent” → /create-agent
+
+🔹 Agent Grid Cards (Live Feed)
+	•	Agent Card UI:
+	•	Avatar image or animation
+	•	Name + Role (e.g. Virgil – Brand Strategist)
+	•	Monthly Subscription Price (e.g. From $444/mo)
+	•	Key Stats (example):
+	•	🕰 Time Saved: “Saves 26 hrs/wk”
+	•	🧩 Integrates with: Slack, GHL, Zapier
+	•	📈 Rating: “4.9 stars (62 reviews)”
+	•	Front of card = Stats + CTA
+	•	Back of card (flip on hover/tap):
+	•	Quick features list
+	•	“Deploy Agent” → /checkout?agent=[ID]
+	•	“Learn More” → /marketplace/agent/[slug] (CMS profile)
+
+⸻
+
+🔐 ACCESS CONTROL / ACCOUNT FLOW
+
+🔸 Agent Browsing (No Account Needed)
+	•	All agents should be visible and searchable, with filters (price, function, tool, popularity)
+
+🔸 Deploying Agents
+	•	If user is not logged in:
+	•	Deploy Agent → redirects to sign-up/login
+	•	If user has account + wallet connected:
+	•	Go to /checkout with pre-filled agent selected
+
+🔸 Free Accounts
+	•	Allowed to:
+	•	Create 1 agent max
+	•	Browse all agents
+	•	Deploy trial agents (if available)
+	•	Access dashboard with limited analytics
+
+🔸 Premium Creator Accounts
+	•	Pay monthly (e.g. $44/mo)
+	•	Get:
+	•	Ability to mint unlimited agents
+	•	Access royalty dashboard (track MRR, installs, earnings)
+	•	Push agent updates
+	•	Create agent teams (bundles)
+	•	Access marketplace insights (e.g. Top 10 Agents, ROI rates)
+
+⸻
+
+🧬 MINTING + MONETIZATION (Backend Logic)
+	•	When a Creator finishes building an agent:
+	•	They choose:
+	•	Monthly Subscription Price (min $444/mo)
+	•	Setup Type: Base / Custom
+	•	NFT Royalty Split (they keep 70–90%, we keep platform 10–30%)
+	•	Optional: Sell NFTs for % of agent installs
+	•	Agent is auto-minted to platform with:
+	•	CMS profile
+	•	Marketplace visibility
+	•	Wallet-linked ownership
+	•	Agents can be:
+	•	Subscribed to (SaaS)
+	•	Purchased (NFT with royalties)
+	•	Stripe handles subscription flow
+	•	NFT wallet handles ownership
+	•	Our backend splits royalties and earnings
+
+⸻
+
+🛠 DESIGN + INTERACTION DETAILS
+
+Card UX:
+	•	Flip card on hover
+	•	Tooltip info icons beside:
+	•	“Time Saved”
+	•	“Integrates With”
+	•	“Base vs Custom Setup”
+
+Mobile Optimization:
+	•	Agent cards stack
+	•	Deploy + Learn More buttons stacked under
+
+Design Matching:
+	•	Use same brand spacing, fonts, and green/gold tones from Homepage
+	•	Use sacred geometry grid overlays in background (subtle)
+
+Interactions:
+	•	“Try Demo” → goes to updated /demo page
+	•	“Request Solution” → opens Soul Chat pop-up
+	•	“Create Agent” → goes to /create-agent (with account required)
+	•	“Sort By” bar: Top Rated, Most Deployed, Newest, By Tool (Zapier, GHL, Slack etc)
+
+⸻
+
+🎨 BRAND COLOR + STYLE (RECAP)
+
+Element	Hex	Description
+Forest Base	#0A1C16	Deep, sacred green
+Emerald Gold	#D1BFA7	Wealth + prestige
+Lunar Blue	#C1DAFF	Calm + technical
+Sacred Flame	#EED68C	Spark of life
+
+
+⸻
+
+✅ DEV TASKS:
+	1.	Build marketplace with live Agent Grid
+	2.	Integrate card logic (flip + CTA)
+	3.	Set permissions for save/deploy/create based on login/wallet
+	4.	Trigger checkout with Stripe integration
+	5.	Auto-route “Learn More” → agent CMS profile
+	6.	If user connects wallet + creates agent → enable minting to marketplace with backend logic for:
+	•	Monthly price
+	•	Royalties
+	•	NFT ownership
+
+⸻
+
+Would you like me to:
+	•	Draft the Create Agent Form structure?
+	•	Write the Instructions.md for this Marketplace deployment?
+	•	Map out the /marketplace/agent-slug CMS profile template?
+
+Let’s finalize Marketplace — and make it not just beautiful, but revenue-generating and self-expanding.

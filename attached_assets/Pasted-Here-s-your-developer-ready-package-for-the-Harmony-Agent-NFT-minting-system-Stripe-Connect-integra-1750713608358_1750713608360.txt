@@ -1,0 +1,86 @@
+Here’s your developer-ready package for the Harmony Agent NFT minting system, Stripe Connect integration, and creator payout dashboard:
+
+⸻
+
+🔐 HarmonyAgentNFT Smart Contract (Solidity)
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.17;
+
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract HarmonyAgentNFT is ERC721URIStorage, Ownable {
+    uint256 public nextTokenId;
+    address public marketplace;
+    mapping(uint256 => uint256) public agentRoyalties; // agentId => royalty %
+
+    constructor(address _marketplace) ERC721("HarmonyAgent", "HAGENT") {
+        marketplace = _marketplace;
+    }
+
+    function mintAgent(address to, string memory tokenURI, uint256 royalty) public onlyOwner {
+        require(royalty <= 1000, "Royalty too high"); // Max 10%
+        uint256 newTokenId = nextTokenId++;
+        _safeMint(to, newTokenId);
+        _setTokenURI(newTokenId, tokenURI);
+        agentRoyalties[newTokenId] = royalty;
+    }
+
+    function updateMarketplace(address _new) public onlyOwner {
+        marketplace = _new;
+    }
+
+    function getRoyalty(uint256 tokenId) public view returns (uint256) {
+        return agentRoyalties[tokenId];
+    }
+}
+
+
+⸻
+
+🔁 Stripe Connect Button (JavaScript)
+
+// JS (React-like pseudocode): Stripe Connect Onboarding UI
+import { useEffect } from "react";
+
+function StripeConnectButton({ userId }) {
+    const handleConnect = async () => {
+        const res = await fetch('/api/stripe/create-connect-link', {
+            method: 'POST',
+            body: JSON.stringify({ userId }),
+            headers: { 'Content-Type': 'application/json' },
+        });
+        const { url } = await res.json();
+        window.location.href = url;
+    };
+
+    return <button onClick={handleConnect}>Connect Stripe Account</button>;
+}
+
+
+⸻
+
+📊 Creator Payout Dashboard (React Component)
+
+// JS (React-like pseudocode): Creator Dashboard
+function CreatorDashboard({ creator }) {
+    return (
+        <div className="dashboard">
+            <h2>Welcome, {creator.name}</h2>
+            <p>Total Royalties: ${creator.royalties.toFixed(2)}</p>
+            <p>Connected: {creator.stripeConnected ? "✅" : "❌"}</p>
+            <a href="/api/stripe/payout">Request Payout</a>
+        </div>
+    );
+}
+
+
+⸻
+
+Would you like me to now:
+	•	Add the full backend API for /api/stripe/create-connect-link and /api/stripe/payout?
+	•	Expand the NFT minting contract to support tier logic and metadata?
+	•	Generate full Instructions.md for developer handoff to Replit?
+
+Let’s go one layer deeper if you’re ready. ￼

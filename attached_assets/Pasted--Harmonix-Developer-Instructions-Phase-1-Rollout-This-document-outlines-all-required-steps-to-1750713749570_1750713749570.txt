@@ -1,0 +1,162 @@
+# 🧠 Harmonix Developer Instructions – Phase 1 Rollout
+
+This document outlines all required steps to launch the Harmonix platform pages, Stripe logic, SŌL Brain integration, NFT marketplace support, and full backend connections.
+
+---
+
+## ✅ Pages & Routes (Phase 1)
+
+| Page                | Route                        | Status     |
+|---------------------|------------------------------|------------|
+| Homepage            | `/`                          | ✅ Complete |
+| Demo Page           | `/demo`                      | In Progress |
+| Marketplace         | `/marketplace`               | ⏳          |
+| Pricing             | `/pricing`                   | ⏳          |
+| Checkout            | `/checkout`                  | ⏳          |
+| SŌL Brain           | `/sol-brain`                 | ⏳          |
+| Get Started         | `/waitlist` or `/get-started`| ⏳          |
+| Dashboard           | `/dashboard`                 | ⏳          |
+| My Agents           | `/my-agents`                 | ⏳          |
+| Create Agent        | `/create-agent`              | ⏳          |
+| Login / Signup      | `/login`, `/signup`          | ⏳          |
+| Success Stories     | `/success-stories`           | ⏳          |
+| FAQ                 | `/faq`                       | ⏳          |
+| Privacy / Terms     | `/privacy`, `/terms`         | ⏳          |
+
+---
+
+## 🧩 UI Components & Styling
+
+### Global Styling
+- Color palette:
+  - Deep Forest: `#0A1C16`
+  - Emerald Gold: `#D1BFA7`
+  - Lunar Blue: `#C1DAFF`
+  - Night Sky: `#0F1115`
+  - Sacred Flame: `#EED68C`
+- Fonts: Sleek modern sans-serif (use system fonts or Montserrat)
+- Animations: Floating particles (hero), hover glow on buttons
+
+### Navbar / Footer
+- Sticky transparent nav on all pages
+- Monogram `H` icon on all internal pages
+- Full logo only on homepage
+
+---
+
+## 💳 Stripe Integration
+
+### Backend
+- Connect Stripe live/test keys
+- Create `POST /api/checkout-session`:
+  - Receives: plan ID, deposit %, metadata
+  - Returns: Stripe `session.url`
+
+### Frontend
+- On “Proceed to Payment”:
+  - Call backend
+  - Redirect to `session.url`
+  - Success URL → `/thank-you?payment=success`
+  - Cancel URL → `/checkout?payment=cancelled`
+
+### Tiers
+| Plan       | Setup Fee       | MRR           | Deposit (15–33%) |
+|------------|------------------|---------------|------------------|
+| Starter    | $4,400–$6,200    | $800–$1,200   | $666–$2,000      |
+| Growth     | $8K–$12.5K       | $3.2K–$4.4K   | $1.2K–$4.1K      |
+| Expansion  | $15K–$18K        | ~$6K          | $2.2K–$6K        |
+| Enterprise | $21.5K+          | $8K+          | Custom           |
+
+---
+
+## 🤖 SŌL Brain Integration
+
+- `/sol-brain` form → asks for:
+  - Industry, team size, current tools
+- Returns:
+  - Suggested agents
+  - Estimated ROI
+  - “Deploy Agent” → prefilled checkout
+
+---
+
+## 🧠 Agent Marketplace + Creator Logic
+
+### `/marketplace`
+- Agent Cards show:
+  - Monthly fee (primary)
+  - Flip = integrations, tools, token usage
+  - “Learn More” = `/marketplace/[agent-slug]`
+  - “Deploy Agent” = redirects to checkout/signup
+
+### Agent CMS Template
+- Name, Creator, Integrations, Use Cases
+- Token estimate
+- Available for deployment / mint
+
+---
+
+## 🔗 NFT + Minting Logic (Testnet)
+
+### Agent NFTs
+- Deployed to polygon testnet
+- Metadata includes:
+  - creator wallet
+  - monthly fee
+  - tier
+  - integrations
+
+### Creator Royalties
+- Stripe Connect or crypto wallet
+- Standard royalty config:
+  - Platform: 15%
+  - Creator: 70%
+  - Investor: 15%
+
+---
+
+## 🔐 Auth & Roles
+
+| Role        | Access                             |
+|-------------|-------------------------------------|
+| Guest       | View-only                          |
+| Free User   | 1 agent, no deployment              |
+| Member      | Full dashboard + agent deploy      |
+| Creator     | Can mint/list agents, view stats   |
+| Admin       | Full control                       |
+| SuperAdmin  | Override + update smart contracts  |
+
+---
+
+## 🧠 Token / ROI Scaling (Tracked by SŌL)
+
+- Each agent has token consumption rate
+- Tracked in dashboard
+- Users can set token cap or get alerts
+- Sol AI adjusts pricing based on usage
+
+---
+
+## 📤 Onboarding Flow (Post Payment)
+
+1. Payment success → `/thank-you`
+2. CRM tag → GoHighLevel
+3. Trigger email onboarding sequence
+4. Setup wizard launches in dashboard
+5. SŌL helps user activate 1st agent
+
+---
+
+## 📎 Files To Include
+
+- `/pages/` → all routes
+- `/components/` → navbar, footer, cards, brain
+- `/api/` → stripe-checkout.ts
+- `/styles/` → global.css, tokens.css
+- `/lib/` → CRM handler, smart contract logic (testnet)
+- `/utils/` → ROI calculator, token tracker
+
+---
+
+Let’s go live.  
+Version: `Harmonix Dev Rollout v1.0`

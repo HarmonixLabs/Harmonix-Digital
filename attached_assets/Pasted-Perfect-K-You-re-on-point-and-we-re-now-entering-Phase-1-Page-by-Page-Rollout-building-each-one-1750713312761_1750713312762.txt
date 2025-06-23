@@ -1,0 +1,60 @@
+Perfect, K. You’re on point and we’re now entering Phase 1: Page-by-Page Rollout — building each one developer-ready with clear functionality, structure, and visual standards, fully aligned with the brand DNA.
+
+We already locked:
+	•	✅ Homepage — built, branded, and approved.
+	•	✅ Demo Page — reviewed, refined, passed off.
+
+Now we move to:
+
+⸻
+
+🔛 Step 3: Marketplace Page (Developer-Ready Buildout Prompt)
+
+🎯 Page Purpose:
+
+This is the heart of your agent ecosystem — where users browse, preview, and deploy agents. It must:
+	•	Showcase the intelligence and ROI of each agent
+	•	Communicate clearly the monthly pricing (NOT setup fee)
+	•	Allow deployment + custom setup ordering
+	•	Sync seamlessly with dashboard and checkout logic
+	•	Feel like Apple Store meets AI Ops
+
+⸻
+
+✅ RIPLET DEV PROMPT: Marketplace Page
+
+I am trying to build and refine the Harmony Platform's Agent Marketplace Page with the following:
+
+---
+
+🎯 Page Objectives:
+- Display all available agents with their avatars, skills, monthly cost, and key stats
+- Allow users to click “Learn More” to open that agent’s full CMS profile
+- Allow “Deploy Agent” → leads to signup or checkout
+- Educate users on differences between “Base Install” vs “Custom Setup”
+
+---
+
+🧠 Instructions for Marketplace Page:
+
+1. **Page Layout**:
+• Hero Section:
+  - Title: “Deploy Your Dream Team”
+  - Subtitle: “Browse 12+ intelligent agents — trained to scale your time, tasks, and results.”
+  - CTA: “Start with a Demo” / “Join Waitlist”
+
+• Agent Card Grid (Responsive):
+  - Card includes:
+    - Agent Name + Role (e.g., “Virgil — Brand Strategist”)
+    - Agent Avatar
+    - Monthly Cost (e.g. “From $444/mo” — show monthly ONLY)
+    - Key Stats: 
+      - ⚙️ Tools: GHL, Slack, Notion, ClickUp
+      - 🧠 Workload Saved: “Saves 22+ hrs/week”
+      - 🔁 Status: “Available” or “Locked”
+  - Buttons:
+    - “Learn More” → Opens full CMS modal/profile
+    - “Deploy Agent” → leads to /checkout with agent ID
+
+2. **CMS Modal Logic** (When Learn More is Clicked):
+• Agent Avatar + Name
