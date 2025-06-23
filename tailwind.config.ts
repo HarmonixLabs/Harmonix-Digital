@@ -61,6 +61,11 @@ export default {
           border: "var(--sidebar-border)",
           ring: "var(--sidebar-ring)",
         },
+        "harmony-dark": "hsl(210, 24%, 8%)",
+        "harmony-slate": "hsl(213, 27%, 15%)", 
+        "harmony-gold": "hsl(47, 84%, 52%)",
+        "harmony-teal": "hsl(188, 60%, 58%)",
+        "harmony-blue": "hsl(210, 100%, 56%)",
       },
       keyframes: {
         "accordion-down": {

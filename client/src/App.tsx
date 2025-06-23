@@ -27,7 +27,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <TooltipProvider>
-          <div className="min-h-screen bg-harmony-dark text-white">
+          <div className="min-h-screen bg-background text-foreground">
             <Toaster />
             <Router />
           </div>

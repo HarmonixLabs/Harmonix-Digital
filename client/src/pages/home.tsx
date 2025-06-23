@@ -9,16 +9,89 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/lib/auth";
-import { ChartLine, Cog, Shield, Search, Users, UserRoundCheck, Lock, TrendingUp } from "lucide-react";
+import { Link } from "wouter";
+import { ChartLine, Cog, Shield, Search, Users, UserRoundCheck, Lock, TrendingUp, Activity } from "lucide-react";
 
 export default function Home() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   
   const { data: agentTypes = [] } = useQuery({
     queryKey: ['/api/agent-types'],
     enabled: isAuthenticated
   });
 
+  // Show different content based on authentication status
+  if (isAuthenticated && user) {
+    return (
+      <div className="min-h-screen">
+        <Navbar />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="text-center mb-12">
+            <h1 className="text-5xl font-bold mb-4">
+              Welcome back, <span className="harmony-gold">{user.name}</span>
+            </h1>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Your SŌL brain is ready to orchestrate your AI agents. Access your dashboard to monitor tasks and deploy new capabilities.
+            </p>
+          </div>
+
+          <div className="flex justify-center space-x-4 mb-12">
+            <Button size="lg" className="bg-harmony-gold hover:bg-yellow-500 text-harmony-dark">
+              <Link href="/dashboard">Go to Dashboard</Link>
+            </Button>
+            <Button size="lg" variant="outline" className="border-harmony-gold text-harmony-gold hover:bg-harmony-gold hover:text-harmony-dark">
+              <Link href="/marketplace">Explore Marketplace</Link>
+            </Button>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 mb-16">
+            <Card className="card-hover border-gray-800">
+              <CardContent className="p-8">
+                <h3 className="text-2xl font-bold mb-4 harmony-gold">Your Organization</h3>
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Organization:</span>
+                    <span>{user.organizationId}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Role:</span>
+                    <span className="capitalize">{user.role}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Token Balance:</span>
+                    <span className="harmony-gold">{user.tokenBalance}</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="card-hover border-gray-800">
+              <CardContent className="p-8">
+                <h3 className="text-2xl font-bold mb-4 harmony-gold">Quick Actions</h3>
+                <div className="space-y-3">
+                  <Button variant="ghost" className="w-full justify-start text-left">
+                    <Activity className="mr-2 h-4 w-4" />
+                    View Active Tasks
+                  </Button>
+                  <Button variant="ghost" className="w-full justify-start text-left">
+                    <Users className="mr-2 h-4 w-4" />
+                    Deploy New Agent
+                  </Button>
+                  <Button variant="ghost" className="w-full justify-start text-left">
+                    <Cog className="mr-2 h-4 w-4" />
+                    System Settings
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Landing page for non-authenticated users
   const featuredAgents = [
     {
       id: 1,

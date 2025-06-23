@@ -60,7 +60,7 @@
   }
 
   body {
-    @apply bg-harmony-dark text-foreground font-sans antialiased;
+    @apply bg-background text-foreground font-sans antialiased;
     background: linear-gradient(135deg, hsl(210, 24%, 8%) 0%, hsl(213, 27%, 15%) 50%, hsl(210, 24%, 8%) 100%);
     min-height: 100vh;
   }
