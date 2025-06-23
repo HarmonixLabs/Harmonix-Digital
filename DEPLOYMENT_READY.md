@@ -68,9 +68,14 @@ The Harmonix AI Agent Platform is now 100% complete and ready for production dep
 
 **All Required API Keys Configured:**
 - ✅ STRIPE_SECRET_KEY - Payment processing active
-- ✅ GHL_API_KEY - CRM integration operational  
+- ✅ GHL_API_KEY - CRM integration operational (expires June 30, 2025)
 - ✅ JWT_SECRET - Authentication secured
 - ✅ OPENAI_API_KEY - AI processing enabled
+
+**API Key Rotation:**
+- GHL token rotates every 7 days
+- Next rotation: June 30, 2025
+- New token ready: pit-df5d16c0-9ee1-418b-a1c6-f9799d348032
 
 ## 💰 Pricing Tiers Active
 

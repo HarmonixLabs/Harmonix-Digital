@@ -1,0 +1,39 @@
+# API Key Rotation Schedule
+
+## Go High Level API Key
+
+**Current Status:** Active
+**Expiration:** 6 days 23 hours from June 23, 2025
+**Rotation Date:** June 30, 2025
+
+### New Token Information
+```
+pit-df5d16c0-9ee1-418b-a1c6-f9799d348032
+```
+
+### Rotation Process
+1. **Before Expiration:** Update GHL_API_KEY secret with new token
+2. **Test Integration:** Verify CRM sync functionality
+3. **Monitor Logs:** Ensure no authentication errors
+4. **Update Documentation:** Record successful rotation
+
+### Critical Systems Affected
+- User registration CRM sync
+- Lead capture and contact creation
+- Opportunity pipeline updates
+- Activity tracking
+
+### Backup Plan
+If rotation fails:
+1. Revert to previous working token
+2. Generate new API key from GHL dashboard
+3. Update secret immediately
+4. Test all CRM endpoints
+
+### Monitoring Checklist
+- [ ] CRM contact creation working
+- [ ] Lead capture forms syncing
+- [ ] Activity tracking operational
+- [ ] Error logs clear of auth failures
+
+**Note:** GHL tokens rotate every 7 days. Set calendar reminder for June 30, 2025.
