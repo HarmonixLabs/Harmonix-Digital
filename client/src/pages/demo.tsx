@@ -418,31 +418,10 @@ export default function DemoPage() {
 
       <Footer />
     </div>
-  ); 
-                  size="lg" 
-                  variant="outline" 
-                  className="touch-friendly-btn border-harmonix-sage-fade text-harmonix-sage-fade hover:bg-harmonix-sage-fade/10"
-                  onClick={() => window.location.href = '/marketplace'}
-                >
-                  <ArrowRight className="w-5 h-5 mr-2" />
-                  Deploy Agent Demo
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
+  );
+}
 
-        {/* Enhanced Agent Demo Cards Section */}
-        <section className="py-16 sm:py-20 lg:py-24">
-          <div className="harmonix-container">
-            <div className="text-center mb-12 sm:mb-16">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-harmonix-regal-gold font-serif">
-                Test Our AI Agents
-              </h2>
-              <p className="text-lg sm:text-xl text-harmonix-sage-fade max-w-4xl mx-auto">
-                Experience the power of specialized AI agents with live demonstrations
-              </p>
-            </div>
+export default DemoPage;
 
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
             {/* Agent Selection Tabs */}
