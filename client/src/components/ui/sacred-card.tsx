@@ -25,23 +25,30 @@ export function SacredCard({
 
   const variantClasses = {
     default: `
-      bg-gradient-to-br from-deep-space-black/95 to-circuit-teal/10
-      border border-warm-gold/20
-      shadow-lg shadow-black/20
+      border border-opacity-25 shadow-lg
     `,
     agent: `
-      bg-gradient-to-br from-circuit-teal/20 via-deep-space-black/90 to-deep-space-black/95
-      border-2 border-warm-gold/30
-      shadow-xl shadow-circuit-teal/10
+      border-2 border-opacity-30 shadow-xl
       before:absolute before:inset-0 
-      before:bg-gradient-to-br before:from-warm-gold/5 before:to-transparent
       before:opacity-0 before:transition-opacity before:duration-500
     `,
     premium: `
-      bg-gradient-to-br from-warm-gold/10 via-deep-space-black/90 to-circuit-teal/20
-      border-2 border-warm-gold/50
-      shadow-2xl shadow-warm-gold/20
+      border-2 border-opacity-50 shadow-2xl
     `
+  };
+
+  const cardStyle = {
+    background: variant === 'agent' 
+      ? 'linear-gradient(135deg, rgba(30, 104, 102, 0.15) 0%, rgba(15, 17, 21, 0.95) 50%, rgba(15, 17, 21, 0.98) 100%)'
+      : variant === 'premium'
+      ? 'linear-gradient(135deg, rgba(209, 191, 167, 0.08) 0%, rgba(15, 17, 21, 0.95) 50%, rgba(30, 104, 102, 0.1) 100%)'
+      : 'linear-gradient(135deg, rgba(15, 17, 21, 0.98) 0%, rgba(30, 104, 102, 0.05) 50%, rgba(15, 17, 21, 0.98) 100%)',
+    borderColor: '#D1BFA7',
+    borderRadius: '16px',
+    backdropFilter: 'blur(20px)',
+    boxShadow: variant === 'agent' || variant === 'premium'
+      ? '0 8px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(209, 191, 167, 0.15)'
+      : '0 4px 16px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(209, 191, 167, 0.1)'
   };
 
   const hoverClasses = hover ? `

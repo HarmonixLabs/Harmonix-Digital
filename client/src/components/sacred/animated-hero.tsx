@@ -30,25 +30,50 @@ export function AnimatedHero({ className }: AnimatedHeroProps) {
   }, [isLoaded]);
 
   return (
-    <div className={cn("harmonix-hero min-h-screen flex items-center justify-center relative", className)}>
-      {/* Animated Background Particles */}
+    <div className={cn("min-h-screen flex items-center justify-center relative", className)} 
+         style={{ background: '#0F1115' }}>
+      
+      {/* Living Circuit Mist */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(50)].map((_, i) => (
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full" 
+               style={{ 
+                 background: 'radial-gradient(circle, rgba(30, 104, 102, 0.3) 0%, transparent 70%)',
+                 animation: 'pulse 8s ease-in-out infinite'
+               }} />
+          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full" 
+               style={{ 
+                 background: 'radial-gradient(circle, rgba(209, 191, 167, 0.15) 0%, transparent 70%)',
+                 animation: 'pulse 6s ease-in-out infinite reverse'
+               }} />
+        </div>
+        
+        {/* Floating Gold Particles */}
+        {[...Array(25)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-1 h-1 bg-warm-gold/20 rounded-full animate-pulse"
+            className="absolute w-1 h-1 rounded-full animate-pulse"
             style={{
+              background: '#D1BFA7',
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
               animationDelay: `${Math.random() * 5}s`,
-              animationDuration: `${3 + Math.random() * 4}s`
+              animationDuration: `${4 + Math.random() * 3}s`,
+              opacity: 0.4
             }}
           />
         ))}
       </div>
 
       {/* Sacred Geometry Grid */}
-      <div className="absolute inset-0 harmonix-sacred-grid opacity-30" />
+      <div className="absolute inset-0" 
+           style={{
+             backgroundImage: `
+               linear-gradient(rgba(209, 191, 167, 0.03) 1px, transparent 1px),
+               linear-gradient(90deg, rgba(209, 191, 167, 0.03) 1px, transparent 1px)
+             `,
+             backgroundSize: '60px 60px'
+           }} />
 
       {/* Main Content */}
       <div className="text-center px-4 relative z-10 max-w-6xl mx-auto">
@@ -75,7 +100,11 @@ export function AnimatedHero({ className }: AnimatedHeroProps) {
 
         {/* Animated Tagline */}
         <div className="mb-8">
-          <h1 className="harmonix-header-font text-6xl lg:text-8xl font-bold text-white mb-6 leading-tight">
+          <h1 className="text-6xl lg:text-8xl font-bold mb-6 leading-tight" 
+              style={{ 
+                fontFamily: 'Playfair Display, serif',
+                color: '#D1BFA7'
+              }}>
             {taglineWords.map((word, index) => (
               <span
                 key={index}
@@ -85,7 +114,8 @@ export function AnimatedHero({ className }: AnimatedHeroProps) {
                 )}
                 style={{
                   animationDelay: `${index * 0.2}s`,
-                  color: word === "Timeless" || word === "Sovereignty" ? "var(--warm-gold)" : "inherit"
+                  color: word === "Timeless" || word === "Sovereignty" ? "#D1BFA7" : "#F5EDDD",
+                  textShadow: '0 0 20px rgba(209, 191, 167, 0.3)'
                 }}
               >
                 {word}
@@ -95,9 +125,14 @@ export function AnimatedHero({ className }: AnimatedHeroProps) {
           
           <p 
             className={cn(
-              "harmonix-body-font text-xl lg:text-2xl text-warm-gold/80 max-w-4xl mx-auto leading-relaxed transition-all duration-1000 ease-out delay-1000",
+              "text-xl lg:text-2xl max-w-4xl mx-auto leading-relaxed transition-all duration-1000 ease-out delay-1000",
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             )}
+            style={{
+              fontFamily: 'Inter, sans-serif',
+              color: 'rgba(209, 191, 167, 0.8)',
+              fontWeight: '400'
+            }}
           >
             Build your business like a sacred machine. Powered by AI. Designed for freedom.
           </p>
@@ -110,24 +145,48 @@ export function AnimatedHero({ className }: AnimatedHeroProps) {
             isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           )}
         >
-          <SacredButton
-            variant="primary"
-            size="lg"
+          <button
             onClick={() => setLocation('/marketplace')}
-            glow
-            className="min-w-48"
+            className="min-w-48 px-8 py-4 text-lg font-semibold rounded-xl border transition-all duration-300 hover:scale-105"
+            style={{
+              background: 'linear-gradient(135deg, #D1BFA7 0%, rgba(209, 191, 167, 0.9) 100%)',
+              color: '#0F1115',
+              border: '1px solid rgba(209, 191, 167, 0.5)',
+              boxShadow: '0 4px 20px rgba(209, 191, 167, 0.3)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = '0 8px 30px rgba(209, 191, 167, 0.5)';
+              e.currentTarget.style.transform = 'translateY(-2px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = '0 4px 20px rgba(209, 191, 167, 0.3)';
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
           >
-            Activate Agents
-          </SacredButton>
+            ▸ Activate Agents
+          </button>
           
-          <SacredButton
-            variant="secondary"
-            size="lg"
+          <button
             onClick={() => setLocation('/demo-scenarios')}
-            className="min-w-48"
+            className="min-w-48 px-8 py-4 text-lg font-medium rounded-xl border-2 transition-all duration-300"
+            style={{
+              background: 'transparent',
+              color: '#D1BFA7',
+              border: '2px solid rgba(209, 191, 167, 0.5)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(209, 191, 167, 0.1)';
+              e.currentTarget.style.borderColor = '#D1BFA7';
+              e.currentTarget.style.transform = 'translateY(-2px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.borderColor = 'rgba(209, 191, 167, 0.5)';
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
           >
-            See Live Demo
-          </SacredButton>
+            ▸ See Live Demo
+          </button>
         </div>
 
         {/* Sacred Status Indicator */}

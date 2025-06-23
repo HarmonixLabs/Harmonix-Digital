@@ -110,26 +110,37 @@ export default function Dashboard() {
         {/* Sacred Welcome Header */}
         <div className="mb-12 text-center">
           <div className="flex items-center justify-center space-x-3 mb-4">
-            <Crown className="w-8 h-8 text-warm-gold" />
-            <h1 className="harmonix-header-font text-5xl font-bold text-white">
-              Welcome back, <span className="text-warm-gold">{user.name}</span>
+            <Crown className="w-8 h-8" style={{ color: '#D1BFA7' }} />
+            <h1 className="text-5xl font-bold" style={{ 
+              fontFamily: 'Playfair Display, serif',
+              color: '#F5EDDD'
+            }}>
+              Welcome back, <span style={{ color: '#D1BFA7' }}>{user.name}</span>
             </h1>
-            <Crown className="w-8 h-8 text-warm-gold" />
+            <Crown className="w-8 h-8" style={{ color: '#D1BFA7' }} />
           </div>
-          <p className="harmonix-body-font text-xl text-warm-gold/70 mb-6">
+          <p className="text-xl mb-6" style={{
+            fontFamily: 'Inter, sans-serif',
+            color: 'rgba(209, 191, 167, 0.7)',
+            fontWeight: '400'
+          }}>
             Your AI automation sanctuary is operating at peak efficiency
           </p>
           
           {/* Sacred Status Indicator */}
           <div className="flex items-center justify-center space-x-4">
             <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-warm-gold rounded-full animate-pulse" />
-              <span className="text-warm-gold/60 text-sm">SŌL Brain Active</span>
+              <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#D1BFA7' }} />
+              <span className="text-sm" style={{ color: 'rgba(209, 191, 167, 0.6)' }}>SŌL Brain Active</span>
             </div>
-            <div className="w-px h-4 bg-warm-gold/30" />
+            <div className="w-px h-4" style={{ background: 'rgba(209, 191, 167, 0.3)' }} />
             <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-circuit-teal rounded-full animate-pulse" style={{ animationDelay: "0.5s" }} />
-              <span className="text-circuit-teal/60 text-sm">Agents Online</span>
+              <div className="w-2 h-2 rounded-full animate-pulse" 
+                   style={{ 
+                     background: '#1E6866',
+                     animationDelay: "0.5s" 
+                   }} />
+              <span className="text-sm" style={{ color: 'rgba(30, 104, 102, 0.6)' }}>Agents Online</span>
             </div>
           </div>
         </div>
