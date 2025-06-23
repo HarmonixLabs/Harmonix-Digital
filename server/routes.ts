@@ -107,6 +107,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
         tokenBalance: 500, // Welcome bonus
       });
 
+      // Update CRM with new contact and trigger GHL workflow
+      console.log('Triggering CRM sync and workflow for new registration:', user.email);
+      await updateCRM({
+        email: user.email,
+        name: user.name,
+        phone: userData.phone,
+        company: userData.company,
+        source: 'Harmonix Platform Registration',
+        interests: ['platform-signup'],
+        activity: 'user-registration',
+        tier: org.planType,
+        timestamp: new Date().toISOString()
+      });
+
       // Generate JWT token
       const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '7d' });
 
