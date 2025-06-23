@@ -4,6 +4,7 @@ import { Footer } from "@/components/layout/footer";
 import { GamifiedOnboarding } from "@/components/gamification/gamified-onboarding";
 import { AchievementBadges } from "@/components/gamification/achievement-badges";
 import { GamifiedProgress } from "@/components/gamification/gamified-progress";
+import { TokenRewardSystem } from "@/components/gamification/token-reward-system";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -14,7 +15,8 @@ import {
   Zap, 
   Crown,
   ArrowRight,
-  Sparkles
+  Sparkles,
+  Coins
 } from "lucide-react";
 import { Link } from "wouter";
 
@@ -112,13 +114,13 @@ export default function GamifiedOnboardingPage() {
 
           {/* Main Content Tabs */}
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid w-full grid-cols-3 bg-harmonix-night border border-harmonix-cedar mb-8">
+            <TabsList className="grid w-full grid-cols-4 bg-harmonix-night border border-harmonix-cedar mb-8">
               <TabsTrigger 
                 value="journey" 
                 className="data-[state=active]:bg-harmonix-gold data-[state=active]:text-harmonix-black"
               >
                 <Target className="w-4 h-4 mr-2" />
-                Onboarding Journey
+                Journey
               </TabsTrigger>
               <TabsTrigger 
                 value="achievements" 
@@ -132,7 +134,14 @@ export default function GamifiedOnboardingPage() {
                 className="data-[state=active]:bg-harmonix-gold data-[state=active]:text-harmonix-black"
               >
                 <Star className="w-4 h-4 mr-2" />
-                Progress Tracking
+                Progress
+              </TabsTrigger>
+              <TabsTrigger 
+                value="tokens" 
+                className="data-[state=active]:bg-harmonix-gold data-[state=active]:text-harmonix-black"
+              >
+                <Coins className="w-4 h-4 mr-2" />
+                Token Rewards
               </TabsTrigger>
             </TabsList>
 
@@ -152,6 +161,13 @@ export default function GamifiedOnboardingPage() {
               <GamifiedProgress 
                 onLevelUp={(newLevel) => console.log("Level up!", newLevel)}
                 onMilestoneComplete={(milestone) => console.log("Milestone complete!", milestone)}
+              />
+            </TabsContent>
+
+            <TabsContent value="tokens" className="space-y-6">
+              <TokenRewardSystem 
+                onTokenEarned={(amount, source) => console.log("Tokens earned:", amount, "from", source)}
+                onTokenSpent={(amount, purpose) => console.log("Tokens spent:", amount, "for", purpose)}
               />
             </TabsContent>
           </Tabs>

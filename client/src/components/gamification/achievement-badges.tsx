@@ -15,7 +15,8 @@ import {
   Sparkles,
   Flame,
   Shield,
-  Gem
+  Gem,
+  Coins
 } from "lucide-react";
 
 interface Achievement {
@@ -29,6 +30,7 @@ interface Achievement {
   icon: React.ComponentType<any>;
   rarity: 'common' | 'rare' | 'epic' | 'legendary';
   xpReward: number;
+  tokenReward: number;
   requirements?: string[];
 }
 
@@ -56,7 +58,8 @@ export function AchievementBadges({ userId, onAchievementUnlock }: AchievementBa
         unlockedAt: new Date(),
         icon: Star,
         rarity: 'common',
-        xpReward: 50
+        xpReward: 50,
+        tokenReward: 1000
       },
       {
         id: 'profile-complete',
@@ -68,6 +71,7 @@ export function AchievementBadges({ userId, onAchievementUnlock }: AchievementBa
         icon: CheckCircle,
         rarity: 'common',
         xpReward: 100,
+        tokenReward: 500,
         requirements: ['Add profile photo', 'Set company info', 'Connect phone number']
       },
       {
@@ -79,7 +83,8 @@ export function AchievementBadges({ userId, onAchievementUnlock }: AchievementBa
         unlocked: false,
         icon: Trophy,
         rarity: 'rare',
-        xpReward: 200
+        xpReward: 200,
+        tokenReward: 750
       },
 
       // Agent Category
@@ -92,7 +97,8 @@ export function AchievementBadges({ userId, onAchievementUnlock }: AchievementBa
         unlocked: false,
         icon: Zap,
         rarity: 'common',
-        xpReward: 150
+        xpReward: 150,
+        tokenReward: 1500
       },
       {
         id: 'agent-trio',
@@ -103,7 +109,8 @@ export function AchievementBadges({ userId, onAchievementUnlock }: AchievementBa
         unlocked: false,
         icon: Target,
         rarity: 'rare',
-        xpReward: 300
+        xpReward: 300,
+        tokenReward: 2000
       },
       {
         id: 'agent-master',
@@ -114,7 +121,8 @@ export function AchievementBadges({ userId, onAchievementUnlock }: AchievementBa
         unlocked: false,
         icon: Crown,
         rarity: 'epic',
-        xpReward: 500
+        xpReward: 500,
+        tokenReward: 3000
       },
 
       // Workflow Category
@@ -127,7 +135,8 @@ export function AchievementBadges({ userId, onAchievementUnlock }: AchievementBa
         unlocked: false,
         icon: Sparkles,
         rarity: 'common',
-        xpReward: 200
+        xpReward: 200,
+        tokenReward: 1200
       },
       {
         id: 'workflow-wizard',
@@ -138,7 +147,8 @@ export function AchievementBadges({ userId, onAchievementUnlock }: AchievementBa
         unlocked: false,
         icon: Flame,
         rarity: 'rare',
-        xpReward: 400
+        xpReward: 400,
+        tokenReward: 2500
       },
 
       // ROI Category
@@ -151,7 +161,8 @@ export function AchievementBadges({ userId, onAchievementUnlock }: AchievementBa
         unlocked: false,
         icon: Award,
         rarity: 'common',
-        xpReward: 250
+        xpReward: 250,
+        tokenReward: 1500
       },
       {
         id: 'roi-achiever',
@@ -162,7 +173,8 @@ export function AchievementBadges({ userId, onAchievementUnlock }: AchievementBa
         unlocked: false,
         icon: Shield,
         rarity: 'epic',
-        xpReward: 600
+        xpReward: 600,
+        tokenReward: 5000
       },
 
       // Master Category
@@ -175,7 +187,8 @@ export function AchievementBadges({ userId, onAchievementUnlock }: AchievementBa
         unlocked: false,
         icon: Gem,
         rarity: 'legendary',
-        xpReward: 1000
+        xpReward: 1000,
+        tokenReward: 10000
       }
     ];
 
@@ -367,9 +380,17 @@ export function AchievementBadges({ userId, onAchievementUnlock }: AchievementBa
                 )}
 
                 <div className="flex items-center justify-between mt-3 pt-3 border-t border-harmonix-cedar">
-                  <span className={`text-xs font-semibold ${getRarityTextColor(achievement.rarity)}`}>
-                    +{achievement.xpReward} XP
-                  </span>
+                  <div className="flex flex-col gap-1">
+                    <span className={`text-xs font-semibold ${getRarityTextColor(achievement.rarity)}`}>
+                      +{achievement.xpReward} XP
+                    </span>
+                    <div className="flex items-center gap-1">
+                      <Coins className="w-3 h-3 text-harmonix-gold" />
+                      <span className="text-xs font-semibold text-harmonix-gold">
+                        +{achievement.tokenReward} tokens
+                      </span>
+                    </div>
+                  </div>
                   {achievement.unlocked && achievement.unlockedAt && (
                     <span className="text-xs text-harmonix-sage">
                       Unlocked {achievement.unlockedAt.toLocaleDateString()}
