@@ -15,6 +15,7 @@ import DemoDeploy from "@/pages/demo-deploy";
 import Login from "@/pages/login";
 import Signup from "@/pages/signup";
 import Marketplace from "@/pages/marketplace";
+import AgentMarketplace from "@/pages/agent-marketplace";
 import Wallet from "@/pages/wallet";
 import AgentCash from "@/pages/agent-cash";
 import AgentDashboard from "@/pages/agent-dashboard";
@@ -35,7 +36,8 @@ function Router() {
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
       <Route path="/dashboard" component={Dashboard} />
-      <Route path="/marketplace" component={Marketplace} />
+      <Route path="/marketplace" component={AgentMarketplace} />
+      <Route path="/nft-marketplace" component={Marketplace} />
       <Route path="/agent-cash" component={AgentCash} />
       <Route path="/agent-dashboard" component={AgentDashboard} />
       <Route path="/nft-marketplace" component={NFTMarketplace} />
