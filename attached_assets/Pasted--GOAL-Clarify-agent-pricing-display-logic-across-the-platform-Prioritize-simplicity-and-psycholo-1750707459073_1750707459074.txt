@@ -1,0 +1,85 @@
+🎯 GOAL:
+Clarify agent pricing display logic across the platform. Prioritize simplicity and psychological clarity by showing **monthly agent costs upfront**, and explaining **setup fees only when relevant (e.g., installing the Harmony platform).**
+
+⸻
+
+✅ AGENT MARKETPLACE – PRICING DISPLAY RULES
+
+1. 🎯 PRIMARY DISPLAY: Monthly Pricing (MRR)
+    • Show the **monthly cost of each agent** prominently (e.g., "$320/mo")
+    • Include estimated token draw or usage, if applicable
+    • Hide or de-emphasize setup fees at this stage
+
+2. 🛈 “Learn More” Tooltip or Agent Page:
+    • When user clicks “Learn More,” explain:
+        “To use this agent, you’ll need the Harmony Platform installed.
+        If you’re already set up — you’re good to go.
+        If not, you’ll be prompted to install it first.”
+
+3. 🛠️ SETUP FEES = PLATFORM ONLY
+    • Setup fees are only for **installing the Harmony platform**, not for individual agents
+    • Show these on a separate **“Platform Setup” page or during onboarding**
+
+4. 📦 PLAN SELECTION LOGIC:
+    • Show users they can install Harmony in two ways:
+        - **Full Setup Packages** (Starter, Growth, Expansion, Enterprise)
+            • Includes team-led integration, workflow design, agent training
+            • $4,400 – $28,000+ based on agent volume
+        - **Light Self-Install** (Solo/Basic) — $1,500–$2,600
+            • DIY setup, no team onboarding or training
+            • Just access to agent marketplace + core tools
+
+    • After install, user can deploy any agents based on:
+        - Their chosen package (1, 3–5, 6–8, 9–12 agents)
+        - Or a la carte from the marketplace
+
+5. 🧾 Checkout Flow:
+    • When user selects agent(s), show:
+        - Monthly fee per agent
+        - Cumulative monthly fee
+        - Note: “Requires Harmony Platform Installed”
+    • If platform not yet installed:
+        - Redirect to Setup Options (choose Solo or Full Setup)
+        - Show respective one-time setup fee before proceeding
+
+6. 🛒 Final Summary Flow:
+    • Monthly Cost: "$2,160/mo (3 agents)"
+    • Setup Fee (if applicable): "$6,200 — Growth Plan"
+    • Discounts: “Early Adopter – 30% Off Setup Fee”
+    • Final CTA: “Proceed to Stripe Checkout”
+
+⸻
+
+🎨 UX / DESIGN GUIDELINES:
+
+• Do **not** show setup fees on the marketplace cards
+• Keep all pricing psychologically clear:
+    - "Ongoing Monthly Cost" = predictable
+    - "One-time Setup" = explained only if platform not installed yet
+• Use toggles, tooltips, and info icons (🛈) to explain pricing tiers
+
+⸻
+
+🧪 EXAMPLE AGENT CARD (UPDATED):
+
+┌────────────────────────────┐
+|  📎 SOP Architect Agent     |
+|  🤖 Tasks: Automation SOPs |
+|  💰 $320/month             |
+|  🔗 Integrates: GHL, Slack |
+|  ⛓ Token Use: Moderate    |
+|                            |
+|  [Learn More] [Deploy]     |
+└────────────────────────────┘
+
+Tooltip (on hover or click):
+“To use this agent, you must have the Harmony Platform installed.
+Already installed? You're good to go.
+Not yet? Choose a setup plan first.”
+
+⸻
+
+✅ END RESULT:
+• Buyers see **monthly pricing first** — clean, approachable, subscription-style.
+• Setup fees only appear when necessary — **during onboarding or checkout**.
+• Platform feels intuitive and buyer-friendly, reducing friction + boosting conversion.

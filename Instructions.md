@@ -58,6 +58,23 @@ The homepage has been transformed into a complete sales engine with 8 strategic 
 - ✓ Optional $444 deposit for 30% off + priority access
 - ✓ CRM integration for lead capture
 
+## Agent Pricing Display Logic Implementation
+
+### Completed Updates:
+✓ Updated pricing display to prioritize monthly costs
+✓ De-emphasized setup fees as secondary information
+✓ Created agent pricing card component with tooltip explanations
+✓ Updated agent showcase to show monthly pricing prominently
+✓ Added token usage indicators and integration badges
+✓ Implemented psychological pricing clarity with "ongoing monthly cost" messaging
+
+### Pricing Display Rules:
+✓ Primary: Monthly agent costs shown prominently (e.g., "$320/month")
+✓ Secondary: Setup fees shown as "One-time platform setup" with discount
+✓ Tooltips explain platform requirements for new users
+✓ Agent cards show token usage and integrations upfront
+✓ Clean separation between platform setup and agent monthly costs
+
 ## Remaining Logo/Branding Tasks
 
 ### 1. Logo Consistency Issues

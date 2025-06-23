@@ -16,7 +16,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/lib/auth";
 import { Link } from "wouter";
 import { cn } from "@/lib/utils";
-import { ChartLine, Cog, Shield, Search, Users, UserRoundCheck, Lock, TrendingUp, Activity, ArrowRight, Play, Zap, Link2, Clock, Brain, Bot, FileText, MessageSquare, Sparkles, CheckCircle, Timer, Star } from "lucide-react";
+import { ChartLine, Cog, Shield, Search, Users, UserRoundCheck, Lock, TrendingUp, Activity, ArrowRight, Play, Zap, Link2, Clock, Brain, Bot, FileText, MessageSquare, Sparkles, CheckCircle, Timer, Star, InfoIcon } from "lucide-react";
 
 // Platform Pillars Section
 function PlatformPillarsSection() {
@@ -87,27 +87,36 @@ function AgentShowcaseSection() {
     {
       name: "Sales Rep Agent",
       description: "Books, follows up, and closes for you.",
-      cost: "$12.5K",
+      monthlyPrice: "$320/month",
+      setupNote: "Requires Harmony Platform",
       tokensPerMonth: "50K",
+      tokenUsage: "Moderate",
       timeSaved: "22 hrs/week",
+      integrations: ["GHL", "Slack", "HubSpot"],
       features: ["Lead qualification", "Follow-up automation", "Deal closing", "Pipeline management"],
       agent: "cash"
     },
     {
       name: "SOP Architect",
       description: "Turns chaos into clean workflows.",
-      cost: "$18K",
-      tokensPerMonth: "35K", 
+      monthlyPrice: "$240/month",
+      setupNote: "Requires Harmony Platform",
+      tokensPerMonth: "35K",
+      tokenUsage: "High", 
       timeSaved: "18 hrs/week",
+      integrations: ["Notion", "ClickUp", "Monday.com"],
       features: ["Process mapping", "Workflow automation", "Documentation", "Training materials"],
       agent: "sop"
     },
     {
       name: "Content Producer",
       description: "Auto-creates, schedules, and posts with tone-match.",
-      cost: "$15K",
+      monthlyPrice: "$280/month",
+      setupNote: "Requires Harmony Platform",
       tokensPerMonth: "40K",
+      tokenUsage: "Moderate",
       timeSaved: "25 hrs/week",
+      integrations: ["Buffer", "Hootsuite", "Canva"],
       features: ["Content creation", "Social scheduling", "Brand voice", "Analytics tracking"],
       agent: "content"
     }
@@ -141,9 +150,16 @@ function AgentShowcaseSection() {
               >
                 <h3 className="text-lg font-bold text-harmonix-regal-gold mb-2">{agent.name}</h3>
                 <p className="text-sm text-harmonix-sage-fade">{agent.description}</p>
-                <div className="flex justify-between items-center mt-3 text-xs text-harmonix-sage-fade">
-                  <span>Saves {agent.timeSaved}</span>
-                  <span>{agent.cost}</span>
+                <div className="flex justify-between items-center mt-3">
+                  <div className="text-xs text-harmonix-sage-fade">
+                    <span>Saves {agent.timeSaved}</span>
+                    <br />
+                    <span>Tokens: {agent.tokenUsage}</span>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-sm font-bold text-harmonix-regal-gold">{agent.monthlyPrice}</div>
+                    <div className="text-xs text-harmonix-sage-fade">{agent.setupNote}</div>
+                  </div>
                 </div>
               </Card>
             ))}
@@ -164,16 +180,32 @@ function AgentShowcaseSection() {
 
                 <div className="grid grid-cols-3 gap-4">
                   <div className="text-center p-3 bg-harmonix-night-pine/30 rounded-lg">
-                    <div className="text-xl font-bold text-harmonix-regal-gold">{agentCards[activeAgent].cost}</div>
-                    <div className="text-xs text-harmonix-sage-fade">Setup Cost</div>
+                    <div className="text-xl font-bold text-harmonix-regal-gold">{agentCards[activeAgent].monthlyPrice}</div>
+                    <div className="text-xs text-harmonix-sage-fade">Monthly Cost</div>
                   </div>
                   <div className="text-center p-3 bg-harmonix-night-pine/30 rounded-lg">
                     <div className="text-xl font-bold text-harmonix-regal-gold">{agentCards[activeAgent].tokensPerMonth}</div>
-                    <div className="text-xs text-harmonix-sage-fade">Tokens/Month</div>
+                    <div className="text-xs text-harmonix-sage-fade">Token Usage ({agentCards[activeAgent].tokenUsage})</div>
                   </div>
                   <div className="text-center p-3 bg-harmonix-night-pine/30 rounded-lg">
                     <div className="text-xl font-bold text-harmonix-regal-gold">{agentCards[activeAgent].timeSaved}</div>
                     <div className="text-xs text-harmonix-sage-fade">Time Saved</div>
+                  </div>
+                </div>
+
+                {/* Integration badges */}
+                <div className="space-y-2">
+                  <h5 className="text-sm font-medium text-harmonix-sage-fade">Integrations:</h5>
+                  <div className="flex flex-wrap gap-2">
+                    {agentCards[activeAgent].integrations.map((integration, i) => (
+                      <Badge 
+                        key={i} 
+                        variant="outline" 
+                        className="text-xs border-harmonix-sage-fade/30 text-harmonix-sage-fade"
+                      >
+                        {integration}
+                      </Badge>
+                    ))}
                   </div>
                 </div>
 
@@ -201,7 +233,8 @@ function AgentShowcaseSection() {
                     className="touch-friendly-btn border-harmonix-regal-gold text-harmonix-regal-gold hover:bg-harmonix-regal-gold/10"
                     onClick={() => window.location.href = `/demo?agent=${agentCards[activeAgent].agent}`}
                   >
-                    Try in Demo
+                    <InfoIcon className="w-4 h-4 mr-2" />
+                    Learn More
                   </Button>
                 </div>
               </div>
@@ -251,29 +284,33 @@ function PricingSection() {
     {
       name: "Starter",
       agents: "1 Agent",
-      setupFee: "$4.4K – $6.2K",
-      monthlyMRR: "$800 – $1.2K",
+      monthlyMRR: "$320/month",
+      setupFee: "$4.4K",
+      setupNote: "One-time platform setup",
       popular: false
     },
     {
       name: "Growth", 
-      agents: "3–5",
-      setupFee: "$8K – $12.5K",
-      monthlyMRR: "$3.2K – $4.4K",
+      agents: "3–5 Agents",
+      monthlyMRR: "$960 – $1,600/month",
+      setupFee: "$8K",
+      setupNote: "One-time platform setup",
       popular: true
     },
     {
       name: "Expansion",
-      agents: "6–8", 
-      setupFee: "$15K – $18K",
-      monthlyMRR: "~$6K",
+      agents: "6–8 Agents", 
+      monthlyMRR: "$1,920 – $2,560/month",
+      setupFee: "$15K",
+      setupNote: "One-time platform setup",
       popular: false
     },
     {
       name: "Enterprise",
-      agents: "9–12",
+      agents: "9–12 Agents",
+      monthlyMRR: "$2,880 – $3,840/month",
       setupFee: "$21.5K+",
-      monthlyMRR: "$8K+",
+      setupNote: "One-time platform setup",
       popular: false
     }
   ];
@@ -315,14 +352,33 @@ function PricingSection() {
                 <h3 className="text-xl sm:text-2xl font-bold text-harmonix-regal-gold">{tier.name}</h3>
                 <div className="text-lg text-harmonix-sage-fade">{tier.agents}</div>
                 
-                <div className="space-y-2">
-                  <div>
-                    <div className="text-sm text-harmonix-sage-fade">Setup Fee</div>
-                    <div className="text-lg font-semibold text-white">{tier.setupFee}</div>
+                <div className="space-y-4">
+                  {/* Primary: Monthly Pricing */}
+                  <div className="text-center py-3 bg-harmonix-deep-forest/50 rounded-lg">
+                    <div className="text-2xl font-bold text-harmonix-regal-gold">
+                      {tier.monthlyMRR}
+                    </div>
+                    <div className="text-xs text-harmonix-sage-fade">
+                      Ongoing monthly cost
+                    </div>
                   </div>
-                  <div>
-                    <div className="text-sm text-harmonix-sage-fade">Monthly MRR</div>
-                    <div className="text-lg font-semibold text-white">{tier.monthlyMRR}</div>
+                  
+                  {/* Secondary: Setup Fee (de-emphasized) */}
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-center space-x-2 text-xs">
+                      <span className="text-harmonix-sage-fade line-through">
+                        {tier.setupFee.replace('$', '$').replace('K', ',000')}
+                      </span>
+                      <Badge variant="secondary" className="text-xs bg-harmonix-regal-gold/20 text-harmonix-regal-gold">
+                        30% OFF
+                      </Badge>
+                    </div>
+                    <div className="text-sm font-semibold text-white text-center">
+                      {tier.setupFee.includes('+') ? tier.setupFee.replace('+', '+ setup') : tier.setupFee + ' setup'}
+                    </div>
+                    <div className="text-xs text-harmonix-sage-fade text-center">
+                      {tier.setupNote}
+                    </div>
                   </div>
                 </div>
 
