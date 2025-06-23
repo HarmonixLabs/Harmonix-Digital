@@ -494,8 +494,7 @@ export default function DemoPage() {
             </div>
           </div>
         </div>
-      </section>
-
+        </section>
       </div>
 
       <Footer />
