@@ -225,7 +225,8 @@ export const ghlIntegration = new GHLIntegration();
 // Function to trigger GHL workflow with proper format
 async function triggerGHLWorkflow(contactData: CRMContact): Promise<void> {
   try {
-    const webhookUrl = process.env.HARMONIX_GHL_WEBHOOK;
+    // Use the correct webhook URL you provided
+    const webhookUrl = process.env.HARMONIX_GHL_WEBHOOK || 'https://services.leadconnectorhq.com/hooks/eKlKYR6vdxwBnCFOUy5l/webhook-trigger/f46e0e80-24f6-4abe-8798-8bc9368a3a58';
     if (!webhookUrl) {
       console.log('GHL webhook URL not configured');
       return;
