@@ -7,45 +7,73 @@ import { SolBrain } from "@/components/sol-brain";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useAuth } from "@/lib/auth";
-import { Play, Users, MessageCircle, Calendar, User, ArrowRight, Lock } from "lucide-react";
+import { Play, Users, MessageCircle, Calendar, User, ArrowRight, Lock, Bot, Zap, DollarSign, Clock, Target, Star, Sparkles, CheckCircle, InfoIcon, Mic, MicOff, Send } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { EnhancedSolInterface } from "@/components/demo/enhanced-sol-interface";
 
 export default function DemoPage() {
   const { user } = useAuth();
-  const [selectedDemo, setSelectedDemo] = useState<string | null>(null);
+  const [selectedAgent, setSelectedAgent] = useState(0);
+  const [solExpanded, setSolExpanded] = useState(false);
+  const [voiceMode, setVoiceMode] = useState(false);
+  const [businessProfile, setBusinessProfile] = useState({
+    industry: '',
+    goal: '',
+    budget: ''
+  });
 
-  const demoFeatures = [
+  const demoAgents = [
     {
-      id: "soul-brain",
-      title: "SŌL Brain Assistant",
-      description: "Chat with our central AI that orchestrates all agents and provides strategic guidance",
-      icon: MessageCircle,
-      available: true,
-      demoType: "interactive"
+      id: "sales-rep",
+      name: "Sales Rep Agent",
+      description: "Books, follows up, and closes for you.",
+      monthlyPrice: 320,
+      tokenUsage: "Moderate",
+      timeSaved: "22 hrs/week",
+      integrations: ["GHL", "Slack", "HubSpot", "Stripe"],
+      features: ["Lead qualification", "Follow-up automation", "Deal closing", "Pipeline management"],
+      demoAvailable: true,
+      previewUrl: "/agent-cash"
     },
     {
-      id: "agent-cards",
-      title: "Agent Card Collection",
-      description: "Browse collectible AI agent cards with unique abilities and personalities",
-      icon: Users,
-      available: true,
-      demoType: "preview"
+      id: "sop-architect", 
+      name: "SOP Architect",
+      description: "Turns chaos into clean workflows.",
+      monthlyPrice: 240,
+      tokenUsage: "High",
+      timeSaved: "18 hrs/week", 
+      integrations: ["Notion", "ClickUp", "Monday.com", "Slack"],
+      features: ["Process mapping", "Workflow automation", "Documentation", "Training materials"],
+      demoAvailable: true,
+      previewUrl: "/demo-scenarios"
     },
     {
-      id: "automation",
-      title: "Workflow Automation",
-      description: "See how agents work together to automate complex business processes",
-      icon: Calendar,
-      available: !user,
-      demoType: "video"
+      id: "content-producer",
+      name: "Content Producer", 
+      description: "Auto-creates, schedules, and posts with tone-match.",
+      monthlyPrice: 280,
+      tokenUsage: "Moderate",
+      timeSaved: "25 hrs/week",
+      integrations: ["Buffer", "Hootsuite", "Canva", "WordPress"],
+      features: ["Content creation", "Social scheduling", "Brand voice", "Analytics tracking"],
+      demoAvailable: true,
+      previewUrl: "/marketplace"
     },
     {
-      id: "dashboard",
-      title: "Command Dashboard",
-      description: "Experience the full platform with real agent management and analytics",
-      icon: User,
-      available: !!user,
-      demoType: "live"
+      id: "executive-assistant",
+      name: "Executive Assistant",
+      description: "Manages your calendar, emails, and priorities.",
+      monthlyPrice: 260,
+      tokenUsage: "Low",
+      timeSaved: "15 hrs/week",
+      integrations: ["Gmail", "Calendar", "Zoom", "Slack"],
+      features: ["Email management", "Calendar coordination", "Meeting prep", "Task prioritization"],
+      demoAvailable: false,
+      previewUrl: "/onboarding"
     }
   ];
 

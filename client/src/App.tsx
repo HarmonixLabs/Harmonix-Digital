@@ -58,11 +58,10 @@ function Router() {
       <Route path="/checkout" component={Checkout} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/marketplace" component={AgentMarketplace} />
-      <Route path="/nft-marketplace" component={Marketplace} />
-      <Route path="/agent-cash" component={AgentCash} />
-      <Route path="/agent-dashboard" component={AgentDashboard} />
       <Route path="/nft-marketplace" component={NFTMarketplace} />
       <Route path="/nft-mint" component={NFTMint} />
+      <Route path="/agent-cash" component={AgentCash} />
+      <Route path="/agent-dashboard" component={AgentDashboard} />
       <Route path="/wallet" component={Wallet} />
       <Route component={NotFound} />
     </Switch>

@@ -1,0 +1,105 @@
+🎯 OBJECTIVE:
+Refactor and upgrade the `/demo` page to match the new homepage styling, spacing, branding, and psychological flow. The goal is to create a powerful live test experience that converts users into waitlist members or paying clients — while showcasing the value of SŌL Brain and the core agents.
+
+⸻
+
+✅ PAGE STRUCTURE & STYLING UPDATES
+
+1. 🖼️ GLOBAL STYLING & LAYOUT
+
+• Apply the same padding, font system (Playfair Display + Inter), and spacing grid from the homepage  
+• Use same **deep forest green**, **emerald gold**, and **lunar blue** gradient backgrounds  
+• Add flowing constellation animation background layer (same as homepage hero)
+
+2. 🌌 HERO SECTION (Top of Demo Page)
+
+• Headline: “Experience Harmony in Action”  
+• Subline: “Test your AI agents. Ask SŌL. See your potential.”  
+• CTA Buttons:  
+  • “Talk to SŌL” → scrolls to SŌL live demo chat  
+  • “Join Waitlist” → `/waitlist`  
+  • “Deploy Agent Demo” → `/marketplace`
+
+⸻
+
+✅ 🧠 SŌL BRAIN DEMO INTEGRATION
+
+• Make sure the SŌL Brain assistant (chat or voice) is **live and working on this page**  
+• **Add floating SŌL icon (bottom right or fixed left)** that expands to full-screen assistant chat  
+• Allow input of:
+  - Business description
+  - Desired goal (e.g. sales, automation, HR etc.)
+  - Budget (optional)
+
+• Response logic:
+  - SŌL explains which agents are best
+  - Time + cost saving estimates
+  - CTA: “Try this Agent” → opens demo version or directs to that agent’s page
+
+• Add onboarding-style question prompts:
+  • “What’s your business goal today?”
+  • “Need help with content, sales, or systems?”
+  • “Want a full breakdown or a quick suggestion?”
+
+• Allow user to **toggle between Chat mode and Voice mode** (WebRTC or NovaEco integration optional)
+
+⸻
+
+✅ 🔁 DEMO AGENT CARDS SECTION
+
+• Update all Agent cards to match new **marketplace card design language**:
+  - Rounded corners, subtle gold outlines
+  - Hover state glow effect (like homepage orb)
+  - CTA Buttons:
+    - “Try Agent” → opens a guided demo or sandbox preview
+    - “Deploy” → sends them to `/checkout?agent=xyz`
+
+• Info on each card:
+  - Monthly price (not setup fee)
+  - Agent function (title + one-liner)
+  - Time saved per week
+  - Token usage level (Low / Med / High)
+
+• Optional: Add demo sandbox pop-up or iframe preview for at least 1-2 agents (Sales Agent, SOP Builder)
+
+⸻
+
+✅ 📥 JOIN WAITLIST SECTION (Sticky or Footer)
+
+• Add sticky “Join the Waitlist” bar OR
+• Dedicated section near bottom with:
+  - Email
+  - Industry (optional)
+  - Agent interest (dropdown)
+  - Financing need (Yes/No toggle)
+
+• If user submits → tag into CRM + redirect to thank-you page
+
+⸻
+
+✅ 🎨 UX/BRAND NOTES
+
+• Update navbar on this page to match homepage:
+  - Sticky transparent style
+  - Monogram “H” logo in top left
+  - Maintain navigation to `/pricing`, `/marketplace`, `/sol-brain`, `/checkout`, `/login`
+
+• Keep design **clean, sacred, and intelligent**
+• Use brand fonts, emerald highlights, and subtle animations for flow
+
+⸻
+
+✅ OPTIONAL ENHANCEMENTS
+
+• Add ROI Calculator Preview or Time Saved Estimator  
+• Embed real testimonials or preview SŌL stat dashboard (mock is fine)  
+• Enable Login modal from top nav for members testing advanced agents  
+
+⸻
+
+🧠 OUTCOME:
+A beautiful, functioning `/demo` page that:
+- Showcases live agent potential
+- Educates users via SŌL Brain
+- Drives waitlist growth or direct agent purchase
+- Reflects premium design & spiritual elegance of Harmonix

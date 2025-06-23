@@ -50,7 +50,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     enabled: !!token,
     retry: false,
     refetchOnWindowFocus: false,
-    retry: false,
   });
 
   const user = authData?.user || null;
