@@ -5,7 +5,7 @@ import { SolBrain } from "@/components/sol-brain";
 import { TokenMeter } from "@/components/token-meter";
 import { AgentCard } from "@/components/agent-card";
 import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";
-import { HarmonixLogo } from "@/components/harmonix-logo";
+import { HarmonixLogo } from "@/components/brand/HarmonixLogo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -32,7 +32,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center mb-12">
             <h1 className="text-5xl font-bold mb-4">
-              Welcome back, <span className="harmony-gold">{user.name}</span>
+              Welcome back, <span className="text-harmonix-regal-gold">{user.name}</span>
             </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Your SŌL brain is ready to orchestrate your AI agents. Access your dashboard to monitor tasks and deploy new capabilities.
@@ -40,10 +40,10 @@ export default function Home() {
           </div>
 
           <div className="flex justify-center space-x-4 mb-12">
-            <Button size="lg" className="bg-harmony-gold hover:bg-yellow-500 text-harmony-dark">
+            <Button size="lg" className="bg-harmonix-regal-gold hover:bg-harmonix-regal-gold/90 text-harmonix-deep-forest">
               <Link href="/dashboard">Go to Dashboard</Link>
             </Button>
-            <Button size="lg" variant="outline" className="border-harmony-gold text-harmony-gold hover:bg-harmony-gold hover:text-harmony-dark">
+            <Button size="lg" variant="outline" className="border-harmonix-regal-gold text-harmonix-regal-gold hover:bg-harmonix-regal-gold hover:text-harmonix-deep-forest">
               <Link href="/marketplace">Explore Marketplace</Link>
             </Button>
           </div>

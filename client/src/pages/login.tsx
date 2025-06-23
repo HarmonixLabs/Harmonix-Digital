@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { HarmonixLogo } from "@/components/harmonix-logo";
+import { HarmonixLogo } from "@/components/brand/HarmonixLogo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

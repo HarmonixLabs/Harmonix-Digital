@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "wouter";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { HarmonixLogo } from "@/components/harmonix-logo";
+import { HarmonixLogo } from "@/components/brand/HarmonixLogo";
 import { SolBrain } from "@/components/sol-brain";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -34,16 +34,16 @@ export default function HarmonyPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-harmony-dark">
+    <div className="min-h-screen harmonix-gradient">
       <Navbar />
       
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-harmony-green/20 via-transparent to-harmony-gold/10"></div>
+        <div className="absolute inset-0 harmonix-scenic-gradient opacity-20"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center space-y-8">
             <div className="flex justify-center mb-6">
-              <HarmonixLogo size="xl" variant="gold" showText={false} />
+              <HarmonixLogo size="xl" variant="scenic" className="harmonix-logo-glow" />
             </div>
             
             <div className="space-y-4">
