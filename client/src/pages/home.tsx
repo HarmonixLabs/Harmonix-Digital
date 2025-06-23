@@ -17,7 +17,6 @@ import { Link } from "wouter";
 import { ChartLine, Cog, Shield, Search, Users, UserRoundCheck, Lock, TrendingUp, Activity, ArrowRight, Play } from "lucide-react";
 
 export default function Home() {
-  const [showOnboardingDemo, setShowOnboardingDemo] = useState(false);
   const { isAuthenticated, user } = useAuth();
   
   const { data: agentTypes = [] } = useQuery({
@@ -28,74 +27,82 @@ export default function Home() {
   // Show different content based on authentication status
   if (isAuthenticated && user) {
     return (
-      <div className="min-h-screen">
+      <div className="min-h-screen bg-harmonix-deep-forest">
         <Navbar />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center mb-16 harmonix-visual-rhythm">
-            <h1 className="harmonix-text-hierarchy text-6xl font-bold mb-6">
-              Welcome back, <span className="text-harmonix-regal-gold">{user.name}</span>
+        <div className="harmonix-container py-8 sm:py-12 lg:py-16">
+          <div className="text-center mb-12 sm:mb-16">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-harmonix-regal-gold font-serif">
+              Welcome back, {user.name?.split(' ')[0]}
             </h1>
-            <p className="harmonix-text-hierarchy text-harmonix-sage-fade max-w-4xl mx-auto">
+            <p className="text-lg sm:text-xl text-harmonix-sage-fade max-w-4xl mx-auto leading-relaxed">
               Your SŌL brain is ready to orchestrate your AI agents. Access your dashboard to monitor tasks and deploy new capabilities.
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6 mb-16">
-            <Button className="harmonix-btn-primary">
-              <Link href="/dashboard">Go to Dashboard</Link>
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6 mb-12 sm:mb-16">
+            <Button className="touch-friendly-btn w-full sm:w-auto bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90 font-semibold">
+              <Link href="/dashboard" className="flex items-center justify-center w-full">
+                Go to Dashboard
+              </Link>
             </Button>
-            <Button className="harmonix-btn-secondary">
-              <Link href="/marketplace">Explore Marketplace</Link>
+            <Button variant="outline" className="touch-friendly-btn w-full sm:w-auto border-harmonix-regal-gold text-harmonix-regal-gold hover:bg-harmonix-regal-gold/10">
+              <Link href="/marketplace" className="flex items-center justify-center w-full">
+                Explore Marketplace
+              </Link>
             </Button>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 mb-16">
-            <Card className="card-hover border-gray-800">
-              <CardContent className="p-8">
-                <h3 className="text-2xl font-bold mb-4 harmony-gold">Your Organization</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">Organization:</span>
-                    <span>{user.organizationId}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">Role:</span>
-                    <span className="capitalize">{user.role}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">Token Balance:</span>
-                    <span className="harmony-gold">{user.tokenBalance}</span>
-                  </div>
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-12">
+            <Card className="harmonix-card-enhanced p-6 sm:p-8">
+              <h3 className="text-xl sm:text-2xl font-bold mb-4 text-harmonix-regal-gold">Your Organization</h3>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-harmonix-sage-fade">Organization:</span>
+                  <span className="text-white font-medium">{user.organizationId}</span>
                 </div>
-              </CardContent>
+                <div className="flex justify-between items-center">
+                  <span className="text-harmonix-sage-fade">Role:</span>
+                  <span className="text-white font-medium capitalize">{user.role}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-harmonix-sage-fade">Token Balance:</span>
+                  <span className="text-harmonix-regal-gold font-bold">{user.tokenBalance.toLocaleString()}</span>
+                </div>
+              </div>
             </Card>
 
-            <Card className="card-hover border-gray-800">
-              <CardContent className="p-8">
-                <h3 className="text-2xl font-bold mb-4 harmony-gold">Quick Actions</h3>
-                <div className="space-y-3">
-                  <Button variant="ghost" className="w-full justify-start text-left">
-                    <Activity className="mr-2 h-4 w-4" />
-                    View Active Tasks
-                  </Button>
-                  <Button variant="ghost" className="w-full justify-start text-left">
-                    <Users className="mr-2 h-4 w-4" />
-                    Deploy New Agent
-                  </Button>
-                  <Button variant="ghost" className="w-full justify-start text-left">
-                    <Cog className="mr-2 h-4 w-4" />
-                    System Settings
-                  </Button>
-                </div>
-              </CardContent>
+            <Card className="harmonix-card-enhanced p-6 sm:p-8">
+              <h3 className="text-xl sm:text-2xl font-bold mb-4 text-harmonix-regal-gold">Quick Actions</h3>
+              <div className="space-y-3">
+                <Button variant="ghost" className="w-full justify-start text-left hover:bg-harmonix-regal-gold/10 p-3">
+                  <Activity className="mr-3 h-5 w-5 text-harmonix-regal-gold" />
+                  <span className="text-white">View Active Tasks</span>
+                </Button>
+                <Button variant="ghost" className="w-full justify-start text-left hover:bg-harmonix-regal-gold/10 p-3">
+                  <Users className="mr-3 h-5 w-5 text-harmonix-regal-gold" />
+                  <span className="text-white">Deploy New Agent</span>
+                </Button>
+                <Button variant="ghost" className="w-full justify-start text-left hover:bg-harmonix-regal-gold/10 p-3">
+                  <Cog className="mr-3 h-5 w-5 text-harmonix-regal-gold" />
+                  <span className="text-white">System Settings</span>
+                </Button>
+              </div>
             </Card>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }
 
-  // Landing page for non-authenticated users - Mobile-first design  
+  // Landing page for non-authenticated users - Mobile-first optimized
+  return (
+    <div className="min-h-screen bg-harmonix-deep-forest">
+      <Navbar />
+      <OptimizedHero />
+      <Footer />
+    </div>
+  );
   const featuredAgents = [
     {
       id: 1,

@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { EnhancedSolBrain } from "@/components/sol/enhanced-sol-brain";
 import { ArrowRight, Sparkles, Users, TrendingUp } from "lucide-react";
 
 interface OptimizedHeroProps {
@@ -158,6 +159,21 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
               <Sparkles className="mr-2 h-5 w-5" />
               See Live Demo
             </Button>
+          </div>
+
+          {/* SŌL Brain Visualization */}
+          <div 
+            className={cn(
+              "flex justify-center mb-8 transition-all duration-1000 ease-out delay-1200",
+              showCTA ? "opacity-100 scale-100" : "opacity-0 scale-95"
+            )}
+          >
+            <EnhancedSolBrain 
+              variant="lotus"
+              size="lg"
+              animated={true}
+              className="drop-shadow-2xl"
+            />
           </div>
 
           {/* Trust Indicators */}

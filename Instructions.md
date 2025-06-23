@@ -139,7 +139,38 @@ After deep research across the codebase, I've identified the root causes of the 
    - Create clear value proposition hierarchy
    - Add trust signals and credibility markers
 
-### Phase 4: Technical Implementation (Priority: High)
+### Phase 4: SŌL Brain Animation Enhancement (Priority: High)
+
+1. **Create Enhanced SŌL Brain Component**
+   - Implement three variants: lotus, circuit, and agents based on provided designs
+   - Add smooth orbital animations with varying speeds and directions
+   - Create floating energy particles with physics-based movement
+   - Implement breathing and pulsing effects for spiritual/technological feel
+
+2. **Animation System Architecture**
+   ```tsx
+   // Multi-variant SŌL brain with advanced animations
+   <EnhancedSolBrain 
+     variant="agents"           // lotus, circuit, agents
+     size="xl"                 // sm, md, lg, xl  
+     animated={true}           // enable/disable animations
+     showAgentNodes={true}     // show connected agents
+   />
+   ```
+
+3. **Psychological Animation Design**
+   - **Orbital Motion**: Different rings rotating at varying speeds (20s, 40s, 60s)
+   - **Pulse Synchronization**: Elements pulse in harmony but with staggered delays
+   - **Energy Flow**: Particles follow curved paths to suggest data/energy flow
+   - **Sacred Geometry**: Lotus petals and circuits follow golden ratio proportions
+
+4. **Performance Optimization**
+   - Use CSS transforms and SVG animations for smooth 60fps performance
+   - Implement requestAnimationFrame for complex particle systems
+   - Add reduced-motion respect for accessibility
+   - Lazy load animations when component enters viewport
+
+### Phase 5: Technical Implementation (Priority: High)
 
 1. **Fix CSS Variables and Classes**
    ```bash

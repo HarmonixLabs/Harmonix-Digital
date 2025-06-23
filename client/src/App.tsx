@@ -15,6 +15,7 @@ import FAQ from "@/pages/faq";
 import CaseStudies from "@/pages/case-studies";
 import DemoDeploy from "@/pages/demo-deploy";
 import Demo from "@/pages/demo";
+import SolBrainDemo from "@/pages/sol-brain-demo";
 import MyAgents from "@/pages/my-agents";
 import Create from "@/pages/create";
 import Settings from "@/pages/settings";
@@ -42,6 +43,7 @@ function Router() {
       <Route path="/case-studies" component={CaseStudies} />
       <Route path="/demo-deploy" component={DemoDeploy} />
       <Route path="/demo" component={Demo} />
+      <Route path="/sol-brain-demo" component={SolBrainDemo} />
       <Route path="/demo-scenarios" component={DemoScenariosPage} />
       <Route path="/my-agents" component={MyAgents} />
       <Route path="/create" component={Create} />
