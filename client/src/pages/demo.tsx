@@ -2,104 +2,60 @@ import React, { useState } from "react";
 import { Link } from "wouter";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { HarmonixLogo } from "@/components/brand/HarmonixLogo";
-import { SolBrain } from "@/components/sol-brain";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useAuth } from "@/lib/auth";
-import { Play, Users, MessageCircle, Calendar, User, ArrowRight, Lock, Bot, Zap, DollarSign, Clock, Target, Star, Sparkles, CheckCircle, InfoIcon, Mic, MicOff, Send } from "lucide-react";
+import { Play, Users, MessageCircle, Calendar, User, ArrowRight, Bot, Zap, DollarSign, Clock, Target, Star, Sparkles, CheckCircle, Send } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { EnhancedSolInterface } from "@/components/demo/enhanced-sol-interface";
+
+const demoAgents = [
+  {
+    id: "cash",
+    name: "Agent CA$H",
+    specialty: "Sales & Revenue Generation",
+    tier: "Elite",
+    icon: DollarSign,
+    description: "Elite sales agent specializing in lead conversion and revenue optimization",
+    capabilities: ["Lead Qualification", "Sales Automation", "CRM Integration", "Revenue Analytics"],
+    metrics: { efficiency: "98%", accuracy: "94%", speed: "< 2s" },
+    demoResponse: "I've analyzed your sales funnel and identified 3 key optimization opportunities that could increase conversion by 47%. Would you like me to implement these changes?"
+  },
+  {
+    id: "concierge",
+    name: "AI Concierge",
+    specialty: "Customer Experience",
+    tier: "Premium",
+    icon: Users,
+    description: "Premium customer service agent for seamless client interactions",
+    capabilities: ["24/7 Support", "Multi-channel", "Sentiment Analysis", "Escalation Management"],
+    metrics: { efficiency: "96%", accuracy: "92%", speed: "< 1s" },
+    demoResponse: "Hello! I'm here to assist you with any questions about our platform. I can help with onboarding, feature explanations, or technical support. How may I help you today?"
+  },
+  {
+    id: "executive",
+    name: "Executive Assistant",
+    specialty: "Executive Support",
+    tier: "Professional",
+    icon: Calendar,
+    description: "Professional executive support for scheduling and task management",
+    capabilities: ["Calendar Management", "Email Automation", "Meeting Coordination", "Task Prioritization"],
+    metrics: { efficiency: "95%", accuracy: "98%", speed: "< 3s" },
+    demoResponse: "I've reviewed your calendar and identified 4 scheduling conflicts next week. I've prepared alternative meeting times and can send the updates to all participants. Shall I proceed?"
+  }
+];
 
 export default function DemoPage() {
   const { user } = useAuth();
   const [selectedAgent, setSelectedAgent] = useState(0);
-  const [solExpanded, setSolExpanded] = useState(false);
-  const [voiceMode, setVoiceMode] = useState(false);
   const [businessProfile, setBusinessProfile] = useState({
-    industry: '',
-    goal: '',
-    budget: ''
+    industry: "",
+    goal: "",
+    budget: ""
   });
-
-  const demoAgents = [
-    {
-      id: "sales-rep",
-      name: "Sales Rep Agent",
-      description: "Books, follows up, and closes for you.",
-      monthlyPrice: 320,
-      tokenUsage: "Moderate",
-      timeSaved: "22 hrs/week",
-      integrations: ["GHL", "Slack", "HubSpot", "Stripe"],
-      features: ["Lead qualification", "Follow-up automation", "Deal closing", "Pipeline management"],
-      demoAvailable: true,
-      previewUrl: "/agent-cash"
-    },
-    {
-      id: "sop-architect", 
-      name: "SOP Architect",
-      description: "Turns chaos into clean workflows.",
-      monthlyPrice: 240,
-      tokenUsage: "High",
-      timeSaved: "18 hrs/week", 
-      integrations: ["Notion", "ClickUp", "Monday.com", "Slack"],
-      features: ["Process mapping", "Workflow automation", "Documentation", "Training materials"],
-      demoAvailable: true,
-      previewUrl: "/demo-scenarios"
-    },
-    {
-      id: "content-producer",
-      name: "Content Producer", 
-      description: "Auto-creates, schedules, and posts with tone-match.",
-      monthlyPrice: 280,
-      tokenUsage: "Moderate",
-      timeSaved: "25 hrs/week",
-      integrations: ["Buffer", "Hootsuite", "Canva", "WordPress"],
-      features: ["Content creation", "Social scheduling", "Brand voice", "Analytics tracking"],
-      demoAvailable: true,
-      previewUrl: "/marketplace"
-    },
-    {
-      id: "executive-assistant",
-      name: "Executive Assistant",
-      description: "Manages your calendar, emails, and priorities.",
-      monthlyPrice: 260,
-      tokenUsage: "Low",
-      timeSaved: "15 hrs/week",
-      integrations: ["Gmail", "Calendar", "Zoom", "Slack"],
-      features: ["Email management", "Calendar coordination", "Meeting prep", "Task prioritization"],
-      demoAvailable: false,
-      previewUrl: "/onboarding"
-    }
-  ];
-
-  const handleSolResponse = (input: string) => {
-    // Enhanced SŌL Brain response with business intelligence
-    const context = {
-      industry: businessProfile.industry || 'general',
-      goal: businessProfile.goal.toLowerCase(),
-      budget: businessProfile.budget || 'unknown'
-    };
-    
-    const responses = {
-      sales: `Perfect! For ${context.industry} sales optimization, I recommend our Sales Rep Agent ($320/month). Based on your ${context.budget} budget, this agent can automate lead qualification and follow-ups, typically saving 22 hours per week and generating 3x ROI within 6 months. Would you like to see it in action?`,
-      
-      marketing: `Excellent choice! For ${context.industry} marketing automation, our Content Producer ($280/month) paired with Social Media Agent creates a powerful combination. This setup saves 25+ hours weekly and typically increases engagement by 40%. Given your ${context.budget} budget, this offers optimal value. Shall we explore this setup?`,
-      
-      operations: `Great insight! Your ${context.industry} operations would be transformed by our SOP Architect ($240/month). It intelligently maps processes and creates workflows automatically, reducing operational overhead by 35%. For your ${context.budget} budget range, this delivers exceptional efficiency gains. Ready for a live demonstration?`,
-      
-      default: `Based on your ${context.industry} background and ${context.budget} budget, I can recommend the perfect agent combination. What's your primary business goal today - increasing sales velocity, scaling marketing efforts, or optimizing operations? Each path offers distinct advantages for your specific situation.`
-    };
-    
-    if (context.goal.includes('sales') || context.goal.includes('revenue') || context.goal.includes('lead')) return responses.sales;
-    if (context.goal.includes('marketing') || context.goal.includes('content') || context.goal.includes('brand')) return responses.marketing;
-    if (context.goal.includes('operations') || context.goal.includes('process') || context.goal.includes('efficiency')) return responses.operations;
-    return responses.default;
-  };
+  const [solExpanded, setSolExpanded] = useState(false);
 
   return (
     <div className="min-h-screen bg-harmonix-deep-forest">
@@ -413,319 +369,6 @@ export default function DemoPage() {
               </div>
             </div>
           </div>
-        </section>
-      </div>
-
-      <Footer />
-    </div>
-  );
-}
-
-export default DemoPage;
-
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
-            {/* Agent Selection Tabs */}
-            <div className="lg:w-1/3 space-y-4">
-              {demoAgents.map((agent, index) => (
-                <Card 
-                  key={agent.id}
-                  className={cn(
-                    "p-4 cursor-pointer transition-all duration-300 border-2 hover:shadow-lg hover:shadow-harmonix-regal-gold/20",
-                    selectedAgent === index 
-                      ? "border-harmonix-regal-gold bg-harmonix-regal-gold/10" 
-                      : "border-harmonix-sage-fade/20 hover:border-harmonix-regal-gold/50"
-                  )}
-                  onClick={() => setSelectedAgent(index)}
-                >
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-bold text-harmonix-regal-gold">{agent.name}</h3>
-                      {agent.demoAvailable ? (
-                        <Badge className="bg-harmonix-regal-gold/20 text-harmonix-regal-gold">
-                          Live Demo
-                        </Badge>
-                      ) : (
-                        <Badge variant="outline" className="border-harmonix-sage-fade/30 text-harmonix-sage-fade">
-                          Coming Soon
-                        </Badge>
-                      )}
-                    </div>
-                    
-                    <p className="text-sm text-harmonix-sage-fade">{agent.description}</p>
-                    
-                    <div className="flex justify-between items-center">
-                      <div className="text-xs text-harmonix-sage-fade">
-                        <span>Saves {agent.timeSaved}</span>
-                        <br />
-                        <span>Tokens: {agent.tokenUsage}</span>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-sm font-bold text-harmonix-regal-gold">
-                          ${agent.monthlyPrice}/month
-                        </div>
-                        <div className="text-xs text-harmonix-sage-fade">
-                          Ongoing cost
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              ))}
-            </div>
-
-            {/* Active Agent Details */}
-            <div className="lg:w-2/3">
-              <Card className="harmonix-card-enhanced p-6 sm:p-8 h-full">
-                <div className="space-y-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="text-2xl sm:text-3xl font-bold text-harmonix-regal-gold mb-3 font-serif">
-                        {demoAgents[selectedAgent].name}
-                      </h3>
-                      <p className="text-lg text-harmonix-sage-fade">
-                        {demoAgents[selectedAgent].description}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-3xl font-bold text-harmonix-regal-gold">
-                        ${demoAgents[selectedAgent].monthlyPrice}
-                      </div>
-                      <div className="text-xs text-harmonix-sage-fade">per month</div>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="text-center p-3 bg-harmonix-night-pine/30 rounded-lg">
-                      <div className="text-xl font-bold text-harmonix-regal-gold">
-                        {demoAgents[selectedAgent].timeSaved}
-                      </div>
-                      <div className="text-xs text-harmonix-sage-fade">Time Saved</div>
-                    </div>
-                    <div className="text-center p-3 bg-harmonix-night-pine/30 rounded-lg">
-                      <div className="text-xl font-bold text-harmonix-regal-gold">
-                        {demoAgents[selectedAgent].tokenUsage}
-                      </div>
-                      <div className="text-xs text-harmonix-sage-fade">Token Usage</div>
-                    </div>
-                    <div className="text-center p-3 bg-harmonix-night-pine/30 rounded-lg">
-                      <div className="text-xl font-bold text-harmonix-regal-gold">
-                        {demoAgents[selectedAgent].integrations.length}+
-                      </div>
-                      <div className="text-xs text-harmonix-sage-fade">Integrations</div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <h5 className="text-sm font-medium text-harmonix-sage-fade">Integrations:</h5>
-                    <div className="flex flex-wrap gap-2">
-                      {demoAgents[selectedAgent].integrations.map((integration, i) => (
-                        <Badge 
-                          key={i} 
-                          variant="outline" 
-                          className="text-xs border-harmonix-sage-fade/30 text-harmonix-sage-fade"
-                        >
-                          {integration}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <h4 className="text-lg font-semibold text-white mb-3">Key Capabilities:</h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      {demoAgents[selectedAgent].features.map((feature, i) => (
-                        <div key={i} className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-harmonix-regal-gold" />
-                          <span className="text-sm text-harmonix-sage-fade">{feature}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <Button 
-                      className="touch-friendly-btn bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90"
-                      onClick={() => window.location.href = demoAgents[selectedAgent].previewUrl}
-                      disabled={!demoAgents[selectedAgent].demoAvailable}
-                    >
-                      <Play className="w-4 h-4 mr-2" />
-                      {demoAgents[selectedAgent].demoAvailable ? "Try Agent" : "Coming Soon"}
-                    </Button>
-                    <Button 
-                      variant="outline"
-                      className="touch-friendly-btn border-harmonix-regal-gold text-harmonix-regal-gold hover:bg-harmonix-regal-gold/10"
-                      onClick={() => window.location.href = '/checkout'}
-                    >
-                      <DollarSign className="w-4 h-4 mr-2" />
-                      Deploy Agent
-                    </Button>
-                  </div>
-                </div>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Demo Section */}
-      <section className="py-20 bg-gray-900/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="space-y-8">
-              <div>
-                <Badge className="bg-harmony-gold/10 text-harmony-gold border-harmony-gold/30 mb-4">
-                  Featured Demo
-                </Badge>
-                <h3 className="text-4xl font-bold text-white font-serif mb-6">
-                  SŌL Brain Interactive Experience
-                </h3>
-                <p className="text-xl text-gray-300 leading-relaxed mb-6">
-                  Experience our central AI intelligence that orchestrates all agents. 
-                  Ask questions about your business challenges and get personalized 
-                  agent recommendations with real ROI projections.
-                </p>
-              </div>
-              
-              <div className="space-y-4">
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-harmony-gold rounded-full"></div>
-                  <span className="text-gray-300">Industry-specific recommendations</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-harmony-gold rounded-full"></div>
-                  <span className="text-gray-300">Real business case studies and metrics</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-harmony-gold rounded-full"></div>
-                  <span className="text-gray-300">Personalized automation strategies</span>
-                </div>
-              </div>
-
-              <Link href="/soul-brain">
-                <Button size="lg" className="bg-harmony-gold text-harmony-dark hover:bg-harmony-gold/90">
-                  Start SŌL Brain Demo
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-            </div>
-            
-            <div className="flex justify-center">
-              <div className="w-80 h-80 relative">
-                <SolBrain size="xl" animated={true} />
-                <div className="absolute inset-0 bg-gradient-to-t from-harmony-dark via-transparent to-transparent"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Access Levels */}
-      <section className="py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-white font-serif mb-4">
-              Demo Access <span className="text-harmony-gold">Levels</span>
-            </h3>
-            <p className="text-xl text-gray-300">
-              Different features available based on your access level
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <Card className="bg-gray-900/50 border-gray-800">
-              <CardHeader>
-                <CardTitle className="text-harmony-gold font-serif">Public Access</CardTitle>
-                <CardDescription className="text-gray-300">
-                  Available to all visitors without registration
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-harmony-gold rounded-full"></div>
-                  <span className="text-gray-300">SŌL Brain chat demo</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-harmony-gold rounded-full"></div>
-                  <span className="text-gray-300">Agent marketplace browsing</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-harmony-gold rounded-full"></div>
-                  <span className="text-gray-300">Deployment scenario previews</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-harmony-gold rounded-full"></div>
-                  <span className="text-gray-300">Platform overview videos</span>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-gray-900/50 border-harmony-gold/30">
-              <CardHeader>
-                <CardTitle className="text-harmony-gold font-serif">Member Access</CardTitle>
-                <CardDescription className="text-gray-300">
-                  Full platform experience for authenticated users
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-harmony-gold rounded-full"></div>
-                  <span className="text-gray-300">Live dashboard and analytics</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-harmony-gold rounded-full"></div>
-                  <span className="text-gray-300">Agent deployment and management</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-harmony-gold rounded-full"></div>
-                  <span className="text-gray-300">Real workflow automation</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-harmony-gold rounded-full"></div>
-                  <span className="text-gray-300">Team collaboration features</span>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="bg-gradient-to-r from-harmony-green/20 to-harmony-gold/20 rounded-2xl p-12 border border-harmony-gold/30">
-            <h3 className="text-4xl font-bold text-white font-serif mb-6">
-              Ready for the Full <span className="text-harmony-gold">Experience</span>?
-            </h3>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-              {user 
-                ? "Access your personalized dashboard and start building your AI team today."
-                : "Join Harmonix to unlock the complete platform with live agent deployment and automation."
-              }
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              {user ? (
-                <Link href="/dashboard">
-                  <Button size="lg" className="bg-harmony-gold text-harmony-dark hover:bg-harmony-gold/90 font-semibold">
-                    Go to Dashboard
-                  </Button>
-                </Link>
-              ) : (
-                <>
-                  <Link href="/join">
-                    <Button size="lg" className="bg-harmony-gold text-harmony-dark hover:bg-harmony-gold/90 font-semibold">
-                      Join Waitlist
-                    </Button>
-                  </Link>
-                  <Link href="/login">
-                    <Button size="lg" variant="outline" className="border-harmony-gold text-harmony-gold hover:bg-harmony-gold/10">
-                      Member Login
-                    </Button>
-                  </Link>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
         </section>
       </div>
 
