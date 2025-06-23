@@ -51,6 +51,13 @@ function Router() {
       <Route path="/create" component={Create} />
       <Route path="/settings" component={Settings} />
       <Route path="/pricing" component={lazy(() => import("./pages/pricing"))} />
+      <Route path="/success" component={lazy(() => import("./pages/success"))} />
+      <Route path="/get-started" component={lazy(() => import("./pages/get-started"))} />
+      <Route path="/sign-in" component={lazy(() => import("./pages/sign-in"))} />
+      <Route path="/waitlist" component={lazy(() => import("./pages/waitlist"))} />
+      <Route path="/legal/privacy" component={lazy(() => import("./pages/legal/privacy"))} />
+      <Route path="/legal/terms" component={lazy(() => import("./pages/legal/terms"))} />
+      <Route path="/legal/cookies" component={lazy(() => import("./pages/legal/cookies"))} />
       <Route path="/onboarding" component={OnboardingPage} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />

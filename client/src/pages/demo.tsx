@@ -184,29 +184,39 @@ export default function DemoPage() {
                   )}
                   onClick={() => setSelectedAgent(index)}
                 >
-                <CardHeader className="text-center">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-lg bg-harmony-gold/10 flex items-center justify-center relative">
-                    <feature.icon className="h-8 w-8 text-harmony-gold" />
-                    {!feature.available && (
-                      <div className="absolute -top-1 -right-1 w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center">
-                        <Lock className="h-3 w-3 text-gray-300" />
-                      </div>
-                    )}
-                  </div>
-                  <CardTitle className="text-harmony-gold font-serif text-lg">{feature.title}</CardTitle>
-                  <CardDescription className="text-gray-300 text-sm">
-                    {feature.description}
-                  </CardDescription>
-                </CardHeader>
-                
-                <CardContent className="text-center">
                   <div className="space-y-3">
-                    <Badge 
-                      variant="outline" 
-                      className="border-harmony-gold/30 text-harmony-gold text-xs"
-                    >
-                      {feature.demoType}
-                    </Badge>
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-bold text-harmonix-regal-gold">{agent.name}</h3>
+                      {agent.demoAvailable ? (
+                        <Badge className="bg-harmonix-regal-gold/20 text-harmonix-regal-gold">
+                          Live Demo
+                        </Badge>
+                      ) : (
+                        <Badge variant="outline" className="border-harmonix-sage-fade/30 text-harmonix-sage-fade">
+                          Coming Soon
+                        </Badge>
+                      )}
+                    </div>
+                    
+                    <p className="text-sm text-harmonix-sage-fade">{agent.description}</p>
+                    
+                    <div className="flex justify-between items-center">
+                      <div className="text-xs text-harmonix-sage-fade">
+                        <span>Saves {agent.timeSaved}</span>
+                        <br />
+                        <span>Tokens: {agent.tokenUsage}</span>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-sm font-bold text-harmonix-regal-gold">
+                          ${agent.monthlyPrice}/month
+                        </div>
+                        <div className="text-xs text-harmonix-sage-fade">
+                          Ongoing cost
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
                     
                     <Button 
                       className={`w-full ${
