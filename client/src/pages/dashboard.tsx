@@ -149,105 +149,138 @@ export default function Dashboard() {
         </div>
 
         {/* Sacred Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-          <SacredCard variant="agent" className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm uppercase tracking-wider" style={{ 
-                  color: 'rgba(118, 139, 124, 0.7)',
-                  fontFamily: 'SF Mono, monospace'
-                }}>Sacred Agents</p>
-                <p className="text-3xl font-bold mt-2" style={{ 
-                  color: '#768b7c',
-                  fontFamily: 'Playfair Display, serif'
-                }}>{mockStats.totalAgents}</p>
-                <div className="w-12 h-0.5 mt-2" style={{ 
-                  background: 'linear-gradient(to right, #d7b76d, transparent)'
-                }} />
-              </div>
-              <div className="relative">
-                <Users className="w-10 h-10 harmonix-lotus" style={{ color: '#d7b76d' }} />
-                <div className="absolute inset-0 w-10 h-10 border rounded-full animate-ping" 
-                     style={{ borderColor: 'rgba(215, 183, 109, 0.4)' }} />
-              </div>
-            </div>
-          </SacredCard>
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+          <StaggerItem>
+            <AnimatedCard delay={0.2}>
+              <SacredCard variant="agent" className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm uppercase tracking-wider" style={{ 
+                      color: 'rgba(118, 139, 124, 0.7)',
+                      fontFamily: 'SF Mono, monospace'
+                    }}>Sacred Agents</p>
+                    <p className="text-3xl font-bold mt-2" style={{ 
+                      color: '#768b7c',
+                      fontFamily: 'Playfair Display, serif'
+                    }}>{mockStats.totalAgents}</p>
+                    <div className="w-12 h-0.5 mt-2" style={{ 
+                      background: 'linear-gradient(to right, #d7b76d, transparent)'
+                    }} />
+                  </div>
+                  <FloatingElement amplitude={5} duration={4}>
+                    <div className="relative">
+                      <Users className="w-10 h-10 harmonix-lotus" style={{ color: '#d7b76d' }} />
+                      <div className="absolute inset-0 w-10 h-10 border rounded-full animate-ping" 
+                           style={{ borderColor: 'rgba(215, 183, 109, 0.4)' }} />
+                    </div>
+                  </FloatingElement>
+                </div>
+              </SacredCard>
+            </AnimatedCard>
+          </StaggerItem>
 
-          <SacredCard variant="agent" className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-warm-gold/60 text-sm harmonix-mono-font uppercase tracking-wider">Active Tasks</p>
-                <p className="text-3xl font-bold text-white harmonix-header-font">{mockStats.activeTasks}</p>
-                <div className="w-12 h-0.5 bg-gradient-to-r from-warm-gold to-transparent mt-2" />
-              </div>
-              <div className="relative">
-                <Activity className="w-10 h-10 text-warm-gold harmonix-lotus" />
-                <div className="absolute inset-0 w-10 h-10 border border-warm-gold/30 rounded-full animate-ping" />
-              </div>
-            </div>
-          </SacredCard>
+          <StaggerItem>
+            <AnimatedCard delay={0.3}>
+              <SacredCard variant="agent" className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-warm-gold/60 text-sm harmonix-mono-font uppercase tracking-wider">Active Tasks</p>
+                    <p className="text-3xl font-bold text-white harmonix-header-font">{mockStats.activeTasks}</p>
+                    <div className="w-12 h-0.5 bg-gradient-to-r from-warm-gold to-transparent mt-2" />
+                  </div>
+                  <FloatingElement amplitude={3} duration={3}>
+                    <div className="relative">
+                      <Activity className="w-10 h-10 text-warm-gold harmonix-lotus" />
+                      <div className="absolute inset-0 w-10 h-10 border border-warm-gold/30 rounded-full animate-ping" />
+                    </div>
+                  </FloatingElement>
+                </div>
+              </SacredCard>
+            </AnimatedCard>
+          </StaggerItem>
 
-          <SacredCard variant="agent" className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-warm-gold/60 text-sm harmonix-mono-font uppercase tracking-wider">Tokens Used</p>
-                <p className="text-3xl font-bold text-white harmonix-header-font">{mockStats.tokensUsed.toLocaleString()}</p>
-                <div className="w-12 h-0.5 bg-gradient-to-r from-warm-gold to-transparent mt-2" />
-              </div>
-              <div className="relative">
-                <Zap className="w-10 h-10 text-warm-gold harmonix-lotus" />
-                <div className="absolute inset-0 w-10 h-10 border border-warm-gold/30 rounded-full animate-ping" />
-              </div>
-            </div>
-          </SacredCard>
+          <StaggerItem>
+            <BreathingGlow>
+              <AnimatedCard delay={0.4}>
+                <SacredCard variant="agent" className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-warm-gold/60 text-sm harmonix-mono-font uppercase tracking-wider">Tokens Used</p>
+                      <p className="text-3xl font-bold text-white harmonix-header-font">{mockStats.tokensUsed.toLocaleString()}</p>
+                      <div className="w-12 h-0.5 bg-gradient-to-r from-warm-gold to-transparent mt-2" />
+                    </div>
+                    <FloatingElement amplitude={4} duration={2.5}>
+                      <div className="relative">
+                        <Zap className="w-10 h-10 text-warm-gold harmonix-lotus" />
+                        <div className="absolute inset-0 w-10 h-10 border border-warm-gold/30 rounded-full animate-ping" />
+                      </div>
+                    </FloatingElement>
+                  </div>
+                </SacredCard>
+              </AnimatedCard>
+            </BreathingGlow>
+          </StaggerItem>
 
-          <SacredCard variant="agent" className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-warm-gold/60 text-sm harmonix-mono-font uppercase tracking-wider">Performance</p>
-                <p className="text-3xl font-bold text-white harmonix-header-font">94%</p>
-                <div className="w-12 h-0.5 bg-gradient-to-r from-warm-gold to-transparent mt-2" />
-              </div>
-              <div className="relative">
-                <BarChart3 className="w-10 h-10 text-warm-gold harmonix-lotus" />
-                <div className="absolute inset-0 w-10 h-10 border border-warm-gold/30 rounded-full animate-ping" />
-              </div>
-            </div>
-          </SacredCard>
-        </div>
+          <StaggerItem>
+            <AnimatedCard delay={0.5}>
+              <SacredCard variant="agent" className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-warm-gold/60 text-sm harmonix-mono-font uppercase tracking-wider">Performance</p>
+                    <p className="text-3xl font-bold text-white harmonix-header-font">94%</p>
+                    <div className="w-12 h-0.5 bg-gradient-to-r from-warm-gold to-transparent mt-2" />
+                  </div>
+                  <FloatingElement amplitude={6} duration={3.5}>
+                    <div className="relative">
+                      <BarChart3 className="w-10 h-10 text-warm-gold harmonix-lotus" />
+                      <div className="absolute inset-0 w-10 h-10 border border-warm-gold/30 rounded-full animate-ping" />
+                    </div>
+                  </FloatingElement>
+                </div>
+              </SacredCard>
+            </AnimatedCard>
+          </StaggerItem>
+        </StaggerContainer>
 
         {/* Recent Activity */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <SacredCard variant="default" className="p-6">
-            <div className="mb-4">
-              <h3 className="harmonix-header-font text-xl text-white mb-2">Recent Tasks</h3>
-              <div className="w-16 h-0.5 bg-gradient-to-r from-warm-gold to-transparent" />
-            </div>
-            <div className="space-y-4">
-              {mockTasks.map((task) => (
-                <div key={task.id} className="flex items-center justify-between p-3 rounded-lg bg-warm-gold/5 border border-warm-gold/20">
-                  <div className="flex-1">
-                    <h4 className="font-medium text-white harmonix-body-font">{task.title}</h4>
-                    <p className="text-sm text-warm-gold/60">{task.agent}</p>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    {task.status === 'completed' ? (
-                      <CheckCircle className="w-5 h-5 text-warm-gold" />
-                    ) : (
-                      <Clock className="w-5 h-5 text-circuit-teal" />
-                    )}
-                    <span className={`text-xs px-2 py-1 rounded-full ${
-                      task.status === 'completed' 
-                        ? 'bg-warm-gold/20 text-warm-gold'
-                        : 'bg-circuit-teal/20 text-circuit-teal'
-                    }`}>
-                      {task.status.replace('_', ' ')}
-                    </span>
-                  </div>
+        <FadeIn delay={0.7}>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <AnimatedCard delay={0.8}>
+              <SacredCard variant="default" className="p-6">
+                <div className="mb-4">
+                  <h3 className="harmonix-header-font text-xl text-white mb-2">Recent Tasks</h3>
+                  <div className="w-16 h-0.5 bg-gradient-to-r from-warm-gold to-transparent" />
                 </div>
-              ))}
-            </div>
-          </SacredCard>
+                <StaggerContainer className="space-y-4">
+                  {mockTasks.map((task, index) => (
+                    <StaggerItem key={task.id}>
+                      <HoverScale scale={1.02}>
+                        <div className="flex items-center justify-between p-3 rounded-lg bg-warm-gold/5 border border-warm-gold/20 hover:border-warm-gold/40 transition-all duration-300">
+                          <div className="flex-1">
+                            <h4 className="font-medium text-white harmonix-body-font">{task.title}</h4>
+                            <p className="text-sm text-warm-gold/60">{task.agent}</p>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            {task.status === 'completed' ? (
+                              <CheckCircle className="w-5 h-5 text-warm-gold" />
+                            ) : (
+                              <Clock className="w-5 h-5 text-circuit-teal" />
+                            )}
+                            <span className={`text-xs px-2 py-1 rounded-full ${
+                              task.status === 'completed' 
+                                ? 'bg-warm-gold/20 text-warm-gold'
+                                : 'bg-circuit-teal/20 text-circuit-teal'
+                            }`}>
+                              {task.status.replace('_', ' ')}
+                            </span>
+                          </div>
+                        </div>
+                      </HoverScale>
+                    </StaggerItem>
+                  ))}
+                </StaggerContainer>
+              </SacredCard>
+            </AnimatedCard>
 
           <SacredCard variant="default" className="p-6">
             <div className="mb-4">
