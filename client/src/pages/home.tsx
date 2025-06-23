@@ -14,7 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/lib/auth";
 import { Link } from "wouter";
-import { ChartLine, Cog, Shield, Search, Users, UserRoundCheck, Lock, TrendingUp, Activity, ArrowRight, Play, Zap, Link2, Clock, Brain, Bot, FileText, MessageSquare, Sparkles2, CheckCircle, Timer, Star } from "lucide-react";
+import { ChartLine, Cog, Shield, Search, Users, UserRoundCheck, Lock, TrendingUp, Activity, ArrowRight, Play, Zap, Link2, Clock, Brain, Bot, FileText, MessageSquare, Sparkles, CheckCircle, Timer, Star } from "lucide-react";
 
 // Platform Pillars Section
 function PlatformPillarsSection() {
@@ -376,7 +376,7 @@ function SolBrainSection() {
             <div className="space-y-4">
               {features.map((feature, index) => (
                 <div key={index} className="flex items-start space-x-3">
-                  <Sparkles2 className="w-5 h-5 text-harmonix-regal-gold mt-1 flex-shrink-0" />
+                  <Sparkles className="w-5 h-5 text-harmonix-regal-gold mt-1 flex-shrink-0" />
                   <span className="text-harmonix-sage-fade">{feature}</span>
                 </div>
               ))}
@@ -468,7 +468,7 @@ function JoinMovementSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Handle waitlist submission
-    window.location.href = deposit ? '/checkout?deposit=444' : '/waitlist';
+    window.location.href = deposit ? '/checkout?deposit=true' : '/checkout';
   };
 
   return (

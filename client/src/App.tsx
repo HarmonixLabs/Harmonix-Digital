@@ -52,6 +52,8 @@ function Router() {
       <Route path="/onboarding" component={OnboardingPage} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
+      <Route path="/thank-you" component={ThankYou} />
+      <Route path="/checkout" component={Checkout} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/marketplace" component={AgentMarketplace} />
       <Route path="/nft-marketplace" component={Marketplace} />
