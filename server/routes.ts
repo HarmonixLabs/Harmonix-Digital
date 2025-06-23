@@ -1,0 +1,336 @@
+import type { Express } from "express";
+import { createServer, type Server } from "http";
+import { WebSocketServer, WebSocket } from "ws";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import { storage } from "./storage";
+import { insertUserSchema, insertOrganizationSchema, insertAgentSchema, insertTaskSchema } from "@shared/schema";
+import { z } from "zod";
+import { processAgentTask } from "./openai";
+
+const JWT_SECRET = process.env.JWT_SECRET || "harmonix-secret-key";
+
+// Middleware to verify JWT token
+const authenticateToken = async (req: any, res: any, next: any) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ message: 'Access token required' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET) as any;
+    const user = await storage.getUser(decoded.userId);
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid token' });
+    }
+    req.user = user;
+    next();
+  } catch (error) {
+    return res.status(403).json({ message: 'Invalid token' });
+  }
+};
+
+export async function registerRoutes(app: Express): Promise<Server> {
+  const httpServer = createServer(app);
+
+  // WebSocket setup for real-time updates
+  const wss = new WebSocketServer({ server: httpServer, path: '/ws' });
+  
+  wss.on('connection', (ws: WebSocket, req) => {
+    console.log('WebSocket client connected');
+    
+    ws.on('message', (message) => {
+      try {
+        const data = JSON.parse(message.toString());
+        // Handle WebSocket messages for real-time updates
+        console.log('Received WebSocket message:', data);
+      } catch (error) {
+        console.error('Invalid WebSocket message:', error);
+      }
+    });
+
+    ws.on('close', () => {
+      console.log('WebSocket client disconnected');
+    });
+  });
+
+  // Helper function to broadcast to all connected clients
+  const broadcast = (data: any) => {
+    wss.clients.forEach(client => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify(data));
+      }
+    });
+  };
+
+  // Auth routes
+  app.post('/api/auth/register', async (req, res) => {
+    try {
+      const userData = insertUserSchema.parse(req.body);
+      
+      // Check if user already exists
+      const existingUser = await storage.getUserByEmail(userData.email);
+      if (existingUser) {
+        return res.status(400).json({ message: 'User already exists' });
+      }
+
+      // Hash password
+      const hashedPassword = await bcrypt.hash(userData.password, 10);
+      
+      // Create organization for the user
+      const org = await storage.createOrganization({
+        name: `${userData.name}'s Organization`,
+        slug: `org-${Date.now()}`,
+        planType: 'free',
+        tokenQuota: 1000,
+        tokensUsed: 0,
+      });
+
+      // Create user
+      const user = await storage.createUser({
+        ...userData,
+        password: hashedPassword,
+        organizationId: org.id,
+        tokenBalance: 500, // Welcome bonus
+      });
+
+      // Generate JWT token
+      const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '7d' });
+
+      res.json({
+        user: { ...user, password: undefined },
+        organization: org,
+        token,
+      });
+    } catch (error) {
+      console.error('Registration error:', error);
+      res.status(400).json({ message: 'Invalid user data' });
+    }
+  });
+
+  app.post('/api/auth/login', async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      
+      const user = await storage.getUserByEmail(email);
+      if (!user) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+
+      const validPassword = await bcrypt.compare(password, user.password);
+      if (!validPassword) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+
+      const organization = await storage.getOrganization(user.organizationId!);
+      const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '7d' });
+
+      res.json({
+        user: { ...user, password: undefined },
+        organization,
+        token,
+      });
+    } catch (error) {
+      console.error('Login error:', error);
+      res.status(500).json({ message: 'Login failed' });
+    }
+  });
+
+  app.get('/api/auth/me', authenticateToken, async (req: any, res) => {
+    try {
+      const organization = await storage.getOrganization(req.user.organizationId!);
+      res.json({
+        user: { ...req.user, password: undefined },
+        organization,
+      });
+    } catch (error) {
+      console.error('Auth me error:', error);
+      res.status(500).json({ message: 'Failed to get user data' });
+    }
+  });
+
+  // Agent Types routes
+  app.get('/api/agent-types', authenticateToken, async (req, res) => {
+    try {
+      const agentTypes = await storage.getAgentTypes();
+      res.json(agentTypes);
+    } catch (error) {
+      console.error('Get agent types error:', error);
+      res.status(500).json({ message: 'Failed to get agent types' });
+    }
+  });
+
+  // Agents routes
+  app.get('/api/agents', authenticateToken, async (req: any, res) => {
+    try {
+      const agents = await storage.getAgentsByOrganization(req.user.organizationId);
+      res.json(agents);
+    } catch (error) {
+      console.error('Get agents error:', error);
+      res.status(500).json({ message: 'Failed to get agents' });
+    }
+  });
+
+  app.post('/api/agents', authenticateToken, async (req: any, res) => {
+    try {
+      const agentData = insertAgentSchema.parse({
+        ...req.body,
+        organizationId: req.user.organizationId,
+      });
+
+      const agent = await storage.createAgent(agentData);
+      
+      broadcast({
+        type: 'agent_deployed',
+        data: agent,
+        organizationId: req.user.organizationId,
+      });
+
+      res.json(agent);
+    } catch (error) {
+      console.error('Create agent error:', error);
+      res.status(400).json({ message: 'Invalid agent data' });
+    }
+  });
+
+  app.put('/api/agents/:id', authenticateToken, async (req: any, res) => {
+    try {
+      const agentId = parseInt(req.params.id);
+      const agent = await storage.getAgent(agentId);
+      
+      if (!agent || agent.organizationId !== req.user.organizationId) {
+        return res.status(404).json({ message: 'Agent not found' });
+      }
+
+      const updatedAgent = await storage.updateAgent(agentId, req.body);
+      res.json(updatedAgent);
+    } catch (error) {
+      console.error('Update agent error:', error);
+      res.status(400).json({ message: 'Failed to update agent' });
+    }
+  });
+
+  app.delete('/api/agents/:id', authenticateToken, async (req: any, res) => {
+    try {
+      const agentId = parseInt(req.params.id);
+      const agent = await storage.getAgent(agentId);
+      
+      if (!agent || agent.organizationId !== req.user.organizationId) {
+        return res.status(404).json({ message: 'Agent not found' });
+      }
+
+      await storage.deleteAgent(agentId);
+      res.json({ message: 'Agent deleted successfully' });
+    } catch (error) {
+      console.error('Delete agent error:', error);
+      res.status(500).json({ message: 'Failed to delete agent' });
+    }
+  });
+
+  // Tasks routes
+  app.get('/api/tasks', authenticateToken, async (req: any, res) => {
+    try {
+      const tasks = await storage.getTasksByOrganization(req.user.organizationId);
+      res.json(tasks);
+    } catch (error) {
+      console.error('Get tasks error:', error);
+      res.status(500).json({ message: 'Failed to get tasks' });
+    }
+  });
+
+  app.post('/api/tasks', authenticateToken, async (req: any, res) => {
+    try {
+      const taskData = insertTaskSchema.parse({
+        ...req.body,
+        organizationId: req.user.organizationId,
+        userId: req.user.id,
+      });
+
+      const task = await storage.createTask(taskData);
+      
+      // Process task with AI agent
+      try {
+        const agent = await storage.getAgent(task.agentId);
+        const agentType = await storage.getAgentType(agent!.agentTypeId);
+        
+        broadcast({
+          type: 'task_started',
+          data: task,
+          organizationId: req.user.organizationId,
+        });
+
+        // Process in background
+        processAgentTask(task, agent!, agentType!, storage, broadcast).catch(console.error);
+        
+      } catch (error) {
+        console.error('Task processing error:', error);
+      }
+
+      res.json(task);
+    } catch (error) {
+      console.error('Create task error:', error);
+      res.status(400).json({ message: 'Invalid task data' });
+    }
+  });
+
+  // Token transactions routes
+  app.get('/api/token-transactions', authenticateToken, async (req: any, res) => {
+    try {
+      const transactions = await storage.getTokenTransactionsByOrganization(req.user.organizationId);
+      res.json(transactions);
+    } catch (error) {
+      console.error('Get token transactions error:', error);
+      res.status(500).json({ message: 'Failed to get token transactions' });
+    }
+  });
+
+  app.post('/api/token-transactions', authenticateToken, async (req: any, res) => {
+    try {
+      const transactionData = {
+        ...req.body,
+        organizationId: req.user.organizationId,
+        userId: req.user.id,
+      };
+
+      const transaction = await storage.createTokenTransaction(transactionData);
+      
+      // Update user token balance if it's a purchase
+      if (transaction.type === 'purchase') {
+        await storage.updateUser(req.user.id, {
+          tokenBalance: req.user.tokenBalance + transaction.amount,
+        });
+      }
+
+      res.json(transaction);
+    } catch (error) {
+      console.error('Create token transaction error:', error);
+      res.status(400).json({ message: 'Invalid transaction data' });
+    }
+  });
+
+  // Analytics routes
+  app.get('/api/analytics/stats', authenticateToken, async (req: any, res) => {
+    try {
+      const stats = await storage.getOrganizationStats(req.user.organizationId);
+      res.json(stats);
+    } catch (error) {
+      console.error('Get stats error:', error);
+      res.status(500).json({ message: 'Failed to get organization stats' });
+    }
+  });
+
+  // NFTs routes
+  app.get('/api/nfts', authenticateToken, async (req: any, res) => {
+    try {
+      const nfts = await storage.getNftsByUser(req.user.id);
+      res.json(nfts);
+    } catch (error) {
+      console.error('Get NFTs error:', error);
+      res.status(500).json({ message: 'Failed to get NFTs' });
+    }
+  });
+
+  return httpServer;
+}

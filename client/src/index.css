@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(47, 84%, 52%);
+  --primary-foreground: hsl(240, 10%, 3.9%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+  
+  /* Harmonix custom colors */
+  --harmony-dark: hsl(210, 24%, 8%);
+  --harmony-slate: hsl(213, 27%, 15%);
+  --harmony-gold: hsl(47, 84%, 52%);
+  --harmony-teal: hsl(188, 60%, 58%);
+  --harmony-blue: hsl(210, 100%, 56%);
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(47, 84%, 52%);
+  --primary-foreground: hsl(240, 10%, 3.9%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-harmony-dark text-foreground font-sans antialiased;
+    background: linear-gradient(135deg, hsl(210, 24%, 8%) 0%, hsl(213, 27%, 15%) 50%, hsl(210, 24%, 8%) 100%);
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer components {
+  .harmony-gradient {
+    background: linear-gradient(135deg, hsl(210, 24%, 8%) 0%, hsl(213, 27%, 15%) 50%, hsl(210, 24%, 8%) 100%);
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 ease-in-out;
+    background: linear-gradient(135deg, rgba(26, 35, 50, 0.6) 0%, rgba(15, 20, 25, 0.8) 100%);
+    backdrop-filter: blur(10px);
+  }
+
+  .card-hover:hover {
+    @apply transform -translate-y-1;
+    box-shadow: 0 20px 40px rgba(212, 175, 55, 0.1);
+  }
+
+  .lotus-icon {
+    background: linear-gradient(135deg, hsl(47, 84%, 52%) 0%, hsl(51, 100%, 71%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .sol-brain {
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  .connection-dots::before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: hsl(47, 84%, 52%);
+    border-radius: 50%;
+    top: 50%;
+    left: -20px;
+    transform: translateY(-50%);
+  }
+
+  .harmony-gold {
+    color: hsl(47, 84%, 52%);
+  }
+
+  .harmony-teal {
+    color: hsl(188, 60%, 58%);
+  }
+
+  .harmony-dark {
+    color: hsl(210, 24%, 8%);
+  }
+
+  .bg-harmony-gold {
+    background-color: hsl(47, 84%, 52%);
+  }
+
+  .bg-harmony-teal {
+    background-color: hsl(188, 60%, 58%);
+  }
+
+  .bg-harmony-slate {
+    background-color: hsl(213, 27%, 15%);
+  }
+
+  .border-harmony-gold {
+    border-color: hsl(47, 84%, 52%);
+  }
+
+  .border-harmony-teal {
+    border-color: hsl(188, 60%, 58%);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    opacity: 0.8; 
+  }
+  50% { 
+    opacity: 1; 
+  }
+}
+
+/* Font imports */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap');
