@@ -70,7 +70,7 @@
   }
 }
 
-@layer components {
+@layer utilities {
   .harmony-gradient {
     background: linear-gradient(135deg, hsl(210, 24%, 8%) 0%, hsl(213, 27%, 15%) 50%, hsl(210, 24%, 8%) 100%);
   }
@@ -131,6 +131,10 @@
 
   .bg-harmony-slate {
     background-color: hsl(213, 27%, 15%);
+  }
+
+  .bg-harmony-dark {
+    background-color: hsl(210, 24%, 8%);
   }
 
   .border-harmony-gold {
