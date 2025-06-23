@@ -31,19 +31,19 @@ export function AnimatedHero({ className }: AnimatedHeroProps) {
 
   return (
     <div className={cn("min-h-screen flex items-center justify-center relative", className)} 
-         style={{ background: '#0F1115' }}>
+         style={{ background: '#0b0f0e' }}>
       
       {/* Living Circuit Mist */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute inset-0 opacity-20">
+        <div className="absolute inset-0 opacity-25">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full" 
                style={{ 
-                 background: 'radial-gradient(circle, rgba(30, 104, 102, 0.3) 0%, transparent 70%)',
+                 background: 'radial-gradient(circle, rgba(47, 78, 70, 0.4) 0%, transparent 70%)',
                  animation: 'pulse 8s ease-in-out infinite'
                }} />
           <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full" 
                style={{ 
-                 background: 'radial-gradient(circle, rgba(209, 191, 167, 0.15) 0%, transparent 70%)',
+                 background: 'radial-gradient(circle, rgba(215, 183, 109, 0.2) 0%, transparent 70%)',
                  animation: 'pulse 6s ease-in-out infinite reverse'
                }} />
         </div>
@@ -54,12 +54,12 @@ export function AnimatedHero({ className }: AnimatedHeroProps) {
             key={i}
             className="absolute w-1 h-1 rounded-full animate-pulse"
             style={{
-              background: '#D1BFA7',
+              background: '#d7b76d',
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
               animationDelay: `${Math.random() * 5}s`,
               animationDuration: `${4 + Math.random() * 3}s`,
-              opacity: 0.4
+              opacity: 0.6
             }}
           />
         ))}
@@ -69,10 +69,10 @@ export function AnimatedHero({ className }: AnimatedHeroProps) {
       <div className="absolute inset-0" 
            style={{
              backgroundImage: `
-               linear-gradient(rgba(209, 191, 167, 0.03) 1px, transparent 1px),
-               linear-gradient(90deg, rgba(209, 191, 167, 0.03) 1px, transparent 1px)
+               linear-gradient(rgba(47, 78, 70, 0.03) 1px, transparent 1px),
+               linear-gradient(90deg, rgba(47, 78, 70, 0.03) 1px, transparent 1px)
              `,
-             backgroundSize: '60px 60px'
+             backgroundSize: '80px 80px'
            }} />
 
       {/* Main Content */}
@@ -103,7 +103,7 @@ export function AnimatedHero({ className }: AnimatedHeroProps) {
           <h1 className="text-6xl lg:text-8xl font-bold mb-6 leading-tight" 
               style={{ 
                 fontFamily: 'Playfair Display, serif',
-                color: '#D1BFA7'
+                color: '#d7b76d'
               }}>
             {taglineWords.map((word, index) => (
               <span
@@ -114,8 +114,8 @@ export function AnimatedHero({ className }: AnimatedHeroProps) {
                 )}
                 style={{
                   animationDelay: `${index * 0.2}s`,
-                  color: word === "Timeless" || word === "Sovereignty" ? "#D1BFA7" : "#F5EDDD",
-                  textShadow: '0 0 20px rgba(209, 191, 167, 0.3)'
+                  color: word === "Timeless" || word === "Sovereignty" ? "#d7b76d" : "#768b7c",
+                  textShadow: '0 0 30px rgba(215, 183, 109, 0.4)'
                 }}
               >
                 {word}
@@ -130,7 +130,7 @@ export function AnimatedHero({ className }: AnimatedHeroProps) {
             )}
             style={{
               fontFamily: 'Inter, sans-serif',
-              color: 'rgba(209, 191, 167, 0.8)',
+              color: 'rgba(118, 139, 124, 0.9)',
               fontWeight: '400'
             }}
           >
@@ -149,17 +149,17 @@ export function AnimatedHero({ className }: AnimatedHeroProps) {
             onClick={() => setLocation('/marketplace')}
             className="min-w-48 px-8 py-4 text-lg font-semibold rounded-xl border transition-all duration-300 hover:scale-105"
             style={{
-              background: 'linear-gradient(135deg, #D1BFA7 0%, rgba(209, 191, 167, 0.9) 100%)',
-              color: '#0F1115',
-              border: '1px solid rgba(209, 191, 167, 0.5)',
-              boxShadow: '0 4px 20px rgba(209, 191, 167, 0.3)'
+              background: 'linear-gradient(135deg, #d7b76d 0%, rgba(215, 183, 109, 0.9) 100%)',
+              color: '#0b0f0e',
+              border: '1px solid rgba(215, 183, 109, 0.5)',
+              boxShadow: '0 4px 20px rgba(215, 183, 109, 0.4)'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow = '0 8px 30px rgba(209, 191, 167, 0.5)';
+              e.currentTarget.style.boxShadow = '0 8px 30px rgba(215, 183, 109, 0.6)';
               e.currentTarget.style.transform = 'translateY(-2px)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = '0 4px 20px rgba(209, 191, 167, 0.3)';
+              e.currentTarget.style.boxShadow = '0 4px 20px rgba(215, 183, 109, 0.4)';
               e.currentTarget.style.transform = 'translateY(0)';
             }}
           >
@@ -171,17 +171,17 @@ export function AnimatedHero({ className }: AnimatedHeroProps) {
             className="min-w-48 px-8 py-4 text-lg font-medium rounded-xl border-2 transition-all duration-300"
             style={{
               background: 'transparent',
-              color: '#D1BFA7',
-              border: '2px solid rgba(209, 191, 167, 0.5)'
+              color: '#d7b76d',
+              border: '2px solid rgba(215, 183, 109, 0.5)'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(209, 191, 167, 0.1)';
-              e.currentTarget.style.borderColor = '#D1BFA7';
+              e.currentTarget.style.background = 'rgba(215, 183, 109, 0.1)';
+              e.currentTarget.style.borderColor = '#d7b76d';
               e.currentTarget.style.transform = 'translateY(-2px)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = 'transparent';
-              e.currentTarget.style.borderColor = 'rgba(209, 191, 167, 0.5)';
+              e.currentTarget.style.borderColor = 'rgba(215, 183, 109, 0.5)';
               e.currentTarget.style.transform = 'translateY(0)';
             }}
           >

@@ -110,18 +110,18 @@ export default function Dashboard() {
         {/* Sacred Welcome Header */}
         <div className="mb-12 text-center">
           <div className="flex items-center justify-center space-x-3 mb-4">
-            <Crown className="w-8 h-8" style={{ color: '#D1BFA7' }} />
+            <Crown className="w-8 h-8" style={{ color: '#d7b76d' }} />
             <h1 className="text-5xl font-bold" style={{ 
               fontFamily: 'Playfair Display, serif',
-              color: '#F5EDDD'
+              color: '#768b7c'
             }}>
-              Welcome back, <span style={{ color: '#D1BFA7' }}>{user.name}</span>
+              Welcome back, <span style={{ color: '#d7b76d' }}>{user.name}</span>
             </h1>
-            <Crown className="w-8 h-8" style={{ color: '#D1BFA7' }} />
+            <Crown className="w-8 h-8" style={{ color: '#d7b76d' }} />
           </div>
           <p className="text-xl mb-6" style={{
             fontFamily: 'Inter, sans-serif',
-            color: 'rgba(209, 191, 167, 0.7)',
+            color: 'rgba(118, 139, 124, 0.8)',
             fontWeight: '400'
           }}>
             Your AI automation sanctuary is operating at peak efficiency
@@ -130,17 +130,17 @@ export default function Dashboard() {
           {/* Sacred Status Indicator */}
           <div className="flex items-center justify-center space-x-4">
             <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#D1BFA7' }} />
-              <span className="text-sm" style={{ color: 'rgba(209, 191, 167, 0.6)' }}>SŌL Brain Active</span>
+              <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#d7b76d' }} />
+              <span className="text-sm" style={{ color: 'rgba(118, 139, 124, 0.7)' }}>SŌL Brain Active</span>
             </div>
-            <div className="w-px h-4" style={{ background: 'rgba(209, 191, 167, 0.3)' }} />
+            <div className="w-px h-4" style={{ background: 'rgba(118, 139, 124, 0.3)' }} />
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 rounded-full animate-pulse" 
                    style={{ 
-                     background: '#1E6866',
+                     background: '#2f4e46',
                      animationDelay: "0.5s" 
                    }} />
-              <span className="text-sm" style={{ color: 'rgba(30, 104, 102, 0.6)' }}>Agents Online</span>
+              <span className="text-sm" style={{ color: 'rgba(47, 78, 70, 0.8)' }}>Agents Online</span>
             </div>
           </div>
         </div>
@@ -150,13 +150,22 @@ export default function Dashboard() {
           <SacredCard variant="agent" className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-warm-gold/60 text-sm harmonix-mono-font uppercase tracking-wider">Sacred Agents</p>
-                <p className="text-3xl font-bold text-white harmonix-header-font">{mockStats.totalAgents}</p>
-                <div className="w-12 h-0.5 bg-gradient-to-r from-warm-gold to-transparent mt-2" />
+                <p className="text-sm uppercase tracking-wider" style={{ 
+                  color: 'rgba(118, 139, 124, 0.7)',
+                  fontFamily: 'SF Mono, monospace'
+                }}>Sacred Agents</p>
+                <p className="text-3xl font-bold mt-2" style={{ 
+                  color: '#768b7c',
+                  fontFamily: 'Playfair Display, serif'
+                }}>{mockStats.totalAgents}</p>
+                <div className="w-12 h-0.5 mt-2" style={{ 
+                  background: 'linear-gradient(to right, #d7b76d, transparent)'
+                }} />
               </div>
               <div className="relative">
-                <Users className="w-10 h-10 text-warm-gold harmonix-lotus" />
-                <div className="absolute inset-0 w-10 h-10 border border-warm-gold/30 rounded-full animate-ping" />
+                <Users className="w-10 h-10 harmonix-lotus" style={{ color: '#d7b76d' }} />
+                <div className="absolute inset-0 w-10 h-10 border rounded-full animate-ping" 
+                     style={{ borderColor: 'rgba(215, 183, 109, 0.4)' }} />
               </div>
             </div>
           </SacredCard>

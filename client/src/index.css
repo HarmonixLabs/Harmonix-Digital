@@ -63,8 +63,8 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    background: #0F1115;
-    color: #D1BFA7;
+    background: #0b0f0e;
+    color: #d7b76d;
     min-height: 100vh;
     font-family: 'Inter', sans-serif;
   }
@@ -78,9 +78,9 @@
   /* Official Harmonix brand utilities */
   .harmonix-gradient {
     background: 
-      radial-gradient(circle at 20% 80%, rgba(30, 104, 102, 0.15) 0%, transparent 60%),
-      radial-gradient(circle at 80% 20%, rgba(209, 191, 167, 0.05) 0%, transparent 50%),
-      #0F1115;
+      radial-gradient(circle at 20% 80%, rgba(47, 78, 70, 0.2) 0%, transparent 60%),
+      radial-gradient(circle at 80% 20%, rgba(215, 183, 109, 0.08) 0%, transparent 50%),
+      #0b0f0e;
     position: relative;
     min-height: 100vh;
   }
@@ -93,11 +93,11 @@
     right: 0;
     bottom: 0;
     background-image: 
-      linear-gradient(rgba(209, 191, 167, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(209, 191, 167, 0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
+      linear-gradient(rgba(47, 78, 70, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(47, 78, 70, 0.03) 1px, transparent 1px);
+    background-size: 80px 80px;
     pointer-events: none;
-    opacity: 0.5;
+    opacity: 0.6;
   }
 
   .harmonix-scenic-gradient {
@@ -106,34 +106,34 @@
 
   .harmonix-card-enhanced {
     background: linear-gradient(135deg, 
-      rgba(15, 17, 21, 0.98) 0%, 
-      rgba(30, 104, 102, 0.08) 50%,
-      rgba(15, 17, 21, 0.98) 100%);
-    border: 1px solid rgba(209, 191, 167, 0.25);
+      rgba(11, 15, 14, 0.95) 0%, 
+      rgba(47, 78, 70, 0.12) 50%,
+      rgba(17, 31, 26, 0.98) 100%);
+    border: 1px solid rgba(215, 183, 109, 0.25);
     backdrop-filter: blur(20px);
     box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.6),
-      inset 0 1px 0 rgba(209, 191, 167, 0.15);
+      0 8px 32px rgba(0, 0, 0, 0.7),
+      inset 0 1px 0 rgba(215, 183, 109, 0.15);
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     border-radius: 16px;
   }
 
   .harmonix-card-enhanced:hover {
     transform: translateY(-8px);
-    border-color: rgba(209, 191, 167, 0.6);
+    border-color: rgba(215, 183, 109, 0.6);
     box-shadow: 
       0 20px 60px rgba(0, 0, 0, 0.8),
-      0 0 40px rgba(209, 191, 167, 0.3),
-      inset 0 1px 0 rgba(209, 191, 167, 0.25);
+      0 0 40px rgba(215, 183, 109, 0.4),
+      inset 0 1px 0 rgba(215, 183, 109, 0.25);
   }
 
   .harmonix-btn-primary {
     background: linear-gradient(135deg, 
-      #D1BFA7 0%, 
-      rgba(209, 191, 167, 0.9) 100%);
-    color: #0F1115;
+      #d7b76d 0%, 
+      rgba(215, 183, 109, 0.9) 100%);
+    color: #0b0f0e;
     font-weight: 600;
-    border: 1px solid rgba(209, 191, 167, 0.5);
+    border: 1px solid rgba(215, 183, 109, 0.5);
     border-radius: 12px;
     padding: 12px 24px;
     position: relative;
@@ -144,14 +144,14 @@
   .harmonix-btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 
-      0 8px 25px rgba(209, 191, 167, 0.4),
-      0 0 20px rgba(209, 191, 167, 0.3);
+      0 8px 25px rgba(215, 183, 109, 0.5),
+      0 0 20px rgba(215, 183, 109, 0.4);
   }
 
   .harmonix-btn-secondary {
     background: transparent;
-    color: #D1BFA7;
-    border: 2px solid rgba(209, 191, 167, 0.5);
+    color: #d7b76d;
+    border: 2px solid rgba(215, 183, 109, 0.5);
     border-radius: 12px;
     padding: 10px 22px;
     font-weight: 500;
@@ -159,10 +159,10 @@
   }
 
   .harmonix-btn-secondary:hover {
-    background: rgba(209, 191, 167, 0.1);
-    border-color: #D1BFA7;
+    background: rgba(215, 183, 109, 0.1);
+    border-color: #d7b76d;
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(209, 191, 167, 0.2);
+    box-shadow: 0 8px 20px rgba(215, 183, 109, 0.3);
   }
 
   .card-hover {
@@ -218,8 +218,8 @@
   }
 
   .harmonix-lotus {
-    color: #D1BFA7;
-    filter: drop-shadow(0 0 10px rgba(209, 191, 167, 0.5));
+    color: #d7b76d;
+    filter: drop-shadow(0 0 10px rgba(215, 183, 109, 0.5));
   }
 
   /* Harmonix brand color utilities */
@@ -229,13 +229,22 @@
   .text-harmonix-regal-gold { color: var(--harmonix-regal-gold); }
   .text-harmonix-night-pine { color: var(--harmonix-night-pine); }
   
-  /* Sacred color utilities */
-  .text-warm-gold { color: #D1BFA7; }
-  .text-circuit-teal { color: #1E6866; }
-  .bg-warm-gold { background-color: #D1BFA7; }
-  .bg-circuit-teal { background-color: #1E6866; }
-  .border-warm-gold { border-color: #D1BFA7; }
-  .border-circuit-teal { border-color: #1E6866; }
+  /* Harmonix Green Core Palette utilities */
+  .text-regal-gold { color: #d7b76d; }
+  .text-cedar-mist { color: #2f4e46; }
+  .text-sage-fade { color: #768b7c; }
+  .text-deep-forest { color: #0b0f0e; }
+  .text-night-pine { color: #111f1a; }
+  
+  .bg-regal-gold { background-color: #d7b76d; }
+  .bg-cedar-mist { background-color: #2f4e46; }
+  .bg-sage-fade { background-color: #768b7c; }
+  .bg-deep-forest { background-color: #0b0f0e; }
+  .bg-night-pine { background-color: #111f1a; }
+  
+  .border-regal-gold { border-color: #d7b76d; }
+  .border-cedar-mist { border-color: #2f4e46; }
+  .border-sage-fade { border-color: #768b7c; }
 
   .bg-harmonix-deep-forest { background-color: var(--harmonix-deep-forest); }
   .bg-harmonix-cedar-mist { background-color: var(--harmonix-cedar-mist); }

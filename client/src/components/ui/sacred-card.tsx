@@ -39,16 +39,16 @@ export function SacredCard({
 
   const cardStyle = {
     background: variant === 'agent' 
-      ? 'linear-gradient(135deg, rgba(30, 104, 102, 0.15) 0%, rgba(15, 17, 21, 0.95) 50%, rgba(15, 17, 21, 0.98) 100%)'
+      ? 'linear-gradient(135deg, rgba(47, 78, 70, 0.2) 0%, rgba(11, 15, 14, 0.95) 50%, rgba(17, 31, 26, 0.98) 100%)'
       : variant === 'premium'
-      ? 'linear-gradient(135deg, rgba(209, 191, 167, 0.08) 0%, rgba(15, 17, 21, 0.95) 50%, rgba(30, 104, 102, 0.1) 100%)'
-      : 'linear-gradient(135deg, rgba(15, 17, 21, 0.98) 0%, rgba(30, 104, 102, 0.05) 50%, rgba(15, 17, 21, 0.98) 100%)',
-    borderColor: '#D1BFA7',
+      ? 'linear-gradient(135deg, rgba(215, 183, 109, 0.12) 0%, rgba(11, 15, 14, 0.95) 50%, rgba(47, 78, 70, 0.15) 100%)'
+      : 'linear-gradient(135deg, rgba(11, 15, 14, 0.98) 0%, rgba(47, 78, 70, 0.08) 50%, rgba(17, 31, 26, 0.98) 100%)',
+    borderColor: '#d7b76d',
     borderRadius: '16px',
     backdropFilter: 'blur(20px)',
     boxShadow: variant === 'agent' || variant === 'premium'
-      ? '0 8px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(209, 191, 167, 0.15)'
-      : '0 4px 16px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(209, 191, 167, 0.1)'
+      ? '0 8px 32px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(215, 183, 109, 0.2)'
+      : '0 4px 16px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(215, 183, 109, 0.15)'
   };
 
   const hoverClasses = hover ? `
@@ -69,12 +69,13 @@ export function SacredCard({
         glowClasses,
         className
       )}
+      style={cardStyle}
     >
       {/* Sacred Geometry Accent */}
-      <div className="absolute top-4 right-4 w-6 h-6 opacity-20">
-        <div className="w-full h-full border border-warm-gold rounded-full">
-          <div className="absolute inset-1 border border-warm-gold rounded-full">
-            <div className="absolute inset-1 bg-warm-gold rounded-full opacity-30" />
+      <div className="absolute top-4 right-4 w-6 h-6 opacity-30">
+        <div className="w-full h-full border rounded-full" style={{ borderColor: '#d7b76d' }}>
+          <div className="absolute inset-1 border rounded-full" style={{ borderColor: '#d7b76d' }}>
+            <div className="absolute inset-1 rounded-full opacity-40" style={{ background: '#d7b76d' }} />
           </div>
         </div>
       </div>

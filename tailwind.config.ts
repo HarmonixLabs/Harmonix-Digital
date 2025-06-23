@@ -61,12 +61,12 @@ export default {
           border: "var(--sidebar-border)",
           ring: "var(--sidebar-ring)",
         },
-        // Harmonix Sacred Color System
-        "deep-space-black": "#0F1115",
-        "warm-gold": "#D1BFA7",
-        "harmonix-green": "#104745",
-        "light-cream": "#F5EDDD",
-        "circuit-teal": "#1E6866",
+        // Harmonix Green Core Palette
+        "deep-forest-black": "#0b0f0e",
+        "cedar-green-mist": "#2f4e46",
+        "sage-fade": "#768b7c", 
+        "regal-gold": "#d7b76d",
+        "night-pine-shadow": "#111f1a",
         
         // Legacy Colors
         "harmony-dark": "hsl(210, 24%, 8%)",
