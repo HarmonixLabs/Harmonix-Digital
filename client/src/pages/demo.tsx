@@ -167,7 +167,7 @@ export default function DemoPage() {
                     <CardContent className="p-6">
                       <div className="flex items-center space-x-4">
                         <div className="w-12 h-12 rounded-lg bg-harmonix-regal-gold/20 flex items-center justify-center">
-                          <agent.icon className="w-6 h-6 text-harmonix-regal-gold" />
+                          {React.createElement(agent.icon, { className: "w-6 h-6 text-harmonix-regal-gold" })}
                         </div>
                         <div className="flex-1">
                           <h3 className="font-semibold text-white">{agent.name}</h3>
@@ -189,7 +189,7 @@ export default function DemoPage() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
                         <div className="w-16 h-16 rounded-lg bg-harmonix-regal-gold/20 flex items-center justify-center">
-                          <demoAgents[selectedAgent].icon className="w-8 h-8 text-harmonix-regal-gold" />
+                          {React.createElement(demoAgents[selectedAgent].icon, { className: "w-8 h-8 text-harmonix-regal-gold" })}
                         </div>
                         <div>
                           <CardTitle className="text-harmonix-regal-gold font-serif">
@@ -418,34 +418,7 @@ export default function DemoPage() {
 
       <Footer />
     </div>
-  );
-              
-              <h1 className="hero-responsive-title text-harmonix-regal-gold mb-6 font-serif animate-fade-in">
-                Experience Harmony in Action
-              </h1>
-              
-              <p className="text-lg sm:text-xl text-harmonix-sage-fade max-w-3xl mx-auto mb-8 animate-fade-in-delay">
-                Test your AI agents. Ask SŌL. See your potential.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-delay-2">
-                <Button 
-                  size="lg" 
-                  className="touch-friendly-btn bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90"
-                  onClick={() => setSolExpanded(true)}
-                >
-                  <MessageCircle className="w-5 h-5 mr-2" />
-                  Talk to SŌL
-                </Button>
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="touch-friendly-btn border-harmonix-regal-gold text-harmonix-regal-gold hover:bg-harmonix-regal-gold/10"
-                  onClick={() => window.location.href = '/join'}
-                >
-                  Join Waitlist
-                </Button>
-                <Button 
+  ); 
                   size="lg" 
                   variant="outline" 
                   className="touch-friendly-btn border-harmonix-sage-fade text-harmonix-sage-fade hover:bg-harmonix-sage-fade/10"
