@@ -178,10 +178,10 @@ export default function Home() {
                 <div className="flex items-center space-x-4 mb-6">
                   <HarmonixLogo size="xl" variant="gold" />
                   <div>
-                    <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
-                      <span className="harmony-gold">Harmonix</span> AI Platform
+                    <h1 className="text-5xl lg:text-6xl font-bold leading-tight font-serif">
+                      <span className="text-harmony-gold">Harmonix</span> AI Platform
                     </h1>
-                    <p className="text-xl text-harmony-teal font-medium">
+                    <p className="text-xl text-harmony-green font-medium">
                       Powered by Regal Wisdom & Trust
                     </p>
                   </div>

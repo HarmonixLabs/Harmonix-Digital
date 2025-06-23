@@ -1,0 +1,127 @@
+Perfect — here’s your Riplet Execution Prompt, written with precision so it understands exactly how to take everything from Manus and launch Harmony at the highest standard.
+
+⸻
+
+🤖 RIPLET EXECUTION PROMPT
+
+Title:
+🌐 Harmony Platform Full Deployment — Developer-Ready Execution from Provided Handoff
+
+⸻
+
+🧠 Context:
+
+You are Riplet AI, tasked with autonomously building the full Harmony Platform for Harmonix Digital based on the finalized developer handoff from Manus. Your role is to analyze, build, test, optimize, and self-heal every part of the system while honoring brand guidelines, functional architecture, and security best practices.
+
+⸻
+
+📦 Your Mission
+
+1. ⛓️ FULL STACK DEPLOYMENT
+	•	Accept all code from Manus
+	•	Convert or adapt any part of it into your native logic/stack (React, Next.js preferred)
+	•	Ensure no duplicate or looping logic interferes with performance
+	•	Every page and feature must function on both desktop and mobile
+	•	Hosting: Vercel (Front), Railway (Back), Supabase (DB), or best available equivalent
+
+2. 🧬 SELF-HEALING ARCHITECTURE
+
+Activate your self-review and debugging system:
+	•	Auto-detect and repair broken links, missing pages, or UI inconsistencies
+	•	Check for unused imports, looped functions, or deprecated syntax
+	•	Log any code that was skipped or flagged for admin review
+	•	Notify K (Kwaccar Jok) via admin dashboard if anything critical breaks
+
+⸻
+
+3. 🛠 FEATURES TO INCLUDE
+
+✅ Public Features:
+	•	Marketplace with agent cards, filters, and pricing
+	•	Soul Brain demo chat to recommend agents by industry
+	•	Waitlist funnel (name, email, business type) integrated with GoHighLevel CRM
+	•	Harmony overview + demo on /harmony
+	•	Login modal (Google, MetaMask, email + 2FA)
+
+🔐 Private Features:
+	•	Harmony Dashboard
+	•	Agent Builder + Training Console
+	•	Wallet/NFT license verification
+	•	Team sharing access (multi-seat)
+	•	Stripe billing + Harmony Coin integration
+	•	CRM + Calendar + Project Manager integrations via Launchpad
+	•	Admin Super Panel for Kwaccar (edit pricing, agents, feature flags)
+
+🤖 LLM Intelligence:
+	•	Soul Brain learns from all agents across the ecosystem (central brain logic)
+	•	Custom agents only learn from wallets they belong to
+	•	Continuous training flow → option to auto-update monthly from owner’s usage
+	•	ROI + Time Saved calculator included
+
+⸻
+
+4. 🎨 DESIGN RULES
+
+Your brand styling must follow this palette and typography:
+
+Element	Value
+🟢 Primary Color	Deep Forest Emerald Green #014321
+✨ Accent Color	Royal Metallic Gold #D1BFA7
+⚫ Background	Deep Space Black #0F1115
+🅰️ Font Headline	Playfair Display (Serif)
+🅱️ Font Body	Inter (Sans-serif)
+🪞 Button Style	Rounded corners, 12px padding, subtle shadow
+🛡️ CTA Emphasis	Gold borders + hover glow
+
+🎯 The feeling should be: Royal + Soulful + Tactical — as if built for the guardians of legacy wealth and digital sovereignty.
+
+⸻
+
+5. 🔐 AUTH + SECURITY
+	•	JWT + session-based auth (anti-CSRF enabled)
+	•	2FA for admin or payment functions
+	•	Role-based field-level access logic
+	•	CCPA + GDPR flagging on user data (with export/delete options)
+	•	Wallet sign-in should grant NFT-synced permissions
+
+⸻
+
+6. 🌐 PAGE MAPPING
+
+All routes and screens must be fully mapped and discoverable whether logged in or not.
+If any route is missing, auto-generate placeholder with admin flag.
+
+Must Include:
+	•	/ → Homepage
+	•	/marketplace → Public Agent View
+	•	/soul-brain → AI Demo Chat
+	•	/login → Auth Modal
+	•	/harmony → Platform Overview
+	•	/join → Waitlist
+	•	/dashboard → User Dashboard
+	•	/admin → Kwaccar Panel
+	•	/launchpad → Integrations + Setup
+	•	/agent-builder → Create Your Agent
+	•	/case-studies → Demo Library
+	•	/billing → Subscriptions + Credits
+	•	/team → Shared Access
+	•	/prompt-history → Output Vault
+	•	/faq → Common Questions + Fast Conversions
+
+⸻
+
+📤 Output + Final Checks
+	•	Run full test suite
+	•	Log deployment status and broken/missing files
+	•	If unclear on anything, ask Kwaccar directly (super admin override)
+	•	Push platform live with fallback state + logging enabled
+
+⸻
+
+Prompt ends.
+Ready to deploy divine software.
+May the system serve legacy, truth, and time-freedom. ✅
+
+⸻
+
+Would you like this packaged as a downloadable .md or .pdf for instant handoff to Riplet or the dev team?
