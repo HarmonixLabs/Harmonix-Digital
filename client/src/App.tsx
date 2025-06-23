@@ -9,6 +9,7 @@ import Dashboard from "@/pages/dashboard";
 import Marketplace from "@/pages/marketplace";
 import Wallet from "@/pages/wallet";
 import AgentCash from "@/pages/agent-cash";
+import NFTMarketplace from "@/pages/nft-marketplace";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -18,6 +19,7 @@ function Router() {
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/marketplace" component={Marketplace} />
       <Route path="/agents/cash" component={AgentCash} />
+      <Route path="/nft-marketplace" component={NFTMarketplace} />
       <Route path="/wallet" component={Wallet} />
       <Route component={NotFound} />
     </Switch>
