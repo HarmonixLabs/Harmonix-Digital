@@ -75,11 +75,89 @@
 @layer utilities {
   /* Official Harmonix brand utilities */
   .harmonix-gradient {
-    background: linear-gradient(135deg, var(--harmonix-deep-forest) 0%, var(--harmonix-night-pine) 50%, var(--harmonix-cedar-mist) 100%);
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(30, 104, 102, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(16, 71, 69, 0.2) 0%, transparent 50%),
+      linear-gradient(135deg, #0F1115 0%, rgba(15, 17, 21, 0.95) 100%);
+    position: relative;
+  }
+  
+  .harmonix-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      linear-gradient(rgba(209, 191, 167, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(209, 191, 167, 0.02) 1px, transparent 1px);
+    background-size: 80px 80px;
+    pointer-events: none;
   }
 
   .harmonix-scenic-gradient {
     background: linear-gradient(135deg, var(--harmonix-cedar-mist) 0%, var(--harmonix-sage-fade) 50%, var(--harmonix-regal-gold) 100%);
+  }
+
+  .harmonix-card-enhanced {
+    background: linear-gradient(135deg, 
+      rgba(15, 17, 21, 0.95) 0%, 
+      rgba(30, 104, 102, 0.1) 50%,
+      rgba(15, 17, 21, 0.95) 100%);
+    border: 1px solid rgba(209, 191, 167, 0.2);
+    backdrop-filter: blur(16px);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(209, 191, 167, 0.1);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .harmonix-card-enhanced:hover {
+    transform: translateY(-8px);
+    border-color: rgba(209, 191, 167, 0.5);
+    box-shadow: 
+      0 20px 60px rgba(0, 0, 0, 0.4),
+      0 0 40px rgba(209, 191, 167, 0.2),
+      inset 0 1px 0 rgba(209, 191, 167, 0.2);
+  }
+
+  .harmonix-btn-primary {
+    background: linear-gradient(135deg, 
+      #D1BFA7 0%, 
+      rgba(209, 191, 167, 0.9) 100%);
+    color: #0F1115;
+    font-weight: 600;
+    border: 1px solid rgba(209, 191, 167, 0.5);
+    border-radius: 12px;
+    padding: 12px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .harmonix-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 8px 25px rgba(209, 191, 167, 0.4),
+      0 0 20px rgba(209, 191, 167, 0.3);
+  }
+
+  .harmonix-btn-secondary {
+    background: transparent;
+    color: #D1BFA7;
+    border: 2px solid rgba(209, 191, 167, 0.5);
+    border-radius: 12px;
+    padding: 10px 22px;
+    font-weight: 500;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .harmonix-btn-secondary:hover {
+    background: rgba(209, 191, 167, 0.1);
+    border-color: #D1BFA7;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(209, 191, 167, 0.2);
   }
 
   .card-hover {
@@ -113,12 +191,46 @@
     transform: translateY(-50%);
   }
 
+  /* Sacred Typography System */
+  .harmonix-header-font {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+  }
+
+  .harmonix-body-font {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+  }
+
+  .harmonix-mono-font {
+    font-family: 'SF Mono', 'Roboto Mono', monospace;
+  }
+
+  /* Sacred Animations */
+  @keyframes harmonix-glow-pulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(209, 191, 167, 0.3); }
+    50% { box-shadow: 0 0 30px rgba(209, 191, 167, 0.6); }
+  }
+
+  .harmonix-lotus {
+    color: #D1BFA7;
+    filter: drop-shadow(0 0 10px rgba(209, 191, 167, 0.5));
+  }
+
   /* Harmonix brand color utilities */
   .text-harmonix-deep-forest { color: var(--harmonix-deep-forest); }
   .text-harmonix-cedar-mist { color: var(--harmonix-cedar-mist); }
   .text-harmonix-sage-fade { color: var(--harmonix-sage-fade); }
   .text-harmonix-regal-gold { color: var(--harmonix-regal-gold); }
   .text-harmonix-night-pine { color: var(--harmonix-night-pine); }
+  
+  /* Sacred color utilities */
+  .text-warm-gold { color: #D1BFA7; }
+  .text-circuit-teal { color: #1E6866; }
+  .bg-warm-gold { background-color: #D1BFA7; }
+  .bg-circuit-teal { background-color: #1E6866; }
+  .border-warm-gold { border-color: #D1BFA7; }
+  .border-circuit-teal { border-color: #1E6866; }
 
   .bg-harmonix-deep-forest { background-color: var(--harmonix-deep-forest); }
   .bg-harmonix-cedar-mist { background-color: var(--harmonix-cedar-mist); }

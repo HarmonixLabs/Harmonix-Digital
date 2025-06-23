@@ -61,11 +61,24 @@ export default {
           border: "var(--sidebar-border)",
           ring: "var(--sidebar-ring)",
         },
+        // Harmonix Sacred Color System
+        "deep-space-black": "#0F1115",
+        "warm-gold": "#D1BFA7",
+        "harmonix-green": "#104745",
+        "light-cream": "#F5EDDD",
+        "circuit-teal": "#1E6866",
+        
+        // Legacy Colors
         "harmony-dark": "hsl(210, 24%, 8%)",
         "harmony-slate": "hsl(213, 27%, 15%)", 
         "harmony-gold": "hsl(47, 84%, 52%)",
         "harmony-teal": "hsl(188, 60%, 58%)",
         "harmony-blue": "hsl(210, 100%, 56%)",
+        "harmonix-deep-forest": "#0b0f0e",
+        "harmonix-cedar-mist": "#2f4e46", 
+        "harmonix-sage-fade": "#768b7c",
+        "harmonix-regal-gold": "#d7b76d",
+        "harmonix-night-pine": "#111f1a",
       },
       keyframes: {
         "accordion-down": {
