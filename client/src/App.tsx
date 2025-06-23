@@ -18,6 +18,7 @@ import MyAgents from "@/pages/my-agents";
 import Create from "@/pages/create";
 import Settings from "@/pages/settings";
 import Login from "@/pages/login";
+import OnboardingPage from "@/pages/onboarding";
 import Signup from "@/pages/signup";
 import Marketplace from "@/pages/marketplace";
 import AgentMarketplace from "@/pages/agent-marketplace";
@@ -43,6 +44,7 @@ function Router() {
       <Route path="/create" component={Create} />
       <Route path="/settings" component={Settings} />
       <Route path="/pricing" component={lazy(() => import("./pages/pricing"))} />
+      <Route path="/onboarding" component={OnboardingPage} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
       <Route path="/dashboard" component={Dashboard} />

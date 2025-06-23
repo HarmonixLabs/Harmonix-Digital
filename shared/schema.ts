@@ -13,6 +13,8 @@ export const users = pgTable("users", {
   organizationId: integer("organization_id").references(() => organizations.id),
   role: text("role").notNull().default("user"), // user, admin, super_admin
   tokenBalance: integer("token_balance").notNull().default(0),
+  onboardingCompleted: boolean("onboarding_completed").default(false),
+  onboardingData: text("onboarding_data"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
