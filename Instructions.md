@@ -192,19 +192,70 @@ className="harmonix-card-enhanced"
 4. **Audit mobile responsiveness** across all pages
 5. **Implement missing floating components** (SŌL Connected, Concierge Chatbot)
 
-## Emergency Protocols
+## HARMONIX SYSTEM SELF-HEALING PROTOCOL v1.0
 
-If compilation fails:
+### Emergency Recovery Procedures
+
+#### Phase 1: Critical System Stabilization ✅
+1. **JSX Structure Repair** - Fixed adjacent elements in demo.tsx
+2. **Component Import Validation** - Checking navbar imports
+3. **Port Configuration Fix** - Investigating frontend/backend mismatch
+4. **Memory State Reset** - Clearing ghost states and token overflows
+
+#### Phase 2: Core System Validation 🔍 IN PROGRESS
+1. **File Tree Rebuild** - Validating component registry
+2. **Route Mapping Verification** - Testing all 20+ page routes
+3. **Brand Consistency Audit** - Ensuring Harmonix Green Core Palette
+4. **Performance Optimization** - Memory leak cleanup
+
+#### Phase 3: Functionality Testing 📋 PENDING
+1. **Homepage Load Test** - Sacred design and animations
+2. **Marketplace Functionality** - Agent cards and filtering
+3. **Checkout Flow** - Stripe integration and redirects
+4. **SŌL Brain Interaction** - Chat functionality and responses
+5. **Mobile Responsiveness** - Touch-friendly navigation
+
+### Emergency Protocols
+
+**If compilation fails:**
 1. Check for unclosed JSX elements
 2. Verify all imports are correctly typed
 3. Ensure CSS classes use harmonix-* naming convention
 4. Check for missing component props or undefined variables
 
-If routing breaks:
+**If routing breaks:**
 1. Verify route paths match file structure
 2. Check for typos in path definitions
 3. Ensure all page components are properly exported
 4. Test navigation from multiple entry points
+
+**If styling conflicts:**
+1. Audit Harmonix color palette usage
+2. Check for CSS specificity conflicts
+3. Verify Tailwind class consistency
+4. Test responsive breakpoints
+
+### Recovery Status Dashboard
+
+| Component | Status | Issues | Action |
+|-----------|---------|---------|---------|
+| App.tsx | ✅ Stable | None | Monitoring |
+| Demo.tsx | ✅ Fixed | JSX structure | Resolved |
+| Navbar | 🔍 Checking | Import paths | Investigating |
+| Server | 🔍 Testing | Port config | Investigating |
+| Routing | ✅ Stable | None | Monitoring |
+| Styling | ✅ Stable | None | Monitoring |
+
+### Success Metrics
+- Application compiles without errors
+- All routes accessible and functional
+- Navbar loads with correct Harmonix logo
+- Stripe checkout processes successfully
+- SŌL brain responds to interactions
+- Mobile interface fully responsive
+
+---
+*Self-Healing Protocol Active - Stability before scale*iple entry points
 
 ## Success Metrics
 

@@ -181,13 +181,13 @@ export default function DemoPage() {
 
         {/* Enhanced Agent Demo Cards Section */}
         <section className="py-16 sm:py-20 lg:py-24">
-        <div className="harmonix-container">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-harmonix-regal-gold font-serif">
-              Test Our AI Agents
-            </h2>
-            <p className="text-lg sm:text-xl text-harmonix-sage-fade max-w-4xl mx-auto">
-              Experience the power of specialized AI agents with live demonstrations
+          <div className="harmonix-container">
+            <div className="text-center mb-12 sm:mb-16">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-harmonix-regal-gold font-serif">
+                Test Our AI Agents
+              </h2>
+              <p className="text-lg sm:text-xl text-harmonix-sage-fade max-w-4xl mx-auto">
+                Experience the power of specialized AI agents with live demonstrations
             </p>
           </div>
 
