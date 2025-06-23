@@ -6,6 +6,13 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/lib/auth";
 import Home from "@/pages/home";
 import Dashboard from "@/pages/dashboard";
+import Harmony from "@/pages/harmony";
+import SoulBrain from "@/pages/soul-brain";
+import Join from "@/pages/join";
+import FAQ from "@/pages/faq";
+import CaseStudies from "@/pages/case-studies";
+import Login from "@/pages/login";
+import Signup from "@/pages/signup";
 import Marketplace from "@/pages/marketplace";
 import Wallet from "@/pages/wallet";
 import AgentCash from "@/pages/agent-cash";
@@ -18,6 +25,13 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/harmony" component={Harmony} />
+      <Route path="/soul-brain" component={SoulBrain} />
+      <Route path="/join" component={Join} />
+      <Route path="/faq" component={FAQ} />
+      <Route path="/case-studies" component={CaseStudies} />
+      <Route path="/login" component={Login} />
+      <Route path="/signup" component={Signup} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/marketplace" component={Marketplace} />
       <Route path="/agent-cash" component={AgentCash} />
