@@ -139,6 +139,286 @@ export default function DemoPage() {
             </div>
           </div>
         </section>
+
+        {/* Enhanced Agent Demo Cards Section */}
+        <section className="py-16 sm:py-20 lg:py-24">
+          <div className="harmonix-container">
+            <div className="text-center mb-12 sm:mb-16">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-harmonix-regal-gold font-serif">
+                Test Our AI Agents
+              </h2>
+              <p className="text-lg sm:text-xl text-harmonix-sage-fade max-w-4xl mx-auto">
+                Experience the power of specialized AI agents with live demonstrations
+              </p>
+            </div>
+
+            <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+              {/* Agent Selection Tabs */}
+              <div className="lg:w-1/3 space-y-4">
+                {demoAgents.map((agent, index) => (
+                  <Card 
+                    key={agent.id}
+                    className={cn(
+                      "bg-harmonix-night-pine/50 border-harmonix-sage-fade/30 hover:border-harmonix-regal-gold/50 transition-all cursor-pointer",
+                      selectedAgent === index && "border-harmonix-regal-gold bg-harmonix-regal-gold/10"
+                    )}
+                    onClick={() => setSelectedAgent(index)}
+                  >
+                    <CardContent className="p-6">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-12 h-12 rounded-lg bg-harmonix-regal-gold/20 flex items-center justify-center">
+                          <agent.icon className="w-6 h-6 text-harmonix-regal-gold" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-white">{agent.name}</h3>
+                          <p className="text-sm text-harmonix-sage-fade">{agent.specialty}</p>
+                        </div>
+                        <Badge variant="outline" className="border-harmonix-regal-gold/30 text-harmonix-regal-gold">
+                          {agent.tier}
+                        </Badge>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+
+              {/* Agent Demo Interface */}
+              <div className="lg:w-2/3">
+                <Card className="bg-harmonix-night-pine/50 border-harmonix-sage-fade/30">
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-16 h-16 rounded-lg bg-harmonix-regal-gold/20 flex items-center justify-center">
+                          <demoAgents[selectedAgent].icon className="w-8 h-8 text-harmonix-regal-gold" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-harmonix-regal-gold font-serif">
+                            {demoAgents[selectedAgent].name}
+                          </CardTitle>
+                          <CardDescription className="text-harmonix-sage-fade">
+                            {demoAgents[selectedAgent].description}
+                          </CardDescription>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-harmonix-regal-gold rounded-full animate-pulse"></div>
+                        <span className="text-sm text-harmonix-regal-gold">Live Demo</span>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  
+                  <CardContent className="space-y-6">
+                    {/* Agent Capabilities */}
+                    <div>
+                      <h4 className="font-semibold text-white mb-3">Core Capabilities</h4>
+                      <div className="grid grid-cols-2 gap-3">
+                        {demoAgents[selectedAgent].capabilities.map((capability, index) => (
+                          <div key={index} className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-harmonix-regal-gold" />
+                            <span className="text-sm text-harmonix-sage-fade">{capability}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Demo Metrics */}
+                    <div>
+                      <h4 className="font-semibold text-white mb-3">Performance Metrics</h4>
+                      <div className="grid grid-cols-3 gap-4">
+                        <div className="text-center p-3 bg-harmonix-night-pine/30 rounded-lg">
+                          <div className="text-2xl font-bold text-harmonix-regal-gold">{demoAgents[selectedAgent].metrics.efficiency}</div>
+                          <div className="text-xs text-harmonix-sage-fade">Efficiency</div>
+                        </div>
+                        <div className="text-center p-3 bg-harmonix-night-pine/30 rounded-lg">
+                          <div className="text-2xl font-bold text-harmonix-regal-gold">{demoAgents[selectedAgent].metrics.accuracy}</div>
+                          <div className="text-xs text-harmonix-sage-fade">Accuracy</div>
+                        </div>
+                        <div className="text-center p-3 bg-harmonix-night-pine/30 rounded-lg">
+                          <div className="text-2xl font-bold text-harmonix-regal-gold">{demoAgents[selectedAgent].metrics.speed}</div>
+                          <div className="text-xs text-harmonix-sage-fade">Response Time</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Interactive Demo */}
+                    <div>
+                      <h4 className="font-semibold text-white mb-3">Try It Now</h4>
+                      <div className="space-y-4">
+                        <div className="flex space-x-2">
+                          <Input 
+                            placeholder={`Ask ${demoAgents[selectedAgent].name} a question...`}
+                            className="flex-1 bg-harmonix-night-pine/30 border-harmonix-sage-fade/30 text-white placeholder:text-harmonix-sage-fade"
+                          />
+                          <Button 
+                            size="icon"
+                            className="bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90"
+                          >
+                            <Send className="w-4 h-4" />
+                          </Button>
+                        </div>
+                        
+                        <div className="bg-harmonix-night-pine/30 rounded-lg p-4 min-h-[120px] border border-harmonix-sage-fade/20">
+                          <div className="text-sm text-harmonix-sage-fade mb-2">Agent Response:</div>
+                          <div className="text-white">
+                            {demoAgents[selectedAgent].demoResponse}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                      <Button 
+                        className="flex-1 bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90"
+                        onClick={() => setSolExpanded(true)}
+                      >
+                        <Bot className="w-4 h-4 mr-2" />
+                        Deploy This Agent
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        className="flex-1 border-harmonix-sage-fade text-harmonix-sage-fade hover:bg-harmonix-sage-fade/10"
+                      >
+                        <Star className="w-4 h-4 mr-2" />
+                        Learn More
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* SŌL Brain Integration Demo */}
+        <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-r from-harmonix-night-pine/20 to-harmonix-cedar-mist/20">
+          <div className="harmonix-container">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-harmonix-regal-gold font-serif">
+                Ask SŌL Brain Anything
+              </h2>
+              <p className="text-lg sm:text-xl text-harmonix-sage-fade max-w-4xl mx-auto">
+                Experience our advanced AI orchestration engine that coordinates multiple agents for complex tasks
+              </p>
+            </div>
+
+            <div className="max-w-4xl mx-auto">
+              <Card className="bg-harmonix-night-pine/50 border-harmonix-sage-fade/30">
+                <CardContent className="p-8">
+                  <div className="space-y-6">
+                    {/* Business Profile Section */}
+                    <div className="grid md:grid-cols-3 gap-4">
+                      <div>
+                        <label className="text-sm font-medium text-harmonix-regal-gold mb-2 block">Industry</label>
+                        <Select value={businessProfile.industry} onValueChange={(value) => setBusinessProfile(prev => ({...prev, industry: value}))}>
+                          <SelectTrigger className="bg-harmonix-night-pine/30 border-harmonix-sage-fade/30 text-white">
+                            <SelectValue placeholder="Select industry" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="technology">Technology</SelectItem>
+                            <SelectItem value="healthcare">Healthcare</SelectItem>
+                            <SelectItem value="finance">Finance</SelectItem>
+                            <SelectItem value="retail">Retail</SelectItem>
+                            <SelectItem value="manufacturing">Manufacturing</SelectItem>
+                            <SelectItem value="consulting">Consulting</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      <div>
+                        <label className="text-sm font-medium text-harmonix-regal-gold mb-2 block">Primary Goal</label>
+                        <Select value={businessProfile.goal} onValueChange={(value) => setBusinessProfile(prev => ({...prev, goal: value}))}>
+                          <SelectTrigger className="bg-harmonix-night-pine/30 border-harmonix-sage-fade/30 text-white">
+                            <SelectValue placeholder="Select goal" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="increase-sales">Increase Sales</SelectItem>
+                            <SelectItem value="improve-efficiency">Improve Efficiency</SelectItem>
+                            <SelectItem value="reduce-costs">Reduce Costs</SelectItem>
+                            <SelectItem value="scale-operations">Scale Operations</SelectItem>
+                            <SelectItem value="enhance-customer-service">Enhance Customer Service</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      <div>
+                        <label className="text-sm font-medium text-harmonix-regal-gold mb-2 block">Budget Range</label>
+                        <Select value={businessProfile.budget} onValueChange={(value) => setBusinessProfile(prev => ({...prev, budget: value}))}>
+                          <SelectTrigger className="bg-harmonix-night-pine/30 border-harmonix-sage-fade/30 text-white">
+                            <SelectValue placeholder="Select budget" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="under-10k">Under $10K</SelectItem>
+                            <SelectItem value="10k-25k">$10K - $25K</SelectItem>
+                            <SelectItem value="25k-50k">$25K - $50K</SelectItem>
+                            <SelectItem value="50k-100k">$50K - $100K</SelectItem>
+                            <SelectItem value="100k-plus">$100K+</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+
+                    {/* SŌL Interface */}
+                    <div className="border-t border-harmonix-sage-fade/20 pt-6">
+                      <Button 
+                        size="lg"
+                        className="w-full bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90 text-lg font-semibold"
+                        onClick={() => setSolExpanded(true)}
+                      >
+                        <Sparkles className="w-5 h-5 mr-2" />
+                        Activate SŌL Brain Analysis
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* Call to Action */}
+        <section className="py-16 sm:py-20 lg:py-24">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="bg-gradient-to-r from-harmony-green/20 to-harmony-gold/20 rounded-2xl p-12 border border-harmony-gold/30">
+              <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-harmonix-regal-gold font-serif">
+                Ready to Transform Your Business?
+              </h2>
+              <p className="text-lg sm:text-xl text-harmonix-sage-fade mb-8 max-w-2xl mx-auto">
+                {user 
+                  ? "Deploy your first AI agent and start automating your workflows today."
+                  : "Join thousands of businesses already using Harmonix AI agents to scale their operations."
+                }
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                {user ? (
+                  <Link href="/dashboard">
+                    <Button size="lg" className="bg-harmony-gold text-harmony-dark hover:bg-harmony-gold/90 font-semibold">
+                      Go to Dashboard
+                    </Button>
+                  </Link>
+                ) : (
+                  <>
+                    <Link href="/join">
+                      <Button size="lg" className="bg-harmony-gold text-harmony-dark hover:bg-harmony-gold/90 font-semibold">
+                        Join Waitlist
+                      </Button>
+                    </Link>
+                    <Link href="/login">
+                      <Button size="lg" variant="outline" className="border-harmony-gold text-harmony-gold hover:bg-harmony-gold/10">
+                        Member Login
+                      </Button>
+                    </Link>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <Footer />
+    </div>
+  );
               
               <h1 className="hero-responsive-title text-harmonix-regal-gold mb-6 font-serif animate-fade-in">
                 Experience Harmony in Action
