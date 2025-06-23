@@ -3,7 +3,7 @@ import { TokenMeter } from "@/components/token-meter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "@/hooks/use-auth";
+import { useAuth } from "@/lib/auth";
 import { useWebSocket } from "@/hooks/use-websocket";
 import { UserRoundCheck, Clock, CheckCircle, Activity } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";

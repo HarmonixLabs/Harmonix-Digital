@@ -8,12 +8,15 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@/lib/auth";
 import { ChartLine, Cog, Shield, Search, Users, UserRoundCheck, Lock, TrendingUp } from "lucide-react";
 
 export default function Home() {
+  const { isAuthenticated } = useAuth();
+  
   const { data: agentTypes = [] } = useQuery({
     queryKey: ['/api/agent-types'],
-    enabled: false // Only fetch when authenticated
+    enabled: isAuthenticated
   });
 
   const featuredAgents = [

@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useAuth } from "@/hooks/use-auth";
+import { useAuth } from "@/lib/auth";
 import { Coins, User, Settings, LogOut, Menu, X } from "lucide-react";
 import { useState } from "react";
 
