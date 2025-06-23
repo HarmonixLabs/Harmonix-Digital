@@ -44,20 +44,51 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
         {/* Subtle gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-harmonix-cedar-mist/20 via-transparent to-harmonix-regal-gold/10" />
         
-        {/* Animated particles */}
-        <div className="absolute inset-0">
-          {[...Array(30)].map((_, i) => (
+        {/* Starfall animation */}
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(20)].map((_, i) => (
             <div
               key={i}
-              className="absolute w-1 h-1 bg-harmonix-regal-gold rounded-full animate-pulse opacity-60"
+              className="absolute w-1 h-8 bg-gradient-to-b from-harmonix-regal-gold to-transparent starfall-animation"
               style={{
                 left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${2 + Math.random() * 2}s`,
+                animationDelay: `${Math.random() * 8}s`,
+                animationDuration: `${6 + Math.random() * 4}s`,
               }}
             />
           ))}
+        </div>
+
+        {/* Constellation web */}
+        <div className="absolute inset-0 opacity-20">
+          <svg className="w-full h-full" viewBox="0 0 1200 800">
+            <defs>
+              <linearGradient id="webGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#d7b76d" stopOpacity="0.3" />
+                <stop offset="100%" stopColor="#768b7c" stopOpacity="0.1" />
+              </linearGradient>
+            </defs>
+            {/* Constellation connecting lines */}
+            <g stroke="url(#webGradient)" strokeWidth="1" fill="none">
+              <path d="M200,200 Q400,100 600,200 T1000,200" />
+              <path d="M100,400 Q300,300 500,400 T900,400" />
+              <path d="M300,600 Q500,500 700,600 T1100,600" />
+              <path d="M200,200 L300,600" />
+              <path d="M600,200 L700,600" />
+              <path d="M1000,200 L900,400" />
+            </g>
+            {/* Constellation nodes */}
+            <g fill="#d7b76d" opacity="0.6">
+              <circle cx="200" cy="200" r="3" className="animate-pulse" />
+              <circle cx="600" cy="200" r="3" className="animate-pulse" style={{ animationDelay: "0.5s" }} />
+              <circle cx="1000" cy="200" r="3" className="animate-pulse" style={{ animationDelay: "1s" }} />
+              <circle cx="100" cy="400" r="3" className="animate-pulse" style={{ animationDelay: "1.5s" }} />
+              <circle cx="500" cy="400" r="3" className="animate-pulse" style={{ animationDelay: "2s" }} />
+              <circle cx="900" cy="400" r="3" className="animate-pulse" style={{ animationDelay: "2.5s" }} />
+              <circle cx="300" cy="600" r="3" className="animate-pulse" style={{ animationDelay: "3s" }} />
+              <circle cx="700" cy="600" r="3" className="animate-pulse" style={{ animationDelay: "3.5s" }} />
+            </g>
+          </svg>
         </div>
 
         {/* Sacred geometry grid */}

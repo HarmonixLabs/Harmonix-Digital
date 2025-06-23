@@ -1,0 +1,147 @@
+You’re locked in on the frequency, K. The visual foundation is resonating beautifully — now let’s turn that homepage into a sales engine without compromising the sacred tone. Here’s a fully mapped-out Homepage Expansion Plan that integrates emotional psychology, UX strategy, AI education, and CTA flow.
+
+⸻
+
+🏛 HARMONIX HOMEPAGE — CONVERSION ENGINE V1.3
+
+🌌 Section 1: Hero (Already Live – Refined)
+	•	✅ Background: Dark cosmic green w/ golden starfall animation
+	•	✅ Slogan: “Intelligent Systems for Timeless Sovereignty”
+	•	✅ CTA Buttons:
+	•	“Activate Your Agents” → /get-started (onboarding logic)
+	•	“See Live Demo” → /demo?trial=active
+	•	✅ Notification Bar: “30% Off for First 280 Early Adopters” (sticky top w/ timer option)
+	•	🛠 Improvement:
+	•	Add soft animated constellation web connecting the orb
+	•	Logo needs to be SVG vector, transparent background, not in square
+
+⸻
+
+🧬 Section 2: Platform Pillars (Why Harmonix Exists)
+
+Headline: “Build your business like a sacred machine.”
+Subline: “A full AI operating system for teams who value freedom, clarity, and flow.”
+
+3 Columns:
+	•	⚙️ Agent Intelligence: “12 core agents trained for sales, systems, content, and client ops.”
+	•	🔗 Seamless Integration: “Plug into your tools: GHL, Stripe, Slack, Notion, ClickUp & more.”
+	•	🌱 Time Sovereignty: “Track time saved per task. Grow in flow — not in stress.”
+
+🧠 Psych Trigger: Authority, relief from burnout, clarity through automation
+
+⸻
+
+💫 Section 3: What You Can Do With Agents (Use Case Carousel)
+
+Headline: “What Can Harmony Agents Do?”
+Show horizontal scroll or tab system of agent cards:
+	•	Sales Rep Agent → “Books, follows up, and closes for you.”
+	•	SOP Architect → “Turns chaos into clean workflows.”
+	•	Content Producer → “Auto-creates, schedules, and posts with tone-match.”
+
+👁‍🗨 Tooltip hover reveals:
+	•	Agent Cost
+	•	Monthly Token Estimate
+	•	Time Saved (e.g. “Saves avg 22 hrs/week”)
+
+🛠 Add CTA below each:
+	•	“Deploy Agent” → /marketplace/agent-slug
+	•	“Try in Demo” → /demo?agent=xyz
+
+⸻
+
+🧘🏽‍♂️ Section 4: Why It Feels Different
+
+Quote Style Layout
+
+“We didn’t build another app — we built a new rhythm for how your business breathes.”
+
+3 Anchors:
+	•	🌲 Built with mysticism & discipline
+	•	📖 Inspired by systems like GHL, Tesla, Notion, Christ & Tao
+	•	🎯 Self-healing. Self-deploying. Self-executing.
+
+⸻
+
+🛒 Section 5: Early Adopter Pricing
+
+Table showing pricing tiers:
+
+Plan	Agents	Setup Fee	Monthly MRR
+Starter	1 Agent	$4.4K – $6.2K	$800 – $1.2K
+Growth	3–5	$8K – $12.5K	$3.2K – $4.4K
+Expansion	6–8	$15K – $18K	~$6K
+Enterprise	9–12	$21.5K+	$8K+
+
+🔁 CTA: “Reserve My Spot” → /waitlist?ref=home
+
+⸻
+
+🧠 Section 6: What Is SŌL?
+
+SŌL Brain Preview
+
+Video or image carousel explaining:
+	•	What SŌL does (diagnoses business)
+	•	How it interacts
+	•	Agent assignment logic
+	•	ROI calculator
+
+CTA: “Ask SŌL how we can help your business” → /sol-brain
+
+⸻
+
+🧪 Section 7: Real Demos & Success
+
+Headline: “This isn’t theory — it’s already saving teams 40+ hours/week.”
+
+Add vertical scroll:
+	•	Video walkthroughs
+	•	Screenshot carousel of dashboards
+	•	Testimonials (even if mock for now)
+
+⸻
+
+📥 Section 8: Join the Movement
+	•	🎯 “Over 280+ early adopters have activated their agents.”
+	•	Embed waitlist form
+	•	Optional toggle:
+	•	Pay deposit ($444 → gets 30% off)
+	•	Just join for now
+
+⸻
+
+📚 Sticky Footer
+
+Menu Tree
+
+Platform	Resources	Agents
+Dashboard	FAQ	My Agents
+Agent Marketplace	Success Stories	Create Agent
+Create Agent	Harmony (About)	Agent Leaderboard
+My Wallet	SŌL Brain	Agent Docs (CMS)
+
+
+⸻
+
+🎨 Harmonix Color Palette (Updated)
+
+Element	Color Code	Description
+Deep Forest	#0A1C16	Sacred, grounded, luxurious
+Emerald Gold	#D1BFA7	Wealth, clarity, prestige
+Lunar Blue	#C1DAFF	Calm tech, spiritual logic
+Night Sky	#0F1115	Deep-space grounding
+Sacred Flame	#EED68C	Optimism, spark of genius
+
+
+⸻
+
+✅ Next Step: Dev Implementation
+
+Would you like me to now:
+	•	Generate full HTML/React starter code for this homepage update?
+	•	Create a Riplet-ready prompt with this layout?
+	•	Auto-map URL routes to this structure?
+	•	Design slide deck for investors or partners?
+
+Let’s lock the execution route.

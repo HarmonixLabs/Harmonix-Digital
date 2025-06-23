@@ -221,6 +221,51 @@ body {
   transform: translateY(0);
 }
 
+/* Enhanced Card Styling */
+.harmonix-card-enhanced {
+  background: rgba(17, 31, 26, 0.8);
+  border: 1px solid rgba(118, 139, 124, 0.2);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.harmonix-card-enhanced:hover {
+  border-color: rgba(215, 183, 109, 0.4);
+  box-shadow: 0 8px 32px rgba(215, 183, 109, 0.1);
+}
+
+/* Updated Color Palette */
+:root {
+  --deep-forest: #0A1C16;
+  --emerald-gold: #D1BFA7;
+  --lunar-blue: #C1DAFF;
+  --night-sky: #0F1115;
+  --sacred-flame: #EED68C;
+}
+
+/* Constellation Animation */
+@keyframes starfall {
+  0% {
+    transform: translateY(-100vh) translateX(-50px) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) translateX(50px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.starfall-animation {
+  animation: starfall 8s linear infinite;
+}
+
 .dark {
   --background: hsl(240, 10%, 3.9%);
   --foreground: hsl(0, 0%, 98%);
