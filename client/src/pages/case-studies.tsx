@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "wouter";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { HarmonixLogo } from "@/components/harmonix-logo";
+import { HarmonixLogo } from "@/components/brand/HarmonixLogo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

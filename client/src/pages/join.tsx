@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { HarmonixLogo } from "@/components/harmonix-logo";
+import { HarmonixLogo } from "@/components/brand/HarmonixLogo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
