@@ -1,0 +1,168 @@
+Locked in. We’re entering Phase 5+: Execution Mode — now wiring the checkout system, onboarding animation, Solbrain’s logic layer, and first live minting + agent deployment sequence.
+
+⸻
+
+✅ PART 1: FINALIZE CHECKOUT WIRING + STRIPE INTEGRATION
+
+🎯 GOAL
+
+Trigger full purchase pipeline when a user selects an agent or platform package — capture payment, initiate onboarding, and record user/agent metadata.
+
+⸻
+
+✅ Stripe Checkout Flow
+
+1. Agent Purchase Flow
+	•	Users click “Deploy Agent” in Marketplace
+	•	If logged in:
+	•	Proceed to Stripe Checkout
+	•	If not logged in:
+	•	Redirect to /login?redirect=checkout
+	•	Stripe collects:
+	•	Agent Name
+	•	Agent Tier
+	•	Monthly Price (agent-controlled)
+	•	Optional ROI estimate
+	•	Post-purchase:
+	•	Redirect to /thank-you?payment=success
+	•	Trigger onboarding sequence (sol + dashboard setup)
+
+2. Minimum Logic
+	•	Minimum install pricing:
+	•	Platform = $1,500+
+	•	Agent = $350+ unless agent sets lower pricing
+	•	Agent creators can set pricing as low as $20/month
+	•	Add info icon: “Minimum Harmony agents start at $350/month unless custom pricing is set by creators.”
+
+3. Stripe Connect
+	•	Royalties split dynamically:
+	•	Creator (default: 75–90%)
+	•	Platform (fixed: 10–15%)
+	•	Optional: Investor royalty (if NFT has a third wallet mapped)
+
+⸻
+
+✅ PART 2: THANK YOU SCREEN + ANIMATED ONBOARDING
+
+/thank-you?payment=success
+
+Animation UX (Full-screen glow + transition)
+	•	🌀 Animated “SŌL Brain” orb loading sequence
+	•	🎉 Message:
+“Welcome to Harmony. Your agent is being initialized…”
+	•	Countdown bar (10s) → redirect to:
+/dashboard/setup?agent=xyz
+
+Backend Logic
+	•	Save:
+	•	Payment metadata
+	•	Agent slug
+	•	User Wallet
+	•	Plan Tier
+	•	Trigger:
+	•	Add user to CRM (HighLevel or Zapier logic)
+	•	Start Setup Wizard (if platform install)
+
+⸻
+
+✅ PART 3: SŌL BRAIN BUILDOUT + ONBOARDING LOGIC
+
+/sol-brain
+
+Sol Brain is both:
+	•	A concierge AI chat layer
+	•	The orchestrator of agents and workflows
+
+Key Features
+	•	Users ask: “How can Harmony help me?”
+	•	Sol replies with:
+	•	Custom use-case diagnosis
+	•	Suggests agents and ROI/time saved
+	•	Recommends integrations (Gmail, GHL, Notion, etc.)
+	•	Optional: Type + speak mode (WebRTC)
+
+Data Inputs
+	•	Industry
+	•	Tools used
+	•	Business model
+	•	Current pain points
+
+Agent Deployment Simulation
+	•	Try → “Sales Closer Agent”
+	•	Sol:
+	•	Diagnoses lead flow
+	•	Suggests workflow
+	•	Shows sample conversation flow
+	•	Offers “Deploy This Agent” → /marketplace/agent-slug?demo=deploy
+
+⸻
+
+✅ PART 4: FIRST AGENT MINT + TESTNET DEPLOYMENT
+
+Smart Contract: HarmonyAgentMint.sol (Polygon Testnet)
+
+Process:
+	1.	User submits agent via /create-agent
+	2.	Chooses:
+	•	Pricing
+	•	Royalty %
+	•	Metadata
+	3.	Connects wallet → signs mint
+	4.	Backend:
+	•	Pins metadata to IPFS
+	•	Calls mintAgent(...)
+	•	Stores token ID in DB
+	5.	Agent is LIVE → visible in marketplace
+
+✅ Simulate Deployment:
+	•	Mint test agent w/ mock metadata:
+
+{
+  name: "CloserBot",
+  tier: "Starter",
+  tools: ["Slack", "Gmail", "GHL"],
+  token_price: "350",
+  creator_royalty: "85%",
+  metadata_uri: "ipfs://abc123..."
+}
+
+
+⸻
+
+📂 DEV HANDOFF — INSTRUCTIONS.md
+
+# Phase 5 Deployment: Checkout, Sol, Mint, Thank You
+
+## Stripe Checkout
+- Link “Deploy Agent” → Stripe checkout session
+- Use session metadata: agent name, price, tier
+- On success → redirect /thank-you
+- On cancel → return to /marketplace
+
+## Thank You Page
+- Fullscreen animation w/ message + redirect
+- Save user+agent data
+- Trigger onboarding or CRM logic
+
+## Sol Brain
+- Input chat layer
+- Suggest agents via scenario logic
+- Embed “Try Demo Agent” button
+- Support WebRTC mic toggle
+
+## Mint + Deploy Agent
+- Mint testnet token
+- Store metadata + tokenID in DB
+- Add to `/marketplace` feed
+
+
+⸻
+
+✅ NEXT OPTIONS
+
+Would you like to:
+	1.	Begin Dashboard Agent Manager + Agent Analytics UI?
+	2.	Roll into Phase 6: Creator NFT Inventory, Wallet View, and Royalty Tracker?
+	3.	Build Team Chat Thread logic w/ agent deployment drag-and-drop?
+
+Let’s choose the next domino — we’re building an empire, one autonomous agent at a time.

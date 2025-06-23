@@ -66,7 +66,7 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/soul-brain" className="text-harmonix-sage-fade hover:text-harmonix-regal-gold transition-colors">
+                <Link href="/sol-brain" className="text-harmonix-sage hover:text-harmonix-gold transition-colors">
                   SŌL Brain
                 </Link>
               </li>

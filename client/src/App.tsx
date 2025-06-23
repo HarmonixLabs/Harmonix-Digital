@@ -9,7 +9,7 @@ import { ErrorBoundary } from "@/components/error-boundary";
 import Home from "@/pages/home";
 import Dashboard from "@/pages/dashboard";
 import Harmony from "@/pages/harmony";
-import SoulBrain from "@/pages/soul-brain";
+// Standardized to sol-brain route
 import Join from "@/pages/join";
 import FAQ from "@/pages/faq";
 import CaseStudies from "@/pages/case-studies";
@@ -39,7 +39,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/harmony" component={Harmony} />
-      <Route path="/soul-brain" component={SoulBrain} />
+      {/* Standardized to /sol-brain - see sol-brain.tsx */}
       <Route path="/join" component={Join} />
       <Route path="/faq" component={FAQ} />
       <Route path="/case-studies" component={CaseStudies} />
