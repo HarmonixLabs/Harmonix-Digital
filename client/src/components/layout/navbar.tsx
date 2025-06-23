@@ -30,11 +30,46 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo Section */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-harmony-gold to-yellow-400 flex items-center justify-center">
-              <div className="text-harmony-dark text-sm">🪷</div>
+          <Link href="/" className="flex items-center space-x-3">
+            <div className="w-10 h-10 relative">
+              <svg viewBox="0 0 100 100" className="w-full h-full">
+                <defs>
+                  <linearGradient id="harmonixGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#FFD700" />
+                    <stop offset="50%" stopColor="#D4AF37" />
+                    <stop offset="100%" stopColor="#B8860B" />
+                  </linearGradient>
+                </defs>
+                
+                {/* Outer Circle */}
+                <circle 
+                  cx="50" 
+                  cy="50" 
+                  r="45" 
+                  fill="none" 
+                  stroke="url(#harmonixGold)" 
+                  strokeWidth="4"
+                  opacity="0.9"
+                />
+                
+                {/* Letter H with geometric design */}
+                <g fill="url(#harmonixGold)" opacity="0.95">
+                  {/* Left vertical line */}
+                  <rect x="25" y="25" width="6" height="50" />
+                  
+                  {/* Right vertical line */}
+                  <rect x="69" y="25" width="6" height="50" />
+                  
+                  {/* Horizontal crossbar */}
+                  <rect x="31" y="47" width="38" height="6" />
+                  
+                  {/* Golden ratio inspired smaller elements */}
+                  <rect x="45" y="60" width="10" height="15" />
+                  <rect x="58" y="67" width="6" height="8" opacity="0.7" />
+                </g>
+              </svg>
             </div>
-            <span className="text-xl font-bold harmony-gold">HARMONIX</span>
+            <span className="text-xl font-bold text-harmony-gold">HARMONIX</span>
           </Link>
 
           {/* Desktop Navigation Links */}
