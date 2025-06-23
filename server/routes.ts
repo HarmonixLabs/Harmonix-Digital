@@ -9,6 +9,7 @@ import { insertUserSchema, insertOrganizationSchema, insertAgentSchema, insertTa
 import { z } from "zod";
 import { processAgentTask } from "./openai";
 import { updateCRM } from "./ghl-integration";
+import { healthCheck, readinessCheck } from "./health-check";
 
 const JWT_SECRET = process.env.JWT_SECRET || "harmonix-secret-key";
 
@@ -37,6 +38,10 @@ const authenticateToken = async (req: any, res: any, next: any) => {
 export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
 
+  // Health check endpoints
+  app.get('/health', healthCheck);
+  app.get('/health/ready', readinessCheck);
+  
   // WebSocket setup for real-time updates
   const wss = new WebSocketServer({ server: httpServer, path: '/ws' });
   

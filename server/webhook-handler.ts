@@ -47,9 +47,9 @@ export async function handleGHLWebhook(req: Request, res: Response) {
     
     const payload: GHLWebhookPayload = req.body;
     
-    // Handle different payload structures
-    if (!payload.type && !payload.contact) {
-      return res.status(400).json({ error: 'Invalid webhook payload - missing type or contact data' });
+    // Handle different payload structures - be more permissive for testing
+    if (!payload.type && !payload.contact && !payload.data) {
+      return res.status(400).json({ error: 'Invalid webhook payload - missing required data' });
     }
 
     switch (payload.type) {
