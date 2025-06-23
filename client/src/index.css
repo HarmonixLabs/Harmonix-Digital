@@ -26,14 +26,12 @@
   --ring: hsl(240, 4.9%, 83.9%);
   --radius: 0.5rem;
   
-  /* Harmonix custom colors - Regal wisdom and trust palette */
-  --harmony-dark: hsl(210, 24%, 8%);
-  --harmony-slate: hsl(213, 27%, 15%);
-  --harmony-gold: hsl(45, 100%, 50%);
-  --harmony-teal: hsl(175, 90%, 20%);
-  --harmony-forest: hsl(165, 100%, 15%);
-  --harmony-sage: hsl(150, 30%, 25%);
-  --harmony-blue: hsl(210, 100%, 56%);
+  /* Official Harmonix Brand Palette - Mysticism, clarity, and grounded sovereignty */
+  --harmonix-deep-forest: hsl(158, 40%, 5%);        /* #0b0f0e - Deep Forest Black */
+  --harmonix-cedar-mist: hsl(156, 25%, 25%);        /* #2f4e46 - Cedar Green Mist */
+  --harmonix-sage-fade: hsl(151, 9%, 51%);          /* #768b7c - Sage Fade */
+  --harmonix-regal-gold: hsl(42, 46%, 62%);         /* #d7b76d - Regal Gold */
+  --harmonix-night-pine: hsl(150, 30%, 9%);         /* #111f1a - Night Pine Shadow */
 }
 
 .dark {
@@ -65,7 +63,7 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    background: linear-gradient(135deg, hsl(210, 24%, 8%) 0%, hsl(213, 27%, 15%) 50%, hsl(210, 24%, 8%) 100%);
+    background: linear-gradient(135deg, var(--harmonix-deep-forest) 0%, var(--harmonix-night-pine) 50%, var(--harmonix-cedar-mist) 100%);
     min-height: 100vh;
   }
 
@@ -75,26 +73,28 @@
 }
 
 @layer utilities {
-  .harmony-gradient {
-    background: linear-gradient(135deg, hsl(210, 24%, 8%) 0%, hsl(213, 27%, 15%) 50%, hsl(210, 24%, 8%) 100%);
+  /* Official Harmonix brand utilities */
+  .harmonix-gradient {
+    background: linear-gradient(135deg, var(--harmonix-deep-forest) 0%, var(--harmonix-night-pine) 50%, var(--harmonix-cedar-mist) 100%);
+  }
+
+  .harmonix-scenic-gradient {
+    background: linear-gradient(135deg, var(--harmonix-cedar-mist) 0%, var(--harmonix-sage-fade) 50%, var(--harmonix-regal-gold) 100%);
   }
 
   .card-hover {
     @apply transition-all duration-300 ease-in-out;
-    background: linear-gradient(135deg, rgba(26, 35, 50, 0.6) 0%, rgba(15, 20, 25, 0.8) 100%);
+    background: linear-gradient(135deg, rgba(47, 78, 70, 0.6) 0%, rgba(17, 31, 26, 0.8) 100%);
     backdrop-filter: blur(10px);
   }
 
   .card-hover:hover {
     @apply transform -translate-y-1;
-    box-shadow: 0 20px 40px rgba(212, 175, 55, 0.1);
+    box-shadow: 0 20px 40px rgba(215, 183, 109, 0.15);
   }
 
-  .lotus-icon {
-    background: linear-gradient(135deg, hsl(47, 84%, 52%) 0%, hsl(51, 100%, 71%) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  .harmonix-logo-glow {
+    filter: drop-shadow(0 0 20px rgba(215, 183, 109, 0.3));
   }
 
   .sol-brain {
@@ -106,48 +106,31 @@
     position: absolute;
     width: 8px;
     height: 8px;
-    background: hsl(47, 84%, 52%);
+    background: var(--harmonix-regal-gold);
     border-radius: 50%;
     top: 50%;
     left: -20px;
     transform: translateY(-50%);
   }
 
-  .harmony-gold {
-    color: hsl(47, 84%, 52%);
-  }
+  /* Harmonix brand color utilities */
+  .text-harmonix-deep-forest { color: var(--harmonix-deep-forest); }
+  .text-harmonix-cedar-mist { color: var(--harmonix-cedar-mist); }
+  .text-harmonix-sage-fade { color: var(--harmonix-sage-fade); }
+  .text-harmonix-regal-gold { color: var(--harmonix-regal-gold); }
+  .text-harmonix-night-pine { color: var(--harmonix-night-pine); }
 
-  .harmony-teal {
-    color: hsl(188, 60%, 58%);
-  }
+  .bg-harmonix-deep-forest { background-color: var(--harmonix-deep-forest); }
+  .bg-harmonix-cedar-mist { background-color: var(--harmonix-cedar-mist); }
+  .bg-harmonix-sage-fade { background-color: var(--harmonix-sage-fade); }
+  .bg-harmonix-regal-gold { background-color: var(--harmonix-regal-gold); }
+  .bg-harmonix-night-pine { background-color: var(--harmonix-night-pine); }
 
-  .harmony-dark {
-    color: hsl(210, 24%, 8%);
-  }
-
-  .bg-harmony-gold {
-    background-color: hsl(47, 84%, 52%);
-  }
-
-  .bg-harmony-teal {
-    background-color: hsl(188, 60%, 58%);
-  }
-
-  .bg-harmony-slate {
-    background-color: hsl(213, 27%, 15%);
-  }
-
-  .bg-harmony-dark {
-    background-color: hsl(210, 24%, 8%);
-  }
-
-  .border-harmony-gold {
-    border-color: hsl(47, 84%, 52%);
-  }
-
-  .border-harmony-teal {
-    border-color: hsl(188, 60%, 58%);
-  }
+  .border-harmonix-deep-forest { border-color: var(--harmonix-deep-forest); }
+  .border-harmonix-cedar-mist { border-color: var(--harmonix-cedar-mist); }
+  .border-harmonix-sage-fade { border-color: var(--harmonix-sage-fade); }
+  .border-harmonix-regal-gold { border-color: var(--harmonix-regal-gold); }
+  .border-harmonix-night-pine { border-color: var(--harmonix-night-pine); }
 }
 
 @keyframes pulse {
