@@ -2,8 +2,8 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Scale, Shield, Users, Globe, AlertTriangle, FileText } from "lucide-react";
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
 
 const legalPrinciples = [
   {
