@@ -25,7 +25,7 @@ interface AuthContextType {
   user: User | null;
   organization: Organization | null;
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, name: string) => Promise<void>;
+  register: (email: string, password: string, name: string, phone?: string, company?: string) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
   isAuthenticated: boolean;
@@ -79,8 +79,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
   });
 
   const registerMutation = useMutation({
-    mutationFn: async ({ email, password, name }: { email: string; password: string; name: string }) => {
-      const response = await apiRequest('POST', '/api/auth/register', { email, password, name });
+    mutationFn: async ({ email, password, name, phone, company }: { 
+      email: string; 
+      password: string; 
+      name: string; 
+      phone?: string; 
+      company?: string; 
+    }) => {
+      const response = await apiRequest('POST', '/api/auth/register', { 
+        email, 
+        password, 
+        name, 
+        phone, 
+        company 
+      });
       return response.json();
     },
     onSuccess: (data) => {
@@ -95,8 +107,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     await loginMutation.mutateAsync({ email, password });
   };
 
-  const register = async (email: string, password: string, name: string) => {
-    await registerMutation.mutateAsync({ email, password, name });
+  const register = async (email: string, password: string, name: string, phone?: string, company?: string) => {
+    await registerMutation.mutateAsync({ email, password, name, phone, company });
   };
 
   const logout = () => {

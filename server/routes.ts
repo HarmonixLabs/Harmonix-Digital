@@ -3,10 +3,12 @@ import { createServer, type Server } from "http";
 import { WebSocketServer, WebSocket } from "ws";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import express from "express";
 import { storage } from "./storage";
 import { insertUserSchema, insertOrganizationSchema, insertAgentSchema, insertTaskSchema } from "@shared/schema";
 import { z } from "zod";
 import { processAgentTask } from "./openai";
+import { updateCRM } from "./ghl-integration";
 
 const JWT_SECRET = process.env.JWT_SECRET || "harmonix-secret-key";
 
