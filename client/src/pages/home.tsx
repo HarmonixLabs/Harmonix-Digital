@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { AnimatedHero } from "@/components/sacred/animated-hero";
+import { OptimizedHero } from "@/components/hero/optimized-hero";
 import { SolBrain } from "@/components/sol-brain";
 import { TokenMeter } from "@/components/token-meter";
 import { AgentCard } from "@/components/agent-card";
@@ -95,7 +95,7 @@ export default function Home() {
     );
   }
 
-  // Landing page for non-authenticated users
+  // Landing page for non-authenticated users - Mobile-first design  
   const featuredAgents = [
     {
       id: 1,

@@ -87,6 +87,140 @@ body {
   border: 1px solid var(--harmonix-regal-gold, #d7b76d);
 }
 
+/* Mobile-First Responsive Typography System */
+.hero-responsive-title {
+  font-size: 2.5rem; /* 40px mobile */
+  line-height: 1.1;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 640px) {
+  .hero-responsive-title { 
+    font-size: 3.5rem; /* 56px tablet */
+    line-height: 1.05;
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-responsive-title { 
+    font-size: 4.5rem; /* 72px */
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-responsive-title { 
+    font-size: 5.5rem; /* 88px desktop */
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero-responsive-title { 
+    font-size: 6.5rem; /* 104px large desktop */
+  }
+}
+
+/* Touch-Friendly Interactive Elements */
+.touch-friendly-btn {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+@media (min-width: 640px) {
+  .touch-friendly-btn {
+    min-height: 48px;
+    padding: 14px 28px;
+    font-size: 18px;
+    border-radius: 12px;
+  }
+}
+
+/* Optimized Container System */
+.harmonix-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .harmonix-container {
+    max-width: 640px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .harmonix-container {
+    max-width: 768px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .harmonix-container {
+    max-width: 1024px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .harmonix-container {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .harmonix-container {
+    max-width: 1536px;
+  }
+}
+
+/* Psychological Animation Enhancements */
+.breathe-animation {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; }
+}
+
+.glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(215, 183, 109, 0.3);
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(215, 183, 109, 0.6);
+  }
+}
+
+/* Micro-interaction Enhancements */
+.micro-hover {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.micro-hover:hover {
+  transform: translateY(-2px);
+}
+
+.micro-hover:active {
+  transform: translateY(0);
+}
+
 .dark {
   --background: hsl(240, 10%, 3.9%);
   --foreground: hsl(0, 0%, 98%);

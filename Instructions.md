@@ -1,6 +1,26 @@
-# Application Black/Blank Screen Fix Instructions
+# Harmonix Platform UI/UX Fix Instructions
 
-## Issue Analysis
+## Current Issues Identified
+
+### 1. Hero Section Problems
+- **Logo Placement**: HarmonixLogo component is cluttering the hero section instead of emphasizing the slogan
+- **Animation Issues**: Current word-by-word animation is too slow and doesn't create psychological impact
+- **Visual Hierarchy**: Missing compelling call-to-action hierarchy that captures attention
+- **Mobile Responsiveness**: Hero section not optimized for mobile viewing
+
+### 2. Mobile & Responsive Design Issues
+- **Inconsistent Spacing**: Padding and margins not properly scaled across breakpoints
+- **Text Scaling**: Font sizes too large on mobile, causing layout breaks
+- **Button Sizing**: CTA buttons not touch-friendly on mobile devices
+- **Container Overflow**: Some sections causing horizontal scroll on mobile
+
+### 3. Typography & Visual Impact
+- **Animation Speed**: Current 200ms delay per word is too slow for engagement
+- **Color Contrast**: Insufficient contrast ratios for accessibility
+- **Visual Weight**: Missing psychological triggers for user engagement
+- **Brand Consistency**: Inconsistent use of Harmonix brand elements
+
+## Previous Black Screen Analysis
 
 After deep research across the codebase, I've identified the root causes of the black/blank Live Preview:
 
@@ -41,9 +61,85 @@ After deep research across the codebase, I've identified the root causes of the 
 - 403 authentication errors
 - WebSocket handshake failures initially, then success
 
-## Fix Plan - Step by Step
+## Hero Section & Mobile Optimization Fix Plan
 
-### Phase 1: Immediate CSS/Styling Fixes (Priority: Critical)
+### Phase 1: Hero Section Redesign (Priority: Critical)
+
+1. **Remove Logo from Hero Content**
+   - Logo should remain in navbar only
+   - Focus hero entirely on slogan and psychological impact
+   - Create breathing space for main message
+
+2. **Enhance Slogan Animation**
+   - Reduce word delay from 200ms to 80ms for better pacing
+   - Add stagger effects for more dynamic feel
+   - Implement micro-interactions on hover/scroll
+   - Add psychological color transitions
+
+3. **Improve Visual Hierarchy**
+   - Make "Intelligent Systems for Timeless Sovereignty" the hero
+   - Add compelling sub-headline about business transformation
+   - Create urgency with limited-time early bird messaging
+   - Implement golden ratio spacing for psychological appeal
+
+4. **Mobile-First Responsive Design**
+   - Implement proper mobile typography scale
+   - Add touch-friendly button sizing (minimum 44px)
+   - Optimize spacing for thumb navigation
+   - Ensure no horizontal scroll on any device
+
+### Phase 2: Typography & Spacing Optimization (Priority: High)
+
+1. **Implement Responsive Typography System**
+   ```css
+   /* Mobile-first responsive type scale */
+   .hero-title {
+     font-size: 2.5rem; /* 40px mobile */
+     line-height: 1.1;
+   }
+   
+   @media (min-width: 640px) {
+     .hero-title { font-size: 3.5rem; } /* 56px tablet */
+   }
+   
+   @media (min-width: 1024px) {
+     .hero-title { font-size: 5rem; } /* 80px desktop */
+   }
+   ```
+
+2. **Standardize Spacing System**
+   - Use consistent spacing units (8px base grid)
+   - Implement container max-widths for readability
+   - Add proper section padding for all breakpoints
+   - Ensure adequate white space for cognitive processing
+
+3. **Optimize Button & Interactive Elements**
+   - Minimum 44px height for touch targets
+   - Adequate spacing between clickable elements
+   - Implement hover and focus states for accessibility
+   - Add loading states and micro-feedback
+
+### Phase 3: Psychological Impact Enhancement (Priority: Medium)
+
+1. **Color Psychology Implementation**
+   - Use warm gold (#d7b76d) for trust and luxury
+   - Deep forest (#0b0f0e) for stability and sophistication
+   - Strategic use of contrast for attention direction
+   - Implement color temperature shifts for emotional response
+
+2. **Animation & Motion Design**
+   - Reduce cognitive load with purposeful animations
+   - Add entrance animations with proper easing
+   - Implement scroll-triggered reveals
+   - Create breathing effects for key elements
+
+3. **Persuasive Design Elements**
+   - Add social proof indicators
+   - Implement scarcity messaging (early bird pricing)
+   - Create clear value proposition hierarchy
+   - Add trust signals and credibility markers
+
+### Phase 4: Technical Implementation (Priority: High)
 
 1. **Fix CSS Variables and Classes**
    ```bash
