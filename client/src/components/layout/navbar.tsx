@@ -235,6 +235,38 @@ export function Navbar() {
           </div>
         )}
       </div>
-    </nav>
+      </nav>
+
+      {/* Onboarding Modal */}
+      <OnboardingModal
+        isOpen={showModal}
+        onClose={dismissModal}
+        onStartSetup={() => triggerOnboarding('setup')}
+        onStartTour={handleStartTour}
+        onSkip={skipOnboarding}
+        userState={userState}
+      />
+
+      {/* Interactive Tour */}
+      <InteractiveTour
+        isActive={showTour}
+        onComplete={handleTourComplete}
+        onSkip={handleTourComplete}
+      />
+
+      {/* Integrated AI Chatbot */}
+      {user && (
+        <div data-tour="chat-button">
+          <IntegratedChatbot 
+            userContext={{
+              role: user?.role || 'professional',
+              industry: 'technology',
+              experience: 'intermediate',
+              currentPage: getCurrentPageContext()
+            }}
+          />
+        </div>
+      )}
+    </>
   );
 }

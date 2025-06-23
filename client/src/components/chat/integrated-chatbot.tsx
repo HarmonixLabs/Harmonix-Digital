@@ -5,10 +5,11 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Brain, Send, Sparkles, MessageCircle, X, Minimize2, Maximize2 } from "lucide-react";
+import { Brain, Send, Sparkles, MessageCircle, X, Minimize2, Maximize2, Calculator } from "lucide-react";
 import { SacredCard } from "@/components/ui/sacred-card";
 import { SacredButton } from "@/components/ui/sacred-button";
 import { FadeIn } from "@/components/ui/micro-animations";
+import { PricingCalculator } from "./pricing-calculator";
 import { useAuth } from "@/lib/auth";
 
 interface ChatMessage {
@@ -41,6 +42,7 @@ export function IntegratedChatbot({ userContext }: IntegratedChatbotProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [showCalculator, setShowCalculator] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   // Initialize conversation based on context
@@ -151,6 +153,11 @@ export function IntegratedChatbot({ userContext }: IntegratedChatbotProps) {
   const generateAIResponse = async (userInput: string, context?: any, messageHistory?: ChatMessage[]) => {
     const lowerInput = userInput.toLowerCase();
     
+    // Pricing and budget estimation
+    if (lowerInput.includes('price') || lowerInput.includes('cost') || lowerInput.includes('budget') || lowerInput.includes('estimate')) {
+      return generatePricingEstimate(userInput, context);
+    }
+    
     // Context-aware responses based on current page
     if (context?.currentPage === 'onboarding') {
       if (lowerInput.includes('skip') || lowerInput.includes('later')) {
@@ -229,8 +236,33 @@ export function IntegratedChatbot({ userContext }: IntegratedChatbotProps) {
         content: "ROI varies by agent and use case, but our clients typically see 20-40% efficiency gains within 30 days. I can calculate a personalized ROI estimate based on your specific situation. Would you like me to run those numbers?",
         suggestions: [
           "Calculate my ROI",
-          "Show me case studies",
+          "Show me case studies", 
+          "Open pricing calculator",
           "Explain ROI factors"
+        ]
+      };
+    }
+
+    if (lowerInput.includes('calculator') || lowerInput.includes('calculate my') || lowerInput.includes('estimate my')) {
+      setTimeout(() => setShowCalculator(true), 1000);
+      return {
+        content: "I'm opening our interactive pricing calculator for you. This will give you a personalized estimate based on your specific needs, company size, and requirements.\n\nThe calculator includes:\n• Real-time pricing based on agent count\n• ROI projections for your business\n• Financing options and payment plans\n• Early bird discount calculations",
+        suggestions: [
+          "Tell me about financing",
+          "Show me case studies",
+          "Compare different tiers"
+        ]
+      };
+    }
+
+    if (lowerInput.includes('financing') || lowerInput.includes('payment plan') || lowerInput.includes('monthly')) {
+      return {
+        content: "We offer flexible financing options to make AI automation accessible:\n\n💳 **Financing Available**:\n• 21% APR with approved credit\n• 12-36 month terms\n• No down payment required\n• Quick approval process\n\n📊 **Example**: $15,000 project = ~$450-650/month\n\nWe also accept:\n• Corporate purchase orders\n• Phased implementation payments\n• Results-based payment structures",
+        suggestions: [
+          "Calculate monthly payments",
+          "Apply for financing",
+          "Discuss payment options",
+          "See qualification requirements"
         ]
       };
     }
@@ -242,6 +274,78 @@ export function IntegratedChatbot({ userContext }: IntegratedChatbotProps) {
         "Be more specific",
         "Show me examples",
         "Help with something else"
+      ]
+    };
+  };
+
+  const generatePricingEstimate = (userInput: string, context?: any) => {
+    const lowerInput = userInput.toLowerCase();
+    
+    // Extract budget hints from user input
+    let budgetRange = 'standard';
+    if (lowerInput.includes('budget') || lowerInput.includes('cheap') || lowerInput.includes('affordable')) {
+      budgetRange = 'budget';
+    } else if (lowerInput.includes('premium') || lowerInput.includes('enterprise') || lowerInput.includes('unlimited')) {
+      budgetRange = 'premium';
+    }
+    
+    // Extract number of agents or complexity
+    let agentCount = 1;
+    if (lowerInput.includes('multiple') || lowerInput.includes('several')) {
+      agentCount = 3;
+    } else if (lowerInput.includes('team') || lowerInput.includes('department')) {
+      agentCount = 5;
+    } else if (lowerInput.includes('enterprise') || lowerInput.includes('company-wide')) {
+      agentCount = 10;
+    }
+    
+    // Calculate pricing based on our tier system
+    const pricingTiers = {
+      starter: { base: 4400, perAgent: 500, setup: 1000 },
+      growth: { base: 8000, perAgent: 800, setup: 1500 },
+      expansion: { base: 15000, perAgent: 1200, setup: 2000 },
+      enterprise: { base: 21500, perAgent: 1500, setup: 3000 }
+    };
+    
+    let selectedTier = 'starter';
+    if (agentCount >= 10 || budgetRange === 'premium') {
+      selectedTier = 'enterprise';
+    } else if (agentCount >= 5) {
+      selectedTier = 'expansion';
+    } else if (agentCount >= 3) {
+      selectedTier = 'growth';
+    }
+    
+    const tier = pricingTiers[selectedTier];
+    const totalCost = tier.base + (tier.perAgent * Math.max(0, agentCount - 1)) + tier.setup;
+    const monthlyCost = Math.round(totalCost * 0.1); // 10% monthly maintenance
+    
+    // Early bird discount (30% off)
+    const discountedCost = Math.round(totalCost * 0.7);
+    const savings = totalCost - discountedCost;
+    
+    return {
+      content: `Based on your needs, I estimate your investment would be:
+
+**${selectedTier.charAt(0).toUpperCase() + selectedTier.slice(1)} Tier** - Perfect for ${agentCount} agent${agentCount > 1 ? 's' : ''}
+
+💰 **Total Investment**: $${totalCost.toLocaleString()}
+🎉 **Early Bird Price**: $${discountedCost.toLocaleString()} (Save $${savings.toLocaleString()})
+📅 **Monthly Maintenance**: $${monthlyCost.toLocaleString()}
+
+This includes:
+• Full agent setup and customization
+• 90-day support and optimization
+• CRM integration and workflow automation
+• Training and documentation
+• Performance monitoring
+
+*Early bird pricing available for first 280 customers - 30% off!*`,
+      suggestions: [
+        "Show me what's included",
+        "Compare different tiers",
+        "Schedule a consultation",
+        "Start with a smaller package"
       ]
     };
   };
@@ -397,11 +501,26 @@ export function IntegratedChatbot({ userContext }: IntegratedChatbotProps) {
       )}
 
       {/* Chat Window */}
-      {isOpen && (
+      {isOpen && !showCalculator && (
         <div className="fixed bottom-6 right-6 z-50 w-96">
           <SacredCard className="bg-harmonix-black/95 backdrop-blur-sm border-harmonix-gold/30">
             <ChatInterface />
           </SacredCard>
+        </div>
+      )}
+
+      {/* Pricing Calculator Modal */}
+      {showCalculator && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+          <div className="max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <PricingCalculator
+              onClose={() => setShowCalculator(false)}
+              onScheduleConsultation={() => {
+                setShowCalculator(false);
+                handleSendMessage("I'd like to schedule a consultation");
+              }}
+            />
+          </div>
         </div>
       )}
     </>
