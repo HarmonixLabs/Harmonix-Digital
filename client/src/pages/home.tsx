@@ -3,7 +3,6 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { OptimizedHero } from "@/components/hero/optimized-hero";
 import { EnhancedSolBrain } from "@/components/sol/enhanced-sol-brain";
-import { Input } from "@/components/ui/input";
 import { TokenMeter } from "@/components/token-meter";
 import { AgentCard } from "@/components/agent-card";
 import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";

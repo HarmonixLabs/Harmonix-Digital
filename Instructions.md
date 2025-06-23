@@ -170,7 +170,40 @@ After deep research across the codebase, I've identified the root causes of the 
    - Add reduced-motion respect for accessibility
    - Lazy load animations when component enters viewport
 
-### Phase 5: Technical Implementation (Priority: High)
+### Phase 5: Stripe Payment Integration (Priority: Critical)
+
+1. **Complete Stripe Checkout Implementation**
+   - Backend creates Stripe Checkout Sessions with proper metadata
+   - Frontend "Proceed to Payment" button redirects to Stripe's secure payment page
+   - Support for all pricing tiers: Starter ($4.4K), Growth ($8K), Expansion ($15K), Enterprise ($21.5K+)
+   - Apply 30% early bird discount automatically for first 280 customers
+   - Optional $444 deposit with priority access and discount locking
+
+2. **Payment Flow Architecture**
+   ```typescript
+   // Stripe session creation with tier mapping
+   const session = await stripe.checkout.sessions.create({
+     payment_method_types: ['card'],
+     line_items: [{ /* tier-based pricing */ }],
+     success_url: `/thank-you?payment=success&tier=${tier}`,
+     cancel_url: `/checkout?payment=cancelled`,
+     metadata: { tier, industry, useCase, promoCode }
+   });
+   ```
+
+3. **Post-Payment Experience**
+   - Success: Redirect to `/thank-you` with SŌL activation animation
+   - Cancel: Return to `/checkout` with demo offer
+   - Automatic CRM integration via Go High Level API
+   - Trigger onboarding flow for paid customers
+   - Store payment metadata for analytics and agent deployment
+
+4. **ROI Calculator Integration**
+   - Real-time pricing adjustments based on estimated business value
+   - Trust-building tool that works even without payment
+   - Pass ROI data to Stripe metadata for personalized follow-up
+
+### Phase 6: Technical Implementation (Priority: High)
 
 1. **Fix CSS Variables and Classes**
    ```bash

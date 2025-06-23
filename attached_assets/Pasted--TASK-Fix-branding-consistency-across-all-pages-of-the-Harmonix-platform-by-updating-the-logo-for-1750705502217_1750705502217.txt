@@ -1,0 +1,55 @@
+🔥 TASK: Fix branding consistency across all pages of the Harmonix platform by updating the logo format and navigation styling.
+
+⸻
+
+🧱 CURRENT ISSUE:
+- The Harmonix logo is appearing as a square image (with background), which breaks visual flow.
+- The nav bar is inconsistent across internal pages — lacks the polished feel of the homepage.
+
+🎯 OBJECTIVE:
+- Integrate the circular monogram "H" logo cleanly across the site.
+- Maintain branding consistency while improving design quality.
+
+⸻
+
+✅ IMPLEMENTATION INSTRUCTIONS:
+
+1. 🔁 LOGO COMPONENT REPLACEMENT:
+   • Replace all square image instances with the circular "H" monogram (SVG or transparent PNG).
+   • Use optimized SVG format for best responsiveness and scaling.
+   • Align size and padding to match current navbar height.
+
+2. 🏠 HOMEPAGE EXCEPTION:
+   • Homepage (`/`) should keep the **full Harmonix logo** (monogram + wordmark).
+   • All other pages should display the **monogram only** in the top-left nav.
+
+3. 📌 NAVBAR STYLING (GLOBAL):
+   • Apply same transparent sticky header used on homepage to all key pages:
+     - `/demo`
+     - `/marketplace`
+     - `/pricing`
+     - `/checkout`
+     - `/sol-brain`
+     - `/dashboard`
+     - `/my-agents`
+   • Ensure nav items remain fully functional and visually legible on scroll.
+
+4. 🛠️ PRESERVE EXISTING STRUCTURE:
+   • Keep current nav links, animations, and layout intact.
+   • This is a visual/branding update — no logic or routing needs to change.
+
+5. 🧪 TESTING:
+   • Test responsiveness across desktop + mobile.
+   • Confirm dark/light modes still show logo properly (no washed-out contrast).
+   • Confirm all internal page navs match homepage in feel and fluidity.
+
+⸻
+
+📎 ASSETS:
+- Use the provided Harmonix Monogram logo (SVG or PNG).
+- Reference existing homepage nav bar for spacing, sticky behavior, and hover states.
+
+🎨 GOAL:
+- High-polish, luxury tech branding.
+- Reduce visual clutter by simplifying nav icon.
+- Build subconscious brand recognition using the monogram icon across product pages.
