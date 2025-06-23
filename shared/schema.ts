@@ -29,21 +29,49 @@ export const organizations = pgTable("organizations", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
-// Agent templates/types
+// Agent templates/types (Digital Team Members)
 export const agentTypes = pgTable("agent_types", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   description: text("description").notNull(),
-  category: text("category").notNull(), // sales, hr, concierge, executive, sop, booking
+  category: text("category").notNull(), // sales, hr, concierge, executive, sop, booking, content, marketing, finance, legal, analytics, innovation
   icon: text("icon").notNull(),
   basePrompt: text("base_prompt").notNull(),
   capabilities: json("capabilities").$type<string[]>().notNull().default([]),
   tokenCost: integer("token_cost").notNull().default(1),
   isLocked: boolean("is_locked").notNull().default(false),
+  tier: text("tier").notNull().default("flagship"), // flagship, next-wave, specialized
+  xpMultiplier: decimal("xp_multiplier", { precision: 3, scale: 2 }).notNull().default("1.00"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-// Deployed agents per organization
+// Agent NFT skins and marketplace
+export const agentSkins = pgTable("agent_skins", {
+  id: serial("id").primaryKey(),
+  agentTypeId: integer("agent_type_id").references(() => agentTypes.id).notNull(),
+  name: text("name").notNull(),
+  description: text("description"),
+  skinData: json("skin_data").$type<{
+    avatar: string;
+    colorScheme: string;
+    theme: string;
+    animations?: string[];
+  }>().notNull(),
+  rarity: text("rarity").notNull().default("common"), // common, rare, epic, legendary
+  price: integer("price").notNull().default(0), // in Harmony tokens
+  isLimited: boolean("is_limited").notNull().default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// User owned agent skins
+export const userAgentSkins = pgTable("user_agent_skins", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id).notNull(),
+  agentSkinId: integer("agent_skin_id").references(() => agentSkins.id).notNull(),
+  acquiredAt: timestamp("acquired_at").defaultNow().notNull(),
+});
+
+// Deployed agents per organization (with gamification)
 export const agents = pgTable("agents", {
   id: serial("id").primaryKey(),
   organizationId: integer("organization_id").references(() => organizations.id).notNull(),

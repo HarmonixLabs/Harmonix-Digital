@@ -2,7 +2,7 @@
 
 ## Overview
 
-Harmonix is a full-stack AI agent platform that enables organizations to deploy, manage, and monetize AI agents across various business functions. The platform features a multi-tenant architecture with token-based economy, real-time communication, and a comprehensive agent marketplace.
+Harmonix is a comprehensive AI infrastructure platform that enables businesses to Build, Automate, and Exit through intelligent automation. The platform features 12+ specialized AI agents (Digital Team Members), a token-based economy, multi-tenant architecture, gamified agent marketplace with NFT collectibles, and the SŌL brain orchestration engine. Our philosophy: "Help visionary businesses Build, Automate, and Exit" through strategic automation and AI-powered systems.
 
 ## System Architecture
 
@@ -35,11 +35,13 @@ Harmonix is a full-stack AI agent platform that enables organizations to deploy,
 - Role-based access control (user, admin, super_admin)
 - Password hashing with bcrypt
 
-### Agent Management
-- Predefined agent types with categories (sales, hr, concierge, executive, sop, booking)
-- Customizable agent deployments per organization
-- Token-based usage tracking and billing
-- Performance analytics and monitoring
+### Agent Management (12+ Digital Team Members)
+- **Flagship 6**: Sales, Concierge, HR, Social Media, Executive Assistant, Project Manager
+- **Next-Wave**: Content Creation, Email Marketing, Finance, Legal/Compliance, Analyst/Forecasting, R&D/Innovation
+- **Additional**: SOP Agent, Booking Agent, and specialized industry agents
+- Gamified agent system with XP progression, collectible NFT skins, and marketplace
+- Token-based usage tracking with auto-recharge system
+- Agent-to-agent communication protocols via SŌL brain orchestration
 
 ### Real-time Communication
 - WebSocket server for live updates
@@ -107,10 +109,40 @@ Harmonix is a full-stack AI agent platform that enables organizations to deploy,
 - JWT_SECRET for authentication security
 - NODE_ENV for environment-specific behavior
 
+## Service Offerings
+
+### 1. AI Agents - Digital Team Members
+- Base Installation: $12,500 per agent
+- With SOP Mapping & Customization: $18,000
+- Monthly Maintenance: $300-$1,000 (includes AI updates, prompt tuning, performance reports)
+
+### 2. Web Design & Automation Services
+- Landing Page (AI-optimized): $800
+- Standard Website (3-9 pages): $4,400
+- Custom Website: Custom Quote
+- Monthly Maintenance: $200-$1,200
+
+### 3. Blockchain & Fintech Services
+- Base Project: $7,500+
+- Custom Full-Stack Build: $15,000-$50,000
+- Monthly Maintenance: $1,000-$2,500
+
+### 4. The Launchpad (Incubator Program)
+- Paid-in-Full: $15,000
+- Financing: $18,000
+- Includes: 90-day support, client acquisition system, training
+
+### 5. The Boardroom (AI Advisory Council)
+- Solo Advisor: $497/month
+- Core Council: $1,200/month  
+- Full Boardroom: $3,300+/month
+- Enterprise Custom: Custom quote
+
 ## Changelog
 
-Changelog:
-- June 23, 2025. Initial setup
+- June 23, 2025: Initial platform setup with authentication and database
+- June 23, 2025: Integrated comprehensive Harmonix documentation and service structure
+- June 23, 2025: Enhanced backend with 12+ agent types and gamification system
 
 ## User Preferences
 
