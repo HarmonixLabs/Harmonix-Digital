@@ -25,7 +25,7 @@ import {
   Crown,
   Gem
 } from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/lib/auth';
 import { Link } from 'wouter';
 
 interface Agent {
@@ -49,6 +49,7 @@ interface Agent {
   rarity: 'common' | 'rare' | 'epic' | 'legendary';
   nftPrice?: number;
   royaltyPercentage?: number;
+  available?: boolean;
 }
 
 const FEATURED_AGENTS: Agent[] = [
@@ -257,14 +258,8 @@ export default function Marketplace() {
       return;
     }
     
-    // Check if agent is available for deployment
-    if (agent.available !== false) {
-      // Launch deploy flow
-      window.location.href = `/checkout?agent=${agent.id}&tier=growth`;
-    } else {
-      // Show "Join Waitlist" if not yet live
-      window.location.href = `/waitlist?agent=${agent.id}`;
-    }
+    // All agents are currently available for deployment
+    // Launch deploy flow to checkout page with selected agent
     window.location.href = `/checkout?agent=${agent.id}&tier=growth`;
   };
 

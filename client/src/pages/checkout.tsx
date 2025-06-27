@@ -97,7 +97,7 @@ export default function CheckoutPage() {
     let estimatedReturn = baseTier.setupFee * 2; // Base 2x return
 
     // Industry multipliers
-    const industryMultipliers = {
+    const industryMultipliers: { [key: string]: number } = {
       "Technology": 3.5,
       "Finance": 4.0,
       "Real Estate": 3.0,
@@ -107,7 +107,7 @@ export default function CheckoutPage() {
     };
 
     // Use case multipliers
-    const useCaseMultipliers = {
+    const useCaseMultipliers: { [key: string]: number } = {
       "Lead Generation": 3.0,
       "Sales Optimization": 3.5,
       "Process Automation": 2.8,
@@ -165,9 +165,10 @@ export default function CheckoutPage() {
 
     } catch (error) {
       console.error('Payment error:', error);
+      const errorMessage = error instanceof Error ? error.message : "Failed to process payment. Please try again.";
       toast({
         title: "Payment Error",
-        description: error.message || "Failed to process payment. Please try again.",
+        description: errorMessage,
         variant: "destructive"
       });
       setIsProcessing(false);
@@ -200,9 +201,10 @@ export default function CheckoutPage() {
 
     } catch (error) {
       console.error('Deposit payment error:', error);
+      const errorMessage = error instanceof Error ? error.message : "Failed to process deposit. Please try again.";
       toast({
         title: "Payment Error",
-        description: error.message || "Failed to process deposit. Please try again.",
+        description: errorMessage,
         variant: "destructive"
       });
       setIsProcessing(false);
