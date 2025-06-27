@@ -39,6 +39,7 @@ import LoadingShowcase from "@/pages/loading-showcase";
 import TermsAndConditions from "@/pages/TermsAndConditions";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import ServicePricing from "@/pages/ServicePricing";
+import Waitlist from "@/pages/Waitlist";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -67,7 +68,7 @@ function Router() {
           <Route path="/gamified-onboarding" component={lazy(() => import("./pages/gamified-onboarding"))} />
           <Route path="/get-started" component={lazy(() => import("./pages/get-started"))} />
           <Route path="/sign-in" component={lazy(() => import("./pages/sign-in"))} />
-          <Route path="/waitlist" component={lazy(() => import("./pages/waitlist"))} />
+
           <Route path="/legal/privacy" component={lazy(() => import("./pages/legal/privacy"))} />
           <Route path="/legal/terms" component={lazy(() => import("./pages/legal/terms"))} />
           <Route path="/legal/cookies" component={lazy(() => import("./pages/legal/cookies"))} />
@@ -83,6 +84,7 @@ function Router() {
           <Route path="/terms-and-conditions" component={TermsAndConditions} />
           <Route path="/privacy-policy" component={PrivacyPolicy} />
           <Route path="/service-pricing" component={ServicePricing} />
+          <Route path="/harmony-waitlist" component={Waitlist} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/marketplace" component={Marketplace} />
           <Route path="/create-agent" component={lazy(() => import("./pages/create-agent"))} />

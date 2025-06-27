@@ -22,6 +22,7 @@ export function Footer() {
   const companyLinks = [
     { href: "/case-studies", label: "Case Studies" },
     { href: "/demo", label: "Demo" },
+    { href: "/harmony-waitlist", label: "Join Waitlist" },
     { href: "/contact", label: "Contact" },
     { href: "/careers", label: "Careers" },
   ];
