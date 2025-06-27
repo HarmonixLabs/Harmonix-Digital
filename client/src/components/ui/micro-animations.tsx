@@ -1,381 +1,187 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { ReactNode, useState } from "react";
+import React from "react";
+import { cn } from "@/lib/utils";
 
-// Fade In Animation
-export const FadeIn = ({ 
+// Floating Action Component
+export function FloatingElement({ 
   children, 
-  delay = 0, 
-  duration = 0.5,
-  className = ""
+  className,
+  delay = 0 
 }: { 
-  children: ReactNode; 
-  delay?: number; 
-  duration?: number;
+  children: React.ReactNode; 
   className?: string;
-}) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration, delay, ease: "easeOut" }}
-    className={className}
-  >
-    {children}
-  </motion.div>
-);
-
-// Scale In Animation
-export const ScaleIn = ({ 
-  children, 
-  delay = 0,
-  scale = 0.8,
-  className = ""
-}: { 
-  children: ReactNode; 
   delay?: number;
-  scale?: number;
-  className?: string;
-}) => (
-  <motion.div
-    initial={{ opacity: 0, scale }}
-    animate={{ opacity: 1, scale: 1 }}
-    transition={{ duration: 0.4, delay, ease: "easeOut" }}
-    className={className}
-  >
-    {children}
-  </motion.div>
-);
+}) {
+  return (
+    <div 
+      className={cn("animate-float", className)}
+      style={{ animationDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
 
-// Slide In from Direction
-export const SlideIn = ({ 
+// Breathing Glow Effect
+export function BreathingGlow({ 
   children, 
-  direction = "left",
-  delay = 0,
-  distance = 50,
-  className = ""
+  className,
+  intensity = "medium" 
 }: { 
-  children: ReactNode; 
-  direction?: "left" | "right" | "up" | "down";
-  delay?: number;
-  distance?: number;
+  children: React.ReactNode; 
   className?: string;
-}) => {
-  const getInitialPosition = () => {
-    switch (direction) {
-      case "left": return { x: -distance, y: 0 };
-      case "right": return { x: distance, y: 0 };
-      case "up": return { x: 0, y: -distance };
-      case "down": return { x: 0, y: distance };
-      default: return { x: -distance, y: 0 };
-    }
+  intensity?: "subtle" | "medium" | "strong";
+}) {
+  const glowClasses = {
+    subtle: "animate-breathe hover:shadow-lg hover:shadow-harmonix-gold/10",
+    medium: "animate-breathe hover:shadow-xl hover:shadow-harmonix-gold/20",
+    strong: "animate-breathe hover:shadow-2xl hover:shadow-harmonix-gold/30"
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, ...getInitialPosition() }}
-      animate={{ opacity: 1, x: 0, y: 0 }}
-      transition={{ duration: 0.6, delay, ease: "easeOut" }}
-      className={className}
-    >
+    <div className={cn(glowClasses[intensity], className)}>
       {children}
-    </motion.div>
+    </div>
   );
-};
+}
 
-// Stagger Children Animation
-export const StaggerContainer = ({ 
+// Staggered Container for Lists
+export function StaggeredContainer({ 
   children, 
-  staggerDelay = 0.1,
-  className = ""
+  className,
+  staggerDelay = 100 
 }: { 
-  children: ReactNode; 
+  children: React.ReactNode; 
+  className?: string;
   staggerDelay?: number;
-  className?: string;
-}) => (
-  <motion.div
-    initial="hidden"
-    animate="visible"
-    variants={{
-      hidden: { opacity: 0 },
-      visible: {
-        opacity: 1,
-        transition: {
-          staggerChildren: staggerDelay
-        }
-      }
-    }}
-    className={className}
-  >
-    {children}
-  </motion.div>
-);
+}) {
+  return (
+    <div className={cn("space-y-4", className)}>
+      {React.Children.map(children, (child, index) => (
+        <div 
+          className="animate-fadeInUp"
+          style={{ animationDelay: `${index * staggerDelay}ms` }}
+        >
+          {child}
+        </div>
+      ))}
+    </div>
+  );
+}
 
-export const StaggerItem = ({ children, className = "" }: { children: ReactNode; className?: string }) => (
-  <motion.div
-    variants={{
-      hidden: { opacity: 0, y: 20 },
-      visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
-    }}
-    className={className}
-  >
-    {children}
-  </motion.div>
-);
-
-// Hover Scale Animation
-export const HoverScale = ({ 
+// Magnetic Hover Effect
+export function MagneticHover({ 
   children, 
-  scale = 1.05,
-  className = ""
+  className,
+  strength = "medium" 
 }: { 
-  children: ReactNode; 
-  scale?: number;
+  children: React.ReactNode; 
   className?: string;
-}) => (
-  <motion.div
-    whileHover={{ scale }}
-    whileTap={{ scale: 0.98 }}
-    transition={{ duration: 0.2, ease: "easeInOut" }}
-    className={className}
-  >
-    {children}
-  </motion.div>
-);
-
-// Pulse Animation
-export const Pulse = ({ 
-  children, 
-  scale = 1.05,
-  className = ""
-}: { 
-  children: ReactNode; 
-  scale?: number;
-  className?: string;
-}) => (
-  <motion.div
-    animate={{ scale: [1, scale, 1] }}
-    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-    className={className}
-  >
-    {children}
-  </motion.div>
-);
-
-// Breathing Animation (sacred effect)
-export const BreathingGlow = ({ 
-  children, 
-  className = ""
-}: { 
-  children: ReactNode; 
-  className?: string;
-}) => (
-  <motion.div
-    animate={{
-      boxShadow: [
-        "0 0 20px rgba(215, 183, 109, 0.3)",
-        "0 0 40px rgba(215, 183, 109, 0.6)",
-        "0 0 20px rgba(215, 183, 109, 0.3)"
-      ]
-    }}
-    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-    className={className}
-  >
-    {children}
-  </motion.div>
-);
-
-// Card Flip Animation
-export const FlipCard = ({ 
-  front, 
-  back, 
-  className = ""
-}: { 
-  front: ReactNode; 
-  back: ReactNode;
-  className?: string;
-}) => {
-  const [isFlipped, setIsFlipped] = useState(false);
+  strength?: "subtle" | "medium" | "strong";
+}) {
+  const strengthClasses = {
+    subtle: "hover:transform hover:scale-[1.02] transition-transform duration-200",
+    medium: "hover:transform hover:scale-105 transition-transform duration-300",
+    strong: "hover:transform hover:scale-110 transition-transform duration-300"
+  };
 
   return (
-    <motion.div
-      className={`relative cursor-pointer ${className}`}
-      onClick={() => setIsFlipped(!isFlipped)}
-      style={{ transformStyle: "preserve-3d" }}
-      animate={{ rotateY: isFlipped ? 180 : 0 }}
-      transition={{ duration: 0.6, ease: "easeInOut" }}
-    >
-      <div
-        className="absolute inset-0 backface-hidden"
-        style={{ backfaceVisibility: "hidden" }}
-      >
-        {front}
-      </div>
-      <div
-        className="absolute inset-0 backface-hidden"
-        style={{ 
-          backfaceVisibility: "hidden",
-          transform: "rotateY(180deg)"
-        }}
-      >
-        {back}
-      </div>
-    </motion.div>
+    <div className={cn(strengthClasses[strength], className)}>
+      {children}
+    </div>
   );
-};
+}
 
-// Sacred Geometry Animation
-export const SacredGeometry = ({ className = "" }: { className?: string }) => (
-  <motion.div
-    className={`absolute inset-0 pointer-events-none ${className}`}
-    initial={{ opacity: 0, rotate: 0 }}
-    animate={{ opacity: 0.1, rotate: 360 }}
-    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-  >
-    <svg className="w-full h-full" viewBox="0 0 100 100">
-      <motion.circle
-        cx="50"
-        cy="50"
-        r="20"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="0.5"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 2, ease: "easeInOut" }}
-      />
-      <motion.polygon
-        points="50,30 65,55 35,55"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="0.5"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 2, delay: 0.5, ease: "easeInOut" }}
-      />
-    </svg>
-  </motion.div>
-);
-
-// Floating Animation
-export const FloatingElement = ({ 
+// Ripple Effect for Click Interactions
+export function RippleEffect({ 
   children, 
-  amplitude = 10,
-  duration = 3,
-  className = ""
+  className 
 }: { 
-  children: ReactNode; 
-  amplitude?: number;
-  duration?: number;
+  children: React.ReactNode; 
   className?: string;
-}) => (
-  <motion.div
-    animate={{ y: [-amplitude, amplitude, -amplitude] }}
-    transition={{ duration, repeat: Infinity, ease: "easeInOut" }}
-    className={className}
-  >
-    {children}
-  </motion.div>
-);
-
-// Page Transition
-export const PageTransition = ({ children }: { children: ReactNode }) => (
-  <AnimatePresence mode="wait">
-    <motion.div
-      initial={{ opacity: 0, x: 50 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -50 }}
-      transition={{ duration: 0.4, ease: "easeInOut" }}
+}) {
+  return (
+    <div 
+      className={cn(
+        "relative overflow-hidden",
+        "active:after:absolute active:after:inset-0 active:after:rounded-[inherit]",
+        "active:after:bg-harmonix-gold/20 active:after:animate-ripple",
+        className
+      )}
     >
       {children}
-    </motion.div>
-  </AnimatePresence>
-);
+    </div>
+  );
+}
 
-// Sacred Button Animation
-export const SacredButton = ({ 
-  children, 
-  onClick,
-  className = "",
-  disabled = false
+// Text Animation Component
+export function AnimatedText({ 
+  text, 
+  className,
+  animation = "typewriter",
+  delay = 0 
 }: { 
-  children: ReactNode; 
-  onClick?: () => void;
+  text: string; 
   className?: string;
-  disabled?: boolean;
-}) => (
-  <motion.button
-    className={`relative overflow-hidden ${className}`}
-    onClick={onClick}
-    disabled={disabled}
-    whileHover={{ scale: 1.02 }}
-    whileTap={{ scale: 0.98 }}
-    animate={{
-      boxShadow: [
-        "0 0 10px rgba(215, 183, 109, 0.2)",
-        "0 0 20px rgba(215, 183, 109, 0.4)",
-        "0 0 10px rgba(215, 183, 109, 0.2)"
-      ]
-    }}
-    transition={{ 
-      scale: { duration: 0.2 },
-      boxShadow: { duration: 2, repeat: Infinity, ease: "easeInOut" }
-    }}
-  >
-    <motion.div
-      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
-      initial={{ x: "-100%" }}
-      whileHover={{ x: "100%" }}
-      transition={{ duration: 0.6, ease: "easeInOut" }}
-    />
-    {children}
-  </motion.button>
-);
+  animation?: "typewriter" | "fadeIn" | "slideUp";
+  delay?: number;
+}) {
+  const animationClasses = {
+    typewriter: "animate-[typewriter_3s_steps(40,end)] overflow-hidden whitespace-nowrap",
+    fadeIn: "animate-fadeInUp",
+    slideUp: "animate-slideInRight"
+  };
 
-// Loading Spinner with Sacred Geometry
-export const SacredLoader = ({ size = 40, className = "" }: { size?: number; className?: string }) => (
-  <div className={`flex items-center justify-center ${className}`}>
-    <motion.div
-      className="relative"
-      style={{ width: size, height: size }}
-      animate={{ rotate: 360 }}
-      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+  return (
+    <span 
+      className={cn(animationClasses[animation], className)}
+      style={{ animationDelay: `${delay}ms` }}
     >
-      <div className="absolute inset-0 border-2 border-[#d7b76d]/30 rounded-full" />
-      <motion.div
-        className="absolute inset-1 border-2 border-[#d7b76d] rounded-full border-t-transparent"
-        animate={{ rotate: -360 }}
-        transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-      />
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-2 h-2 bg-[#d7b76d] rounded-full animate-pulse" />
-      </div>
-    </motion.div>
-  </div>
-);
+      {text}
+    </span>
+  );
+}
 
-// Toast Notification Animation
-export const AnimatedToast = ({ 
-  children, 
-  isVisible,
-  onClose,
-  className = ""
+// Loading Shimmer Component
+export function LoadingShimmer({ 
+  className,
+  width = "100%",
+  height = "20px" 
 }: { 
-  children: ReactNode; 
-  isVisible: boolean;
-  onClose?: () => void;
   className?: string;
-}) => (
-  <AnimatePresence>
-    {isVisible && (
-      <motion.div
-        initial={{ opacity: 0, y: -50, scale: 0.9 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: -50, scale: 0.9 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
-        className={`fixed top-4 right-4 z-50 ${className}`}
-        onClick={onClose}
-      >
-        {children}
-      </motion.div>
-    )}
-  </AnimatePresence>
-);
+  width?: string;
+  height?: string;
+}) {
+  return (
+    <div 
+      className={cn(
+        "bg-gradient-to-r from-harmonix-cedar via-harmonix-sage to-harmonix-cedar",
+        "animate-shimmer bg-[length:200%_100%]",
+        "rounded-md",
+        className
+      )}
+      style={{ width, height }}
+    />
+  );
+}
+
+// Parallax Scroll Element
+export function ParallaxElement({ 
+  children, 
+  className,
+  speed = 0.5 
+}: { 
+  children: React.ReactNode; 
+  className?: string;
+  speed?: number;
+}) {
+  return (
+    <div 
+      className={cn("transform-gpu", className)}
+      style={{
+        transform: `translateY(calc(var(--scroll-y, 0px) * ${speed}))`
+      }}
+    >
+      {children}
+    </div>
+  );
+}
