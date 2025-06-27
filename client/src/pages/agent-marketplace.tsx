@@ -242,7 +242,7 @@ export default function AgentMarketplacePage() {
         <div className="absolute inset-0 bg-gradient-to-br from-harmony-green/20 via-transparent to-harmony-gold/10"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center space-y-8">
-            <HarmonixLogo size="lg" variant="gold" className="justify-center mb-6" />
+            <HarmonixLogo size="lg" variant="h-mark" className="justify-center mb-6" />
             <div className="space-y-4">
               <h1 className="text-5xl lg:text-6xl font-bold text-white font-serif leading-tight">
                 Agent <span className="text-harmony-gold">Marketplace</span>
