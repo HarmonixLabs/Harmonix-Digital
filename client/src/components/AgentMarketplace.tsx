@@ -9,52 +9,96 @@ interface Agent {
   performance: string;
   royalties: string;
   locked?: boolean;
-  tier: 'Executive' | 'HR' | 'SOP' | 'Sales' | 'Concierge' | 'Content';
+  tier: 'Executive' | 'HR' | 'SOP' | 'Sales' | 'Concierge' | 'Content' | 'Virtual Assistant';
   description: string;
-  price: number;
+  basePrice: number;
+  fullPrice: number;
+  monthlyMaintenance: string;
+  features: string[];
+  image?: string;
 }
 
 const agents: Agent[] = [
   {
-    id: 'executive',
-    name: 'Executive Assistant',
-    type: 'Executive Support',
-    performance: '+62%',
-    royalties: '8%',
-    tier: 'Executive',
-    description: 'Strategic task management and executive coordination',
-    price: 299
+    id: 'sales',
+    name: 'CA$HFLOW Sales Agent',
+    type: 'Sales & Lead Management',
+    performance: '+87%',
+    royalties: '12%',
+    tier: 'Sales',
+    description: 'Inbound/outbound calls, lead nurturing, booking, and follow-up automation',
+    basePrice: 12500,
+    fullPrice: 18000,
+    monthlyMaintenance: '$300-$600',
+    features: ['24/7 Lead Engagement', 'CRM Integration', 'Call Analytics', 'Automated Follow-up', 'ROI Tracking'],
+    image: '/assets/cashflow-agent.png'
+  },
+  {
+    id: 'virtual-assistant',
+    name: 'AI Virtual Assistant',
+    type: 'Administrative Support',
+    performance: '+75%',
+    royalties: '10%',
+    tier: 'Virtual Assistant',
+    description: 'Comprehensive administrative support with advanced scheduling and communication capabilities',
+    basePrice: 12500,
+    fullPrice: 18000,
+    monthlyMaintenance: '$300-$500',
+    features: ['Calendar Management', 'Email Automation', 'Task Coordination', 'Communication Hub', 'Document Processing'],
+    image: '/assets/va-agent-v3.png'
   },
   {
     id: 'hr',
     name: 'HR Agent',
     type: 'Human Resources',
-    performance: '+55%',
+    performance: '+68%',
     royalties: '10%',
     tier: 'HR',
-    description: 'Employee management and recruitment automation',
-    price: 249
+    description: 'Intern onboarding, SOP training, applicant screening, and team support',
+    basePrice: 12500,
+    fullPrice: 18000,
+    monthlyMaintenance: '$400-$700',
+    features: ['Applicant Screening', 'Onboarding Automation', 'Training Delivery', 'Performance Tracking', 'Policy Management']
+  },
+  {
+    id: 'concierge',
+    name: 'AI Concierge',
+    type: 'Customer Support',
+    performance: '+82%',
+    royalties: '9%',
+    tier: 'Concierge',
+    description: 'Customer support with internal and external knowledge base management',
+    basePrice: 12500,
+    fullPrice: 18000,
+    monthlyMaintenance: '$350-$600',
+    features: ['24/7 Support', 'Knowledge Base', 'Ticket Routing', 'Satisfaction Tracking', 'Multi-channel Support']
+  },
+  {
+    id: 'social-media',
+    name: 'Social Media Agent',
+    type: 'Digital Marketing',
+    performance: '+65%',
+    royalties: '8%',
+    tier: 'Content',
+    description: 'Trend research, content calendar, post scheduling, and UGC preparation',
+    basePrice: 12500,
+    fullPrice: 18000,
+    monthlyMaintenance: '$300-$500',
+    features: ['Content Planning', 'Auto Scheduling', 'Trend Analysis', 'Engagement Tracking', 'Brand Monitoring']
   },
   {
     id: 'sop',
-    name: 'SOP Agent',
-    type: 'Process Management',
-    performance: '+71%',
-    royalties: '7%',
+    name: 'SOP Builder Agent',
+    type: 'Process Optimization',
+    performance: '+91%',
+    royalties: '15%',
     tier: 'SOP',
-    locked: true,
     description: 'Standard operating procedures and workflow optimization',
-    price: 399
-  },
-  {
-    id: 'sales',
-    name: 'Sales Agent',
-    type: 'Revenue Generation',
-    performance: '+59%',
-    royalties: '5%',
-    tier: 'Sales',
-    description: 'Lead qualification and sales automation',
-    price: 349
+    basePrice: 12500,
+    fullPrice: 18000,
+    monthlyMaintenance: '$400-$800',
+    features: ['Process Mapping', 'Workflow Automation', 'Quality Control', 'Documentation', 'Training Integration'],
+    locked: true
   }
 ];
 
@@ -285,6 +329,37 @@ const AgentMarketplace: React.FC = () => {
                   <p className="text-sm text-warm-white/70 leading-relaxed">
                     {agent.description}
                   </p>
+
+                  {/* Pricing Information */}
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between items-center">
+                      <span className="text-warm-white/60">Base Install:</span>
+                      <span className="text-golden-primary font-semibold">${agent.basePrice.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-warm-white/60">With SOP:</span>
+                      <span className="text-golden-primary font-semibold">${agent.fullPrice.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-warm-white/60">Monthly:</span>
+                      <span className="text-golden-primary font-semibold">{agent.monthlyMaintenance}</span>
+                    </div>
+                  </div>
+
+                  {/* Features */}
+                  {agent.features && (
+                    <div className="space-y-1">
+                      <p className="text-xs text-warm-white/60 font-medium">Key Features:</p>
+                      <div className="grid grid-cols-1 gap-1">
+                        {agent.features.slice(0, 3).map((feature, idx) => (
+                          <div key={idx} className="flex items-center space-x-1 text-xs text-warm-white/50">
+                            <div className="w-1 h-1 bg-golden-primary rounded-full"></div>
+                            <span>{feature}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Action Button */}

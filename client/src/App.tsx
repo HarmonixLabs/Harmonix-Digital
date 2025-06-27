@@ -80,6 +80,9 @@ function Router() {
           <Route path="/signup" component={Signup} />
           <Route path="/thank-you" component={ThankYou} />
           <Route path="/checkout" component={Checkout} />
+          <Route path="/terms-and-conditions" component={TermsAndConditions} />
+          <Route path="/privacy-policy" component={PrivacyPolicy} />
+          <Route path="/service-pricing" component={ServicePricing} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/marketplace" component={Marketplace} />
           <Route path="/create-agent" component={lazy(() => import("./pages/create-agent"))} />
