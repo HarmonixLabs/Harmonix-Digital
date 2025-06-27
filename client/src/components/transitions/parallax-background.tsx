@@ -19,7 +19,7 @@ export function ParallaxBackground({
   });
 
   const y = useTransform(scrollYProgress, [0, 1], [0, speed * 100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [1, 1, 1, 1]);
 
   return (
     <motion.div
