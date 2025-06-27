@@ -102,8 +102,8 @@ export default {
         },
         // Timeless Futurism Palette
         "deep-space-black": "#0F1115",
-        "jade-blue": "#4A90E2",
-        "jade-blue-muted": "#3A7BD5",
+        "jade-forest": "#1D6B4A",
+        "jade-forest-muted": "#2A8059",
         "harmonix-gold": "#D4AF37",
         "harmonix-gold-muted": "#B8941F",
         

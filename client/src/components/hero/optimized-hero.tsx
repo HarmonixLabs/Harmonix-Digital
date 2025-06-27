@@ -42,16 +42,16 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
       {/* Sacred Atmospheric Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-deep-space-black via-[#1a2332] to-deep-space-black">
         {/* Multi-layer Brand Gradients */}
-        <div className="absolute inset-0 bg-gradient-to-br from-jade-blue/15 via-transparent to-harmonix-gold/20" />
-        <div className="absolute inset-0 bg-gradient-to-tl from-harmonix-gold/10 via-transparent to-jade-blue/5" />
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-jade-blue/5 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-br from-jade-forest/15 via-transparent to-harmonix-gold/20" />
+        <div className="absolute inset-0 bg-gradient-to-tl from-harmonix-gold/10 via-transparent to-jade-forest/5" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-jade-forest/5 to-transparent" />
         
         {/* Sacred Starfall animation */}
         <div className="absolute inset-0 overflow-hidden">
           {[...Array(15)].map((_, i) => (
             <div
               key={i}
-              className="absolute w-1 h-12 bg-gradient-to-b from-harmonix-gold via-jade-blue/50 to-transparent"
+              className="absolute w-1 h-12 bg-gradient-to-b from-harmonix-gold via-jade-forest/50 to-transparent"
               style={{
                 left: `${Math.random() * 100}%`,
                 animationName: 'starfallSacred',
@@ -162,13 +162,13 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
                     style={{
                       background: word === "Timeless" || word === "Sovereignty" 
                         ? "linear-gradient(135deg, #D4AF37 0%, #F4E4A1 100%)"
-                        : "linear-gradient(135deg, #4A90E2 0%, #5BA3F5 100%)",
+                        : "linear-gradient(135deg, #1D6B4A 0%, #2A8059 100%)",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
                       filter: word === "Timeless" || word === "Sovereignty"
                         ? "drop-shadow(0 0 20px rgba(212, 175, 55, 0.4))"
-                        : "drop-shadow(0 0 15px rgba(74, 144, 226, 0.3))",
+                        : "drop-shadow(0 0 15px rgba(29, 107, 74, 0.4))",
                       animationDelay: `${index * 0.08}s`,
                     }}
                   >
@@ -191,7 +191,7 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
                 isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               )}
             >
-              <p className="font-light text-jade-blue/90 mb-2">
+              <p className="font-light text-jade-forest/90 mb-2">
                 Build your business like a sacred machine.
               </p>
               <p className="font-medium bg-gradient-to-r from-harmonix-gold via-[#F4E4A1] to-harmonix-gold bg-clip-text text-transparent">

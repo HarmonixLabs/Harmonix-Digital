@@ -28,8 +28,8 @@
   
   /* Timeless Futurism Brand Palette - Sophisticated, premium, approachable */
   --harmonix-deep-space: hsl(225, 21%, 7%);         /* #0F1115 - Deep Space Black */
-  --harmonix-jade-blue: hsl(212, 78%, 57%);         /* #4A90E2 - Jade Blue */
-  --harmonix-jade-muted: hsl(212, 78%, 45%);        /* #3A7BD5 - Muted Jade Blue */
+  --harmonix-jade-forest: hsl(158, 64%, 28%);       /* #1D6B4A - Deep Jade Forest Green */
+  --harmonix-jade-muted: hsl(158, 54%, 35%);        /* #2A8059 - Muted Jade Forest */
   --harmonix-gold: hsl(45, 76%, 52%);               /* #D4AF37 - Gold */
   --harmonix-gold-muted: hsl(45, 76%, 42%);         /* #B8941F - Muted Gold */
 }
@@ -37,7 +37,7 @@
 /* Emergency fallback styling to ensure app renders */
 body {
   background: var(--harmonix-deep-space, #0F1115) !important;
-  color: var(--harmonix-jade-blue, #4A90E2) !important;
+  color: var(--harmonix-jade-forest, #1D6B4A) !important;
   font-family: Inter, system-ui, -apple-system, sans-serif !important;
 }
 
