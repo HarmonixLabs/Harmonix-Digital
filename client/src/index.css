@@ -26,39 +26,38 @@
   --ring: hsl(240, 4.9%, 83.9%);
   --radius: 0.5rem;
   
-  /* HARMONIX Timeless Futurism Brand Palette - Complete Design System */
-  --jade-forest: #0d4f3c;           /* Primary brand color - Rich Jade Forest */
-  --golden-authority: #d4af37;      /* Premium accent color - Golden Authority */
-  --deep-charcoal: #1a1a1a;         /* Primary background - Deep Charcoal */
-  --soft-jade: #4a9b8e;             /* Secondary jade for hover states */
-  --champagne-gold: #f4e4bc;        /* Subtle gold for backgrounds */
-  --warm-white: #fafafa;            /* Clean background for light areas */
-  --medium-gray: #6b7280;           /* Secondary text color */
+  /* HARMONIX Unified Color System - Single Source of Truth */
+  --jade-forest: #0A3925;           /* Primary brand color */
+  --golden-sovereign: #F4C542;      /* Premium accent color */
+  --ivory-light: #FAFAF5;           /* Clean light background */
+  --charcoal-deep: #1E1E1E;         /* Primary dark background */
+  --slate-gray: #2F2F2F;            /* Secondary gray */
+  --ember-glow: #FFD966;            /* Lighter gold variant */
+  --reactor-red: #E63946;           /* Error/warning color */
+  
+  /* Functional colors (derived from primary) */
+  --jade-forest-muted: #4A9B8E;     /* Hover states */
+  --jade-forest-dark: #072419;      /* Deeper variant */
+  --golden-muted: #F4E4A1;          /* Subtle backgrounds */
+  --golden-dark: #D4AF37;           /* Deeper accent */
   
   /* Semantic Colors */
   --success-green: #22c55e;
   --warning-amber: #f59e0b;
   --error-red: #ef4444;
   --info-blue: #3b82f6;
-  
-  /* Legacy compatibility */
-  --harmonix-deep-space: #1a1a1a;
-  --harmonix-jade-forest: #0d4f3c;
-  --harmonix-jade-muted: #4a9b8e;
-  --harmonix-gold: #d4af37;
-  --harmonix-gold-muted: #f4e4bc;
 }
 
 /* HARMONIX Timeless Futurism Base Styling */
 body {
-  background: var(--deep-charcoal, #1a1a1a) !important;
-  color: var(--jade-forest, #0d4f3c) !important;
+  background: var(--charcoal-deep, #1E1E1E) !important;
+  color: var(--jade-forest, #0A3925) !important;
   font-family: Inter, system-ui, -apple-system, sans-serif !important;
 }
 
 #root {
   min-height: 100vh;
-  background: var(--harmonix-deep-space, #0F1115);
+  background: var(--charcoal-deep, #1E1E1E);
 }
 
 /* Critical Harmonix utility classes */
@@ -506,8 +505,8 @@ body {
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    background: #0b0f0e;
-    color: #d7b76d;
+    background: var(--charcoal-deep, #1E1E1E);
+    color: var(--golden-sovereign, #F4C542);
     min-height: 100vh;
     font-family: 'Inter', sans-serif;
   }

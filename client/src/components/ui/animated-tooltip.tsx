@@ -82,7 +82,7 @@ export function AnimatedTooltip({
     switch (variant) {
       case "mystical":
         return {
-          background: "bg-gradient-to-br from-deep-space-black/95 via-jade-forest/10 to-deep-space-black/95",
+          background: "bg-gradient-to-br from-charcoal-deep/95 via-jade-forest/10 to-charcoal-deep/95",
           border: "border border-jade-forest/40",
           text: "text-jade-forest",
           shadow: "shadow-2xl shadow-jade-forest/20",
@@ -91,12 +91,12 @@ export function AnimatedTooltip({
         };
       case "neural":
         return {
-          background: "bg-gradient-to-br from-deep-space-black/95 via-harmonix-gold/5 to-deep-space-black/95",
-          border: "border border-harmonix-gold/40",
-          text: "text-harmonix-gold",
-          shadow: "shadow-2xl shadow-harmonix-gold/20",
+          background: "bg-gradient-to-br from-charcoal-deep/95 via-golden-sovereign/5 to-charcoal-deep/95",
+          border: "border border-golden-sovereign/40",
+          text: "text-golden-sovereign",
+          shadow: "shadow-2xl shadow-golden-sovereign/20",
           backdropBlur: "backdrop-blur-md",
-          arrowColor: "border-t-harmonix-gold/40"
+          arrowColor: "border-t-golden-sovereign/40"
         };
       case "sacred":
         return {

@@ -1,0 +1,856 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(47, 84%, 52%);
+  --primary-foreground: hsl(240, 10%, 3.9%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+  
+  /* HARMONIX Timeless Futurism Brand Palette - Complete Design System */
+  --jade-forest: #0d4f3c;           /* Primary brand color - Rich Jade Forest */
+  --golden-authority: #d4af37;      /* Premium accent color - Golden Authority */
+  --deep-charcoal: #1a1a1a;         /* Primary background - Deep Charcoal */
+  --soft-jade: #4a9b8e;             /* Secondary jade for hover states */
+  --champagne-gold: #f4e4bc;        /* Subtle gold for backgrounds */
+  --warm-white: #fafafa;            /* Clean background for light areas */
+  --medium-gray: #6b7280;           /* Secondary text color */
+  
+  /* Semantic Colors */
+  --success-green: #22c55e;
+  --warning-amber: #f59e0b;
+  --error-red: #ef4444;
+  --info-blue: #3b82f6;
+  
+  /* Legacy compatibility */
+  --harmonix-deep-space: #1a1a1a;
+  --harmonix-jade-forest: #0d4f3c;
+  --harmonix-jade-muted: #4a9b8e;
+  --harmonix-gold: #d4af37;
+  --harmonix-gold-muted: #f4e4bc;
+}
+
+/* HARMONIX Timeless Futurism Base Styling */
+body {
+  background: var(--deep-charcoal, #1a1a1a) !important;
+  color: var(--jade-forest, #0d4f3c) !important;
+  font-family: Inter, system-ui, -apple-system, sans-serif !important;
+}
+
+#root {
+  min-height: 100vh;
+  background: var(--harmonix-deep-space, #0F1115);
+}
+
+/* Critical Harmonix utility classes */
+.harmonix-gradient {
+  background: linear-gradient(135deg, 
+    var(--harmonix-deep-forest, #0b0f0e) 0%, 
+    var(--harmonix-cedar-mist, #2f4e46) 35%, 
+    var(--harmonix-night-pine, #111f1a) 100%
+  ) !important;
+}
+
+.harmonix-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .harmonix-container {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .harmonix-container {
+    padding: 0 2rem;
+  }
+}
+
+.harmonix-card-enhanced {
+  background: linear-gradient(135deg, 
+    var(--harmonix-night-pine, #111f1a) 0%, 
+    var(--harmonix-deep-forest, #0b0f0e) 100%
+  );
+  border: 1px solid var(--harmonix-sage-fade, #768b7c);
+  border-opacity: 0.3;
+}
+
+.touch-friendly-btn {
+  min-height: 44px;
+  min-width: 120px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.starfall-animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(2px 2px at 40px 60px, #fff, transparent),
+              radial-gradient(2px 2px at 80px 120px, var(--harmonix-regal-gold), transparent),
+              radial-gradient(1px 1px at 120px 30px, #fff, transparent),
+              radial-gradient(1px 1px at 200px 80px, var(--harmonix-sage-fade), transparent);
+  animation: starfall 20s linear infinite;
+}
+
+@keyframes starfall {
+  0% { transform: translateY(-100vh) translateX(-50px); }
+  100% { transform: translateY(100vh) translateX(50px); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+.animate-fade-in-delay {
+  animation: fadeIn 0.8s ease-out 0.3s both;
+}
+
+.animate-fade-in-delay-2 {
+  animation: fadeIn 0.8s ease-out 0.6s both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Sacred breathing animation for mystical elements */
+@keyframes breathe {
+  0%, 100% { 
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+/* Sacred glow pulse for interactive elements */
+@keyframes sacredGlow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.6);
+  }
+}
+
+/* Enhanced starfall with sacred geometry */
+@keyframes starfallSacred {
+  0% { 
+    transform: translateY(-100vh) translateX(-30px) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% { 
+    transform: translateY(100vh) translateX(30px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Jade-forest gradient text utility */
+.text-jade-gradient {
+  background: linear-gradient(135deg, #1D6B4A 0%, #2A8059 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Whimsical Loading Animations */
+@keyframes sacred-lotus {
+  0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.7; }
+  50% { transform: rotate(180deg) scale(1.1); opacity: 1; }
+}
+
+@keyframes neural-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes harmonic-wave {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.2); opacity: 0; }
+}
+
+@keyframes orbital-dance {
+  0% { transform: rotate(0deg) translateX(20px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(20px) rotate(-360deg); }
+}
+
+@keyframes mystic-glow {
+  0%, 100% { 
+    box-shadow: 0 0 5px rgba(29, 107, 74, 0.3), 0 0 10px rgba(29, 107, 74, 0.2); 
+  }
+  50% { 
+    box-shadow: 0 0 20px rgba(29, 107, 74, 0.6), 0 0 30px rgba(29, 107, 74, 0.4), 0 0 40px rgba(212, 175, 55, 0.2); 
+  }
+}
+
+@keyframes tooltip-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.95; }
+  50% { transform: scale(1.02); opacity: 1; }
+}
+
+@keyframes particle-float {
+  0% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(-20px) rotate(360deg); opacity: 0; }
+}
+
+/* Animation utility classes */
+.animate-sacred-lotus {
+  animation: sacred-lotus 4s ease-in-out infinite;
+}
+
+.animate-neural-pulse {
+  animation: neural-pulse 2s ease-in-out infinite;
+}
+
+.animate-harmonic-wave {
+  animation: harmonic-wave 2s ease-out infinite;
+}
+
+.animate-orbital-dance {
+  animation: orbital-dance 3s linear infinite;
+}
+
+.animate-mystic-glow {
+  animation: mystic-glow 3s ease-in-out infinite;
+}
+
+.animate-tooltip-breathe {
+  animation: tooltip-breathe 2s ease-in-out infinite;
+}
+
+.animate-particle-float {
+  animation: particle-float 3s ease-in-out infinite;
+}
+
+/* Gold gradient text utility */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #D4AF37 0%, #F4E4A1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-harmonix-regal-gold {
+  color: var(--harmonix-regal-gold, #d7b76d) !important;
+}
+
+.text-harmonix-sage-fade {
+  color: var(--harmonix-sage-fade, #768b7c) !important;
+}
+
+.bg-harmonix-deep-forest {
+  background-color: var(--harmonix-deep-forest, #0b0f0e) !important;
+}
+
+.harmonix-text-hierarchy {
+  color: var(--harmonix-sage-fade, #768b7c);
+}
+
+.harmonix-visual-rhythm {
+  margin-bottom: 2rem;
+}
+
+.harmonix-btn-primary {
+  background: var(--harmonix-regal-gold, #d7b76d);
+  color: var(--harmonix-deep-forest, #0b0f0e);
+  border: none;
+}
+
+.harmonix-btn-secondary {
+  background: transparent;
+  color: var(--harmonix-regal-gold, #d7b76d);
+  border: 1px solid var(--harmonix-regal-gold, #d7b76d);
+}
+
+/* Mobile-First Responsive Typography System */
+.hero-responsive-title {
+  font-size: 2.5rem; /* 40px mobile */
+  line-height: 1.1;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 640px) {
+  .hero-responsive-title { 
+    font-size: 3.5rem; /* 56px tablet */
+    line-height: 1.05;
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-responsive-title { 
+    font-size: 4.5rem; /* 72px */
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-responsive-title { 
+    font-size: 5.5rem; /* 88px desktop */
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero-responsive-title { 
+    font-size: 6.5rem; /* 104px large desktop */
+  }
+}
+
+/* Touch-Friendly Interactive Elements */
+.touch-friendly-btn {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+@media (min-width: 640px) {
+  .touch-friendly-btn {
+    min-height: 48px;
+    padding: 14px 28px;
+    font-size: 18px;
+    border-radius: 12px;
+  }
+}
+
+/* Optimized Container System */
+.harmonix-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .harmonix-container {
+    max-width: 640px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .harmonix-container {
+    max-width: 768px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .harmonix-container {
+    max-width: 1024px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .harmonix-container {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .harmonix-container {
+    max-width: 1536px;
+  }
+}
+
+/* Psychological Animation Enhancements */
+.breathe-animation {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; }
+}
+
+.glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(215, 183, 109, 0.3);
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(215, 183, 109, 0.6);
+  }
+}
+
+/* Micro-interaction Enhancements */
+.micro-hover {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.micro-hover:hover {
+  transform: translateY(-2px);
+}
+
+.micro-hover:active {
+  transform: translateY(0);
+}
+
+/* Enhanced Card Styling */
+.harmonix-card-enhanced {
+  background: rgba(17, 31, 26, 0.8);
+  border: 1px solid rgba(118, 139, 124, 0.2);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.harmonix-card-enhanced:hover {
+  border-color: rgba(215, 183, 109, 0.4);
+  box-shadow: 0 8px 32px rgba(215, 183, 109, 0.1);
+}
+
+/* Updated Color Palette */
+:root {
+  --deep-forest: #0A1C16;
+  --emerald-gold: #D1BFA7;
+  --lunar-blue: #C1DAFF;
+  --night-sky: #0F1115;
+  --sacred-flame: #EED68C;
+}
+
+/* Constellation Animation */
+@keyframes starfall {
+  0% {
+    transform: translateY(-100vh) translateX(-50px) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) translateX(50px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.starfall-animation {
+  animation: starfall 8s linear infinite;
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(47, 84%, 52%);
+  --primary-foreground: hsl(240, 10%, 3.9%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background: #0b0f0e;
+    color: #d7b76d;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer utilities {
+  /* Official Harmonix brand utilities */
+  .harmonix-gradient {
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(47, 78, 70, 0.2) 0%, transparent 60%),
+      radial-gradient(circle at 80% 20%, rgba(215, 183, 109, 0.08) 0%, transparent 50%),
+      #0b0f0e;
+    position: relative;
+    min-height: 100vh;
+  }
+  
+  .harmonix-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      linear-gradient(rgba(47, 78, 70, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(47, 78, 70, 0.03) 1px, transparent 1px);
+    background-size: 80px 80px;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  .harmonix-scenic-gradient {
+    background: linear-gradient(135deg, var(--harmonix-cedar-mist) 0%, var(--harmonix-sage-fade) 50%, var(--harmonix-regal-gold) 100%);
+  }
+
+  .harmonix-card-enhanced {
+    background: linear-gradient(135deg, 
+      rgba(11, 15, 14, 0.95) 0%, 
+      rgba(47, 78, 70, 0.12) 50%,
+      rgba(17, 31, 26, 0.98) 100%);
+    border: 1px solid rgba(215, 183, 109, 0.25);
+    backdrop-filter: blur(20px);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.7),
+      inset 0 1px 0 rgba(215, 183, 109, 0.15);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    border-radius: 16px;
+  }
+
+  .harmonix-card-enhanced:hover {
+    transform: translateY(-8px);
+    border-color: rgba(215, 183, 109, 0.6);
+    box-shadow: 
+      0 20px 60px rgba(0, 0, 0, 0.8),
+      0 0 40px rgba(215, 183, 109, 0.4),
+      inset 0 1px 0 rgba(215, 183, 109, 0.25);
+  }
+
+  .harmonix-btn-primary {
+    background: linear-gradient(135deg, 
+      #d7b76d 0%, 
+      rgba(215, 183, 109, 0.9) 100%);
+    color: #0b0f0e;
+    font-weight: 600;
+    border: 1px solid rgba(215, 183, 109, 0.5);
+    border-radius: 12px;
+    padding: 12px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .harmonix-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 8px 25px rgba(215, 183, 109, 0.5),
+      0 0 20px rgba(215, 183, 109, 0.4);
+  }
+
+  .harmonix-btn-secondary {
+    background: transparent;
+    color: #d7b76d;
+    border: 2px solid rgba(215, 183, 109, 0.5);
+    border-radius: 12px;
+    padding: 10px 22px;
+    font-weight: 500;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .harmonix-btn-secondary:hover {
+    background: rgba(215, 183, 109, 0.1);
+    border-color: #d7b76d;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(215, 183, 109, 0.3);
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 ease-in-out;
+    background: linear-gradient(135deg, rgba(47, 78, 70, 0.6) 0%, rgba(17, 31, 26, 0.8) 100%);
+    backdrop-filter: blur(10px);
+  }
+
+  /* Premium promo banner animations */
+  .animate-gradient-x {
+    background-size: 200% 200%;
+    animation: gradient-x 3s ease infinite;
+  }
+
+  .animate-shimmer {
+    animation: shimmer 4s linear infinite;
+  }
+
+  @keyframes gradient-x {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+
+  /* Enhanced promo banner effects */
+  @keyframes float-up {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% {
+      box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.6), 0 0 30px rgba(212, 175, 55, 0.3);
+    }
+  }
+
+  .animate-float {
+    animation: float-up 3s ease-in-out infinite;
+  }
+
+  .animate-glow {
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+
+  .card-hover:hover {
+    @apply transform -translate-y-1;
+    box-shadow: 0 20px 40px rgba(215, 183, 109, 0.15);
+  }
+
+  .harmonix-logo-glow {
+    filter: drop-shadow(0 0 20px rgba(215, 183, 109, 0.3));
+  }
+
+  .sol-brain {
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  .connection-dots::before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--harmonix-regal-gold);
+    border-radius: 50%;
+    top: 50%;
+    left: -20px;
+    transform: translateY(-50%);
+  }
+
+  /* Sacred Typography System */
+  .harmonix-header-font {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+  }
+
+  .harmonix-body-font {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+  }
+
+  .harmonix-mono-font {
+    font-family: 'SF Mono', 'Roboto Mono', monospace;
+  }
+
+  /* Sacred Animations */
+  @keyframes harmonix-glow-pulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(209, 191, 167, 0.3); }
+    50% { box-shadow: 0 0 30px rgba(209, 191, 167, 0.6); }
+  }
+
+  .harmonix-lotus {
+    color: #d7b76d;
+    filter: drop-shadow(0 0 10px rgba(215, 183, 109, 0.5));
+  }
+
+  /* Harmonix brand color utilities */
+  .text-harmonix-deep-forest { color: var(--harmonix-deep-forest); }
+  .text-harmonix-cedar-mist { color: var(--harmonix-cedar-mist); }
+  .text-harmonix-sage-fade { color: var(--harmonix-sage-fade); }
+  .text-harmonix-regal-gold { color: var(--harmonix-regal-gold); }
+  .text-harmonix-night-pine { color: var(--harmonix-night-pine); }
+  
+  /* Harmonix Green Core Palette utilities */
+  .text-regal-gold { color: #d7b76d; }
+  .text-cedar-mist { color: #2f4e46; }
+  .text-sage-fade { color: #768b7c; }
+  .text-deep-forest { color: #0b0f0e; }
+  .text-night-pine { color: #111f1a; }
+  
+  .bg-regal-gold { background-color: #d7b76d; }
+  .bg-cedar-mist { background-color: #2f4e46; }
+  .bg-sage-fade { background-color: #768b7c; }
+  .bg-deep-forest { background-color: #0b0f0e; }
+  .bg-night-pine { background-color: #111f1a; }
+  
+  .border-regal-gold { border-color: #d7b76d; }
+  .border-cedar-mist { border-color: #2f4e46; }
+  .border-sage-fade { border-color: #768b7c; }
+
+  .bg-harmonix-deep-forest { background-color: var(--harmonix-deep-forest); }
+  .bg-harmonix-cedar-mist { background-color: var(--harmonix-cedar-mist); }
+  .bg-harmonix-sage-fade { background-color: var(--harmonix-sage-fade); }
+  .bg-harmonix-regal-gold { background-color: var(--harmonix-regal-gold); }
+  .bg-harmonix-night-pine { background-color: var(--harmonix-night-pine); }
+
+  .border-harmonix-deep-forest { border-color: var(--harmonix-deep-forest); }
+  .border-harmonix-cedar-mist { border-color: var(--harmonix-cedar-mist); }
+  .border-harmonix-sage-fade { border-color: var(--harmonix-sage-fade); }
+  .border-harmonix-regal-gold { border-color: var(--harmonix-regal-gold); }
+  .border-harmonix-night-pine { border-color: var(--harmonix-night-pine); }
+
+  /* Enhanced spacing and typography for psychological appeal */
+  .harmonix-section-spacing {
+    @apply py-20 px-4 sm:px-6 lg:px-8;
+  }
+
+  .harmonix-content-width {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .harmonix-card-spacing {
+    @apply p-8;
+  }
+
+  .harmonix-text-hierarchy h1 {
+    @apply text-5xl lg:text-6xl font-bold leading-tight tracking-tight;
+  }
+
+  .harmonix-text-hierarchy h2 {
+    @apply text-3xl lg:text-4xl font-bold leading-tight;
+  }
+
+  .harmonix-text-hierarchy h3 {
+    @apply text-xl lg:text-2xl font-bold leading-tight;
+  }
+
+  .harmonix-text-hierarchy p {
+    @apply text-lg leading-relaxed;
+  }
+
+  /* Button enhancements for better visual hierarchy */
+  .harmonix-btn-primary {
+    background-color: var(--harmonix-regal-gold);
+    color: var(--harmonix-deep-forest);
+    @apply font-semibold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105;
+  }
+
+  .harmonix-btn-primary:hover {
+    background-color: hsl(42, 46%, 55%);
+  }
+
+  .harmonix-btn-secondary {
+    border: 2px solid var(--harmonix-sage-fade);
+    color: var(--harmonix-sage-fade);
+    @apply font-semibold px-8 py-4 rounded-xl transition-all duration-300;
+  }
+
+  .harmonix-btn-secondary:hover {
+    background-color: var(--harmonix-sage-fade);
+    color: var(--harmonix-deep-forest);
+  }
+
+  /* Card enhancements with better visual depth */
+  .harmonix-card-enhanced {
+    background-color: rgba(47, 78, 70, 0.1);
+    border: 1px solid var(--harmonix-cedar-mist);
+    @apply rounded-2xl p-8 backdrop-blur-sm transition-all duration-300;
+  }
+
+  .harmonix-card-enhanced:hover {
+    border-color: var(--harmonix-sage-fade);
+    background-color: rgba(47, 78, 70, 0.2);
+  }
+
+  .harmonix-card-enhanced:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(215, 183, 109, 0.15);
+  }
+
+  /* Improved visual rhythm and spacing */
+  .harmonix-visual-rhythm > * + * {
+    @apply mt-6;
+  }
+
+  .harmonix-visual-rhythm h1 + p,
+  .harmonix-visual-rhythm h2 + p,
+  .harmonix-visual-rhythm h3 + p {
+    @apply mt-4;
+  }
+
+  /* Enhanced focus states for accessibility */
+  .harmonix-focus:focus {
+    @apply outline-none ring-2 ring-harmonix-regal-gold ring-offset-2 ring-offset-harmonix-deep-forest;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    opacity: 0.8; 
+  }
+  50% { 
+    opacity: 1; 
+  }
+}

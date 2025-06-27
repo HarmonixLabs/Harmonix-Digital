@@ -50,6 +50,7 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
+        // System colors (keep existing)
         background: "var(--background)",
         foreground: "var(--foreground)",
         card: {
@@ -100,32 +101,27 @@ export default {
           border: "var(--sidebar-border)",
           ring: "var(--sidebar-ring)",
         },
-        // HARMONIX Timeless Futurism Brand Palette
-        "jade-forest": "#0d4f3c",
-        "golden-authority": "#d4af37", 
-        "deep-charcoal": "#1a1a1a",
-        "soft-jade": "#4a9b8e",
-        "champagne-gold": "#f4e4bc",
-        "warm-white": "#fafafa",
-        "medium-gray": "#6b7280",
+        
+        // HARMONIX Brand Colors - Single Source of Truth
+        "jade-forest": "#0A3925",
+        "golden-sovereign": "#F4C542", 
+        "ivory-light": "#FAFAF5",
+        "charcoal-deep": "#1E1E1E",
+        "slate-gray": "#2F2F2F",
+        "ember-glow": "#FFD966",
+        "reactor-red": "#E63946",
+        
+        // Functional colors (derived from primary)
+        "jade-forest-muted": "#4A9B8E",
+        "jade-forest-dark": "#072419",
+        "golden-muted": "#F4E4A1",
+        "golden-dark": "#D4AF37",
         
         // Semantic Colors
         "success-green": "#22c55e",
         "warning-amber": "#f59e0b", 
         "error-red": "#ef4444",
         "info-blue": "#3b82f6",
-        
-        // Legacy Colors
-        "harmony-dark": "hsl(210, 24%, 8%)",
-        "harmony-slate": "hsl(213, 27%, 15%)", 
-        "harmony-gold": "hsl(47, 84%, 52%)",
-        "harmony-teal": "hsl(188, 60%, 58%)",
-        "harmony-blue": "hsl(210, 100%, 56%)",
-        "harmonix-deep-forest": "#0b0f0e",
-        "harmonix-cedar-mist": "#2f4e46", 
-        "harmonix-sage-fade": "#768b7c",
-        "harmonix-regal-gold": "#d7b76d",
-        "harmonix-night-pine": "#111f1a",
       },
     },
   },
