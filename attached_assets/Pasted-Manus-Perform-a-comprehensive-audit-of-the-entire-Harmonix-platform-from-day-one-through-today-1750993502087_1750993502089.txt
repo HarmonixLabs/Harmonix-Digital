@@ -1,0 +1,39 @@
+Manus,
+
+Perform a **comprehensive audit** of the entire Harmonix platform—from day one through today—and produce a detailed report and live-status dashboard in the admin panel. Specifically:
+
+1. **Page & Route Inventory**  
+   - List every public, auth, app, marketplace, demo, profile, admin, and error page.  
+   - For each, mark **✓ Done** or **⚠️ Missing/Incomplete**.
+
+2. **UI/UX Component Audit**  
+   - Inventory all major components (header, footer, nav, cards, modals, forms, tables, charts).  
+   - For each, note design-token compliance, responsive breakpoints, and animation status.
+
+3. **Functionality & Flow Checklist**  
+   - Signup → verify → plans → onboarding wizard  
+   - Dashboard load → agent list → builder → preview  
+   - Marketplace browse → run prompt → mint/deploy → tip flow  
+   - Pricing, billing, subscription updates, cancel  
+   - Demo suite: sales, content, meeting  
+   - Profiles, messaging, notifications  
+   - Admin panels: billing, partners, health
+
+   Mark each step **✓ Working** or **⚠️ Broken/Missing** and link to affected routes or components.
+
+4. **Live Preview Validation**  
+   - After noting each fix or change, automatically trigger and capture a live preview screenshot or status check.  
+   - Highlight any discrepancies between code and deployed UI.
+
+5. **Next‐Steps Roadmap**  
+   - Generate a prioritized list of all missing or broken items with estimated efforts and dependencies.  
+   - Expose this list in the `/admin/status` panel with real‐time checkboxes.
+
+6. **Admin Panel Integration**  
+   - Under `/admin/status`, display the full audit: pages, components, flows, their statuses, and live-preview links.  
+   - Allow me to mark items as “In Progress,” “Done,” or “Blocked,” and log timestamps.
+
+7. **Automatic Notifications**  
+   - When any status changes (e.g., a broken flow is fixed), send an in-app toast and email to founders.
+
+Document your methods and findings in `admin/status.json` and ensure the admin UI accurately reflects the live application state. Begin now.  
