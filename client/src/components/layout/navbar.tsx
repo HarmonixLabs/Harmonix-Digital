@@ -118,8 +118,8 @@ export function Navbar() {
                   data-tour="tokens"
                 >
                   <Coins className="harmony-gold" size={16} />
-                  <span className="font-semibold">{user.tokenBalance.toLocaleString()}</span>
-                  <span className="text-gray-400">Harmony</span>
+                  <span className="font-semibold text-jade-blue">{user.tokenBalance.toLocaleString()}</span>
+                  <span className="text-jade-blue/70">Harmony</span>
                 </div>
 
                 {/* User Dropdown */}
@@ -134,17 +134,17 @@ export function Navbar() {
                       </Avatar>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-56 bg-harmony-slate border-gray-800" align="end">
+                  <DropdownMenuContent className="w-56 bg-deep-space-black border-jade-blue/30" align="end">
                     <div className="flex items-center justify-start gap-2 p-2">
                       <div className="flex flex-col space-y-1 leading-none">
-                        <p className="font-medium">{user.name}</p>
-                        <p className="w-[200px] truncate text-sm text-gray-400">
+                        <p className="font-medium text-jade-blue">{user.name}</p>
+                        <p className="w-[200px] truncate text-sm text-jade-blue/70">
                           {user.email}
                         </p>
                       </div>
                     </div>
-                    <DropdownMenuSeparator className="bg-gray-800" />
-                    <DropdownMenuItem className="text-gray-300 hover:bg-gray-800">
+                    <DropdownMenuSeparator className="bg-jade-blue/30" />
+                    <DropdownMenuItem className="text-jade-blue hover:bg-jade-blue/10">
                       <User className="mr-2 h-4 w-4" />
                       Profile
                     </DropdownMenuItem>

@@ -473,6 +473,53 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Waitlist endpoint for CRM capture
+  app.post('/api/waitlist', async (req, res) => {
+    try {
+      const { name, email, company, industry, interest, page } = req.body;
+      
+      if (!name || !email) {
+        return res.status(400).json({ message: 'Name and email are required' });
+      }
+
+      // Create CRM contact for waitlist
+      const crmData = {
+        name: name.trim(),
+        email: email.toLowerCase().trim(),
+        company: company?.trim() || '',
+        source: 'harmonix_waitlist',
+        tags: ['waitlist', 'prospect'],
+        customFields: {
+          industry: industry || '',
+          interest: interest || '',
+          joinedPage: page || 'unknown',
+          joinedAt: new Date().toISOString()
+        }
+      };
+
+      // Update CRM with waitlist signup
+      await updateCRM({
+        email: crmData.email,
+        name: crmData.name,
+        activity: 'waitlist_joined',
+        source: 'waitlist_form',
+        company: crmData.company,
+        industry: crmData.customFields.industry,
+        notes: `Interested in: ${crmData.customFields.interest}`,
+        timestamp: new Date().toISOString()
+      });
+
+      res.json({ 
+        success: true, 
+        message: 'Successfully joined waitlist',
+        position: Math.floor(Math.random() * 280) + 1 // Simulated waitlist position
+      });
+    } catch (error) {
+      console.error('Waitlist signup error:', error);
+      res.status(500).json({ message: 'Failed to join waitlist' });
+    }
+  });
+
   // Stripe payment routes
   app.post('/api/checkout/create-session', async (req, res) => {
     try {

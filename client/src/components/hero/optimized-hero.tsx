@@ -136,10 +136,10 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
                       index < sloganWords.length ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95"
                     )}
                     style={{
-                      color: word === "Timeless" || word === "Sovereignty" ? "#d7b76d" : "#768b7c",
+                      color: word === "Timeless" || word === "Sovereignty" ? "#D4AF37" : "#4A90E2",
                       textShadow: word === "Timeless" || word === "Sovereignty" 
-                        ? "0 0 30px rgba(215, 183, 109, 0.6)" 
-                        : "0 0 20px rgba(118, 139, 124, 0.3)",
+                        ? "0 0 30px rgba(212, 175, 55, 0.6)" 
+                        : "0 0 20px rgba(74, 144, 226, 0.3)",
                       animationDelay: `${index * 0.08}s`,
                     }}
                   >
@@ -156,7 +156,7 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
                 isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               )}
               style={{
-                color: 'rgba(118, 139, 124, 0.95)',
+                color: 'rgba(74, 144, 226, 0.9)',
                 fontFamily: 'Inter, sans-serif',
               }}
             >
