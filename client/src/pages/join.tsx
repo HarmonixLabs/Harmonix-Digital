@@ -250,15 +250,7 @@ export default function JoinPage() {
               {/* Left Column - Hero Content */}
               <div className="space-y-10">
                 <div className="text-center lg:text-left">
-                  {/* Premium Logo Display */}
-                  <div className="flex justify-center lg:justify-start mb-8">
-                    <div className="relative group">
-                      <div className="absolute -inset-4 bg-gradient-to-r from-harmonix-gold/20 to-jade-forest/20 rounded-full blur-xl group-hover:blur-2xl transition-all duration-500"></div>
-                      <div className="relative bg-gradient-to-br from-harmonix-gold/10 to-jade-forest/10 p-4 rounded-full border border-harmonix-gold/30 backdrop-blur-sm">
-                        <HarmonixLogo variant="monogram" className="w-20 h-20" />
-                      </div>
-                    </div>
-                  </div>
+
                   
                   {/* Hero Headlines */}
                   <div className="space-y-6">
