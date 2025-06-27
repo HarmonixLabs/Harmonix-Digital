@@ -178,23 +178,64 @@ export default function JoinPage() {
         <Navbar />
         
         {/* Premium Promo Banner */}
-        <div className="relative overflow-hidden bg-gradient-to-r from-harmonix-gold via-jade-forest to-harmonix-gold animate-gradient-x">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer"></div>
-          <div className="max-w-7xl mx-auto px-4 py-3 relative">
-            <div className="flex items-center justify-center space-x-4 text-deep-space-black">
+        <div className="relative overflow-hidden bg-gradient-to-r from-deep-space-black via-jade-forest to-deep-space-black">
+          {/* Animated background elements */}
+          <div className="absolute inset-0 bg-gradient-to-r from-harmonix-gold/20 via-transparent to-harmonix-gold/20 animate-pulse"></div>
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,rgba(212,175,55,0.1)_50%,transparent_100%)] animate-shimmer"></div>
+          
+          {/* Floating particles */}
+          <div className="absolute top-1 left-1/4 w-1 h-1 bg-harmonix-gold rounded-full animate-bounce" style={{ animationDelay: '0s' }}></div>
+          <div className="absolute top-2 right-1/3 w-1 h-1 bg-harmonix-gold rounded-full animate-bounce" style={{ animationDelay: '0.5s' }}></div>
+          <div className="absolute bottom-1 left-1/3 w-1 h-1 bg-harmonix-gold rounded-full animate-bounce" style={{ animationDelay: '1s' }}></div>
+          
+          <div className="max-w-7xl mx-auto px-4 py-4 relative">
+            <div className="flex flex-col md:flex-row items-center justify-center space-y-2 md:space-y-0 md:space-x-8 text-center">
+              
+              {/* Main CTA */}
+              <div className="flex items-center space-x-3 animate-float">
+                <div className="relative">
+                  <div className="w-8 h-8 bg-gradient-to-r from-harmonix-gold to-jade-forest rounded-full flex items-center justify-center animate-glow">
+                    <Crown className="w-4 h-4 text-deep-space-black" />
+                  </div>
+                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-harmonix-gold rounded-full animate-ping"></div>
+                </div>
+                <div>
+                  <h3 className="text-white font-bold text-lg tracking-wide">EXCLUSIVE EARLY ACCESS</h3>
+                  <p className="text-jade-forest/90 text-sm">Limited to first 280 visionaries</p>
+                </div>
+              </div>
+              
+              {/* Separator */}
+              <div className="hidden md:block w-px h-12 bg-gradient-to-b from-transparent via-harmonix-gold/50 to-transparent"></div>
+              
+              {/* Discount Info */}
               <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-deep-space-black rounded-full animate-pulse"></div>
-                <span className="font-bold text-sm uppercase tracking-wide">VIP Early Access</span>
+                <div className="bg-gradient-to-r from-harmonix-gold/20 to-harmonix-gold/10 border border-harmonix-gold/30 px-4 py-2 rounded-full">
+                  <span className="text-harmonix-gold font-bold text-sm">🎯 30% OFF</span>
+                </div>
+                <span className="text-white text-sm font-medium">+</span>
+                <div className="bg-gradient-to-r from-jade-forest/20 to-jade-forest/10 border border-jade-forest/30 px-4 py-2 rounded-full">
+                  <span className="text-jade-forest font-bold text-sm">⚡ Priority Access</span>
+                </div>
               </div>
-              <div className="hidden sm:block w-1 h-4 bg-deep-space-black/30"></div>
-              <span className="font-semibold text-sm">30% OFF + Priority Onboarding</span>
-              <div className="hidden sm:block w-1 h-4 bg-deep-space-black/30"></div>
-              <div className="flex items-center space-x-1">
-                <span className="text-xs font-medium">Secure with 50% deposit</span>
-                <Sparkles className="w-3 h-3" />
+              
+              {/* Separator */}
+              <div className="hidden md:block w-px h-12 bg-gradient-to-b from-transparent via-harmonix-gold/50 to-transparent"></div>
+              
+              {/* Urgency */}
+              <div className="flex items-center space-x-2">
+                <Timer className="w-5 h-5 text-harmonix-gold animate-pulse" />
+                <div className="text-left">
+                  <span className="text-white font-semibold text-sm">Spots Filling Fast</span>
+                  <p className="text-jade-forest/80 text-xs">Secure with deposit today</p>
+                </div>
               </div>
+              
             </div>
           </div>
+          
+          {/* Bottom accent line */}
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-harmonix-gold to-transparent"></div>
         </div>
         
         {/* Hero Section */}
@@ -330,17 +371,27 @@ export default function JoinPage() {
                             onClick={() => handleInputChange("accessType", "vip50")}
                           >
                             <div className="flex items-center justify-between">
-                              <div>
+                              <div className="flex-1">
                                 <h4 className="font-semibold text-white flex items-center">
                                   <Crown className="w-4 h-4 mr-2 text-harmonix-gold" />
                                   VIP Access - 50% Deposit
                                 </h4>
                                 <p className="text-sm text-harmonix-gold/80">Secure your spot + 30% discount</p>
+                                {formData.accessType === 'vip50' && (
+                                  <div className="mt-3 pt-3 border-t border-harmonix-gold/20">
+                                    <div className="flex items-center justify-between">
+                                      <span className="text-harmonix-gold font-bold text-lg">$10,750</span>
+                                      <span className="text-xs text-harmonix-gold/60">50% deposit</span>
+                                    </div>
+                                    <p className="text-xs text-harmonix-gold/70 mt-1">Remaining balance due at milestone completion</p>
+                                  </div>
+                                )}
                               </div>
-                              <div className="text-right">
-                                <span className="text-harmonix-gold font-bold">$10,750</span>
-                                <p className="text-xs text-harmonix-gold/60">50% deposit</p>
-                              </div>
+                              {formData.accessType === 'vip50' && (
+                                <div className="ml-4">
+                                  <div className="w-3 h-3 bg-harmonix-gold rounded-full"></div>
+                                </div>
+                              )}
                             </div>
                           </div>
                           
@@ -354,17 +405,27 @@ export default function JoinPage() {
                             onClick={() => handleInputChange("accessType", "vip100")}
                           >
                             <div className="flex items-center justify-between">
-                              <div>
+                              <div className="flex-1">
                                 <h4 className="font-semibold text-white flex items-center">
                                   <Star className="w-4 h-4 mr-2 text-harmonix-gold" />
                                   VIP Access - Full Payment
                                 </h4>
                                 <p className="text-sm text-harmonix-gold/80">Maximum savings + immediate access</p>
+                                {formData.accessType === 'vip100' && (
+                                  <div className="mt-3 pt-3 border-t border-harmonix-gold/20">
+                                    <div className="flex items-center justify-between">
+                                      <span className="text-harmonix-gold font-bold text-lg">$21,500</span>
+                                      <span className="text-xs text-harmonix-gold/60">One-time payment</span>
+                                    </div>
+                                    <p className="text-xs text-harmonix-gold/70 mt-1">Complete access with maximum early bird savings</p>
+                                  </div>
+                                )}
                               </div>
-                              <div className="text-right">
-                                <span className="text-harmonix-gold font-bold">$21,500</span>
-                                <p className="text-xs text-harmonix-gold/60">Full payment</p>
-                              </div>
+                              {formData.accessType === 'vip100' && (
+                                <div className="ml-4">
+                                  <div className="w-3 h-3 bg-harmonix-gold rounded-full"></div>
+                                </div>
+                              )}
                             </div>
                           </div>
                         </div>

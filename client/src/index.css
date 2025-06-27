@@ -606,7 +606,7 @@ body {
   }
 
   .animate-shimmer {
-    animation: shimmer 2s linear infinite;
+    animation: shimmer 4s linear infinite;
   }
 
   @keyframes gradient-x {
@@ -621,10 +621,42 @@ body {
   @keyframes shimmer {
     0% {
       transform: translateX(-100%);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
     }
     100% {
       transform: translateX(100%);
+      opacity: 0;
     }
+  }
+
+  /* Enhanced promo banner effects */
+  @keyframes float-up {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% {
+      box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.6), 0 0 30px rgba(212, 175, 55, 0.3);
+    }
+  }
+
+  .animate-float {
+    animation: float-up 3s ease-in-out infinite;
+  }
+
+  .animate-glow {
+    animation: glow-pulse 2s ease-in-out infinite;
   }
 
   .card-hover:hover {
