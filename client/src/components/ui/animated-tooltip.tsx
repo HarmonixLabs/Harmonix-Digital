@@ -100,16 +100,16 @@ export function AnimatedTooltip({
         };
       case "sacred":
         return {
-          background: "bg-gradient-to-br from-jade-forest/95 via-harmonix-gold/10 to-jade-forest/95",
-          border: "border border-harmonix-gold/60",
-          text: "text-harmonix-gold",
-          shadow: "shadow-2xl shadow-harmonix-gold/30",
+          background: "bg-gradient-to-br from-jade-forest/95 via-golden-sovereign/10 to-jade-forest/95",
+          border: "border border-golden-sovereign/60",
+          text: "text-golden-sovereign",
+          shadow: "shadow-2xl shadow-golden-sovereign/30",
           backdropBlur: "backdrop-blur-sm",
           arrowColor: "border-t-jade-forest/95"
         };
       default:
         return {
-          background: "bg-deep-space-black/95",
+          background: "bg-charcoal-deep/95",
           border: "border border-jade-forest/30",
           text: "text-jade-forest",
           shadow: "shadow-lg shadow-black/20",
