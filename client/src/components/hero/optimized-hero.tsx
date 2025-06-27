@@ -64,8 +64,8 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
           <svg className="w-full h-full" viewBox="0 0 1200 800">
             <defs>
               <linearGradient id="webGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#d7b76d" stopOpacity="0.3" />
-                <stop offset="100%" stopColor="#768b7c" stopOpacity="0.1" />
+                <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.3" />
+                <stop offset="100%" stopColor="#4A90E2" stopOpacity="0.1" />
               </linearGradient>
             </defs>
             {/* Constellation connecting lines */}
