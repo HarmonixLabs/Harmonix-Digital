@@ -39,21 +39,39 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
 
   return (
     <section className={cn("relative min-h-screen flex items-center justify-center overflow-hidden", className)}>
-      {/* Atmospheric Background */}
-      <div className="absolute inset-0 bg-deep-space-black">
-        {/* Subtle gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-jade-blue/20 via-transparent to-harmonix-gold/10" />
+      {/* Sacred Atmospheric Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-deep-space-black via-[#1a2332] to-deep-space-black">
+        {/* Multi-layer Brand Gradients */}
+        <div className="absolute inset-0 bg-gradient-to-br from-jade-blue/15 via-transparent to-harmonix-gold/20" />
+        <div className="absolute inset-0 bg-gradient-to-tl from-harmonix-gold/10 via-transparent to-jade-blue/5" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-jade-blue/5 to-transparent" />
         
-        {/* Starfall animation */}
+        {/* Sacred Starfall animation */}
         <div className="absolute inset-0 overflow-hidden">
-          {[...Array(20)].map((_, i) => (
+          {[...Array(15)].map((_, i) => (
             <div
               key={i}
-              className="absolute w-1 h-8 bg-gradient-to-b from-harmonix-gold to-transparent starfall-animation"
+              className="absolute w-1 h-12 bg-gradient-to-b from-harmonix-gold via-jade-blue/50 to-transparent"
               style={{
                 left: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 8}s`,
-                animationDuration: `${6 + Math.random() * 4}s`,
+                animationName: 'starfallSacred',
+                animationDelay: `${Math.random() * 12}s`,
+                animationDuration: `${8 + Math.random() * 6}s`,
+                animationIterationCount: 'infinite',
+                animationTimingFunction: 'ease-in-out',
+              }}
+            />
+          ))}
+          {/* Sacred geometry particles */}
+          {[...Array(8)].map((_, i) => (
+            <div
+              key={`sacred-${i}`}
+              className="absolute w-2 h-2 bg-harmonix-gold rounded-full opacity-60"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animation: `breathe ${3 + Math.random() * 2}s ease-in-out infinite`,
+                animationDelay: `${Math.random() * 4}s`,
               }}
             />
           ))}
@@ -91,13 +109,14 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
           </svg>
         </div>
 
-        {/* Sacred geometry grid */}
+        {/* Enhanced Sacred geometry grid */}
         <div 
-          className="absolute inset-0 opacity-5"
+          className="absolute inset-0 opacity-10"
           style={{
             backgroundImage: `
-              linear-gradient(rgba(215, 183, 109, 0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(215, 183, 109, 0.1) 1px, transparent 1px)
+              linear-gradient(rgba(212, 175, 55, 0.15) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(212, 175, 55, 0.15) 1px, transparent 1px),
+              linear-gradient(45deg, rgba(74, 144, 226, 0.08) 1px, transparent 1px)
             `,
             backgroundSize: '60px 60px'
           }}
@@ -117,52 +136,68 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
           >
             <Badge 
               variant="secondary" 
-              className="bg-harmonix-regal-gold/10 text-harmonix-regal-gold border-harmonix-regal-gold/30 px-4 py-2 text-sm sm:text-base font-medium"
+              className="bg-gradient-to-r from-harmonix-gold/20 to-jade-blue/20 text-harmonix-gold border-harmonix-gold/40 px-6 py-3 text-sm sm:text-base font-medium backdrop-blur-sm shadow-lg shadow-harmonix-gold/20"
             >
-              <Sparkles className="w-4 h-4 mr-2" />
-              Limited Time: 30% Off Early Access
+              <Sparkles className="w-4 h-4 mr-2 animate-pulse" />
+              Early Bird: 30% Off for First 280 Customers
             </Badge>
           </div>
 
-          {/* Main Slogan */}
-          <div className="space-y-4 sm:space-y-6">
-            <h1 className="font-bold leading-tight tracking-tight">
-              <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif">
+          {/* Sacred Main Slogan */}
+          <div className="space-y-6 sm:space-y-8">
+            <h1 className="font-bold leading-tight tracking-tight relative">
+              {/* Sacred geometric backdrop */}
+              <div className="absolute inset-0 -z-10">
+                <div className="w-full h-full bg-gradient-to-r from-transparent via-harmonix-gold/5 to-transparent rounded-3xl blur-3xl"></div>
+              </div>
+              
+              <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif leading-none">
                 {sloganWords.map((word, index) => (
                   <span
                     key={index}
                     className={cn(
-                      "inline-block mr-3 sm:mr-4 transition-all duration-700 ease-out",
+                      "inline-block mr-3 sm:mr-4 transition-all duration-700 ease-out relative",
                       index < sloganWords.length ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95"
                     )}
                     style={{
-                      color: word === "Timeless" || word === "Sovereignty" ? "#D4AF37" : "#4A90E2",
-                      textShadow: word === "Timeless" || word === "Sovereignty" 
-                        ? "0 0 30px rgba(212, 175, 55, 0.6)" 
-                        : "0 0 20px rgba(74, 144, 226, 0.3)",
+                      background: word === "Timeless" || word === "Sovereignty" 
+                        ? "linear-gradient(135deg, #D4AF37 0%, #F4E4A1 100%)"
+                        : "linear-gradient(135deg, #4A90E2 0%, #5BA3F5 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                      filter: word === "Timeless" || word === "Sovereignty"
+                        ? "drop-shadow(0 0 20px rgba(212, 175, 55, 0.4))"
+                        : "drop-shadow(0 0 15px rgba(74, 144, 226, 0.3))",
                       animationDelay: `${index * 0.08}s`,
                     }}
                   >
                     {word}
+                    {(word === "Timeless" || word === "Sovereignty") && (
+                      <div 
+                        className="absolute inset-0 bg-gradient-to-r from-harmonix-gold/20 to-transparent rounded-lg blur-md -z-10"
+                        style={{ animation: "breathe 3s ease-in-out infinite" }}
+                      />
+                    )}
                   </span>
                 ))}
               </div>
             </h1>
             
-            {/* Supporting headline */}
-            <p 
+            {/* Sacred Supporting headline */}
+            <div 
               className={cn(
-                "text-lg sm:text-xl lg:text-2xl xl:text-3xl max-w-5xl mx-auto leading-relaxed font-light transition-all duration-1000 ease-out delay-700",
+                "text-lg sm:text-xl lg:text-2xl xl:text-3xl max-w-5xl mx-auto leading-relaxed transition-all duration-1000 ease-out delay-700",
                 isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               )}
-              style={{
-                color: 'rgba(74, 144, 226, 0.9)',
-                fontFamily: 'Inter, sans-serif',
-              }}
             >
-              Build your business like a sacred machine. <br className="hidden sm:block" />
-              <span className="text-harmonix-regal-gold font-medium">Powered by AI. Designed for freedom.</span>
-            </p>
+              <p className="font-light text-jade-blue/90 mb-2">
+                Build your business like a sacred machine.
+              </p>
+              <p className="font-medium bg-gradient-to-r from-harmonix-gold via-[#F4E4A1] to-harmonix-gold bg-clip-text text-transparent">
+                Powered by AI. Designed for freedom.
+              </p>
+            </div>
           </div>
 
           {/* Call to Action */}
@@ -175,20 +210,21 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
             <Button
               size="lg"
               onClick={() => setLocation('/marketplace')}
-              className="w-full sm:w-auto min-w-[200px] h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg font-semibold bg-harmonix-gold text-deep-space-black hover:bg-harmonix-gold/90 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-harmonix-gold/30 border border-harmonix-gold/20"
+              className="group relative w-full sm:w-auto min-w-[220px] h-14 sm:h-16 px-8 text-base sm:text-lg font-semibold bg-gradient-to-r from-harmonix-gold via-[#F4E4A1] to-harmonix-gold text-deep-space-black transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-harmonix-gold/40 border border-harmonix-gold/30 overflow-hidden"
             >
-              <ArrowRight className="mr-2 h-5 w-5" />
-              Activate Your Agents
+              <div className="absolute inset-0 bg-gradient-to-r from-harmonix-gold/80 to-harmonix-gold/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <ArrowRight className="relative mr-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+              <span className="relative">Activate Your Agents</span>
             </Button>
             
             <Button
               variant="outline"
               size="lg"
-              onClick={() => setLocation('/demo-scenarios')}
-              className="w-full sm:w-auto min-w-[200px] h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg font-medium border-2 border-jade-blue/50 text-jade-blue hover:bg-jade-blue/10 hover:border-jade-blue transition-all duration-300"
+              onClick={() => setLocation('/demo')}
+              className="group relative w-full sm:w-auto min-w-[220px] h-14 sm:h-16 px-8 text-base sm:text-lg font-medium border-2 border-jade-blue/40 bg-gradient-to-r from-jade-blue/5 to-jade-blue/10 text-jade-blue hover:bg-gradient-to-r hover:from-jade-blue/15 hover:to-jade-blue/20 hover:border-jade-blue/60 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-jade-blue/20 backdrop-blur-sm"
             >
-              <Sparkles className="mr-2 h-5 w-5" />
-              See Live Demo
+              <Sparkles className="relative mr-3 h-5 w-5 group-hover:animate-pulse" />
+              <span className="relative">See Live Demo</span>
             </Button>
           </div>
 
