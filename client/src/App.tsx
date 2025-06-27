@@ -38,53 +38,57 @@ import NotFound from "@/pages/not-found";
 
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/harmony" component={Harmony} />
-      {/* Standardized to /sol-brain - see sol-brain.tsx */}
-      <Route path="/join" component={Join} />
-      <Route path="/faq" component={FAQ} />
-      <Route path="/case-studies" component={CaseStudies} />
-      <Route path="/demo-deploy" component={DemoDeploy} />
-      <Route path="/demo" component={Demo} />
-      <Route path="/sol-brain-demo" component={SolBrainDemo} />
-      <Route path="/demo-scenarios" component={DemoScenariosPage} />
-      <Route path="/my-agents" component={MyAgents} />
-      <Route path="/create" component={Create} />
-      <Route path="/settings" component={Settings} />
-      <Route path="/pricing" component={lazy(() => import("./pages/pricing-enhanced"))} />
-      <Route path="/success" component={lazy(() => import("./pages/success"))} />
-      <Route path="/thank-you" component={lazy(() => import("./pages/thank-you"))} />
-      <Route path="/sol-brain" component={lazy(() => import("./pages/sol-brain"))} />
-      <Route path="/dashboard/roi" component={lazy(() => import("./pages/dashboard/roi"))} />
-      <Route path="/gamified-onboarding" component={lazy(() => import("./pages/gamified-onboarding"))} />
-      <Route path="/get-started" component={lazy(() => import("./pages/get-started"))} />
-      <Route path="/sign-in" component={lazy(() => import("./pages/sign-in"))} />
-      <Route path="/waitlist" component={lazy(() => import("./pages/waitlist"))} />
-      <Route path="/legal/privacy" component={lazy(() => import("./pages/legal/privacy"))} />
-      <Route path="/legal/terms" component={lazy(() => import("./pages/legal/terms"))} />
-      <Route path="/legal/cookies" component={lazy(() => import("./pages/legal/cookies"))} />
-      <Route path="/legal/sms-terms" component={lazy(() => import("./pages/legal/sms-terms"))} />
-      <Route path="/contact" component={lazy(() => import("./pages/contact"))} />
-      <Route path="/careers" component={lazy(() => import("./pages/careers"))} />
-      <Route path="/onboarding" component={OnboardingPage} />
-      <Route path="/login" component={Login} />
-      <Route path="/signup" component={Signup} />
-      <Route path="/thank-you" component={ThankYou} />
-      <Route path="/checkout" component={Checkout} />
-      <Route path="/dashboard" component={Dashboard} />
-      <Route path="/marketplace" component={Marketplace} />
-      <Route path="/create-agent" component={lazy(() => import("./pages/create-agent"))} />
-      <Route path="/agent-marketplace" component={AgentMarketplace} />
-      <Route path="/nft-marketplace" component={NFTMarketplace} />
-      <Route path="/nft-mint" component={NFTMint} />
-      <Route path="/agent-cash" component={AgentCash} />
-      <Route path="/agent-dashboard" component={AgentDashboard} />
-      <Route path="/wallet" component={lazy(() => import("./pages/wallet"))} />
-      <Route path="/platform-status" component={lazy(() => import("./pages/platform-status"))} />
-      <Route path="/admin-panel" component={lazy(() => import("./pages/admin-panel"))} />
-      <Route component={NotFound} />
-    </Switch>
+    <AnimatePresence mode="wait">
+      <PageTransition>
+        <Switch>
+          <Route path="/" component={Home} />
+          <Route path="/harmony" component={Harmony} />
+          {/* Standardized to /sol-brain - see sol-brain.tsx */}
+          <Route path="/join" component={Join} />
+          <Route path="/faq" component={FAQ} />
+          <Route path="/case-studies" component={CaseStudies} />
+          <Route path="/demo-deploy" component={DemoDeploy} />
+          <Route path="/demo" component={Demo} />
+          <Route path="/sol-brain-demo" component={SolBrainDemo} />
+          <Route path="/demo-scenarios" component={DemoScenariosPage} />
+          <Route path="/my-agents" component={MyAgents} />
+          <Route path="/create" component={Create} />
+          <Route path="/settings" component={Settings} />
+          <Route path="/pricing" component={lazy(() => import("./pages/pricing-enhanced"))} />
+          <Route path="/success" component={lazy(() => import("./pages/success"))} />
+          <Route path="/thank-you" component={lazy(() => import("./pages/thank-you"))} />
+          <Route path="/sol-brain" component={lazy(() => import("./pages/sol-brain"))} />
+          <Route path="/dashboard/roi" component={lazy(() => import("./pages/dashboard/roi"))} />
+          <Route path="/gamified-onboarding" component={lazy(() => import("./pages/gamified-onboarding"))} />
+          <Route path="/get-started" component={lazy(() => import("./pages/get-started"))} />
+          <Route path="/sign-in" component={lazy(() => import("./pages/sign-in"))} />
+          <Route path="/waitlist" component={lazy(() => import("./pages/waitlist"))} />
+          <Route path="/legal/privacy" component={lazy(() => import("./pages/legal/privacy"))} />
+          <Route path="/legal/terms" component={lazy(() => import("./pages/legal/terms"))} />
+          <Route path="/legal/cookies" component={lazy(() => import("./pages/legal/cookies"))} />
+          <Route path="/legal/sms-terms" component={lazy(() => import("./pages/legal/sms-terms"))} />
+          <Route path="/contact" component={lazy(() => import("./pages/contact"))} />
+          <Route path="/careers" component={lazy(() => import("./pages/careers"))} />
+          <Route path="/onboarding" component={OnboardingPage} />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
+          <Route path="/thank-you" component={ThankYou} />
+          <Route path="/checkout" component={Checkout} />
+          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/marketplace" component={Marketplace} />
+          <Route path="/create-agent" component={lazy(() => import("./pages/create-agent"))} />
+          <Route path="/agent-marketplace" component={AgentMarketplace} />
+          <Route path="/nft-marketplace" component={NFTMarketplace} />
+          <Route path="/nft-mint" component={NFTMint} />
+          <Route path="/agent-cash" component={AgentCash} />
+          <Route path="/agent-dashboard" component={AgentDashboard} />
+          <Route path="/wallet" component={lazy(() => import("./pages/wallet"))} />
+          <Route path="/platform-status" component={lazy(() => import("./pages/platform-status"))} />
+          <Route path="/admin-panel" component={lazy(() => import("./pages/admin-panel"))} />
+          <Route component={NotFound} />
+        </Switch>
+      </PageTransition>
+    </AnimatePresence>
   );
 }
 
@@ -94,13 +98,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <TooltipProvider>
-            <Suspense fallback={
-              <div className="min-h-screen bg-harmonix-deep-forest flex items-center justify-center">
-                <div className="text-harmonix-regal-gold text-xl font-semibold">
-                  Loading Harmonix...
-                </div>
-              </div>
-            }>
+            <Suspense fallback={<SacredLoader />}>
               <Router />
             </Suspense>
             <Toaster />

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { PageWrapper } from "@/components/transitions/page-wrapper";
+import { ParallaxText } from "@/components/transitions/parallax-background";
 import { OptimizedHero } from "@/components/hero/optimized-hero";
 import { EnhancedSolBrain } from "@/components/sol/enhanced-sol-brain";
 import { TokenMeter } from "@/components/token-meter";
