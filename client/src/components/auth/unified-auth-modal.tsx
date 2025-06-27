@@ -75,9 +75,7 @@ export function UnifiedAuthModal({
       await register(
         signupForm.email,
         signupForm.password,
-        signupForm.name,
-        signupForm.phone,
-        signupForm.company
+        signupForm.name
       );
       onClose();
       toast({
@@ -110,7 +108,7 @@ export function UnifiedAuthModal({
           <DialogHeader className="p-6 pb-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <HarmonixLogo size="sm" variant="gold" showText={false} />
+                <HarmonixLogo size="sm" variant="icon" showText={false} />
                 <DialogTitle className="text-xl font-bold text-harmonix-gold">
                   {activeTab === 'login' ? 'Welcome Back' : 'Join Harmonix'}
                 </DialogTitle>

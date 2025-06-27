@@ -282,6 +282,13 @@ export function Navbar() {
           />
         </div>
       )}
+
+      {/* Unified Auth Modal */}
+      <UnifiedAuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        defaultTab={authModalTab}
+      />
     </>
   );
 }
