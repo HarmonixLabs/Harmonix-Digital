@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
+import { AnimatedCard } from "@/components/ui/animated-card";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
@@ -96,7 +98,7 @@ export default function PricingEnhanced() {
               >
                 <Calculator className="w-4 h-4 mr-2" />
                 ROI Calculator
-              </Button>
+              </AnimatedButton>
             </div>
           </div>
 
@@ -187,7 +189,7 @@ export default function PricingEnhanced() {
 
           {/* Enhanced Pricing Cards */}
           <div className="grid lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-16">
-            {pricingTiers.map((tier) => {
+            {pricingTiers.map((tier, index) => {
               const pricing = getCalculatedPrice(tier);
               const isSelected = selectedTier === tier.id;
               
@@ -220,19 +222,19 @@ export default function PricingEnhanced() {
                     </CardDescription>
                     
                     <div className="space-y-2">
-                      {isEarlyBird && (
+                      {isEarlyBird && pricing && (
                         <div className="text-sm text-red-400 line-through">
                           ${pricing.baseSetup.toLocaleString()}
                         </div>
                       )}
                       <div className="text-3xl font-bold text-harmonix-gold">
-                        ${pricing.discountedSetup.toLocaleString()}
+                        ${pricing?.discountedSetup.toLocaleString() || '0'}
                         <span className="text-sm text-harmonix-sage block">
                           Setup Fee
                         </span>
                       </div>
                       <div className="text-lg text-harmonix-gold">
-                        ${pricing.monthlyMRR.toLocaleString()}/mo
+                        ${pricing?.monthlyMRR.toLocaleString() || '0'}/mo
                         <span className="text-sm text-harmonix-sage block">
                           Monthly MRR
                         </span>
@@ -331,7 +333,7 @@ export default function PricingEnhanced() {
                           </div>
                           
                           <Link href={`/checkout?tier=${selectedTier}&deposit=${depositPercentage[0]}&early_bird=${isEarlyBird}`}>
-                            <Button 
+                            <AnimatedButton animation="shimmer" intensity="medium" 
                               className="w-full bg-harmonix-gold text-harmonix-black hover:bg-harmonix-gold/90 mt-4"
                               onClick={() => {
                                 // Store data for checkout page
@@ -342,7 +344,7 @@ export default function PricingEnhanced() {
                             >
                               <DollarSign className="w-4 h-4 mr-2" />
                               Proceed to Checkout
-                            </Button>
+                            </AnimatedButton>
                           </Link>
                         </div>
                       ) : null;
@@ -457,31 +459,31 @@ export default function PricingEnhanced() {
                 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
                   <Link href="/sol-brain">
-                    <Button 
+                    <AnimatedButton animation="shimmer" intensity="medium" 
                       size="lg"
                       className="bg-harmonix-gold text-harmonix-black hover:bg-harmonix-gold/90"
                     >
                       <Zap className="w-5 h-5 mr-2" />
                       Get SŌL Recommendation
-                    </Button>
+                    </AnimatedButton>
                   </Link>
                   <Link href="/demo">
-                    <Button 
+                    <AnimatedButton animation="shimmer" intensity="medium" 
                       size="lg"
                       variant="outline"
                       className="border-harmonix-gold text-harmonix-gold hover:bg-harmonix-gold hover:text-harmonix-black"
                     >
                       Try Interactive Demo
-                    </Button>
+                    </AnimatedButton>
                   </Link>
                   <Link href="/marketplace">
-                    <Button 
+                    <AnimatedButton animation="shimmer" intensity="medium" 
                       size="lg"
                       variant="outline"
                       className="border-harmonix-cedar text-harmonix-sage hover:bg-harmonix-cedar hover:text-harmonix-gold"
                     >
                       Browse Marketplace
-                    </Button>
+                    </AnimatedButton>
                   </Link>
                 </div>
                 
