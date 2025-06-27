@@ -5,6 +5,48 @@ export default {
   content: ["./client/index.html", "./client/src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      // Design Brief 8px Grid System Implementation
+      spacing: {
+        'xs': '4px',     // 0.25rem - Brief: tight spacing within components
+        'sm': '8px',     // 0.5rem  - Brief: small gaps between related elements
+        'md': '16px',    // 1rem    - Brief: default gutter (standard spacing)
+        'lg': '24px',    // 1.5rem  - Brief: larger gaps between sections
+        'xl': '32px',    // 2rem    - Brief: major section spacing
+        '2xl': '48px',   // 3rem    - Brief: large section breaks
+        '3xl': '64px',   // 4rem    - Brief: page-level spacing
+        '4xl': '96px',   // 6rem    - Brief: hero section spacing
+      },
+      
+      // Design Brief Typography Scale
+      fontSize: {
+        'display-lg': ['48px', { lineHeight: '56px', fontWeight: '700' }],  // Brief: Hero headlines
+        'display-md': ['40px', { lineHeight: '48px', fontWeight: '700' }],  // Brief: Section headers
+        'display-sm': ['32px', { lineHeight: '40px', fontWeight: '700' }],  // Brief: Page titles
+        'body-lg': ['18px', { lineHeight: '28px', fontWeight: '400' }],     // Brief: Important body text
+        'body-md': ['16px', { lineHeight: '24px', fontWeight: '400' }],     // Brief: Standard body text
+      },
+      
+      // Design Brief Container Max-Width System
+      maxWidth: {
+        'card': '320px',      // Brief: Card max-width requirement
+        'form': '480px',      // Brief: Form max-width requirement
+        'content': '1280px',  // Brief: Container width
+      },
+      
+      // Design Brief Custom Grid Configuration
+      gridTemplateColumns: {
+        'mobile': 'repeat(4, 1fr)',     // Brief: Mobile 4-column
+        'tablet': 'repeat(8, 1fr)',     // Brief: Tablet 8-column
+        'desktop': 'repeat(12, 1fr)',   // Brief: Desktop 12-column
+      },
+      
+      // Design Brief Responsive Breakpoints
+      screens: {
+        'mobile': { 'max': '767px' },      // Brief: 320-767px
+        'tablet': { 'min': '768px', 'max': '1199px' }, // Brief: 768-1199px
+        'desktop': { 'min': '1200px' },    // Brief: 1200px+
+      },
+      
       keyframes: {
         shimmer: {
           '0%': { transform: 'translateX(-100%)' },
