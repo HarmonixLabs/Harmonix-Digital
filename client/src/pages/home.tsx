@@ -330,7 +330,7 @@ function PricingSection() {
             Investment Tiers
           </h2>
           <p className="text-lg sm:text-xl text-harmonix-sage-fade max-w-4xl mx-auto">
-            30% discount for the first 280 customers. Secure your spot before rates increase.
+            Limited time offer - 30% discount. Secure your spot before rates increase.
           </p>
         </div>
 

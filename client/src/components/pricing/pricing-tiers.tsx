@@ -165,7 +165,7 @@ export function PricingTiers() {
                 <Sparkles className="w-5 h-5 text-harmonix-regal-gold" />
               </div>
               <p className="text-white text-sm">
-                First 280 customers receive <strong>30% off setup fees</strong>. Limited time offer.
+                Limited time offer - <strong>30% off setup fees</strong>. Exclusive early access pricing.
               </p>
             </div>
           )}

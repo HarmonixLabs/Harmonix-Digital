@@ -262,7 +262,7 @@ export default function CheckoutPage() {
             
             <p className="text-lg text-harmonix-sage-fade max-w-3xl mx-auto">
               Choose your package and let SŌL brain orchestrate your business transformation. 
-              First 280 customers receive 30% discount.
+              Limited time offer - 30% discount for early adopters.
             </p>
           </div>
         </div>
