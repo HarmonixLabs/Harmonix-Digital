@@ -100,12 +100,20 @@ export default {
           border: "var(--sidebar-border)",
           ring: "var(--sidebar-ring)",
         },
-        // Timeless Futurism Palette
-        "deep-space-black": "#0F1115",
-        "jade-forest": "#1D6B4A",
-        "jade-forest-muted": "#2A8059",
-        "harmonix-gold": "#D4AF37",
-        "harmonix-gold-muted": "#B8941F",
+        // HARMONIX Timeless Futurism Brand Palette
+        "jade-forest": "#0d4f3c",
+        "golden-authority": "#d4af37", 
+        "deep-charcoal": "#1a1a1a",
+        "soft-jade": "#4a9b8e",
+        "champagne-gold": "#f4e4bc",
+        "warm-white": "#fafafa",
+        "medium-gray": "#6b7280",
+        
+        // Semantic Colors
+        "success-green": "#22c55e",
+        "warning-amber": "#f59e0b", 
+        "error-red": "#ef4444",
+        "info-blue": "#3b82f6",
         
         // Legacy Colors
         "harmony-dark": "hsl(210, 24%, 8%)",

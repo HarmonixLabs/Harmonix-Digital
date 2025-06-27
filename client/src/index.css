@@ -26,18 +26,33 @@
   --ring: hsl(240, 4.9%, 83.9%);
   --radius: 0.5rem;
   
-  /* Timeless Futurism Brand Palette - Sophisticated, premium, approachable */
-  --harmonix-deep-space: hsl(225, 21%, 7%);         /* #0F1115 - Deep Space Black */
-  --harmonix-jade-forest: hsl(158, 64%, 28%);       /* #1D6B4A - Deep Jade Forest Green */
-  --harmonix-jade-muted: hsl(158, 54%, 35%);        /* #2A8059 - Muted Jade Forest */
-  --harmonix-gold: hsl(45, 76%, 52%);               /* #D4AF37 - Gold */
-  --harmonix-gold-muted: hsl(45, 76%, 42%);         /* #B8941F - Muted Gold */
+  /* HARMONIX Timeless Futurism Brand Palette - Complete Design System */
+  --jade-forest: #0d4f3c;           /* Primary brand color - Rich Jade Forest */
+  --golden-authority: #d4af37;      /* Premium accent color - Golden Authority */
+  --deep-charcoal: #1a1a1a;         /* Primary background - Deep Charcoal */
+  --soft-jade: #4a9b8e;             /* Secondary jade for hover states */
+  --champagne-gold: #f4e4bc;        /* Subtle gold for backgrounds */
+  --warm-white: #fafafa;            /* Clean background for light areas */
+  --medium-gray: #6b7280;           /* Secondary text color */
+  
+  /* Semantic Colors */
+  --success-green: #22c55e;
+  --warning-amber: #f59e0b;
+  --error-red: #ef4444;
+  --info-blue: #3b82f6;
+  
+  /* Legacy compatibility */
+  --harmonix-deep-space: #1a1a1a;
+  --harmonix-jade-forest: #0d4f3c;
+  --harmonix-jade-muted: #4a9b8e;
+  --harmonix-gold: #d4af37;
+  --harmonix-gold-muted: #f4e4bc;
 }
 
-/* Emergency fallback styling to ensure app renders */
+/* HARMONIX Timeless Futurism Base Styling */
 body {
-  background: var(--harmonix-deep-space, #0F1115) !important;
-  color: var(--harmonix-jade-forest, #1D6B4A) !important;
+  background: var(--deep-charcoal, #1a1a1a) !important;
+  color: var(--jade-forest, #0d4f3c) !important;
   font-family: Inter, system-ui, -apple-system, sans-serif !important;
 }
 

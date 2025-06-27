@@ -2,7 +2,18 @@
 
 ## Overview
 
-Harmonix is a comprehensive AI infrastructure platform that enables businesses to Build, Automate, and Exit through intelligent automation. The platform features 12+ specialized AI agents (Digital Team Members), a token-based economy, multi-tenant architecture, gamified agent marketplace with NFT collectibles, and the SŌL brain orchestration engine. Our philosophy: "Help visionary businesses Build, Automate, and Exit" through strategic automation and AI-powered systems.
+HARMONIX is a sophisticated AI agent orchestration platform that enables businesses to deploy, manage, and scale multiple AI agents from a unified command center. The platform embodies the "Timeless Futurism" design philosophy with a forest green and gold aesthetic representing wisdom, sovereignty, and premium quality. Core philosophy: "Intelligent Systems for Timeless Sovereignty" - combining cutting-edge AI technology with elegant, intuitive user experiences.
+
+**Platform Features:**
+- Agent Marketplace with 12 specialized AI agents (Cashflow, Grace, Aster, Iris, Helios, Atlas, Calliope, Zephyr, Aurum, Athena, Phoenix, Sōl)
+- Drag-and-Drop Agent Builder with thread inheritance
+- Real-time Dashboard with performance analytics
+- NFT Integration with blockchain agent ownership
+- 7-day trial system with seamless conversion
+- GoHighLevel CRM integration
+- Stripe payment processing with subscription management
+- Magic-link demo authentication with 5-message limitation
+- Self-healing monitoring and health panels
 
 **Current Status: DEPLOYED - LIVE FOR USER ACQUISITION**
 - All API integrations active and verified (Stripe, Go High Level, OpenAI)
