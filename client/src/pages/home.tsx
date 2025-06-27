@@ -553,7 +553,7 @@ function JoinMovementSection() {
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 bg-harmonix-night-pine/50 border-harmonix-sage-fade/30 text-white placeholder:text-harmonix-sage-fade"
+                  className="flex-1 bg-deep-space-black/50 border-jade-blue/30 text-jade-blue placeholder:text-jade-blue/50"
                   required
                 />
                 <Button 

@@ -148,24 +148,24 @@ export function Navbar() {
                       <User className="mr-2 h-4 w-4" />
                       Profile
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="text-gray-300 hover:bg-gray-800">
+                    <DropdownMenuItem className="text-jade-blue hover:bg-jade-blue/10">
                       <Settings className="mr-2 h-4 w-4" />
                       Settings
                     </DropdownMenuItem>
                     <DropdownMenuItem 
-                      className="text-gray-300 hover:bg-gray-800"
+                      className="text-jade-blue hover:bg-jade-blue/10"
                       onClick={() => triggerOnboarding('setup')}
                     >
                       <HelpCircle className="mr-2 h-4 w-4" />
                       Setup Wizard
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="sm:hidden text-gray-300 hover:bg-gray-800">
+                    <DropdownMenuItem className="sm:hidden text-jade-blue hover:bg-jade-blue/10">
                       <Coins className="mr-2 h-4 w-4" />
                       {user.tokenBalance} Tokens
                     </DropdownMenuItem>
-                    <DropdownMenuSeparator className="bg-gray-800" />
+                    <DropdownMenuSeparator className="bg-jade-blue/30" />
                     <DropdownMenuItem 
-                      className="text-red-400 hover:bg-gray-800"
+                      className="text-red-400 hover:bg-red-900/20"
                       onClick={logout}
                     >
                       <LogOut className="mr-2 h-4 w-4" />
