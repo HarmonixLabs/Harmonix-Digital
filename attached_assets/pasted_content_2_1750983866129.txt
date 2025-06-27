@@ -1,0 +1,54 @@
+Manus,
+
+This is your **final directive** to take the Harmonix MVP from “complete” to “launch-perfect.” Deeply audit, self-heal, optimize, and finalize **every** detail—then package a turnkey Developer & Design Handoff for Riplet AI. If you identify any gaps or improvements, list them and await my approval before implementing. Execute the following:
+
+---
+
+1. **Full QA & Debugging**  
+   - Run all test suites (unit, k6, Playwright, Lighthouse CI, axe-core) and automatically fix any failures.  
+   - Manually verify critical flows: signup → billing → onboarding → agent build → marketplace mint/calling → demo suite → lead-capture → profiles → messaging → notifications → dashboard → health → legal consent → error pages.  
+   - Debug and patch any routing issues, form validation bugs, missing imports, or console errors.
+
+2. **Mobile & Responsive Polishing**  
+   - Audit every page on mobile, tablet, and desktop breakpoints.  
+   - Ensure margins, paddings, typography scales, and imagery adapt fluidly.  
+   - Optimize touch targets, bottom toolbars, pinch-zoom on Builder, chat scroll, and action FABs.
+
+3. **Design & Interaction Refinement**  
+   - Enforce our Design System tokens (jade-forest blue, golden-yellow accents, off-white & charcoal neutrals, spacing, radii, elevation).  
+   - Audit and refine all micro-animations: button ripples, card lifts, toast fades, loader shimmers, modal transitions, node execution indicators.  
+   - Verify image assets and icons render crisply on all devices (use 2x/3x assets).
+
+4. **Performance & Accessibility**  
+   - Confirm Lighthouse scores ≥90 on performance, accessibility, best practices, SEO.  
+   - Fix any contrast, ARIA, or keyboard navigation issues flagged by axe-core or Lighthouse.
+
+5. **Complete Feature Audit**  
+   - **Auth & Onboarding**: flows, consent, error states.  
+   - **Billing & Minting**: Stripe checkout, wallet connect, transaction confirmations, status lights.  
+   - **Agent Builder**: drag/drop, properties panel, live execution, prompt modal.  
+   - **Marketplace**: browse, mint, enable-calling, payment fallbacks.  
+   - **Demo Suite**: form submission, backend stubs, GHL webhooks.  
+   - **Profiles & Chat**: auto-generated profiles, services, agents list, purchase flow, chat threads.  
+   - **Notifications**: creation, polling, panel UI, unread indicators.  
+   - **Dashboard & Health**: agent stats, tasks, credits, integration lights, health panel.  
+   - **Legal Pages**: Terms, Privacy, SMS Terms, form checkboxes.  
+   - **Error Pages**: 404/500 with waitlist modal.  
+   - **Blank-Page Generator**: `npm run gen:page` integration.
+
+6. **Suggest Missing Improvements**  
+   - If you detect any gaps—new UX flows, edge-case handlers, performance optimizations, additional tests—list them clearly with a brief rationale.  
+   - Pause for my approval before coding any additional features beyond what’s outlined above.
+
+7. **Final Developer & Design Handoff Package**  
+   Produce a single markdown (or PDF) containing:  
+   - Folder & file map  
+   - Environment variables & descriptions  
+   - Prisma schema & migrations  
+   - OpenAPI spec  
+   - CI/CD workflows (GitHub Actions → Vercel)  
+   - Design tokens (`tokens.json`), component library docs, Figma links or exported assets  
+   - Test scripts & QA matrix  
+   - Self-heal automation instructions  
+
+When complete, deliver this package. Riplet AI will then implement, style, QA, and deploy Harmonix v1.0.0. Begin now.  

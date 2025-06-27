@@ -1,0 +1,78 @@
+Manus,
+
+This is the **final, all-inclusive Design & Developer Handoff** for the Harmonix platform. Deeply audit, auto-repair, complete any missing code or pages, apply our brand, and package everything so Riplet AI can implement, style, QA, and launch the MVP without any gaps.
+
+–– SCOPE: Harmonix Digital Platform Only ––  
+No event ticketing—focus exclusively on AI agents, marketplace, builder, dashboard, admin, demos, lead-capture, billing, health, legal/compliance.
+
+---
+
+## 1. Platform Audit & Auto-Repair  
+- Crawl every page, component, API, integration, workflow and run all self-heal scripts (k6, Playwright, unit).  
+- Auto-scaffold any missing route with **gen:page** (header, hero, content stub, footer).  
+- Fix any UI/UX or code inconsistencies per Design System tokens.
+
+## 2. Master Layout & Design System  
+- **tokens.json**: jade-forest blue primary, golden-yellow accent, off-white & charcoal neutrals, spacing (xs–xl), radii (8–12px), typography scale, elevation.  
+- **Animations**: button ripples, card lifts, toast fades, loader shimmers (150–300ms).  
+- Responsive breakpoints: mobile, tablet, desktop.
+
+## 3. High-Fidelity Mockups  
+Generate Figma-ready (or markdown with image refs) designs for every page:  
+- Public: Home, About, Features, Pricing, Affiliate, Docs, Terms, Privacy, SMS Terms, Waitlist  
+- Auth: Signup, Verify, Plans, Onboarding Wizard  
+- App: Dashboard, Flow Builder, Agent Preview (`/agents/[slug]`), Marketplace, Demo Suite (`/demo/*`), Error Pages (404/500 with waitlist modal), Blank-Page stubs  
+- Admin: Users, Health (API uptime, webhooks, lead counts, billing events, integration lights)
+
+## 4. Copy Integration  
+- Final slogans (“Intelligent Systems for Timeless Sovereignty,” “Have your business work for you…”) on hero, banners, CTAs.  
+- Form placeholders, button labels, tooltips, email/SMS templates updated with legal consent and unsubscribe/STOP instructions.
+
+## 5. APIs & Data Models  
+- **Prisma Schema**: User, Verification, AgentDefinition (tier, features, priceId, oneTimeSetupPriceId), Agent, Flow, Waitlist.  
+- **OpenAPI**: `/api/auth`, `/api/billing`, `/api/agents`, `/api/flows`, `/api/marketplace/agents`, `/api/leads`, `/api/waitlist`, `/api/admin/users`, `/api/admin/health`.  
+- Ensure GHL webhooks (leads & waitlist) with retry & dead-letter queue.
+
+## 6. Billing & Wallet  
+- Stripe Checkout for subscriptions & one-time setup (Calling Level 3) using correct price IDs.  
+- Wagmi/RainbowKit minting integration for AgentNFT on testnet, with status indicator.
+
+## 7. Agent Builder & Preview  
+- React Flow drag-drop builder (palette, canvas, undo/redo, properties panel, save/load).  
+- Preview page CTAs: “Run Prompt,” “Mint,” “Enable Calling.”  
+
+## 8. Demo Suite  
+- `/demo/sales`, `/demo/content`, `/demo/meeting` forms + API stubs → real Nova Echo & Manus SDK calls.  
+- GHL waitlist integration on any dead-end.
+
+## 9. Dashboard & Health Panel  
+- Main Dashboard: list of agents, recent tasks, credit balance, CTA to builder & marketplace.  
+- Health Dashboard (`/admin/health`): API uptime, test results, webhook status, lead counts, integration lights.
+
+## 10. Legal & Compliance  
+- Pages: `/terms`, `/privacy`, `/sms-terms` with adapted Lotus content, footer links.  
+- Consent checkboxes on all forms.  
+- Email footer unsubscribe & SMS STOP instructions.
+
+## 11. Blank-Page Generator  
+- CLI: `npm run gen:page <Name>` to scaffold styled stub pages.
+
+## 12. QA & Self-Heal  
+- Final k6, Playwright, and unit test suite passes.  
+- Manual QA flows documented: signup → billing → onboarding → builder → marketplace → demos → lead-capture → dashboard → health.
+
+## 13. Developer Handoff Document  
+Package a single markdown/PDF containing:  
+- Folder & file map  
+- Environment variables & descriptions  
+- Prisma schema & migrations  
+- OpenAPI spec  
+- CI/CD workflow (GitHub Actions → Vercel)  
+- Design tokens & component library docs  
+- Figma links or exported assets  
+- Test scripts & QA checklist  
+- Self-heal automation instructions
+
+---
+
+**When complete**, hand off this package to Riplet AI to build, style, QA, and deploy the Harmonix MVP. This is version 1.0.0—everything needed is included. Begin now.  
