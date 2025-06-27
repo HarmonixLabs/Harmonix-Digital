@@ -252,10 +252,19 @@ export default function Marketplace() {
 
   const handleDeploy = (agent: Agent) => {
     if (!isAuthenticated) {
-      window.location.href = '/signup';
+      // Prompt login/signup if user is anonymous
+      window.location.href = '/get-started';
       return;
     }
-    // Navigate to checkout with agent selected
+    
+    // Check if agent is available for deployment
+    if (agent.available !== false) {
+      // Launch deploy flow
+      window.location.href = `/checkout?agent=${agent.id}&tier=growth`;
+    } else {
+      // Show "Join Waitlist" if not yet live
+      window.location.href = `/waitlist?agent=${agent.id}`;
+    }
     window.location.href = `/checkout?agent=${agent.id}&tier=growth`;
   };
 

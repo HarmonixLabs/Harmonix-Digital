@@ -78,12 +78,24 @@ export function Footer() {
           <p className="text-harmonix-sage-fade text-sm">
             © 2025 Harmonix Digital. All rights reserved.
           </p>
-          <div className="mt-4 md:mt-0 flex space-x-6">
-            <Link href="/privacy" className="text-harmonix-sage-fade hover:text-harmonix-regal-gold text-sm transition-colors">
-              Privacy Policy
+          <div className="mt-4 md:mt-0 flex flex-wrap gap-6">
+            <Link href="/legal/terms" className="text-harmonix-sage-fade hover:text-harmonix-regal-gold text-sm transition-colors">
+              Terms
             </Link>
-            <Link href="/terms" className="text-harmonix-sage-fade hover:text-harmonix-regal-gold text-sm transition-colors">
-              Terms of Service
+            <Link href="/legal/privacy" className="text-harmonix-sage-fade hover:text-harmonix-regal-gold text-sm transition-colors">
+              Privacy
+            </Link>
+            <Link href="/legal/sms-terms" className="text-harmonix-sage-fade hover:text-harmonix-regal-gold text-sm transition-colors">
+              SMS Terms
+            </Link>
+            <Link href="/contact" className="text-harmonix-sage-fade hover:text-harmonix-regal-gold text-sm transition-colors">
+              Contact
+            </Link>
+            <Link href="/waitlist" className="text-harmonix-sage-fade hover:text-harmonix-regal-gold text-sm transition-colors">
+              Waitlist
+            </Link>
+            <Link href="/careers" className="text-harmonix-sage-fade hover:text-harmonix-regal-gold text-sm transition-colors">
+              Careers
             </Link>
           </div>
         </div>

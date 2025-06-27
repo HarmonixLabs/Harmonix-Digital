@@ -120,7 +120,7 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
               className="bg-harmonix-regal-gold/10 text-harmonix-regal-gold border-harmonix-regal-gold/30 px-4 py-2 text-sm sm:text-base font-medium"
             >
               <Sparkles className="w-4 h-4 mr-2" />
-              Early Bird: 30% Off for First 280 Customers
+              Limited Time: 30% Off Early Access
             </Badge>
           </div>
 

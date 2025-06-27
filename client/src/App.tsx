@@ -62,6 +62,9 @@ function Router() {
       <Route path="/legal/privacy" component={lazy(() => import("./pages/legal/privacy"))} />
       <Route path="/legal/terms" component={lazy(() => import("./pages/legal/terms"))} />
       <Route path="/legal/cookies" component={lazy(() => import("./pages/legal/cookies"))} />
+      <Route path="/legal/sms-terms" component={lazy(() => import("./pages/legal/sms-terms"))} />
+      <Route path="/contact" component={lazy(() => import("./pages/contact"))} />
+      <Route path="/careers" component={lazy(() => import("./pages/careers"))} />
       <Route path="/onboarding" component={OnboardingPage} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
