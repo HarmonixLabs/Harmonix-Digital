@@ -17,7 +17,7 @@ interface OnboardingModalProps {
   onStartSetup: () => void;
   onStartTour: () => void;
   onSkip: () => void;
-  userState: 'new_signup' | 'returning_incomplete' | 'manual_trigger';
+  userState: 'new_signup' | 'returning_incomplete' | 'manual_trigger' | 'complete';
 }
 
 export function OnboardingModal({

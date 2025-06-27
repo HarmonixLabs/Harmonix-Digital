@@ -1,16 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from './queryClient';
-
-interface User {
-  id: number;
-  email: string;
-  name: string;
-  avatar?: string;
-  organizationId: number;
-  role: string;
-  tokenBalance: number;
-}
+import { User } from '@shared/schema';
 
 interface Organization {
   id: number;
