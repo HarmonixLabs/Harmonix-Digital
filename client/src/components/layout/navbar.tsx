@@ -78,7 +78,7 @@ export function Navbar() {
   return (
     <>
       <nav 
-        className="border-b border-harmonix-cedar-mist bg-harmonix-deep-forest/90 backdrop-blur-md sticky top-0 z-50"
+        className="border-b border-jade-blue/20 bg-deep-space-black/90 backdrop-blur-md sticky top-0 z-50"
         data-tour="navbar"
       >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -94,7 +94,7 @@ export function Navbar() {
               <Link key={link.href} href={link.href}>
                 <Button 
                   variant={location === link.href ? "default" : "ghost"}
-                  className={location === link.href ? "bg-harmony-gold text-slate-900" : "text-gray-300 hover:text-white"}
+                  className={location === link.href ? "bg-harmonix-gold text-deep-space-black" : "text-jade-blue hover:text-harmonix-gold"}
                 >
                   {link.label}
                 </Button>
@@ -105,8 +105,8 @@ export function Navbar() {
           {/* User Menu */}
           <div className="flex items-center space-x-4">
             {/* SŌL Connection Status */}
-            <div className="flex items-center space-x-2 text-sm text-gray-400">
-              <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`}></div>
+            <div className="flex items-center space-x-2 text-sm text-jade-blue">
+              <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-harmonix-gold' : 'bg-red-400'}`}></div>
               <span>{isConnected ? 'SŌL Connected' : 'SŌL Disconnected'}</span>
             </div>
             
@@ -182,12 +182,12 @@ export function Navbar() {
                     setAuthModalTab('login');
                     setShowAuthModal(true);
                   }}
-                  className="text-harmonix-sage hover:text-harmonix-gold"
+                  className="text-jade-blue hover:text-harmonix-gold"
                 >
                   Sign In
                 </Button>
                 <Button 
-                  className="bg-harmonix-gold hover:bg-harmonix-gold/90 text-harmonix-black"
+                  className="bg-harmonix-gold hover:bg-harmonix-gold/90 text-deep-space-black"
                   onClick={() => {
                     setAuthModalTab('signup');
                     setShowAuthModal(true);

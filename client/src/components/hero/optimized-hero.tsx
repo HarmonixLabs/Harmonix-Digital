@@ -175,7 +175,7 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
             <Button
               size="lg"
               onClick={() => setLocation('/marketplace')}
-              className="w-full sm:w-auto min-w-[200px] h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg font-semibold bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-harmonix-regal-gold/25"
+              className="w-full sm:w-auto min-w-[200px] h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg font-semibold bg-harmonix-gold text-deep-space-black hover:bg-harmonix-gold/90 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-harmonix-gold/30 border border-harmonix-gold/20"
             >
               <ArrowRight className="mr-2 h-5 w-5" />
               Activate Your Agents
@@ -185,7 +185,7 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
               variant="outline"
               size="lg"
               onClick={() => setLocation('/demo-scenarios')}
-              className="w-full sm:w-auto min-w-[200px] h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg font-medium border-2 border-harmonix-regal-gold/50 text-harmonix-regal-gold hover:bg-harmonix-regal-gold/10 hover:border-harmonix-regal-gold transition-all duration-300"
+              className="w-full sm:w-auto min-w-[200px] h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg font-medium border-2 border-jade-blue/50 text-jade-blue hover:bg-jade-blue/10 hover:border-jade-blue transition-all duration-300"
             >
               <Sparkles className="mr-2 h-5 w-5" />
               See Live Demo
