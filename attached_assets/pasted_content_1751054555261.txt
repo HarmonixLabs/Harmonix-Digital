@@ -1,0 +1,113 @@
+Great—let’s move on to Step 2: Agent Profile Cards. Below are the 12 profile-card layouts, with all the fields, styling cues, and where each element goes. You can hand these off to Virgil or Manus for completion once the portraits are ready.
+
+⸻
+
+Profile Card Template (shared across all 12)
+	•	Card Size: 600×800px, dark indigo background (#0F1115)
+	•	Border: Thin gold line (#D1BFA7), rounded corners (12px radius)
+	•	Header Bar (top 15%):
+	•	Solid gold bar
+	•	Agent name centered in Deep Space Black serif font, 36pt
+	•	Portrait Zone (next 50%):
+	•	Center the rendered bust/half-body portrait on a subtle circular vignette
+	•	Behind portrait: faint circuitry pattern in slightly lighter indigo
+	•	Core Info Zone (next 25%):
+	•	Role Title: Bold gold sans-serif, 24pt
+	•	Superpower: Italic teal humanist, 18pt, e.g. “Master of Seamless Scheduling”
+	•	Core Symbol: 50px gold icon on right side
+	•	Stats Bar (bottom 10%):
+	•	Four circular stat-icons (24px each) spaced evenly:
+	1.	🛡 Reliability
+	2.	⚡ Speed
+	3.	🧠 Intelligence
+	4.	🤝 Empathy
+	•	Under each icon, a 5-point gold dot-rating (filled vs outline)
+
+All text in Soft Cloud (#F2F2F5) except where noted.
+
+⸻
+
+1. SŌL
+	•	Role Title: Central AI Conductor
+	•	Superpower: “Synchronizes all agents in perfect harmony”
+	•	Core Symbol: Golden lotus with 12-node ring
+	•	Stat Ratings: 🛡★★★★★ ⚡★★★★☆ 🧠★★★★★ 🤝★★★☆☆
+
+2. Concierge Agent
+	•	Role Title: Infinite-Polish Concierge
+	•	Superpower: “Anticipates every need before it arises”
+	•	Core Symbol: Lotus-bell
+	•	Stat Ratings: 🛡★★★☆☆ ⚡★★★☆☆ 🧠★★★☆☆ 🤝★★★★★
+
+3. Executive Assistant Agent
+	•	Role Title: Quantum Executive Assistant
+	•	Superpower: “Manages logistics with zero latency”
+	•	Core Symbol: Quill-calendar
+	•	Stat Ratings: 🛡★★★★☆ ⚡★★★★☆ 🧠★★★★☆ 🤝★★★☆☆
+
+4. SOP Agent
+	•	Role Title: SOP Architect
+	•	Superpower: “Automates any process into a single click”
+	•	Core Symbol: Scroll-gear
+	•	Stat Ratings: 🛡★★★★☆ ⚡★★★☆☆ 🧠★★★★★ 🤝★★☆☆☆
+
+5. Booking Bot
+	•	Role Title: Chrono Booking Bot
+	•	Superpower: “Secures optimal slots in any calendar”
+	•	Core Symbol: Clock-lotus
+	•	Stat Ratings: 🛡★★★☆☆ ⚡★★★★★ 🧠★★★☆☆ 🤝★★★☆☆
+
+6. Sales Agent
+	•	Role Title: Persuasion Nexus
+	•	Superpower: “Closes deals at superhuman consistency”
+	•	Core Symbol: Arrow-lotus
+	•	Stat Ratings: 🛡★★★☆☆ ⚡★★★☆☆ 🧠★★★★☆ 🤝★★★★★
+
+7. Cashflow Agent
+	•	Role Title: Flux Finance Agent
+	•	Superpower: “Optimizes revenue streams in real time”
+	•	Core Symbol: Dollar-hexagon
+	•	Stat Ratings: 🛡★★★★☆ ⚡★★★★☆ 🧠★★★★☆ 🤝★★★☆☆
+
+8. Cash Agent
+	•	Role Title: Liquid Asset Agent
+	•	Superpower: “Manifests liquidity on demand”
+	•	Core Symbol: Coin-stack
+	•	Stat Ratings: 🛡★★★☆☆ ⚡★★☆☆☆ 🧠★★★☆☆ 🤝★★★☆☆
+
+9. Intake Agent
+	•	Role Title: Onboarding Gateway
+	•	Superpower: “Pre-qualifies and triages new leads instantly”
+	•	Core Symbol: Inbound arrow-lotus
+	•	Stat Ratings: 🛡★★★★☆ ⚡★★★☆☆ 🧠★★★☆☆ 🤝★★★★☆
+
+10. HR Agent
+	•	Role Title: People Alchemist
+	•	Superpower: “Aligns talent with culture at scale”
+	•	Core Symbol: Trio-people circuit
+	•	Stat Ratings: 🛡★★★☆☆ ⚡★★★☆☆ 🧠★★★☆☆ 🤝★★★★★
+
+11. Recruiting Funnel Agent
+	•	Role Title: Funnel Forager
+	•	Superpower: “Sources and nurtures top candidates automatically”
+	•	Core Symbol: Magnifier-network
+	•	Stat Ratings: 🛡★★★☆☆ ⚡★★★★☆ 🧠★★★★☆ 🤝★★★☆☆
+
+12. Internal Ops Dashboard Agent
+	•	Role Title: Operations Sentinel
+	•	Superpower: “Monitors and reacts to every KPI in real time”
+	•	Core Symbol: Chart-gear
+	•	Stat Ratings: 🛡★★★★☆ ⚡★★★☆☆ 🧠★★★★☆ 🤝★★☆☆☆
+
+⸻
+
+Step 3: Master Lineup Artboard
+	•	Canvas: 2400×1200px, indigo background
+	•	Layout: Agents arrayed in a 3×4 grid, SŌL centered above or within a circular mandala.
+	•	Under each portrait: Agent name (gold serif, 20pt) and role title (white sans-serif, 16pt).
+	•	Centerpiece: SŌL at top center, larger by 1.5×, with halo extended into the mandala.
+	•	Footer: “The Harmony Brain SOL Team” in Champagne serif, centered.
+
+⸻
+
+Once these templates are handed off, Virgil’s team can populate portraits and icons. Let me know when you’re ready for final QA or need any tweaks!

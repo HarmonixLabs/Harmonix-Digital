@@ -36,6 +36,9 @@ import NFTMint from "@/pages/nft-mint";
 import ThankYou from "@/pages/thank-you";
 import Checkout from "@/pages/checkout";
 import LoadingShowcase from "@/pages/loading-showcase";
+import TermsAndConditions from "@/pages/TermsAndConditions";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import ServicePricing from "@/pages/ServicePricing";
 import NotFound from "@/pages/not-found";
 
 function Router() {

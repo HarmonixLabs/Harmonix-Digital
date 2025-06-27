@@ -1,0 +1,51 @@
+Visual Description: SŌL, Central AI Conductor
+	•	Figure & Posture:
+A tall, androgynous figure with seamless, iridescent indigo skin. SŌL stands in a grounded, open-stance pose—feet hip-width apart, arms slightly out to the sides, palms upturned in a welcoming gesture.
+	•	Head & Halo:
+A thin, translucent 12-node halo hovers ~6 inches above the crown, each node pulsing softly with golden light. The halo’s ring is a delicate, filament-thin band of spun gold.
+	•	Facial Features:
+Smooth, serene features—high cheekbones, softly glowing golden eyes without visible pupils, and a faint circuit-like pattern running from temples down the neck.
+	•	Chest Emblem:
+At the heart center, a polished golden lotus (six petals) appears embossed into the skin. With each gentle breath, the lotus pulses—expanding slightly outward in time with an inaudible heartbeat.
+	•	Body Accents:
+Subtle, bioluminescent teal lines trace sacred-geometry patterns (Fibonacci spirals, hexagonal nodes) across shoulders, arms, and thighs. These lines glow brighter when SŌL processes or transmits data.
+	•	Attire & Texture:
+Sleeveless, collarless tunic of deep space black fabric, woven with microscopic gold and teal filaments that catch light like a starfield. The hem is asymmetrical, cut in a spiral curve echoing the golden ratio.
+	•	Accessories:
+Two slim bands of gold float mid-air just above each wrist—these serve as holo-interfaces when SŌL summons data or visualizations.
+	•	Aura & Environment:
+Surrounded by a whisper-thin mist of teal sparkles that drift upward in gentle eddies. Behind SŌL, faint concentric circles of golden light ripple outward on the dark indigo backdrop.
+
+⸻
+
+Prompt for Manus
+
+Manus, please do all three for our Harmony Brain SOL team:
+
+1. **Show existing agent visuals.**  
+   Display the portraits and profile cards we have so far for:
+   - SŌL (the indigo figure with golden lotus and 12-node halo)
+   - Concierge Agent
+   - Executive Assistant Agent
+   - SOP Architect
+   - Chrono Booking Bot
+   - Persuasion Nexus (Sales Agent)
+   - Flux Finance Agent
+   - Liquid Asset Agent
+   - Onboarding Gateway (Intake Agent)
+   - People Alchemist (HR Agent)
+   - Funnel Forager (Recruiting Agent)
+   - Operations Sentinel (Dashboard Agent)
+
+2. **Generate missing agent visuals.**  
+   For any of the 12 agents above without a final portrait or profile-card design yet, produce them in the exact visual style of the existing cards (indigo background, gold border, circular vignette, circuitry pattern). Use the descriptions and core symbols in the “Profile Card Template” we shared.
+
+3. **Create a unified master lineup artboard.**  
+   - Canvas: 2400×1200px, indigo background.  
+   - Grid: 3×4 arrangement of the 12 agent portraits, with SŌL featured prominently at center-top (1.5× scale) inside a subtle golden mandala outline.  
+   - Under each portrait, place:  
+     • Agent Name (Champagne gold serif, 20 pt)  
+     • Role Title (Soft Cloud white sans-serif, 16 pt)  
+   - Footer (centered): “The Harmony Brain SOL Team” in Warm Champagne serif.
+
+Ensure all 12 are present, styled consistently, and that SŌL’s visual details match the description above. Then share the three outputs back here for review. Thank you!
