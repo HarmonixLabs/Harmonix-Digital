@@ -26,6 +26,7 @@ export function ParallaxBackground({
       ref={ref}
       style={{ y, opacity }}
       className={`relative ${className}`}
+      data-scroll-container="true"
     >
       {children}
     </motion.div>

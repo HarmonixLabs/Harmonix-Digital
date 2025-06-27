@@ -15,6 +15,7 @@ import { useOnboarding } from "@/hooks/use-onboarding";
 import { IntegratedChatbot } from "@/components/chat/integrated-chatbot";
 import { OnboardingModal } from "@/components/onboarding/fixed-onboarding-modal";
 import { InteractiveTour } from "@/components/onboarding/interactive-tour";
+import { UnifiedAuthModal } from "@/components/auth/unified-auth-modal";
 import { Coins, User, Settings, LogOut, Menu, X, HelpCircle } from "lucide-react";
 import { useState } from "react";
 
@@ -24,6 +25,8 @@ export function Navbar() {
   const { isConnected } = useWebSocket();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showTour, setShowTour] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authModalTab, setAuthModalTab] = useState<'login' | 'signup'>('login');
   
   const {
     showModal,
@@ -173,8 +176,23 @@ export function Navbar() {
               </>
             ) : (
               <div className="hidden sm:flex items-center space-x-2">
-                <Button variant="ghost">Sign In</Button>
-                <Button className="bg-harmony-gold hover:bg-yellow-500 text-harmony-dark">
+                <Button 
+                  variant="ghost"
+                  onClick={() => {
+                    setAuthModalTab('login');
+                    setShowAuthModal(true);
+                  }}
+                  className="text-harmonix-sage hover:text-harmonix-gold"
+                >
+                  Sign In
+                </Button>
+                <Button 
+                  className="bg-harmonix-gold hover:bg-harmonix-gold/90 text-harmonix-black"
+                  onClick={() => {
+                    setAuthModalTab('signup');
+                    setShowAuthModal(true);
+                  }}
+                >
                   Get Started
                 </Button>
               </div>
