@@ -596,7 +596,8 @@ export default function Home() {
   // Show different content based on authentication status
   if (isAuthenticated && user) {
     return (
-      <div className="min-h-screen bg-harmonix-deep-forest">
+      <PageWrapper enableParallax={true} enableGeometry={true}>
+        <div className="min-h-screen bg-harmonix-deep-forest">
         <Navbar />
         <div className="harmonix-container py-8 sm:py-12 lg:py-16">
           <div className="text-center mb-12 sm:mb-16">
@@ -660,13 +661,15 @@ export default function Home() {
           </div>
         </div>
         <Footer />
-      </div>
+        </div>
+      </PageWrapper>
     );
   }
 
   // Landing page for non-authenticated users - Conversion engine
   return (
-    <div className="min-h-screen bg-harmonix-deep-forest">
+    <PageWrapper enableParallax={true} enableGeometry={true}>
+      <div className="min-h-screen bg-harmonix-deep-forest">
       <Navbar />
       <OptimizedHero />
       <PlatformPillarsSection />
@@ -979,6 +982,7 @@ export default function Home() {
           onSkip={() => setShowOnboardingDemo(false)}
         />
       )}
-    </div>
+      </div>
+    </PageWrapper>
   );
 }
