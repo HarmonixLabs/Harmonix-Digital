@@ -599,6 +599,34 @@ body {
     backdrop-filter: blur(10px);
   }
 
+  /* Premium promo banner animations */
+  .animate-gradient-x {
+    background-size: 200% 200%;
+    animation: gradient-x 3s ease infinite;
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s linear infinite;
+  }
+
+  @keyframes gradient-x {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
   .card-hover:hover {
     @apply transform -translate-y-1;
     box-shadow: 0 20px 40px rgba(215, 183, 109, 0.15);

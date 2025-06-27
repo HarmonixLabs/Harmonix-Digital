@@ -11,8 +11,14 @@ import { processAgentTask } from "./openai";
 import { updateCRM } from "./ghl-integration";
 import { healthCheck, readinessCheck } from "./health-check";
 import { corsMiddleware } from "./middleware/cors";
+import Stripe from "stripe";
 
 const JWT_SECRET = process.env.JWT_SECRET || "harmonix-secret-key";
+
+// Initialize Stripe
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2024-11-20.acacia",
+});
 
 // Middleware to verify JWT token
 const authenticateToken = async (req: any, res: any, next: any) => {
@@ -802,7 +808,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { accessType, customerData, ghlContactId } = req.body;
       
-      const priceMap = {
+      const priceMap: Record<string, { amount: number; description: string }> = {
         vip50: { amount: 1075000, description: 'VIP Access - 50% Deposit' }, // $10,750 in cents
         vip100: { amount: 2150000, description: 'VIP Access - Full Payment' } // $21,500 in cents
       };
