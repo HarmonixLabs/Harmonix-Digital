@@ -34,6 +34,7 @@ import NFTMarketplace from "@/pages/nft-marketplace";
 import NFTMint from "@/pages/nft-mint";
 import ThankYou from "@/pages/thank-you";
 import Checkout from "@/pages/checkout";
+import LoadingShowcase from "@/pages/loading-showcase";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -87,6 +88,7 @@ function Router() {
           <Route path="/admin-panel" component={lazy(() => import("./pages/admin-panel"))} />
           <Route path="/admin/status" component={lazy(() => import("./pages/admin/status"))} />
           <Route path="/transitions-demo" component={lazy(() => import("./pages/transitions-demo"))} />
+          <Route path="/loading-showcase" component={LoadingShowcase} />
           <Route component={NotFound} />
         </Switch>
       </PageTransition>
