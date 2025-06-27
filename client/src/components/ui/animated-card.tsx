@@ -1,57 +1,49 @@
-import { motion } from "framer-motion";
-import { ReactNode } from "react";
+import React from "react";
 import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
-interface AnimatedCardProps {
-  children: ReactNode;
-  className?: string;
+interface AnimatedCardProps extends React.ComponentProps<typeof Card> {
+  hoverEffect?: "lift" | "glow" | "tilt" | "scale" | "border-glow";
+  entranceAnimation?: "fadeInUp" | "slideInRight" | "none";
   delay?: number;
-  hoverScale?: number;
-  glowEffect?: boolean;
 }
 
-export const AnimatedCard = ({ 
-  children, 
-  className = "", 
-  delay = 0, 
-  hoverScale = 1.02,
-  glowEffect = true 
-}: AnimatedCardProps) => {
+export function AnimatedCard({ 
+  className, 
+  hoverEffect = "lift", 
+  entranceAnimation = "fadeInUp",
+  delay = 0,
+  children,
+  ...props 
+}: AnimatedCardProps) {
+  const hoverClasses = {
+    lift: "hover:transform hover:-translate-y-2 hover:shadow-xl transition-all duration-300",
+    glow: "hover:shadow-2xl hover:shadow-harmonix-gold/20 hover:border-harmonix-gold/50 transition-all duration-300",
+    tilt: "hover:transform hover:rotate-1 hover:scale-105 transition-all duration-300",
+    scale: "hover:scale-105 transition-transform duration-300",
+    "border-glow": "relative overflow-hidden before:absolute before:inset-0 before:rounded-[inherit] before:p-[1px] before:bg-gradient-to-r before:from-harmonix-gold/0 before:via-harmonix-gold/50 before:to-harmonix-gold/0 hover:before:via-harmonix-gold/80 before:transition-all before:duration-500 before:-z-10"
+  };
+
+  const entranceClasses = {
+    fadeInUp: "animate-fadeInUp",
+    slideInRight: "animate-slideInRight", 
+    none: ""
+  };
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30, scale: 0.95 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ 
-        duration: 0.6, 
-        delay,
-        ease: "easeOut",
-        type: "spring",
-        stiffness: 100
+    <Card
+      className={cn(
+        "transform-gpu", // GPU acceleration
+        hoverClasses[hoverEffect],
+        entranceAnimation !== "none" && entranceClasses[entranceAnimation],
+        className
+      )}
+      style={{ 
+        animationDelay: delay ? `${delay}ms` : undefined 
       }}
-      whileHover={{ 
-        scale: hoverScale,
-        y: -5,
-        transition: { duration: 0.2, ease: "easeInOut" }
-      }}
-      className={className}
+      {...props}
     >
-      <Card 
-        className={`
-          relative overflow-hidden border-harmonix-sage/20 
-          ${glowEffect ? 'hover:shadow-lg hover:shadow-[#d7b76d]/20' : ''}
-          transition-all duration-300
-        `}
-      >
-        {glowEffect && (
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-[#d7b76d]/5 to-transparent"
-            initial={{ x: "-100%" }}
-            whileHover={{ x: "100%" }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-          />
-        )}
-        {children}
-      </Card>
-    </motion.div>
+      {children}
+    </Card>
   );
-};
+}

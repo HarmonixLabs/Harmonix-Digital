@@ -36,10 +36,10 @@ export function Navbar() {
   } = useOnboarding();
 
   const publicLinks = [
-    { href: "/harmony", label: "Harmony" },
-    { href: "/demo", label: "Demo" },
+    { href: "/", label: "Home" },
     { href: "/marketplace", label: "Marketplace" },
     { href: "/pricing", label: "Pricing" },
+    { href: "/demo", label: "Demo" },
     { href: "/case-studies", label: "Success Stories" },
     { href: "/faq", label: "FAQ" },
   ];

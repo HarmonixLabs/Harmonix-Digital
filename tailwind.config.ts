@@ -5,6 +5,45 @@ export default {
   content: ["./client/index.html", "./client/src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      keyframes: {
+        shimmer: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' }
+        },
+        glow: {
+          '0%, 100%': { boxShadow: '0 0 5px currentColor' },
+          '50%': { boxShadow: '0 0 20px currentColor, 0 0 30px currentColor' }
+        },
+        ripple: {
+          '0%': { transform: 'scale(0)', opacity: '1' },
+          '100%': { transform: 'scale(4)', opacity: '0' }
+        },
+        fadeInUp: {
+          '0%': { opacity: '0', transform: 'translateY(30px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' }
+        },
+        slideInRight: {
+          '0%': { opacity: '0', transform: 'translateX(30px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' }
+        },
+        breathe: {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.05)' }
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' }
+        }
+      },
+      animation: {
+        shimmer: 'shimmer 2s infinite',
+        glow: 'glow 2s ease-in-out infinite alternate',
+        ripple: 'ripple 0.6s ease-out',
+        fadeInUp: 'fadeInUp 0.6s ease-out',
+        slideInRight: 'slideInRight 0.5s ease-out',
+        breathe: 'breathe 3s ease-in-out infinite',
+        float: 'float 6s ease-in-out infinite'
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",

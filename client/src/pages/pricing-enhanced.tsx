@@ -320,7 +320,7 @@ export default function PricingEnhanced() {
                             </div>
                             <div className="flex justify-between">
                               <span className="text-harmonix-sage">Remaining Balance:</span>
-                              <span className="text-harmonix-sage">${pricing.remainingAmount.toLocaleString()}</span>
+                              <span className="text-harmonix-sage">${pricing.remainingBalance.toLocaleString()}</span>
                             </div>
                             <div className="border-t border-harmonix-cedar pt-3">
                               <div className="flex justify-between">

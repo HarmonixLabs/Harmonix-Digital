@@ -1,0 +1,57 @@
+Manus,
+
+Please run a full self-heal, QA, and functionality audit across the entire Harmonix platform, then patch or scaffold any missing pieces. Fix and verify these specific issues (and anything else you uncover) to ensure a seamless, launch-perfect experience:
+
+---
+
+## 1. Sign-In & Get Started Flows  
+- “Sign In” and “Get Started” buttons must open the correct auth modal or page.  
+- Verify login → redirect → dashboard; logout → redirect → home.
+
+## 2. Global Navigation & Footer  
+- Update the menu bar: all links (Home, Features, Marketplace, Pricing, Dashboard, Admin) must resolve.  
+- Ensure “Marketplace” nav item loads marketplace; “Home” nav item returns to `/`.  
+- Map out footer links to Terms, Privacy, SMS Terms, Contact, Waitlist, Careers.
+
+## 3. Marketplace Design & Deployment Button  
+- Refresh marketplace UI per Design System tokens: consistent card layout, spacing, typography.  
+- Fix “Deploy” button: if user is not signed in, prompt login/signup; if signed in, launch deploy flow or show “Join Waitlist” if closed.  
+- Ensure price, gas surcharge, and burn/mint logic run end-to-end.
+
+## 4. Pricing Page Load  
+- Fix `/pricing` loading spinner—data should fetch promptly from `/api/products`.  
+- Add error states and retry button if fetch fails.
+
+## 5. SŌL Brain Page  
+- `/sol-brain` (or equivalent) must fetch and render content; if missing, scaffold a stub and wire in actual data.  
+- Verify hero, copy, agent preview, and join-waitlist CTA.
+
+## 6. Home Page Promo Banner  
+- Change copy from “First 280 customers” to **“Limited time offer”** (or **“Limited space”**).  
+- Ensure banner CTA links to pricing or waitlist.
+
+## 7. Logo & Monogram  
+- Regenerate header & footer logo (monogram) to fit branding: jade-forest blue + gold accent.  
+- Replace existing image assets with new SVGs; ensure crisp rendering on retina.
+
+## 8. End-to-End Flow Checklist  
+- Signup → verify → plan select → onboarding wizard  
+- Dashboard load → agent list → builder preview  
+- Marketplace browse → run prompt → mint/deploy → tip flow  
+- Billing page → subscription update → cancel  
+- Admin billing panel → edit pricing → create promo
+
+---
+
+### Design & UI/UX Standards  
+- Adhere to master tokens (colors, spacing, typography).  
+- Responsive breakpoints: mobile/tablet/desktop.  
+- Micro-animations: button hover/ripple, modal fade, loader shimmers.
+
+### Tests & Self-Heal  
+- Playwright tests for each flow above.  
+- Jest unit tests for API handlers.  
+- k6 load test on key endpoints.  
+- If a route or component is broken, auto-scaffold a stub with master layout and a “Coming Soon” message.
+
+When complete, merge into `main`, tag v1.0.0, and package an updated Developer & Design Handoff for Riplet AI. Begin immediately.  
