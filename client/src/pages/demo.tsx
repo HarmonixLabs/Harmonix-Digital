@@ -7,6 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { WhimsicalLoader } from "@/components/loading/whimsical-loader";
+import { MysticalTooltip, NeuralTooltip } from "@/components/ui/animated-tooltip";
 import { useAuth } from "@/lib/auth";
 import { Play, Users, MessageCircle, Calendar, User, ArrowRight, Bot, Zap, DollarSign, Clock, Target, Star, Sparkles, CheckCircle, Send } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -56,6 +58,22 @@ export default function DemoPage() {
     budget: ""
   });
   const [solExpanded, setSolExpanded] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [demoInput, setDemoInput] = useState("");
+  const [agentResponse, setAgentResponse] = useState("");
+
+  const handleDemoSubmit = async () => {
+    if (!demoInput.trim()) return;
+    
+    setIsProcessing(true);
+    setAgentResponse("");
+    
+    // Simulate processing time for whimsical loader display
+    setTimeout(() => {
+      setAgentResponse(demoAgents[selectedAgent].demoResponse);
+      setIsProcessing(false);
+    }, 2000);
+  };
 
   return (
     <div className="min-h-screen bg-harmonix-deep-forest">
@@ -202,21 +220,40 @@ export default function DemoPage() {
                       <div className="space-y-4">
                         <div className="flex space-x-2">
                           <Input 
+                            value={demoInput}
+                            onChange={(e) => setDemoInput(e.target.value)}
                             placeholder={`Ask ${demoAgents[selectedAgent].name} a question...`}
                             className="flex-1 bg-harmonix-night-pine/30 border-harmonix-sage-fade/30 text-white placeholder:text-harmonix-sage-fade"
+                            onKeyPress={(e) => e.key === 'Enter' && handleDemoSubmit()}
                           />
-                          <Button 
-                            size="icon"
-                            className="bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90"
-                          >
-                            <Send className="w-4 h-4" />
-                          </Button>
+                          <NeuralTooltip content="Send your question to the AI agent for processing">
+                            <Button 
+                              size="icon"
+                              onClick={handleDemoSubmit}
+                              disabled={isProcessing || !demoInput.trim()}
+                              className="bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90 disabled:opacity-50"
+                            >
+                              <Send className="w-4 h-4" />
+                            </Button>
+                          </NeuralTooltip>
                         </div>
                         
                         <div className="bg-harmonix-night-pine/30 rounded-lg p-4 min-h-[120px] border border-harmonix-sage-fade/20">
                           <div className="text-sm text-harmonix-sage-fade mb-2">Agent Response:</div>
                           <div className="text-white">
-                            {demoAgents[selectedAgent].demoResponse}
+                            {isProcessing ? (
+                              <div className="flex items-center justify-center py-4">
+                                <WhimsicalLoader 
+                                  variant={selectedAgent === 0 ? "neural" : selectedAgent === 1 ? "harmony" : "sacred"}
+                                  size="md"
+                                  message={`${demoAgents[selectedAgent].name} is analyzing your request...`}
+                                />
+                              </div>
+                            ) : agentResponse ? (
+                              agentResponse
+                            ) : (
+                              demoAgents[selectedAgent].demoResponse
+                            )}
                           </div>
                         </div>
                       </div>
@@ -224,20 +261,30 @@ export default function DemoPage() {
 
                     {/* Action Buttons */}
                     <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                      <Button 
-                        className="flex-1 bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90"
-                        onClick={() => setSolExpanded(true)}
+                      <MysticalTooltip 
+                        content="Deploy this agent to your organization and start automating tasks"
+                        side="top"
                       >
-                        <Bot className="w-4 h-4 mr-2" />
-                        Deploy This Agent
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        className="flex-1 border-harmonix-sage-fade text-harmonix-sage-fade hover:bg-harmonix-sage-fade/10"
+                        <Button 
+                          className="flex-1 bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90 animate-mystic-glow"
+                          onClick={() => setSolExpanded(true)}
+                        >
+                          <Bot className="w-4 h-4 mr-2" />
+                          Deploy This Agent
+                        </Button>
+                      </MysticalTooltip>
+                      <NeuralTooltip 
+                        content="Explore detailed capabilities and pricing information"
+                        side="top"
                       >
-                        <Star className="w-4 h-4 mr-2" />
-                        Learn More
-                      </Button>
+                        <Button 
+                          variant="outline" 
+                          className="flex-1 border-harmonix-sage-fade text-harmonix-sage-fade hover:bg-harmonix-sage-fade/10"
+                        >
+                          <Star className="w-4 h-4 mr-2" />
+                          Learn More
+                        </Button>
+                      </NeuralTooltip>
                     </div>
                   </CardContent>
                 </Card>
