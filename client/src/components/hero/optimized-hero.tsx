@@ -136,7 +136,7 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
           >
             <Badge 
               variant="secondary" 
-              className="bg-gradient-to-r from-harmonix-gold/20 to-jade-blue/20 text-harmonix-gold border-harmonix-gold/40 px-6 py-3 text-sm sm:text-base font-medium backdrop-blur-sm shadow-lg shadow-harmonix-gold/20"
+              className="bg-gradient-to-r from-harmonix-gold/20 to-jade-forest/20 text-harmonix-gold border-harmonix-gold/40 px-6 py-3 text-sm sm:text-base font-medium backdrop-blur-sm shadow-lg shadow-harmonix-gold/20"
             >
               <Sparkles className="w-4 h-4 mr-2 animate-pulse" />
               Early Bird: 30% Off for First 280 Customers

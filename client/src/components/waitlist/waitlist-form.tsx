@@ -99,9 +99,9 @@ export function WaitlistForm({ isOpen, onClose, trigger = 'homepage' }: Waitlist
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-deep-space-black border-jade-blue/30 max-w-md">
+      <DialogContent className="bg-deep-space-black border-jade-forest/30 max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-jade-blue flex items-center gap-2">
+          <DialogTitle className="text-jade-forest flex items-center gap-2">
             {submitted ? (
               <>
                 <CheckCircle className="h-5 w-5 text-harmonix-gold" />
@@ -124,10 +124,10 @@ export function WaitlistForm({ isOpen, onClose, trigger = 'homepage' }: Waitlist
               </div>
               
               <div className="space-y-2">
-                <h3 className="text-xl font-semibold text-jade-blue">
+                <h3 className="text-xl font-semibold text-jade-forest">
                   You're In!
                 </h3>
-                <p className="text-jade-blue/80">
+                <p className="text-jade-forest/80">
                   {waitlistPosition && (
                     <span className="block text-harmonix-gold font-semibold">
                       Position #{waitlistPosition}
@@ -153,7 +153,7 @@ export function WaitlistForm({ isOpen, onClose, trigger = 'homepage' }: Waitlist
                 value={formData.name}
                 onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                 required
-                className="bg-deep-space-black/50 border-jade-blue/30 text-jade-blue placeholder:text-jade-blue/50"
+                className="bg-deep-space-black/50 border-jade-forest/30 text-jade-forest placeholder:text-jade-forest/50"
               />
               
               <Input
@@ -162,7 +162,7 @@ export function WaitlistForm({ isOpen, onClose, trigger = 'homepage' }: Waitlist
                 value={formData.email}
                 onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                 required
-                className="bg-deep-space-black/50 border-jade-blue/30 text-jade-blue placeholder:text-jade-blue/50"
+                className="bg-deep-space-black/50 border-jade-forest/30 text-jade-forest placeholder:text-jade-forest/50"
               />
             </div>
             
@@ -171,14 +171,14 @@ export function WaitlistForm({ isOpen, onClose, trigger = 'homepage' }: Waitlist
                 placeholder="Company (optional)"
                 value={formData.company}
                 onChange={(e) => setFormData(prev => ({ ...prev, company: e.target.value }))}
-                className="bg-deep-space-black/50 border-jade-blue/30 text-jade-blue placeholder:text-jade-blue/50"
+                className="bg-deep-space-black/50 border-jade-forest/30 text-jade-forest placeholder:text-jade-forest/50"
               />
               
               <Input
                 placeholder="Industry (optional)"
                 value={formData.industry}
                 onChange={(e) => setFormData(prev => ({ ...prev, industry: e.target.value }))}
-                className="bg-deep-space-black/50 border-jade-blue/30 text-jade-blue placeholder:text-jade-blue/50"
+                className="bg-deep-space-black/50 border-jade-forest/30 text-jade-forest placeholder:text-jade-forest/50"
               />
             </div>
             
@@ -186,7 +186,7 @@ export function WaitlistForm({ isOpen, onClose, trigger = 'homepage' }: Waitlist
               placeholder="What excites you most about AI automation?"
               value={formData.interest}
               onChange={(e) => setFormData(prev => ({ ...prev, interest: e.target.value }))}
-              className="bg-deep-space-black/50 border-jade-blue/30 text-jade-blue placeholder:text-jade-blue/50 min-h-[80px]"
+              className="bg-deep-space-black/50 border-jade-forest/30 text-jade-forest placeholder:text-jade-forest/50 min-h-[80px]"
             />
             
             <div className="flex gap-3 pt-2">
@@ -207,7 +207,7 @@ export function WaitlistForm({ isOpen, onClose, trigger = 'homepage' }: Waitlist
                 type="button"
                 onClick={onClose}
                 variant="outline"
-                className="border-jade-blue/30 text-jade-blue hover:bg-jade-blue/10"
+                className="border-jade-forest/30 text-jade-forest hover:bg-jade-forest/10"
               >
                 Cancel
               </Button>

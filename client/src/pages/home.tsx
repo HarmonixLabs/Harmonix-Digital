@@ -553,7 +553,7 @@ function JoinMovementSection() {
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 bg-deep-space-black/50 border-jade-blue/30 text-jade-blue placeholder:text-jade-blue/50"
+                  className="flex-1 bg-deep-space-black/50 border-jade-forest/30 text-jade-forest placeholder:text-jade-forest/50"
                   required
                 />
                 <Button 
@@ -570,9 +570,9 @@ function JoinMovementSection() {
                   id="deposit"
                   checked={deposit}
                   onChange={(e) => setDeposit(e.target.checked)}
-                  className="w-4 h-4 text-harmonix-gold bg-deep-space-black border-jade-blue/30 rounded focus:ring-harmonix-gold"
+                  className="w-4 h-4 text-harmonix-gold bg-deep-space-black border-jade-forest/30 rounded focus:ring-harmonix-gold"
                 />
-                <label htmlFor="deposit" className="text-sm text-jade-blue/80">
+                <label htmlFor="deposit" className="text-sm text-jade-forest/80">
                   Pay $444 deposit now → Get 30% off + priority access
                 </label>
               </div>

@@ -134,36 +134,36 @@ export function Navbar() {
                       </Avatar>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-56 bg-deep-space-black border-jade-blue/30" align="end">
+                  <DropdownMenuContent className="w-56 bg-deep-space-black border-jade-forest/30" align="end">
                     <div className="flex items-center justify-start gap-2 p-2">
                       <div className="flex flex-col space-y-1 leading-none">
-                        <p className="font-medium text-jade-blue">{user.name}</p>
-                        <p className="w-[200px] truncate text-sm text-jade-blue/70">
+                        <p className="font-medium text-jade-forest">{user.name}</p>
+                        <p className="w-[200px] truncate text-sm text-jade-forest/70">
                           {user.email}
                         </p>
                       </div>
                     </div>
-                    <DropdownMenuSeparator className="bg-jade-blue/30" />
-                    <DropdownMenuItem className="text-jade-blue hover:bg-jade-blue/10">
+                    <DropdownMenuSeparator className="bg-jade-forest/30" />
+                    <DropdownMenuItem className="text-jade-forest hover:bg-jade-forest/10">
                       <User className="mr-2 h-4 w-4" />
                       Profile
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="text-jade-blue hover:bg-jade-blue/10">
+                    <DropdownMenuItem className="text-jade-forest hover:bg-jade-forest/10">
                       <Settings className="mr-2 h-4 w-4" />
                       Settings
                     </DropdownMenuItem>
                     <DropdownMenuItem 
-                      className="text-jade-blue hover:bg-jade-blue/10"
+                      className="text-jade-forest hover:bg-jade-forest/10"
                       onClick={() => triggerOnboarding('setup')}
                     >
                       <HelpCircle className="mr-2 h-4 w-4" />
                       Setup Wizard
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="sm:hidden text-jade-blue hover:bg-jade-blue/10">
+                    <DropdownMenuItem className="sm:hidden text-jade-forest hover:bg-jade-forest/10">
                       <Coins className="mr-2 h-4 w-4" />
                       {user.tokenBalance} Tokens
                     </DropdownMenuItem>
-                    <DropdownMenuSeparator className="bg-jade-blue/30" />
+                    <DropdownMenuSeparator className="bg-jade-forest/30" />
                     <DropdownMenuItem 
                       className="text-red-400 hover:bg-red-900/20"
                       onClick={logout}
@@ -182,7 +182,7 @@ export function Navbar() {
                     setAuthModalTab('login');
                     setShowAuthModal(true);
                   }}
-                  className="text-jade-blue hover:text-harmonix-gold"
+                  className="text-jade-forest hover:text-harmonix-gold"
                 >
                   Sign In
                 </Button>
