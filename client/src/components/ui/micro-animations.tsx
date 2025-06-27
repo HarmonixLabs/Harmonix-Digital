@@ -44,6 +44,26 @@ export function BreathingGlow({
   );
 }
 
+// Stagger Item for Individual Elements
+export function StaggerItem({ 
+  children, 
+  className,
+  delay = 0 
+}: { 
+  children: React.ReactNode; 
+  className?: string;
+  delay?: number;
+}) {
+  return (
+    <div 
+      className={cn("animate-fadeInUp", className)}
+      style={{ animationDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
+
 // Staggered Container for Lists (alias for compatibility)
 export function StaggerContainer({ 
   children, 
@@ -57,12 +77,9 @@ export function StaggerContainer({
   return (
     <div className={cn("space-y-4", className)}>
       {React.Children.map(children, (child, index) => (
-        <div 
-          className="animate-fadeInUp"
-          style={{ animationDelay: `${index * staggerDelay}ms` }}
-        >
+        <StaggerItem delay={index * staggerDelay}>
           {child}
-        </div>
+        </StaggerItem>
       ))}
     </div>
   );

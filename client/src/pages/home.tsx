@@ -584,6 +584,7 @@ function JoinMovementSection() {
 
 export default function Home() {
   const { isAuthenticated, user } = useAuth();
+  const [showOnboardingDemo, setShowOnboardingDemo] = useState(false);
   
   const { data: agentTypes = [] } = useQuery({
     queryKey: ['/api/agent-types'],
@@ -686,7 +687,8 @@ export default function Home() {
       performance: "+85%",
       tier: "flagship",
       gradient: "from-red-500 to-black",
-      available: true
+      available: true,
+      royalty: "15"
     },
     {
       id: 2,
@@ -757,7 +759,7 @@ export default function Home() {
             <div className="space-y-8">
               <div className="space-y-4">
                 <div className="flex items-center space-x-4 mb-6">
-                  <HarmonixLogo size="xl" variant="gold" />
+                  <HarmonixLogo size="xl" variant="icon" />
                   <div>
                     <h1 className="text-5xl lg:text-6xl font-bold leading-tight font-serif">
                       <span className="text-harmony-gold">Harmonix</span> AI Platform
@@ -810,7 +812,7 @@ export default function Home() {
 
             {/* AI Agent Visualization */}
             <div className="relative flex justify-center">
-              <SolBrain />
+              <EnhancedSolBrain />
             </div>
           </div>
         </div>
@@ -955,7 +957,7 @@ export default function Home() {
             </div>
 
             <div className="relative flex justify-center">
-              <SolBrain showAgentNodes />
+              <EnhancedSolBrain />
             </div>
           </div>
         </div>
