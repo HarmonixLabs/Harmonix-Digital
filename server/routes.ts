@@ -724,6 +724,129 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // GHL CRM submission endpoint
+  app.post('/api/ghl-submit', async (req, res) => {
+    try {
+      const { name, email, phone, company, businessType, revenue, interests, accessType, source, tags, leadValue } = req.body;
+      
+      const ghlData = {
+        firstName: name.split(' ')[0],
+        lastName: name.split(' ').slice(1).join(' ') || '',
+        email,
+        phone,
+        companyName: company,
+        customFields: [
+          { key: 'business_type', value: businessType },
+          { key: 'revenue_range', value: revenue },
+          { key: 'interests', value: interests },
+          { key: 'access_type', value: accessType },
+          { key: 'source', value: source },
+          { key: 'lead_value', value: leadValue.toString() }
+        ],
+        tags: tags || [],
+        source: 'harmonix_join_page'
+      };
+
+      // Submit to GoHighLevel CRM
+      const ghlResponse = await fetch(`https://services.leadconnectorhq.com/contacts/`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${process.env.GHL_API_KEY_HARMONIX}`,
+          'Content-Type': 'application/json',
+          'Version': '2021-07-28'
+        },
+        body: JSON.stringify(ghlData)
+      });
+
+      if (!ghlResponse.ok) {
+        const errorText = await ghlResponse.text();
+        console.error('GHL API error:', errorText);
+        throw new Error(`GHL API error: ${ghlResponse.status}`);
+      }
+
+      const ghlResult = await ghlResponse.json();
+      
+      // Trigger workflow if VIP access
+      if (accessType !== 'waitlist') {
+        const workflowResponse = await fetch(`https://services.leadconnectorhq.com/workflows/${process.env.HARMONIX_GHL_WEBHOOK}/trigger`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${process.env.GHL_API_KEY_HARMONIX}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            contactId: ghlResult.contact.id,
+            eventName: 'vip_access_signup',
+            eventData: { accessType, leadValue }
+          })
+        });
+      }
+
+      res.json({ 
+        success: true, 
+        contactId: ghlResult.contact.id,
+        message: 'Successfully added to CRM'
+      });
+
+    } catch (error) {
+      console.error('GHL submission error:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Failed to submit to CRM'
+      });
+    }
+  });
+
+  // VIP checkout creation endpoint
+  app.post('/api/create-vip-checkout', async (req, res) => {
+    try {
+      const { accessType, customerData, ghlContactId } = req.body;
+      
+      const priceMap = {
+        vip50: { amount: 1075000, description: 'VIP Access - 50% Deposit' }, // $10,750 in cents
+        vip100: { amount: 2150000, description: 'VIP Access - Full Payment' } // $21,500 in cents
+      };
+
+      const priceData = priceMap[accessType];
+      if (!priceData) {
+        return res.status(400).json({ error: 'Invalid access type' });
+      }
+
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: [{
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: 'Harmonix AI Platform - VIP Early Access',
+              description: priceData.description,
+              images: ['https://harmonix.ai/logo.png'],
+            },
+            unit_amount: priceData.amount,
+          },
+          quantity: 1,
+        }],
+        mode: 'payment',
+        success_url: `${req.headers.origin}/vip-success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${req.headers.origin}/join?cancelled=true`,
+        customer_email: customerData.email,
+        metadata: {
+          accessType,
+          ghlContactId,
+          customerName: customerData.name,
+          company: customerData.company,
+          source: 'harmonix_vip_access'
+        }
+      });
+
+      res.json({ url: session.url });
+
+    } catch (error) {
+      console.error('VIP checkout creation error:', error);
+      res.status(500).json({ error: 'Failed to create checkout session' });
+    }
+  });
+
   // Add GHL webhook endpoint
   app.post('/api/webhooks/ghl', async (req, res) => {
     try {
