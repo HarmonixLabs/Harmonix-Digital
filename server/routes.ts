@@ -474,6 +474,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Waitlist endpoint for CRM capture
+  // Demo API routes
+  app.post('/api/demo/execute', async (req, res) => {
+    try {
+      const { scenarioId, companyName, industry } = req.body;
+      
+      // Simulate demo execution
+      const demoResult = {
+        success: true,
+        scenarioId,
+        companyName,
+        industry,
+        executionId: `demo_${Date.now()}`,
+        status: 'completed',
+        results: {
+          leadsProcessed: Math.floor(Math.random() * 50) + 10,
+          conversionRate: (Math.random() * 15 + 5).toFixed(1) + '%',
+          timeSaved: Math.floor(Math.random() * 20) + 5 + ' hours',
+          revenueGenerated: '$' + (Math.floor(Math.random() * 50000) + 10000).toLocaleString()
+        },
+        metrics: {
+          efficiency: Math.floor(Math.random() * 30) + 70,
+          accuracy: Math.floor(Math.random() * 20) + 80,
+          satisfaction: Math.floor(Math.random() * 15) + 85
+        }
+      };
+      
+      res.json(demoResult);
+    } catch (error) {
+      console.error('Demo execution error:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Failed to execute demo',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
   app.post('/api/waitlist', async (req, res) => {
     try {
       const { name, email, company, industry, interest, page } = req.body;
