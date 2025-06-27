@@ -85,6 +85,8 @@ function Router() {
           <Route path="/wallet" component={lazy(() => import("./pages/wallet"))} />
           <Route path="/platform-status" component={lazy(() => import("./pages/platform-status"))} />
           <Route path="/admin-panel" component={lazy(() => import("./pages/admin-panel"))} />
+          <Route path="/admin/status" component={lazy(() => import("./pages/admin/status"))} />
+          <Route path="/transitions-demo" component={lazy(() => import("./pages/transitions-demo"))} />
           <Route component={NotFound} />
         </Switch>
       </PageTransition>
