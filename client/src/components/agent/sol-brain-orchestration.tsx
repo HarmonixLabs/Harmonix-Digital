@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Lotus, Zap, Brain, Users, Settings, Activity } from 'lucide-react';
+import { Flower, Zap, Brain, Users, Settings, Activity } from 'lucide-react';
 
 interface Agent {
   id: string;
@@ -253,7 +253,7 @@ export function SolBrainOrchestration({
         <Card className="bg-slate-800/90 border border-emerald-400/30 backdrop-blur-sm">
           <div className="p-4">
             <div className="flex items-center gap-2 mb-3">
-              <Lotus className="w-5 h-5 text-emerald-400" />
+              <Flower className="w-5 h-5 text-emerald-400" />
               <span className="text-emerald-100 font-semibold">SŌL Brain</span>
             </div>
             

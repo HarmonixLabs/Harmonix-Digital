@@ -68,7 +68,9 @@ function Router() {
       <Route path="/thank-you" component={ThankYou} />
       <Route path="/checkout" component={Checkout} />
       <Route path="/dashboard" component={Dashboard} />
-      <Route path="/marketplace" component={AgentMarketplace} />
+      <Route path="/marketplace" component={Marketplace} />
+      <Route path="/create-agent" component={lazy(() => import("./pages/create-agent"))} />
+      <Route path="/agent-marketplace" component={AgentMarketplace} />
       <Route path="/nft-marketplace" component={NFTMarketplace} />
       <Route path="/nft-mint" component={NFTMint} />
       <Route path="/agent-cash" component={AgentCash} />

@@ -1,733 +1,567 @@
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "@/hooks/use-auth";
-import { apiRequest } from "@/lib/queryClient";
-import { useToast } from "@/hooks/use-toast";
-import { Search, Filter, Star, TrendingUp, Zap, Wallet, DollarSign, Award, Clock, Users, Bot, Brain } from "lucide-react";
-import { useState } from "react";
-import { Link } from "wouter";
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { 
+  Search, 
+  Filter, 
+  Star, 
+  Users, 
+  Zap, 
+  DollarSign, 
+  TrendingUp,
+  Bot,
+  Sparkles,
+  Shield,
+  Wallet,
+  ShoppingCart,
+  Heart,
+  Download,
+  Play,
+  Settings,
+  Crown,
+  Gem
+} from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import { Link } from 'wouter';
 
-// Enhanced agent data with creator economy features
-const enhancedAgentTypes = [
+interface Agent {
+  id: string;
+  name: string;
+  avatar: string;
+  description: string;
+  category: string;
+  monthlyPrice: number;
+  setupPrice: number;
+  rating: number;
+  reviews: number;
+  deployments: number;
+  features: string[];
+  creator: {
+    name: string;
+    verified: boolean;
+    avatar: string;
+  };
+  tags: string[];
+  rarity: 'common' | 'rare' | 'epic' | 'legendary';
+  nftPrice?: number;
+  royaltyPercentage?: number;
+}
+
+const FEATURED_AGENTS: Agent[] = [
   {
-    id: 1,
-    name: "CA$H",
-    role: "Sales Strategist", 
-    category: "Sales",
-    avatar: "💰",
-    monthlyPrice: 750,
-    timeSaved: "26+ hrs/week",
-    integrations: ["GHL", "Slack", "Zapier", "HubSpot"],
+    id: 'cash-agent',
+    name: 'Agent CA$H',
+    avatar: '💰',
+    description: 'Elite revenue generation specialist with advanced CRM integration and Loom script generation',
+    category: 'Sales',
+    monthlyPrice: 497,
+    setupPrice: 2500,
     rating: 4.9,
-    reviews: 147,
-    tokenUsage: "Medium",
-    status: "Available",
-    creator: "0x742d35Cc6672C0532925a3b8D2A291E48e5C67F8",
-    creatorName: "Harmonix Core",
-    nftEnabled: true,
-    royaltySplit: { creator: 70, platform: 20, nft: 10 },
-    description: "Elite sales automation agent trained on 10,000+ successful funnels",
-    useCases: ["Lead qualification", "Follow-up sequences", "CRM automation"],
-    setupType: "Custom"
+    reviews: 247,
+    deployments: 1240,
+    features: ['Lead Processing', 'CRM Sync', 'Loom Scripts', 'Follow-up Automation', 'Pipeline Management'],
+    creator: {
+      name: 'Harmonix Core',
+      verified: true,
+      avatar: '🌟'
+    },
+    tags: ['revenue', 'crm', 'automation', 'sales'],
+    rarity: 'legendary',
+    nftPrice: 0.5,
+    royaltyPercentage: 15
   },
   {
-    id: 2,
-    name: "Virgil",
-    role: "Brand Strategist",
-    category: "Content", 
-    avatar: "🎨",
-    monthlyPrice: 650,
-    timeSaved: "22+ hrs/week",
-    integrations: ["Notion", "Figma", "Slack", "Canva"],
+    id: 'grace-concierge',
+    name: 'Grace "The Velvet Bridge"',
+    avatar: '👸',
+    description: 'Sophisticated concierge agent for premium customer experience management',
+    category: 'Customer Service',
+    monthlyPrice: 297,
+    setupPrice: 1800,
     rating: 4.8,
-    reviews: 89,
-    tokenUsage: "High",
-    status: "Available",
-    creator: "0x8ba1f109551bD432803012645Hac136c1A346A47",
-    creatorName: "Design Guild",
-    nftEnabled: true,
-    royaltySplit: { creator: 75, platform: 15, nft: 10 },
-    description: "Master brand architect with deep aesthetic intelligence",
-    useCases: ["Brand identity", "Content strategy", "Visual consistency"],
-    setupType: "Base"
+    reviews: 189,
+    deployments: 890,
+    features: ['24/7 Support', 'VIP Handling', 'Appointment Booking', 'Knowledge Base', 'Escalation Management'],
+    creator: {
+      name: 'Harmonix Core',
+      verified: true,
+      avatar: '🌟'
+    },
+    tags: ['customer-service', 'premium', 'support'],
+    rarity: 'epic',
+    nftPrice: 0.3,
+    royaltyPercentage: 12
   },
   {
-    id: 3,
-    name: "Maya",
-    role: "HR Coordinator",
-    category: "Operations",
-    avatar: "👥",
-    monthlyPrice: 550,
-    timeSaved: "18+ hrs/week", 
-    integrations: ["BambooHR", "Slack", "Calendly", "Zoom"],
+    id: 'social-maven',
+    name: 'Social Media Maven',
+    avatar: '📱',
+    description: 'Complete social media automation with trend analysis and content generation',
+    category: 'Marketing',
+    monthlyPrice: 197,
+    setupPrice: 1200,
     rating: 4.7,
-    reviews: 63,
-    tokenUsage: "Low",
-    status: "Available",
-    creator: "0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t",
-    creatorName: "People Ops Pro",
-    nftEnabled: false,
-    royaltySplit: { creator: 80, platform: 20, nft: 0 },
-    description: "Streamlines recruitment, onboarding, and team coordination",
-    useCases: ["Recruitment screening", "Onboarding workflows", "Performance tracking"],
-    setupType: "Base"
+    reviews: 156,
+    deployments: 675,
+    features: ['Content Generation', 'Trend Analysis', 'Scheduling', 'Engagement Tracking', 'Multi-Platform'],
+    creator: {
+      name: 'Harmonix Core',
+      verified: true,
+      avatar: '🌟'
+    },
+    tags: ['social-media', 'content', 'automation'],
+    rarity: 'rare',
+    nftPrice: 0.2,
+    royaltyPercentage: 10
+  },
+  {
+    id: 'hr-specialist',
+    name: 'HR Operations Specialist',
+    avatar: '👥',
+    description: 'Comprehensive human resources management with onboarding and training automation',
+    category: 'HR',
+    monthlyPrice: 347,
+    setupPrice: 2000,
+    rating: 4.6,
+    reviews: 134,
+    deployments: 542,
+    features: ['Onboarding', 'Training Management', 'Performance Tracking', 'Compliance', 'Team Analytics'],
+    creator: {
+      name: 'Harmonix Core',
+      verified: true,
+      avatar: '🌟'
+    },
+    tags: ['hr', 'onboarding', 'management'],
+    rarity: 'epic',
+    nftPrice: 0.35,
+    royaltyPercentage: 13
+  },
+  {
+    id: 'project-manager',
+    name: 'Project Orchestrator Pro',
+    avatar: '📊',
+    description: 'Advanced project management with timeline optimization and resource allocation',
+    category: 'Operations',
+    monthlyPrice: 397,
+    setupPrice: 2200,
+    rating: 4.8,
+    reviews: 198,
+    deployments: 723,
+    features: ['Project Planning', 'Resource Management', 'Timeline Optimization', 'Risk Assessment', 'Team Coordination'],
+    creator: {
+      name: 'Harmonix Core',
+      verified: true,
+      avatar: '🌟'
+    },
+    tags: ['project-management', 'operations', 'optimization'],
+    rarity: 'epic',
+    nftPrice: 0.4,
+    royaltyPercentage: 14
+  },
+  {
+    id: 'sop-builder',
+    name: 'SOP Master Builder',
+    avatar: '📋',
+    description: 'Intelligent standard operating procedure creation and workflow optimization',
+    category: 'Operations',
+    monthlyPrice: 267,
+    setupPrice: 1600,
+    rating: 4.5,
+    reviews: 112,
+    deployments: 445,
+    features: ['SOP Creation', 'Workflow Design', 'Process Optimization', 'Documentation', 'Training Materials'],
+    creator: {
+      name: 'Harmonix Core',
+      verified: true,
+      avatar: '🌟'
+    },
+    tags: ['sop', 'workflows', 'documentation'],
+    rarity: 'rare',
+    nftPrice: 0.25,
+    royaltyPercentage: 11
   }
 ];
 
+const CATEGORIES = ['All', 'Sales', 'Marketing', 'Customer Service', 'HR', 'Operations', 'Finance', 'Development'];
+const RARITY_COLORS = {
+  common: 'bg-slate-500',
+  rare: 'bg-blue-500',
+  epic: 'bg-purple-500',
+  legendary: 'bg-yellow-500'
+};
+
 export default function Marketplace() {
-  const { user } = useAuth();
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedPerformance, setSelectedPerformance] = useState("all");
-  const [sortBy, setSortBy] = useState("rating");
-  const [flippedCard, setFlippedCard] = useState<number | null>(null);
+  const { user, isAuthenticated } = useAuth();
+  const [agents, setAgents] = useState(FEATURED_AGENTS);
+  const [filteredAgents, setFilteredAgents] = useState(FEATURED_AGENTS);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [sortBy, setSortBy] = useState('popular');
+  const [favorites, setFavorites] = useState<string[]>([]);
 
-  // Enhanced filtering logic
-  const filteredAgents = enhancedAgentTypes.filter(agent => {
-    const matchesSearch = agent.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         agent.role.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === "all" || agent.category === selectedCategory;
-    const matchesPerformance = selectedPerformance === "all" || 
-                              (selectedPerformance === "high" && parseInt(agent.timeSaved) >= 20) ||
-                              (selectedPerformance === "medium" && parseInt(agent.timeSaved) >= 15) ||
-                              (selectedPerformance === "low" && parseInt(agent.timeSaved) < 15);
-    
-    return matchesSearch && matchesCategory && matchesPerformance;
-  });
+  useEffect(() => {
+    let filtered = agents;
 
-  // Sort agents based on selected criteria
-  const sortedAgents = [...filteredAgents].sort((a, b) => {
-    switch (sortBy) {
-      case "rating": return b.rating - a.rating;
-      case "price-low": return a.monthlyPrice - b.monthlyPrice;
-      case "price-high": return b.monthlyPrice - a.monthlyPrice;
-      case "newest": return b.id - a.id;
-      case "popular": return b.reviews - a.reviews;
-      default: return 0;
+    // Filter by search term
+    if (searchTerm) {
+      filtered = filtered.filter(agent => 
+        agent.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        agent.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        agent.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+      );
     }
-  });
 
-  const deployAgentMutation = useMutation({
-    mutationFn: async (agentId: number) => {
-      if (!user) {
-        window.location.href = "/login";
-        return;
-      }
-      
-      const agent = enhancedAgentTypes.find(a => a.id === agentId);
-      if (!agent) throw new Error("Agent not found");
+    // Filter by category
+    if (selectedCategory !== 'All') {
+      filtered = filtered.filter(agent => agent.category === selectedCategory);
+    }
 
-      return apiRequest("POST", "/api/agents/deploy", {
-        agentId,
-        name: agent.name,
-        monthlyPrice: agent.monthlyPrice,
-        setupType: agent.setupType,
-      });
-    },
-    onSuccess: (data, agentId) => {
-      const agent = enhancedAgentTypes.find(a => a.id === agentId);
-      toast({
-        title: "Redirecting to Checkout",
-        description: `Setting up deployment for ${agent?.name}...`,
-      });
-      // Redirect to checkout with agent pre-selected
-      window.location.href = `/checkout?agent=${agentId}`;
-    },
-    onError: (error) => {
-      toast({
-        title: "Deployment Failed", 
-        description: error.message,
-        variant: "destructive",
-      });
-    },
-  });
+    // Sort
+    switch (sortBy) {
+      case 'popular':
+        filtered.sort((a, b) => b.deployments - a.deployments);
+        break;
+      case 'rating':
+        filtered.sort((a, b) => b.rating - a.rating);
+        break;
+      case 'price-low':
+        filtered.sort((a, b) => a.monthlyPrice - b.monthlyPrice);
+        break;
+      case 'price-high':
+        filtered.sort((a, b) => b.monthlyPrice - a.monthlyPrice);
+        break;
+      case 'newest':
+        // For demo, keeping original order as "newest"
+        break;
+    }
 
-  const handleLearnMore = (agentId: number) => {
-    const agent = enhancedAgentTypes.find(a => a.id === agentId);
-    window.location.href = `/marketplace/${agent?.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+    setFilteredAgents(filtered);
+  }, [searchTerm, selectedCategory, sortBy, agents]);
+
+  const toggleFavorite = (agentId: string) => {
+    setFavorites(prev => 
+      prev.includes(agentId) 
+        ? prev.filter(id => id !== agentId)
+        : [...prev, agentId]
+    );
   };
 
-  const handleWalletConnect = async () => {
-    if (typeof window.ethereum !== 'undefined') {
-      try {
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-        toast({
-          title: "Wallet Connected",
-          description: "You can now create and mint agents as NFTs.",
-        });
-      } catch (error) {
-        toast({
-          title: "Connection Failed",
-          description: "Please try connecting your wallet again.",
-          variant: "destructive",
-        });
-      }
-    } else {
-      toast({
-        title: "No Wallet Found",
-        description: "Please install MetaMask or another Web3 wallet.",
-        variant: "destructive",
-      });
+  const handleDeploy = (agent: Agent) => {
+    if (!isAuthenticated) {
+      window.location.href = '/signup';
+      return;
+    }
+    // Navigate to checkout with agent selected
+    window.location.href = `/checkout?agent=${agent.id}&tier=growth`;
+  };
+
+  const getRarityIcon = (rarity: string) => {
+    switch (rarity) {
+      case 'legendary': return <Crown className="w-4 h-4 text-yellow-400" />;
+      case 'epic': return <Gem className="w-4 h-4 text-purple-400" />;
+      case 'rare': return <Sparkles className="w-4 h-4 text-blue-400" />;
+      default: return null;
     }
   };
 
   return (
-    <div className="min-h-screen bg-harmonix-black">
-      <Navbar />
-      
-      <div className="pt-24 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Enhanced Header with Creator CTA */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-harmonix-gold mb-4">
-              Deploy Your Dream Team
-            </h1>
-            <p className="text-xl text-harmonix-sage max-w-3xl mx-auto mb-6">
-              Browse 12+ intelligent agents — trained to scale your time, tasks, and results.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/demo">
-                <Button variant="outline" className="bg-transparent border-harmonix-gold text-harmonix-gold hover:bg-harmonix-gold hover:text-harmonix-black">
-                  <Brain className="w-4 h-4 mr-2" />
-                  Start with a Demo
-                </Button>
-              </Link>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900">
+      {/* Header */}
+      <div className="bg-slate-900/50 border-b border-emerald-400/20 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <div>
+              <h1 className="text-3xl font-bold text-emerald-100 mb-2">Agent Marketplace</h1>
+              <p className="text-slate-400">Deploy, create, and trade AI agents for your business</p>
+            </div>
+            
+            <div className="flex items-center gap-3">
+              <Button variant="outline" className="border-emerald-400/50 text-emerald-400 hover:bg-emerald-400/10">
+                <Wallet className="w-4 h-4 mr-2" />
+                Connect Wallet
+              </Button>
               <Link href="/create-agent">
-                <Button className="bg-harmonix-gold text-harmonix-black hover:bg-harmonix-gold/90">
-                  <Wallet className="w-4 h-4 mr-2" />
+                <Button className="bg-emerald-600 hover:bg-emerald-700 text-white">
+                  <Bot className="w-4 h-4 mr-2" />
                   Create Agent
                 </Button>
               </Link>
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* Enhanced Filters and Search */}
-          <div className="flex flex-col lg:flex-row gap-4 mb-8">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-harmonix-sage w-4 h-4" />
-                <Input
-                  placeholder="Search agents by name, role, or integration..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 bg-harmonix-night border-harmonix-cedar text-harmonix-sage"
-                />
-              </div>
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Search and Filters */}
+        <div className="mb-8">
+          <div className="flex flex-col lg:flex-row gap-4 mb-6">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+              <Input
+                placeholder="Search agents by name, description, or tags..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 bg-slate-800/50 border-slate-600 text-emerald-100 placeholder-slate-400"
+              />
             </div>
             
-            <div className="flex flex-wrap gap-4">
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                <SelectTrigger className="w-40 bg-harmonix-night border-harmonix-cedar text-harmonix-sage">
-                  <SelectValue placeholder="Category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  <SelectItem value="Sales">Sales</SelectItem>
-                  <SelectItem value="Content">Content</SelectItem>
-                  <SelectItem value="Operations">Operations</SelectItem>
-                  <SelectItem value="Support">Support</SelectItem>
-                </SelectContent>
-              </Select>
-              
-              <Select value={selectedPerformance} onValueChange={setSelectedPerformance}>
-                <SelectTrigger className="w-40 bg-harmonix-night border-harmonix-cedar text-harmonix-sage">
-                  <SelectValue placeholder="Performance" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Performance</SelectItem>
-                  <SelectItem value="high">High Impact (20+ hrs)</SelectItem>
-                  <SelectItem value="medium">Medium Impact (15+ hrs)</SelectItem>
-                  <SelectItem value="low">Starter Friendly (&lt;15 hrs)</SelectItem>
-                </SelectContent>
-              </Select>
+            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <SelectTrigger className="w-full lg:w-48 bg-slate-800/50 border-slate-600 text-emerald-100">
+                <SelectValue placeholder="Category" />
+              </SelectTrigger>
+              <SelectContent className="bg-slate-800 border-slate-600">
+                {CATEGORIES.map(category => (
+                  <SelectItem key={category} value={category} className="text-emerald-100">
+                    {category}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
 
-              <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="w-40 bg-harmonix-night border-harmonix-cedar text-harmonix-sage">
-                  <SelectValue placeholder="Sort by" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="rating">Top Rated</SelectItem>
-                  <SelectItem value="popular">Most Deployed</SelectItem>
-                  <SelectItem value="newest">Newest</SelectItem>
-                  <SelectItem value="price-low">Price: Low to High</SelectItem>
-                  <SelectItem value="price-high">Price: High to Low</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+            <Select value={sortBy} onValueChange={setSortBy}>
+              <SelectTrigger className="w-full lg:w-48 bg-slate-800/50 border-slate-600 text-emerald-100">
+                <SelectValue placeholder="Sort by" />
+              </SelectTrigger>
+              <SelectContent className="bg-slate-800 border-slate-600">
+                <SelectItem value="popular" className="text-emerald-100">Most Popular</SelectItem>
+                <SelectItem value="rating" className="text-emerald-100">Highest Rated</SelectItem>
+                <SelectItem value="price-low" className="text-emerald-100">Price: Low to High</SelectItem>
+                <SelectItem value="price-high" className="text-emerald-100">Price: High to Low</SelectItem>
+                <SelectItem value="newest" className="text-emerald-100">Newest</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
-          {/* Enhanced Agent Grid with Flip Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {sortedAgents.map((agent) => (
-              <div 
-                key={agent.id}
-                className="relative h-80 perspective-1000"
-                onMouseEnter={() => setFlippedCard(agent.id)}
-                onMouseLeave={() => setFlippedCard(null)}
-              >
-                <div className={`relative w-full h-full transition-transform duration-700 transform-style-preserve-3d ${
-                  flippedCard === agent.id ? 'rotate-y-180' : ''
-                }`}>
-                  
-                  {/* Front of Card */}
-                  <Card className="absolute inset-0 bg-harmonix-night border-harmonix-cedar backface-hidden overflow-hidden">
-                    <CardHeader className="pb-4">
-                      <div className="flex items-center justify-between mb-2">
+          {/* Quick Stats */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <Card className="bg-slate-800/50 border-slate-600">
+              <CardContent className="p-4 text-center">
+                <div className="text-2xl font-bold text-emerald-400">12+</div>
+                <div className="text-sm text-slate-400">Available Agents</div>
+              </CardContent>
+            </Card>
+            <Card className="bg-slate-800/50 border-slate-600">
+              <CardContent className="p-4 text-center">
+                <div className="text-2xl font-bold text-emerald-400">4.2K+</div>
+                <div className="text-sm text-slate-400">Total Deployments</div>
+              </CardContent>
+            </Card>
+            <Card className="bg-slate-800/50 border-slate-600">
+              <CardContent className="p-4 text-center">
+                <div className="text-2xl font-bold text-emerald-400">98.7%</div>
+                <div className="text-sm text-slate-400">Success Rate</div>
+              </CardContent>
+            </Card>
+            <Card className="bg-slate-800/50 border-slate-600">
+              <CardContent className="p-4 text-center">
+                <div className="text-2xl font-bold text-emerald-400">24/7</div>
+                <div className="text-sm text-slate-400">Agent Support</div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Marketplace Tabs */}
+        <Tabs defaultValue="browse" className="space-y-6">
+          <TabsList className="bg-slate-800/50 border-slate-600">
+            <TabsTrigger value="browse" className="data-[state=active]:bg-emerald-600 data-[state=active]:text-white">
+              Browse Agents
+            </TabsTrigger>
+            <TabsTrigger value="my-agents" className="data-[state=active]:bg-emerald-600 data-[state=active]:text-white">
+              My Agents ({user ? '3' : '0'})
+            </TabsTrigger>
+            <TabsTrigger value="favorites" className="data-[state=active]:bg-emerald-600 data-[state=active]:text-white">
+              Favorites ({favorites.length})
+            </TabsTrigger>
+            <TabsTrigger value="create" className="data-[state=active]:bg-emerald-600 data-[state=active]:text-white">
+              Create & Sell
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="browse" className="space-y-6">
+            {/* Agent Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredAgents.map((agent) => (
+                <Card key={agent.id} className="bg-slate-800/50 border-slate-600 hover:border-emerald-400/50 transition-all duration-300 group">
+                  <CardHeader className="relative">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-3">
                         <div className="text-3xl">{agent.avatar}</div>
-                        <div className="flex items-center gap-2">
-                          <Badge variant="outline" className={`border-harmonix-gold text-harmonix-gold text-xs ${
-                            agent.status === 'Available' ? 'bg-green-500/20' : 'bg-red-500/20'
-                          }`}>
-                            {agent.status}
-                          </Badge>
-                          {agent.nftEnabled && (
-                            <Badge variant="outline" className="border-purple-500 text-purple-400 bg-purple-500/20 text-xs">
-                              NFT
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
-                      
-                      <CardTitle className="text-harmonix-gold text-lg">
-                        {agent.name} — {agent.role}
-                      </CardTitle>
-                      
-                      <div className="text-2xl font-bold text-harmonix-gold mb-2">
-                        From ${agent.monthlyPrice}/mo
-                      </div>
-                    </CardHeader>
-                    
-                    <CardContent className="space-y-3">
-                      <div className="flex items-center gap-2 text-sm text-harmonix-sage">
-                        <Clock className="w-4 h-4" />
-                        <span>{agent.timeSaved}</span>
-                      </div>
-                      
-                      <div className="flex items-center gap-2 text-sm text-harmonix-sage">
-                        <Zap className="w-4 h-4" />
-                        <span>Token Use: {agent.tokenUsage}</span>
-                      </div>
-                      
-                      <div className="flex items-center gap-2 text-sm text-harmonix-sage">
-                        <Star className="w-4 h-4 fill-yellow-500 text-yellow-500" />
-                        <span>{agent.rating} stars ({agent.reviews} reviews)</span>
-                      </div>
-                      
-                      <div className="flex flex-wrap gap-1 mt-2">
-                        {agent.integrations.slice(0, 3).map((integration, idx) => (
-                          <Badge key={idx} variant="secondary" className="text-xs bg-harmonix-cedar/50">
-                            {integration}
-                          </Badge>
-                        ))}
-                        {agent.integrations.length > 3 && (
-                          <Badge variant="secondary" className="text-xs bg-harmonix-cedar/50">
-                            +{agent.integrations.length - 3}
-                          </Badge>
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
-                  
-                  {/* Back of Card */}
-                  <Card className="absolute inset-0 bg-harmonix-night border-harmonix-cedar backface-hidden rotate-y-180 overflow-hidden">
-                    <CardHeader className="pb-4">
-                      <CardTitle className="text-harmonix-gold text-lg">
-                        {agent.name} Details
-                      </CardTitle>
-                    </CardHeader>
-                    
-                    <CardContent className="space-y-4">
-                      <p className="text-sm text-harmonix-sage">
-                        {agent.description}
-                      </p>
-                      
-                      <div className="space-y-2">
-                        <h4 className="text-sm font-semibold text-harmonix-gold">Use Cases:</h4>
-                        <ul className="text-xs text-harmonix-sage space-y-1">
-                          {agent.useCases.map((useCase, idx) => (
-                            <li key={idx}>• {useCase}</li>
-                          ))}
-                        </ul>
-                      </div>
-                      
-                      {agent.nftEnabled && (
-                        <div className="border-t border-harmonix-cedar pt-3">
-                          <div className="text-xs text-harmonix-sage">
-                            <div>Creator: {agent.creatorName}</div>
-                            <div>Royalty Split: {agent.royaltySplit.creator}% / {agent.royaltySplit.platform}% / {agent.royaltySplit.nft}%</div>
-                          </div>
-                        </div>
-                      )}
-                      
-                      <div className="flex gap-2 pt-2">
-                        <Button 
-                          size="sm" 
-                          className="flex-1 bg-harmonix-gold text-harmonix-black hover:bg-harmonix-gold/90"
-                          onClick={() => deployAgentMutation.mutate(agent.id)}
-                          disabled={deployAgentMutation.isPending}
-                        >
-                          <Bot className="w-4 h-4 mr-1" />
-                          Deploy Agent
-                        </Button>
-                        
-                        <Button 
-                          size="sm" 
-                          variant="outline"
-                          className="flex-1 border-harmonix-gold text-harmonix-gold hover:bg-harmonix-gold hover:text-harmonix-black"
-                          onClick={() => handleLearnMore(agent.id)}
-                        >
-                          Learn More
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                  
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Enhanced CTA Section with Creator Economy */}
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
-            <Card className="bg-harmonix-night border-harmonix-cedar p-8">
-              <h2 className="text-2xl font-bold text-harmonix-gold mb-4 flex items-center">
-                <Users className="w-6 h-6 mr-2" />
-                Deploy AI Agents
-              </h2>
-              <p className="text-harmonix-sage mb-6">
-                Transform your business with intelligent automation. Each agent saves 15-30 hours weekly.
-              </p>
-              <Link href="/sol-brain">
-                <Button className="w-full bg-harmonix-gold text-harmonix-black hover:bg-harmonix-gold/90 mb-3">
-                  <Brain className="w-4 h-4 mr-2" />
-                  Get SŌL Recommendation
-                </Button>
-              </Link>
-              <Link href="/demo">
-                <Button variant="outline" className="w-full border-harmonix-gold text-harmonix-gold hover:bg-harmonix-gold hover:text-harmonix-black">
-                  Try Demo First
-                </Button>
-              </Link>
-            </Card>
-
-            <Card className="bg-harmonix-night border-harmonix-cedar p-8">
-              <h2 className="text-2xl font-bold text-harmonix-gold mb-4 flex items-center">
-                <Award className="w-6 h-6 mr-2" />
-                Create & Earn
-              </h2>
-              <p className="text-harmonix-sage mb-6">
-                Build custom agents, mint as NFTs, and earn 70%+ royalties on every deployment.
-              </p>
-              <Button 
-                className="w-full bg-purple-600 text-white hover:bg-purple-700 mb-3"
-                onClick={handleWalletConnect}
-              >
-                <Wallet className="w-4 h-4 mr-2" />
-                Connect Wallet to Create
-              </Button>
-              <Link href="/create-agent">
-                <Button variant="outline" className="w-full border-harmonix-gold text-harmonix-gold hover:bg-harmonix-gold hover:text-harmonix-black">
-                  Learn More
-                </Button>
-              </Link>
-            </Card>
-          </div>
-
-          {/* Platform Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div className="p-4">
-              <div className="text-3xl font-bold text-harmonix-gold">12+</div>
-              <div className="text-sm text-harmonix-sage">Active Agents</div>
-            </div>
-            <div className="p-4">
-              <div className="text-3xl font-bold text-harmonix-gold">299</div>
-              <div className="text-sm text-harmonix-sage">Total Deployments</div>
-            </div>
-            <div className="p-4">
-              <div className="text-3xl font-bold text-harmonix-gold">6.4K+</div>
-              <div className="text-sm text-harmonix-sage">Hours Saved Weekly</div>
-            </div>
-            <div className="p-4">
-              <div className="text-3xl font-bold text-harmonix-gold">94%</div>
-              <div className="text-sm text-harmonix-sage">Satisfaction Rate</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <Footer />
-    </div>
-  );
-}
-    onError: (error: any) => {
-      toast({
-        title: "Deployment Failed",
-        description: error.message || "Failed to deploy agent. Please try again.",
-        variant: "destructive",
-      });
-    },
-  });
-
-  const filteredAgents = agentTypes.filter(agent => {
-    const matchesSearch = agent.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         agent.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === "all" || agent.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
-
-  const getAgentIcon = (category: string) => {
-    const iconMap: Record<string, any> = {
-      executive: "👔",
-      hr: "👥", 
-      sales: "📈",
-      sop: "📋",
-      concierge: "🎯",
-      booking: "📅"
-    };
-    return iconMap[category] || "🤖";
-  };
-
-  const getPerformanceColor = (category: string) => {
-    const colorMap: Record<string, string> = {
-      executive: "from-teal-500 to-blue-600",
-      hr: "from-purple-500 to-pink-600",
-      sales: "from-orange-500 to-red-600",
-      sop: "from-gray-500 to-gray-700",
-      concierge: "from-green-500 to-emerald-600",
-      booking: "from-yellow-500 to-orange-500"
-    };
-    return colorMap[category] || "from-blue-500 to-purple-600";
-  };
-
-  const generatePerformanceMetrics = (id: number) => {
-    // Generate consistent but varied metrics based on agent ID
-    const base = 45 + (id * 7) % 30;
-    return {
-      performance: `+${base + 10}%`,
-      royalty: `${5 + (id * 3) % 8}%`
-    };
-  };
-
-  const isAgentDeployed = (agentTypeId: number) => {
-    return userAgents.some(agent => agent.agentTypeId === agentTypeId);
-  };
-
-  if (!user) {
-    return (
-      <div className="min-h-screen">
-        <Navbar />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <Card className="max-w-md mx-auto">
-            <CardContent className="pt-6 text-center">
-              <p className="text-gray-400 mb-4">Please log in to access the marketplace.</p>
-              <Button>Sign In</Button>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen">
-      <Navbar />
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold mb-4">
-            Agent <span className="harmony-gold">Marketplace</span>
-          </h1>
-          <p className="text-xl text-gray-300">Discover and deploy specialized AI agents for your business needs</p>
-        </div>
-
-        {/* Search and Filters */}
-        <div className="flex flex-col md:flex-row gap-4 mb-8">
-          <div className="flex-1 relative">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-            <Input
-              placeholder="Search agents"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-12 bg-harmony-slate border-gray-800 focus:border-harmony-gold"
-            />
-          </div>
-          
-          <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-            <SelectTrigger className="w-48 bg-harmony-slate border-gray-800 focus:border-harmony-gold">
-              <SelectValue placeholder="All Categories" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Categories</SelectItem>
-              <SelectItem value="sales">Sales & Marketing</SelectItem>
-              <SelectItem value="hr">HR & Recruiting</SelectItem>
-              <SelectItem value="executive">Executive</SelectItem>
-              <SelectItem value="sop">Operations</SelectItem>
-              <SelectItem value="concierge">Customer Service</SelectItem>
-              <SelectItem value="booking">Booking & Scheduling</SelectItem>
-            </SelectContent>
-          </Select>
-
-          <Select value={selectedPerformance} onValueChange={setSelectedPerformance}>
-            <SelectTrigger className="w-48 bg-harmony-slate border-gray-800 focus:border-harmony-gold">
-              <SelectValue placeholder="All Performance" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Performance</SelectItem>
-              <SelectItem value="high">High Performance</SelectItem>
-              <SelectItem value="trending">Trending</SelectItem>
-              <SelectItem value="new">New Arrivals</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Featured Agents Banner */}
-        <Card className="card-hover border-gray-800 mb-8 bg-gradient-to-r from-harmony-gold/10 to-harmony-teal/10">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-harmony-gold rounded-xl flex items-center justify-center">
-                  <Star className="text-harmony-dark" size={24} />
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold">Featured This Week</h3>
-                  <p className="text-gray-400">High-performance agents with proven track records</p>
-                </div>
-              </div>
-              <Badge variant="outline" className="border-harmony-gold text-harmony-gold">
-                <TrendingUp size={14} className="mr-1" />
-                Trending
-              </Badge>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Agent Grid */}
-        {isLoading ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-              <Card key={i} className="card-hover border-gray-800">
-                <CardContent className="p-6">
-                  <div className="animate-pulse space-y-4">
-                    <div className="w-20 h-20 bg-gray-700 rounded-xl mx-auto"></div>
-                    <div className="h-4 bg-gray-700 rounded w-3/4 mx-auto"></div>
-                    <div className="h-3 bg-gray-800 rounded w-full"></div>
-                    <div className="h-8 bg-gray-700 rounded w-full"></div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        ) : filteredAgents.length > 0 ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {filteredAgents.map((agentType) => {
-              const metrics = generatePerformanceMetrics(agentType.id);
-              const isDeployed = isAgentDeployed(agentType.id);
-              
-              return (
-                <Card key={agentType.id} className="card-hover border-gray-800 relative group">
-                  <CardContent className="p-6">
-                    <div className="absolute top-4 right-4 text-xs bg-green-600 text-white px-2 py-1 rounded-full">
-                      {metrics.performance} • {metrics.royalty}
-                    </div>
-                    
-                    <div className="flex justify-center mb-6">
-                      <div className={`w-20 h-20 bg-gradient-to-br ${getPerformanceColor(agentType.category)} rounded-xl flex items-center justify-center text-white text-2xl`}>
-                        {getAgentIcon(agentType.category)}
-                      </div>
-                    </div>
-                    
-                    <h3 className="text-lg font-semibold mb-2 text-center">{agentType.name}</h3>
-                    <p className="text-sm text-gray-400 mb-4 text-center line-clamp-2">
-                      {agentType.description}
-                    </p>
-                    
-                    <div className="space-y-2 mb-4">
-                      <div className="flex justify-between text-xs">
-                        <span className="text-gray-400">Token Cost:</span>
-                        <span className="harmony-gold">{agentType.tokenCost} per use</span>
-                      </div>
-                      {agentType.capabilities && agentType.capabilities.length > 0 && (
-                        <div className="flex flex-wrap gap-1">
-                          {agentType.capabilities.slice(0, 2).map((capability, index) => (
-                            <Badge key={index} variant="secondary" className="text-xs">
-                              {capability}
-                            </Badge>
-                          ))}
-                          {agentType.capabilities.length > 2 && (
-                            <Badge variant="secondary" className="text-xs">
-                              +{agentType.capabilities.length - 2}
-                            </Badge>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                    
-                    {agentType.isLocked ? (
-                      <Button 
-                        className="w-full bg-gray-600 text-gray-400 cursor-not-allowed" 
-                        disabled
-                      >
-                        🔒 Unlock Required
-                      </Button>
-                    ) : isDeployed ? (
-                      <Button 
-                        className="w-full bg-green-600 hover:bg-green-700 text-white" 
-                        disabled
-                      >
-                        ✓ Deployed
-                      </Button>
-                    ) : (
-                      <Button
-                        className="w-full bg-harmony-gold hover:bg-yellow-500 text-harmony-dark font-semibold"
-                        onClick={() => deployAgentMutation.mutate(agentType.id)}
-                        disabled={deployAgentMutation.isPending}
-                      >
-                        {deployAgentMutation.isPending ? (
+                        <div>
+                          <CardTitle className="text-emerald-100 text-lg">{agent.name}</CardTitle>
                           <div className="flex items-center gap-2">
-                            <div className="w-4 h-4 border-2 border-harmony-dark border-t-transparent rounded-full animate-spin" />
-                            Deploying...
+                            <Badge className={`${RARITY_COLORS[agent.rarity]} text-white`}>
+                              {getRarityIcon(agent.rarity)}
+                              <span className="ml-1 capitalize">{agent.rarity}</span>
+                            </Badge>
+                            {agent.creator.verified && (
+                              <Shield className="w-4 h-4 text-blue-400" />
+                            )}
                           </div>
-                        ) : (
-                          <>
-                            <Zap size={16} className="mr-2" />
-                            Deploy
-                          </>
-                        )}
+                        </div>
+                      </div>
+                      
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => toggleFavorite(agent.id)}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <Heart 
+                          className={`w-4 h-4 ${favorites.includes(agent.id) ? 'text-red-400 fill-current' : 'text-slate-400'}`} 
+                        />
                       </Button>
-                    )}
+                    </div>
+                    
+                    <p className="text-slate-400 text-sm mt-2">{agent.description}</p>
+                  </CardHeader>
+                  
+                  <CardContent className="space-y-4">
+                    {/* Features */}
+                    <div className="flex flex-wrap gap-1">
+                      {agent.features.slice(0, 3).map((feature) => (
+                        <Badge key={feature} variant="secondary" className="text-xs bg-slate-700 text-slate-300">
+                          {feature}
+                        </Badge>
+                      ))}
+                      {agent.features.length > 3 && (
+                        <Badge variant="secondary" className="text-xs bg-slate-700 text-slate-300">
+                          +{agent.features.length - 3} more
+                        </Badge>
+                      )}
+                    </div>
+
+                    {/* Stats */}
+                    <div className="flex items-center justify-between text-sm text-slate-400">
+                      <div className="flex items-center gap-1">
+                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                        <span>{agent.rating}</span>
+                        <span>({agent.reviews})</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Users className="w-4 h-4" />
+                        <span>{agent.deployments.toLocaleString()}</span>
+                      </div>
+                    </div>
+
+                    {/* Pricing */}
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-emerald-400 font-semibold">${agent.monthlyPrice}/month</span>
+                        <span className="text-slate-400 text-sm">Setup: ${agent.setupPrice}</span>
+                      </div>
+                      
+                      {agent.nftPrice && (
+                        <div className="text-xs text-slate-400">
+                          NFT: {agent.nftPrice} ETH • {agent.royaltyPercentage}% royalty
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex gap-2">
+                      <Button 
+                        className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white"
+                        onClick={() => handleDeploy(agent)}
+                      >
+                        <Play className="w-4 h-4 mr-2" />
+                        Deploy
+                      </Button>
+                      <Button variant="outline" className="border-emerald-400/50 text-emerald-400 hover:bg-emerald-400/10">
+                        <Download className="w-4 h-4" />
+                      </Button>
+                      <Button variant="outline" className="border-emerald-400/50 text-emerald-400 hover:bg-emerald-400/10">
+                        <Settings className="w-4 h-4" />
+                      </Button>
+                    </div>
                   </CardContent>
                 </Card>
-              );
-            })}
-          </div>
-        ) : (
-          <Card className="card-hover border-gray-800">
-            <CardContent className="p-12 text-center">
-              <Search size={48} className="mx-auto mb-4 text-gray-500" />
-              <h3 className="text-xl font-semibold mb-2">No agents found</h3>
-              <p className="text-gray-400">Try adjusting your search criteria or browse all categories.</p>
-              <Button 
-                variant="outline" 
-                className="mt-4"
-                onClick={() => {
-                  setSearchQuery("");
-                  setSelectedCategory("all");
-                  setSelectedPerformance("all");
-                }}
-              >
-                Clear Filters
-              </Button>
-            </CardContent>
-          </Card>
-        )}
+              ))}
+            </div>
+
+            {filteredAgents.length === 0 && (
+              <div className="text-center py-12">
+                <Bot className="w-16 h-16 text-slate-600 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-slate-400 mb-2">No agents found</h3>
+                <p className="text-slate-500">Try adjusting your search criteria or browse all categories</p>
+              </div>
+            )}
+          </TabsContent>
+
+          <TabsContent value="my-agents">
+            <div className="text-center py-12">
+              <Bot className="w-16 h-16 text-slate-600 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-slate-400 mb-2">Your Agent Collection</h3>
+              <p className="text-slate-500 mb-4">
+                {isAuthenticated ? 'Deploy your first agent to get started' : 'Sign in to view your agents'}
+              </p>
+              {!isAuthenticated && (
+                <Button className="bg-emerald-600 hover:bg-emerald-700 text-white">
+                  <Link href="/signup">Sign Up to Get Started</Link>
+                </Button>
+              )}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="favorites">
+            <div className="text-center py-12">
+              <Heart className="w-16 h-16 text-slate-600 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-slate-400 mb-2">Your Favorites</h3>
+              <p className="text-slate-500">
+                {favorites.length === 0 
+                  ? 'Save agents you like by clicking the heart icon'
+                  : `You have ${favorites.length} favorite agents`
+                }
+              </p>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="create">
+            <div className="text-center py-12">
+              <Sparkles className="w-16 h-16 text-slate-600 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-slate-400 mb-2">Creator Economy</h3>
+              <p className="text-slate-500 mb-6">Build and monetize your own AI agents</p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                <Card className="bg-slate-800/50 border-slate-600 text-center">
+                  <CardContent className="p-6">
+                    <Bot className="w-12 h-12 text-emerald-400 mx-auto mb-4" />
+                    <h4 className="text-emerald-100 font-semibold mb-2">Create Agents</h4>
+                    <p className="text-slate-400 text-sm">Build custom AI agents with our no-code builder</p>
+                  </CardContent>
+                </Card>
+                
+                <Card className="bg-slate-800/50 border-slate-600 text-center">
+                  <CardContent className="p-6">
+                    <DollarSign className="w-12 h-12 text-emerald-400 mx-auto mb-4" />
+                    <h4 className="text-emerald-100 font-semibold mb-2">Earn Revenue</h4>
+                    <p className="text-slate-400 text-sm">Get monthly recurring revenue from subscriptions</p>
+                  </CardContent>
+                </Card>
+                
+                <Card className="bg-slate-800/50 border-slate-600 text-center">
+                  <CardContent className="p-6">
+                    <Gem className="w-12 h-12 text-emerald-400 mx-auto mb-4" />
+                    <h4 className="text-emerald-100 font-semibold mb-2">Mint NFTs</h4>
+                    <p className="text-slate-400 text-sm">Create tradeable NFTs with royalty splits</p>
+                  </CardContent>
+                </Card>
+              </div>
+              
+              <div className="mt-8">
+                <Link href="/create-agent">
+                  <Button className="bg-emerald-600 hover:bg-emerald-700 text-white">
+                    Start Creating
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
