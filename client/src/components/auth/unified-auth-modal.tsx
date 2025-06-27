@@ -191,7 +191,7 @@ export function UnifiedAuthModal({
                             type={showPassword ? 'text' : 'password'}
                             value={loginForm.password}
                             onChange={(e) => setLoginForm(prev => ({ ...prev, password: e.target.value }))}
-                            className="pr-10 bg-harmonix-cedar/20 border-harmonix-sage/30 text-white"
+                            className="pr-10 harmonix-input-base"
                             placeholder="••••••••"
                             required
                           />
@@ -246,7 +246,7 @@ export function UnifiedAuthModal({
                             type="text"
                             value={signupForm.name}
                             onChange={(e) => setSignupForm(prev => ({ ...prev, name: e.target.value }))}
-                            className="pl-10 bg-harmonix-cedar/20 border-harmonix-sage/30 text-white"
+                            className="pl-10 harmonix-input-base"
                             placeholder="John Smith"
                             required
                           />
@@ -262,7 +262,7 @@ export function UnifiedAuthModal({
                             type="email"
                             value={signupForm.email}
                             onChange={(e) => setSignupForm(prev => ({ ...prev, email: e.target.value }))}
-                            className="pl-10 bg-harmonix-cedar/20 border-harmonix-sage/30 text-white"
+                            className="pl-10 harmonix-input-base"
                             placeholder="your@email.com"
                             required
                           />
@@ -277,7 +277,7 @@ export function UnifiedAuthModal({
                             type="tel"
                             value={signupForm.phone}
                             onChange={(e) => setSignupForm(prev => ({ ...prev, phone: e.target.value }))}
-                            className="bg-harmonix-cedar/20 border-harmonix-sage/30 text-white"
+                            className="harmonix-input-base"
                             placeholder="(555) 123-4567"
                           />
                         </div>
@@ -289,7 +289,7 @@ export function UnifiedAuthModal({
                             type="text"
                             value={signupForm.company}
                             onChange={(e) => setSignupForm(prev => ({ ...prev, company: e.target.value }))}
-                            className="bg-harmonix-cedar/20 border-harmonix-sage/30 text-white"
+                            className="harmonix-input-base"
                             placeholder="Acme Inc"
                           />
                         </div>
