@@ -87,7 +87,17 @@ export default function AdminPanel() {
   const { data: analytics, isLoading: analyticsLoading } = useQuery({
     queryKey: ["/api/admin/analytics"],
     refetchInterval: 60000, // Refresh every minute
+    staleTime: 30000,
   });
+
+  // Provide default analytics structure to prevent TypeScript errors
+  const safeAnalytics = analytics || {
+    users: { total: 0, active: 0, trial: 0, premium: 0, growth: '0%' },
+    agents: { totalDeployments: 0, activeAgents: 0, topPerformer: 'N/A', averageEfficiency: 0 },
+    tokens: { totalEarned: 0, totalSpent: 0, circulation: 0, averageBalance: 0 },
+    revenue: { monthly: 0, growth: '0%', churn: '0%', ltv: 0 },
+    platform: { uptime: '0%', responseTime: '0ms', errorRate: '0%', lastDeployment: 'N/A' }
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -179,7 +189,7 @@ export default function AdminPanel() {
 
           {/* Overview Tab */}
           <TabsContent value="overview" className="space-y-6">
-            {analytics && (
+            {safeAnalytics && (
               <>
                 {/* Key Metrics Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

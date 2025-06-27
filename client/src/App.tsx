@@ -75,7 +75,9 @@ function Router() {
       <Route path="/nft-mint" component={NFTMint} />
       <Route path="/agent-cash" component={AgentCash} />
       <Route path="/agent-dashboard" component={AgentDashboard} />
-      <Route path="/wallet" component={Wallet} />
+      <Route path="/wallet" component={lazy(() => import("./pages/wallet"))} />
+      <Route path="/platform-status" component={lazy(() => import("./pages/platform-status"))} />
+      <Route path="/admin-panel" component={lazy(() => import("./pages/admin-panel"))} />
       <Route component={NotFound} />
     </Switch>
   );
