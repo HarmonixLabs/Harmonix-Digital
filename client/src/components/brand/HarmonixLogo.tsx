@@ -11,7 +11,7 @@ import monogramForest from "@assets/E57FFF20-46EB-4292-AD77-AA00E8CFB1F2_1751013
 import monogramDark from "@assets/6A3F9992-A385-4A3D-BB53-5D44C730E829_1751013871890.png";
 
 interface HarmonixLogoProps {
-  variant?: "full" | "icon" | "h-mark" | "scenic";
+  variant?: "full" | "icon" | "h-mark" | "scenic" | "monogram" | "monogram-dark";
   size?: "sm" | "md" | "lg" | "xl";
   className?: string;
 }
@@ -38,6 +38,10 @@ export function HarmonixLogo({
         return logoHGold;
       case "scenic":
         return logoScenic;
+      case "monogram":
+        return monogramForest;
+      case "monogram-dark":
+        return monogramDark;
       default:
         return logoFullDark;
     }

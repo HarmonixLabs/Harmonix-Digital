@@ -19,7 +19,7 @@ export default function PrivacyPolicy() {
             {/* Header */}
             <div className="text-center mb-12">
               <div className="flex justify-center mb-6">
-                <HarmonixLogo variant="icon" className="w-16 h-16" />
+                <HarmonixLogo variant="monogram-dark" className="w-16 h-16" />
               </div>
               <h1 className="text-4xl font-bold text-white mb-4">
                 Privacy Policy

@@ -1,429 +1,260 @@
 import React, { useState } from "react";
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
+import { PageWrapper } from "@/components/transitions/page-wrapper";
+import { HarmonixLogo } from "@/components/brand/HarmonixLogo";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { CheckCircle, DollarSign, Users, Zap, Clock, ArrowRight } from "lucide-react";
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
+import { CheckCircle, Users, Zap, Star, Timer, ArrowRight, Sparkles } from "lucide-react";
+import { WhimsicalLoader } from "@/components/loading/whimsical-loader";
+import { MysticalTooltip } from "@/components/ui/animated-tooltip";
 
-const benefits = [
-  {
-    icon: DollarSign,
-    title: "30% Early Bird Discount",
-    description: "Save thousands on your AI agent deployment"
-  },
-  {
-    icon: Users,
-    title: "Priority Access",
-    description: "First in line when we launch new agent capabilities"
-  },
-  {
-    icon: Zap,
-    title: "Custom Setup",
-    description: "Personalized onboarding and agent configuration"
-  },
-  {
-    icon: Clock,
-    title: "Launch Timeline",
-    description: "Get access 30 days before general availability"
-  }
-];
-
-const depositOptions = [
-  {
-    amount: 0,
-    title: "Free Waitlist",
-    description: "Reserve your spot at no cost",
-    benefits: ["30% discount when launched", "Email updates", "Early access notification"]
-  },
-  {
-    amount: 444,
-    title: "Priority Reserve",
-    description: "Secure your position with refundable deposit",
-    benefits: ["Everything in Free", "Guaranteed spot in first 280", "Personal onboarding call", "Custom agent consultation"]
-  }
-];
-
-export default function Waitlist() {
+export default function WaitlistPage() {
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
-    firstName: "",
-    lastName: "",
     company: "",
-    phone: "",
     industry: "",
-    teamSize: "",
-    interests: "",
-    goals: ""
+    useCase: ""
   });
-  const [selectedDeposit, setSelectedDeposit] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      setSubmitted(true);
+    } catch (error) {
+      console.error("Submission error:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      if (selectedDeposit > 0) {
-        // Redirect to payment for deposit
-        window.location.href = `/checkout?deposit=${selectedDeposit}&email=${formData.email}`;
-      } else {
-        setSubmitted(true);
-      }
-    } catch (error) {
-      console.error("Submission error:", error);
-    } finally {
-      setLoading(false);
+  const benefits = [
+    {
+      icon: Zap,
+      title: "Priority Access",
+      description: "First access to all 12+ AI agents and SŌL brain engine"
+    },
+    {
+      icon: Star,
+      title: "Early Bird Pricing",
+      description: "30% discount locked in for your entire first year"
+    },
+    {
+      icon: Users,
+      title: "Exclusive Community",
+      description: "Direct access to founders and priority support"
+    },
+    {
+      icon: Timer,
+      title: "Beta Features",
+      description: "Test new agents and marketplace features first"
     }
-  };
+  ];
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-harmonix-deep-forest">
-        <Navbar />
-        <div className="pt-20 pb-16">
-          <section className="py-16 sm:py-20">
-            <div className="harmonix-container">
-              <div className="max-w-2xl mx-auto text-center">
-                <div className="mb-8">
-                  <CheckCircle className="w-16 h-16 text-harmonix-regal-gold mx-auto mb-4" />
-                  <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-white font-serif">
-                    Welcome to the Waitlist!
-                  </h1>
-                  <p className="text-lg text-harmonix-sage-fade">
-                    You're secured for 30% early bird pricing when we launch
-                  </p>
-                </div>
-
-                <Card className="harmonix-card-enhanced">
-                  <CardContent className="p-8">
-                    <div className="space-y-6">
-                      <div>
-                        <h3 className="text-xl font-bold text-harmonix-regal-gold mb-4">
-                          What Happens Next?
-                        </h3>
-                        <div className="text-left space-y-3">
-                          <div className="flex items-center space-x-3">
-                            <div className="w-2 h-2 bg-harmonix-regal-gold rounded-full"></div>
-                            <span className="text-harmonix-sage-fade">
-                              Check your email for confirmation and early access updates
-                            </span>
-                          </div>
-                          <div className="flex items-center space-x-3">
-                            <div className="w-2 h-2 bg-harmonix-regal-gold rounded-full"></div>
-                            <span className="text-harmonix-sage-fade">
-                              Get exclusive previews of new agent capabilities
-                            </span>
-                          </div>
-                          <div className="flex items-center space-x-3">
-                            <div className="w-2 h-2 bg-harmonix-regal-gold rounded-full"></div>
-                            <span className="text-harmonix-sage-fade">
-                              Receive your 30% discount code 48 hours before public launch
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex flex-col sm:flex-row gap-4">
-                        <Button 
-                          className="touch-friendly-btn bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90"
-                          onClick={() => window.location.href = '/demo'}
-                        >
-                          Explore Platform Demo
-                        </Button>
-                        <Button 
-                          variant="outline"
-                          className="touch-friendly-btn border-harmonix-regal-gold text-harmonix-regal-gold hover:bg-harmonix-regal-gold/10"
-                          onClick={() => window.location.href = '/'}
-                        >
-                          Return Home
-                        </Button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+      <PageWrapper>
+        <div className="min-h-screen bg-deep-space-black">
+          <Navbar />
+          
+          <div className="pt-24 pb-16">
+            <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <div className="flex justify-center mb-8">
+                <HarmonixLogo variant="monogram" className="w-20 h-20" />
+              </div>
+              
+              <CheckCircle className="w-16 h-16 text-harmonix-gold mx-auto mb-6" />
+              
+              <h1 className="text-4xl font-bold text-white mb-4">
+                Welcome to the Inner Circle
+              </h1>
+              
+              <p className="text-xl text-jade-forest/80 mb-8">
+                You're now part of the exclusive Harmonix community. 
+                <br />
+                <span className="text-harmonix-gold">Build. Automate. Exit.</span> begins soon.
+              </p>
+              
+              <div className="space-y-4 text-jade-forest/60">
+                <p>• Check your email for priority access details</p>
+                <p>• Follow-up with onboarding specialist within 24 hours</p>
+                <p>• Early bird pricing locked in at 30% off</p>
               </div>
             </div>
-          </section>
+          </div>
+          
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      </PageWrapper>
     );
   }
 
   return (
-    <div className="min-h-screen bg-harmonix-deep-forest">
-      <Navbar />
-      
-      <div className="pt-20">
-        {/* Hero Section */}
-        <section className="py-16 sm:py-20">
-          <div className="harmonix-container">
+    <PageWrapper>
+      <div className="min-h-screen bg-deep-space-black">
+        <Navbar />
+        
+        <div className="pt-24 pb-16">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Header */}
             <div className="text-center mb-12">
-              <Badge className="bg-harmonix-regal-gold/20 text-harmonix-regal-gold border-harmonix-regal-gold/30 mb-6">
-                Reserve My Spot
+              <div className="flex justify-center mb-6">
+                <HarmonixLogo variant="monogram" className="w-16 h-16" />
+              </div>
+              
+              <Badge className="bg-gradient-to-r from-harmonix-gold/20 to-jade-forest/20 text-harmonix-gold border-harmonix-gold/40 mb-6">
+                <Sparkles className="w-4 h-4 mr-2" />
+                Limited Time Offer - Early Bird 30% Off
               </Badge>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-white font-serif">
-                Join the AI Revolution
-                <span className="text-harmonix-regal-gold block">With 30% Off</span>
+              
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                Join the Harmonix Revolution
               </h1>
-              <p className="text-xl text-harmonix-sage-fade max-w-4xl mx-auto">
-                Be among the first 280 businesses to transform operations with Harmonix AI agents. 
-                Secure early bird pricing and priority access to the future of business automation.
+              
+              <p className="text-xl text-jade-forest/80 max-w-2xl mx-auto mb-2">
+                <span className="text-harmonix-gold">Intelligent Systems for Timeless Sovereignty</span>
+              </p>
+              
+              <p className="text-lg text-jade-forest/60 max-w-2xl mx-auto">
+                Be among the first to experience the future where your business works for you, 
+                not you working for your business.
               </p>
             </div>
 
-            {/* Benefits Grid */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-              {benefits.map((benefit, index) => (
-                <Card key={index} className="harmonix-card-enhanced text-center">
-                  <CardContent className="p-6">
-                    <benefit.icon className="w-8 h-8 text-harmonix-regal-gold mx-auto mb-4" />
-                    <h3 className="font-bold text-white mb-2">{benefit.title}</h3>
-                    <p className="text-sm text-harmonix-sage-fade">{benefit.description}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Deposit Selection */}
-        <section className="py-16">
-          <div className="harmonix-container">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold text-center mb-12 text-harmonix-regal-gold font-serif">
-                Choose Your Reservation Level
-              </h2>
-              
-              <div className="grid md:grid-cols-2 gap-8 mb-12">
-                {depositOptions.map((option) => (
-                  <Card 
-                    key={option.amount}
-                    className={`cursor-pointer transition-all duration-300 ${
-                      selectedDeposit === option.amount 
-                        ? "ring-2 ring-harmonix-regal-gold bg-harmonix-regal-gold/5" 
-                        : "hover:border-harmonix-regal-gold/50"
-                    }`}
-                    onClick={() => setSelectedDeposit(option.amount)}
-                  >
-                    <CardHeader>
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="text-white">{option.title}</CardTitle>
-                        <div className="text-2xl font-bold text-harmonix-regal-gold">
-                          {option.amount === 0 ? "Free" : `$${option.amount}`}
-                        </div>
-                      </div>
-                      <p className="text-harmonix-sage-fade">{option.description}</p>
-                    </CardHeader>
-                    <CardContent>
-                      <ul className="space-y-2">
-                        {option.benefits.map((benefit, index) => (
-                          <li key={index} className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-harmonix-regal-gold" />
-                            <span className="text-sm text-harmonix-sage-fade">{benefit}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Waitlist Form */}
-        <section className="py-16 bg-harmonix-night-pine/50">
-          <div className="harmonix-container">
-            <div className="max-w-2xl mx-auto">
-              <Card className="harmonix-card-enhanced">
+            <div className="grid lg:grid-cols-2 gap-12">
+              {/* Waitlist Form */}
+              <Card className="bg-harmonix-night-pine/30 border-jade-forest/20">
                 <CardHeader>
-                  <CardTitle className="text-2xl text-white text-center">
-                    Complete Your Reservation
+                  <CardTitle className="text-white text-center">
+                    Reserve Your Spot
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="firstName" className="text-harmonix-sage-fade">
-                          First Name *
-                        </Label>
-                        <Input
-                          id="firstName"
-                          value={formData.firstName}
-                          onChange={(e) => handleInputChange("firstName", e.target.value)}
-                          className="mt-2 bg-harmonix-night-pine border-harmonix-sage-fade/30 text-white"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="lastName" className="text-harmonix-sage-fade">
-                          Last Name *
-                        </Label>
-                        <Input
-                          id="lastName"
-                          value={formData.lastName}
-                          onChange={(e) => handleInputChange("lastName", e.target.value)}
-                          className="mt-2 bg-harmonix-night-pine border-harmonix-sage-fade/30 text-white"
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <Label htmlFor="email" className="text-harmonix-sage-fade">
-                        Email Address *
-                      </Label>
+                    <div className="space-y-4">
                       <Input
-                        id="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={(e) => handleInputChange("email", e.target.value)}
-                        className="mt-2 bg-harmonix-night-pine border-harmonix-sage-fade/30 text-white"
+                        placeholder="Full Name"
+                        value={formData.name}
+                        onChange={(e) => handleInputChange("name", e.target.value)}
+                        className="bg-deep-space-black/50 border-jade-forest/30 text-white placeholder:text-jade-forest/50"
                         required
                       />
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="company" className="text-harmonix-sage-fade">
-                          Company Name *
-                        </Label>
-                        <Input
-                          id="company"
-                          value={formData.company}
-                          onChange={(e) => handleInputChange("company", e.target.value)}
-                          className="mt-2 bg-harmonix-night-pine border-harmonix-sage-fade/30 text-white"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="phone" className="text-harmonix-sage-fade">
-                          Phone Number
-                        </Label>
-                        <Input
-                          id="phone"
-                          type="tel"
-                          value={formData.phone}
-                          onChange={(e) => handleInputChange("phone", e.target.value)}
-                          className="mt-2 bg-harmonix-night-pine border-harmonix-sage-fade/30 text-white"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="industry" className="text-harmonix-sage-fade">
-                          Industry *
-                        </Label>
-                        <Select value={formData.industry} onValueChange={(value) => handleInputChange("industry", value)}>
-                          <SelectTrigger className="mt-2 bg-harmonix-night-pine border-harmonix-sage-fade/30 text-white">
-                            <SelectValue placeholder="Select industry" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="saas">SaaS/Technology</SelectItem>
-                            <SelectItem value="ecommerce">E-commerce</SelectItem>
-                            <SelectItem value="consulting">Consulting</SelectItem>
-                            <SelectItem value="finance">Finance</SelectItem>
-                            <SelectItem value="healthcare">Healthcare</SelectItem>
-                            <SelectItem value="manufacturing">Manufacturing</SelectItem>
-                            <SelectItem value="other">Other</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div>
-                        <Label htmlFor="teamSize" className="text-harmonix-sage-fade">
-                          Team Size
-                        </Label>
-                        <Select value={formData.teamSize} onValueChange={(value) => handleInputChange("teamSize", value)}>
-                          <SelectTrigger className="mt-2 bg-harmonix-night-pine border-harmonix-sage-fade/30 text-white">
-                            <SelectValue placeholder="Select team size" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="1-10">1-10 employees</SelectItem>
-                            <SelectItem value="11-50">11-50 employees</SelectItem>
-                            <SelectItem value="51-200">51-200 employees</SelectItem>
-                            <SelectItem value="200+">200+ employees</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-
-                    <div>
-                      <Label htmlFor="goals" className="text-harmonix-sage-fade">
-                        Primary Goals (Optional)
-                      </Label>
-                      <Textarea
-                        id="goals"
-                        value={formData.goals}
-                        onChange={(e) => handleInputChange("goals", e.target.value)}
-                        placeholder="What do you hope to achieve with AI agents?"
-                        className="mt-2 bg-harmonix-night-pine border-harmonix-sage-fade/30 text-white"
-                        rows={3}
+                      
+                      <Input
+                        type="email"
+                        placeholder="Business Email"
+                        value={formData.email}
+                        onChange={(e) => handleInputChange("email", e.target.value)}
+                        className="bg-deep-space-black/50 border-jade-forest/30 text-white placeholder:text-jade-forest/50"
+                        required
                       />
+                      
+                      <Input
+                        placeholder="Company Name"
+                        value={formData.company}
+                        onChange={(e) => handleInputChange("company", e.target.value)}
+                        className="bg-deep-space-black/50 border-jade-forest/30 text-white placeholder:text-jade-forest/50"
+                        required
+                      />
+                      
+                      <Select onValueChange={(value) => handleInputChange("industry", value)}>
+                        <SelectTrigger className="bg-deep-space-black/50 border-jade-forest/30 text-white">
+                          <SelectValue placeholder="Select Industry" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="technology">Technology</SelectItem>
+                          <SelectItem value="healthcare">Healthcare</SelectItem>
+                          <SelectItem value="finance">Finance</SelectItem>
+                          <SelectItem value="consulting">Consulting</SelectItem>
+                          <SelectItem value="ecommerce">E-commerce</SelectItem>
+                          <SelectItem value="real-estate">Real Estate</SelectItem>
+                          <SelectItem value="other">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      
+                      <Select onValueChange={(value) => handleInputChange("useCase", value)}>
+                        <SelectTrigger className="bg-deep-space-black/50 border-jade-forest/30 text-white">
+                          <SelectValue placeholder="Primary Use Case" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="lead-generation">Lead Generation</SelectItem>
+                          <SelectItem value="customer-support">Customer Support</SelectItem>
+                          <SelectItem value="content-creation">Content Creation</SelectItem>
+                          <SelectItem value="workflow-automation">Workflow Automation</SelectItem>
+                          <SelectItem value="data-analysis">Data Analysis</SelectItem>
+                          <SelectItem value="project-management">Project Management</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
-
-                    <Alert className="border-harmonix-regal-gold/30 bg-harmonix-regal-gold/10">
-                      <AlertDescription className="text-harmonix-regal-gold">
-                        {selectedDeposit === 0 
-                          ? "By joining the free waitlist, you'll receive 30% early bird pricing when we launch."
-                          : `Your $${selectedDeposit} deposit is fully refundable and will be applied to your final purchase.`
-                        }
-                      </AlertDescription>
-                    </Alert>
-
-                    <Button
-                      type="submit"
-                      size="lg"
-                      disabled={loading}
-                      className="w-full touch-friendly-btn bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90"
-                    >
-                      {loading ? (
-                        "Processing..."
-                      ) : selectedDeposit === 0 ? (
-                        "Join Free Waitlist"
-                      ) : (
-                        <>
-                          Reserve with ${selectedDeposit} Deposit
-                          <ArrowRight className="w-4 h-4 ml-2" />
-                        </>
-                      )}
-                    </Button>
-
-                    <p className="text-xs text-harmonix-sage-fade text-center">
-                      By submitting, you agree to our{" "}
-                      <a href="/legal/privacy" className="text-harmonix-regal-gold hover:underline">
-                        Privacy Policy
-                      </a>{" "}
-                      and{" "}
-                      <a href="/legal/terms" className="text-harmonix-regal-gold hover:underline">
-                        Terms of Service
-                      </a>
-                    </p>
+                    
+                    <MysticalTooltip content="Join the exclusive early access community">
+                      <Button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full h-12 bg-gradient-to-r from-harmonix-gold to-[#F4E4A1] text-deep-space-black font-semibold hover:scale-105 transition-all duration-300"
+                      >
+                        {isSubmitting ? (
+                          <WhimsicalLoader variant="minimal" size="sm" />
+                        ) : (
+                          <>
+                            <ArrowRight className="w-5 h-5 mr-2" />
+                            Secure Priority Access
+                          </>
+                        )}
+                      </Button>
+                    </MysticalTooltip>
                   </form>
                 </CardContent>
               </Card>
+
+              {/* Benefits */}
+              <div className="space-y-6">
+                <h3 className="text-2xl font-bold text-white mb-6">
+                  Why Join Now?
+                </h3>
+                
+                {benefits.map((benefit, index) => (
+                  <Card key={index} className="bg-harmonix-night-pine/20 border-jade-forest/20 p-6">
+                    <div className="flex items-start gap-4">
+                      <benefit.icon className="w-6 h-6 text-harmonix-gold mt-1 flex-shrink-0" />
+                      <div>
+                        <h4 className="font-semibold text-white mb-2">{benefit.title}</h4>
+                        <p className="text-jade-forest/80 text-sm">{benefit.description}</p>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+                
+                <Card className="bg-gradient-to-r from-jade-forest/10 to-harmonix-gold/10 border-harmonix-gold/30 p-6">
+                  <div className="text-center">
+                    <h4 className="font-bold text-white mb-2">The Vision</h4>
+                    <p className="text-jade-forest/80 text-sm italic">
+                      "Have your business work for you, not you working for your business."
+                    </p>
+                    <p className="text-harmonix-gold text-xs mt-2">— Harmonix Founding Principle</p>
+                  </div>
+                </Card>
+              </div>
             </div>
           </div>
-        </section>
-      </div>
+        </div>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </PageWrapper>
   );
 }
