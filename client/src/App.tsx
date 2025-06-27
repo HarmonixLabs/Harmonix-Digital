@@ -1,11 +1,13 @@
 import React, { Suspense, lazy } from "react";
 import { Switch, Route } from "wouter";
+import { AnimatePresence } from "framer-motion";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/lib/auth";
 import { ErrorBoundary } from "@/components/error-boundary";
+import { PageTransition, SacredLoader } from "@/components/transitions/page-transition";
 import Home from "@/pages/home";
 import Dashboard from "@/pages/dashboard";
 import Harmony from "@/pages/harmony";
