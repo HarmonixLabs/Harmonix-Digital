@@ -128,9 +128,17 @@ Harmonix is a comprehensive AI infrastructure platform that enables businesses t
 ## Service Offerings
 
 ### 1. AI Agents - Digital Team Members
-- Base Installation: $12,500 per agent
-- With SOP Mapping & Customization: $18,000
-- Monthly Maintenance: $300-$1,000 (includes AI updates, prompt tuning, performance reports)
+**Payment Options:**
+- **Full Payment (30% Early Bird Discount):** Pay upfront, save significantly
+- **Split Payment (+17% total):** 50% upfront, 25% at milestone 1, 25% at completion
+
+**Pricing Tiers:**
+- **Starter Package:** $4,400 full / $5,148 split (Upfront: $2,574, M1: $1,287, Final: $1,287)
+- **Growth Package:** $8,000 full / $9,360 split (Upfront: $4,680, M1: $2,340, Final: $2,340)
+- **Expansion Package:** $15,000 full / $17,550 split (Upfront: $8,775, M1: $4,388, Final: $4,388)
+- **Enterprise Package:** $21,500 full / $25,155 split (Upfront: $12,578, M1: $6,289, Final: $6,289)
+
+**Monthly Maintenance:** $300-$1,000 (includes AI updates, prompt tuning, performance reports)
 
 ### 2. Web Design & Automation Services
 - Landing Page (AI-optimized): $800
@@ -369,6 +377,13 @@ Harmonix is a comprehensive AI infrastructure platform that enables businesses t
 - June 27, 2025: Fixed marketplace deploy button authentication flow with proper login/signup routing
 - June 27, 2025: Resolved critical TypeScript errors in checkout page with proper error handling
 - June 27, 2025: Updated User type definitions to include onboarding fields for proper type safety
+- June 27, 2025: Implemented comprehensive split payment system with 17% increase as specified (50% upfront, 25% milestone 1, 25% completion)
+- June 27, 2025: Fixed all text colors platform-wide to use jade-blue (#4A90E2) according to Timeless Futurism brand guide
+- June 27, 2025: Created functional waitlist form component with CRM integration via /api/waitlist endpoint
+- June 27, 2025: Updated navbar, hero section, and all user interface elements to use consistent jade-blue text coloring
+- June 27, 2025: Built comprehensive split payment pricing component showing full vs split payment options with 17% increase
+- June 27, 2025: Enhanced Stripe checkout system to support split payment scheduling and metadata tracking
+- June 27, 2025: Updated service pricing documentation to reflect new payment structure across all tiers
 
 ## User Preferences
 
