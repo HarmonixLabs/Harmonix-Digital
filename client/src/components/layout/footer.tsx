@@ -6,10 +6,10 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   const serviceLinks = [
-    { href: "/service-pricing", label: "AI Agents" },
-    { href: "/service-pricing", label: "Web Design" },
-    { href: "/service-pricing", label: "Blockchain" },
-    { href: "/service-pricing", label: "The Launchpad" },
+    { href: "/service-pricing#ai-agents", label: "AI Agents" },
+    { href: "/service-pricing#web-design", label: "Web Design" },
+    { href: "/service-pricing#blockchain", label: "Blockchain" },
+    { href: "/service-pricing#launchpad", label: "The Launchpad" },
   ];
 
   const legalLinks = [
