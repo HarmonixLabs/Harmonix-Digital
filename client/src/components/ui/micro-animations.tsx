@@ -44,6 +44,30 @@ export function BreathingGlow({
   );
 }
 
+// Staggered Container for Lists (alias for compatibility)
+export function StaggerContainer({ 
+  children, 
+  className,
+  staggerDelay = 100 
+}: { 
+  children: React.ReactNode; 
+  className?: string;
+  staggerDelay?: number;
+}) {
+  return (
+    <div className={cn("space-y-4", className)}>
+      {React.Children.map(children, (child, index) => (
+        <div 
+          className="animate-fadeInUp"
+          style={{ animationDelay: `${index * staggerDelay}ms` }}
+        >
+          {child}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 // Staggered Container for Lists
 export function StaggeredContainer({ 
   children, 
@@ -113,6 +137,26 @@ export function RippleEffect({
   );
 }
 
+// FadeIn Component (was missing - causing import error)
+export function FadeIn({ 
+  children, 
+  className,
+  delay = 0 
+}: { 
+  children: React.ReactNode; 
+  className?: string;
+  delay?: number;
+}) {
+  return (
+    <div 
+      className={cn("animate-fadeInUp", className)}
+      style={{ animationDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
+
 // Text Animation Component
 export function AnimatedText({ 
   text, 
@@ -161,6 +205,36 @@ export function LoadingShimmer({
       )}
       style={{ width, height }}
     />
+  );
+}
+
+// Hover Scale Animation
+export function HoverScale({ 
+  children, 
+  className,
+  scale = 1.05,
+  duration = 300 
+}: { 
+  children: React.ReactNode; 
+  className?: string;
+  scale?: number;
+  duration?: number;
+}) {
+  return (
+    <div 
+      className={cn("transition-transform cursor-pointer", className)}
+      style={{
+        transitionDuration: `${duration}ms`
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = `scale(${scale})`;
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'scale(1)';
+      }}
+    >
+      {children}
+    </div>
   );
 }
 

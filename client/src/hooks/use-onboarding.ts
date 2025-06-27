@@ -12,7 +12,7 @@ export function useOnboarding() {
   const { user } = useAuth();
   const [onboardingState, setOnboardingState] = useState<OnboardingState>({
     showModal: false,
-    userState: 'complete',
+    userState: 'new_signup',
     setupProgress: 0,
     lastSeenStep: 0
   });
