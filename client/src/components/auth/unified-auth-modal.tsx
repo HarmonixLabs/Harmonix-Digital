@@ -176,7 +176,7 @@ export function UnifiedAuthModal({
                             type="email"
                             value={loginForm.email}
                             onChange={(e) => setLoginForm(prev => ({ ...prev, email: e.target.value }))}
-                            className="pl-10 bg-harmonix-cedar/20 border-harmonix-sage/30 text-white"
+                            className="pl-10 harmonix-input-base"
                             placeholder="your@email.com"
                             required
                           />

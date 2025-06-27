@@ -51,7 +51,7 @@
 /* HARMONIX Timeless Futurism Base Styling */
 body {
   background: var(--charcoal-deep, #1E1E1E) !important;
-  color: var(--jade-forest, #0A3925) !important;
+  color: var(--golden-sovereign, #F4C542) !important;
   font-family: Inter, system-ui, -apple-system, sans-serif !important;
 }
 
@@ -508,6 +508,22 @@ body {
     font-family: 'Playfair Display', serif;
   }
 }
+
+  /* Harmonix Form Input Base Styling */
+  .harmonix-input-base {
+    background: rgba(26, 46, 37, 0.3) !important;
+    border: 1px solid rgba(244, 197, 66, 0.4) !important;
+    color: #F4C542 !important;
+  }
+  
+  .harmonix-input-base::placeholder {
+    color: rgba(244, 197, 66, 0.6) !important;
+  }
+  
+  .harmonix-input-base:focus {
+    border-color: rgba(244, 197, 66, 0.8) !important;
+    box-shadow: 0 0 0 2px rgba(244, 197, 66, 0.2) !important;
+  }
 
 @layer utilities {
   /* Official Harmonix brand utilities */

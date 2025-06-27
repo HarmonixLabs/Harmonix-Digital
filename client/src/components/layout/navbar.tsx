@@ -80,7 +80,7 @@ export function Navbar() {
   return (
     <>
       <nav 
-        className="border-b border-jade-forest/20 bg-deep-space-black/90 backdrop-blur-md sticky top-0 z-50"
+        className="border-b border-jade-forest/20 bg-charcoalDeep backdrop-blur-md sticky top-0 z-50"
         data-tour="navbar"
       >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
