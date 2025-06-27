@@ -398,3 +398,8 @@ Harmonix is a comprehensive AI infrastructure platform that enables businesses t
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+
+**Brand Messaging Guidelines:**
+- Core slogans should only be used strategically where they fit naturally, sell effectively, and enhance platform appeal
+- Avoid overusing slogans across every page - quality over quantity placement
+- Focus on natural integration that enhances user experience rather than forced messaging
