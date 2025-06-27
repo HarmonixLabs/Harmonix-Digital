@@ -610,7 +610,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(500).json({ error: 'Stripe not configured' });
       }
 
-      const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+      const { default: Stripe } = await import('stripe');
+      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
       
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
