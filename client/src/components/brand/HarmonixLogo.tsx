@@ -6,6 +6,9 @@ import logoIconGold from "@assets/F72A7C4A-0C41-4830-BD53-ED08B8DD3B41_175066723
 import logoIconGreen from "@assets/58074907-A735-4BED-8CB3-0A68C2FEA048_1750667324877.png";
 import logoHGold from "@assets/BFC45F42-7E70-42F6-AF76-D2208332532E_1750667238148.png";
 import logoScenic from "@assets/E57FFF20-46EB-4292-AD77-AA00E8CFB1F2_1750667349337.png";
+// New monogram designs
+import monogramForest from "@assets/E57FFF20-46EB-4292-AD77-AA00E8CFB1F2_1751013871890.png";
+import monogramDark from "@assets/6A3F9992-A385-4A3D-BB53-5D44C730E829_1751013871890.png";
 
 interface HarmonixLogoProps {
   variant?: "full" | "icon" | "h-mark" | "scenic";

@@ -16,6 +16,7 @@ import { IntegratedChatbot } from "@/components/chat/integrated-chatbot";
 import { OnboardingModal } from "@/components/onboarding/fixed-onboarding-modal";
 import { InteractiveTour } from "@/components/onboarding/interactive-tour";
 import { UnifiedAuthModal } from "@/components/auth/unified-auth-modal";
+import { MysticalTooltip, NeuralTooltip } from "@/components/ui/animated-tooltip";
 import { Coins, User, Settings, LogOut, Menu, X, HelpCircle } from "lucide-react";
 import { useState } from "react";
 

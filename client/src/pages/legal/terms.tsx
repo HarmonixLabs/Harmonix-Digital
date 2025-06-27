@@ -1,369 +1,176 @@
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Scale, Shield, Users, Globe, AlertTriangle, FileText } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { PageWrapper } from "@/components/transitions/page-wrapper";
+import { HarmonixLogo } from "@/components/brand/HarmonixLogo";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Scale, FileText, Clock, CheckCircle } from "lucide-react";
+import { Link } from "wouter";
 
-const legalPrinciples = [
-  {
-    icon: Scale,
-    title: "Fair Terms",
-    description: "Transparent, balanced agreements protecting both parties"
-  },
-  {
-    icon: Shield,
-    title: "Data Protection",
-    description: "GDPR, CCPA compliance with robust security measures"
-  },
-  {
-    icon: Users,
-    title: "User Rights",
-    description: "Clear rights and responsibilities for all platform users"
-  },
-  {
-    icon: Globe,
-    title: "Global Compliance",
-    description: "International legal standards and jurisdiction clarity"
-  },
-  {
-    icon: AlertTriangle,
-    title: "Risk Management",
-    description: "Comprehensive liability and limitation frameworks"
-  },
-  {
-    icon: FileText,
-    title: "Service Level",
-    description: "Defined performance standards and support commitments"
-  }
-];
-
-export default function Terms() {
+export default function TermsOfService() {
   return (
-    <div className="min-h-screen bg-harmonix-deep-forest">
-      <Navbar />
-      
-      <div className="pt-20">
-        {/* Hero Section */}
-        <section className="py-16 sm:py-20">
-          <div className="harmonix-container">
+    <PageWrapper>
+      <div className="min-h-screen bg-deep-space-black">
+        <Navbar />
+        
+        <div className="pt-24 pb-16">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Header */}
             <div className="text-center mb-12">
-              <Badge className="bg-harmonix-regal-gold/20 text-harmonix-regal-gold border-harmonix-regal-gold/30 mb-6">
-                Legal Framework
-              </Badge>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-white font-serif">
+              <div className="flex justify-center mb-6">
+                <HarmonixLogo variant="icon" className="w-16 h-16" />
+              </div>
+              <h1 className="text-4xl font-bold text-white mb-4">
                 Terms of Service
               </h1>
-              <p className="text-xl text-harmonix-sage-fade max-w-4xl mx-auto">
-                Comprehensive terms governing your use of the Harmonix AI agent platform. 
-                These terms ensure fair, secure, and compliant service delivery for all users.
+              <p className="text-lg text-jade-forest/80">
+                Empowering <span className="text-harmonix-gold">Intelligent Systems for Timeless Sovereignty</span> through clear agreements
               </p>
-              <p className="text-sm text-harmonix-sage-fade mt-4">
-                Last updated: June 23, 2025 • Effective Date: June 23, 2025
-              </p>
-            </div>
-
-            {/* Legal Principles */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-              {legalPrinciples.map((principle, index) => (
-                <Card key={index} className="harmonix-card-enhanced">
-                  <CardContent className="p-6 text-center">
-                    <principle.icon className="w-8 h-8 text-harmonix-regal-gold mx-auto mb-4" />
-                    <h3 className="font-bold text-white mb-2">{principle.title}</h3>
-                    <p className="text-sm text-harmonix-sage-fade">{principle.description}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Terms Content */}
-        <section className="py-16">
-          <div className="harmonix-container">
-            <div className="max-w-4xl mx-auto">
-              <div className="space-y-12">
-
-                {/* Agreement & Acceptance */}
-                <Card className="harmonix-card-enhanced">
-                  <CardHeader>
-                    <CardTitle className="text-2xl text-harmonix-regal-gold font-serif">
-                      1. Agreement & Acceptance
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-harmonix-sage-fade">
-                      By accessing or using the Harmonix platform ("Service"), you agree to be bound by these Terms of Service ("Terms"). 
-                      If you disagree with any part of these terms, you may not access the Service.
-                    </p>
-                    <div className="bg-harmonix-night-pine/30 rounded-lg p-6">
-                      <h4 className="text-lg font-semibold text-white mb-3">Entity Agreement</h4>
-                      <p className="text-harmonix-sage-fade text-sm">
-                        If you are entering into these Terms on behalf of a company or other legal entity, you represent that you have 
-                        the authority to bind such entity to these Terms. In such case, "you" and "your" refer to that entity.
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Service Description */}
-                <Card className="harmonix-card-enhanced">
-                  <CardHeader>
-                    <CardTitle className="text-2xl text-harmonix-regal-gold font-serif">
-                      2. Service Description
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div>
-                      <h4 className="text-lg font-semibold text-white mb-3">Platform Services</h4>
-                      <ul className="list-disc list-inside space-y-2 text-harmonix-sage-fade">
-                        <li>AI agent deployment and management platform</li>
-                        <li>SŌL brain orchestration engine for agent coordination</li>
-                        <li>Business workflow automation and integration services</li>
-                        <li>Real-time analytics and performance monitoring</li>
-                        <li>CRM integration and lead management capabilities</li>
-                      </ul>
-                    </div>
-                    
-                    <div>
-                      <h4 className="text-lg font-semibold text-white mb-3">Service Availability</h4>
-                      <p className="text-harmonix-sage-fade text-sm">
-                        We strive to maintain 99.9% uptime but do not guarantee uninterrupted service. Planned maintenance 
-                        will be communicated 48 hours in advance when possible.
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* User Accounts & Responsibilities */}
-                <Card className="harmonix-card-enhanced">
-                  <CardHeader>
-                    <CardTitle className="text-2xl text-harmonix-regal-gold font-serif">
-                      3. User Accounts & Responsibilities
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div>
-                        <h4 className="text-lg font-semibold text-white mb-3">Account Security</h4>
-                        <ul className="list-disc list-inside space-y-1 text-harmonix-sage-fade text-sm">
-                          <li>Maintain confidentiality of login credentials</li>
-                          <li>Enable two-factor authentication when available</li>
-                          <li>Notify us immediately of unauthorized access</li>
-                          <li>Accept responsibility for all account activity</li>
-                        </ul>
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-semibold text-white mb-3">Acceptable Use</h4>
-                        <ul className="list-disc list-inside space-y-1 text-harmonix-sage-fade text-sm">
-                          <li>Use services for legitimate business purposes only</li>
-                          <li>Comply with all applicable laws and regulations</li>
-                          <li>Respect intellectual property rights</li>
-                          <li>Avoid activities that could harm the platform</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Billing & Payment Terms */}
-                <Card className="harmonix-card-enhanced">
-                  <CardHeader>
-                    <CardTitle className="text-2xl text-harmonix-regal-gold font-serif">
-                      4. Billing & Payment Terms
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div>
-                      <h4 className="text-lg font-semibold text-white mb-3">Payment Structure</h4>
-                      <div className="bg-harmonix-night-pine/30 rounded-lg p-6">
-                        <div className="grid md:grid-cols-2 gap-4">
-                          <div>
-                            <h5 className="font-semibold text-harmonix-regal-gold mb-2">Setup Fees</h5>
-                            <ul className="text-sm text-harmonix-sage-fade space-y-1">
-                              <li>One-time agent deployment and configuration</li>
-                              <li>Custom integration setup and testing</li>
-                              <li>Initial training and onboarding sessions</li>
-                            </ul>
-                          </div>
-                          <div>
-                            <h5 className="font-semibold text-harmonix-regal-gold mb-2">Ongoing Costs</h5>
-                            <ul className="text-sm text-harmonix-sage-fade space-y-1">
-                              <li>Monthly platform access and maintenance</li>
-                              <li>AI processing tokens and API usage</li>
-                              <li>Support and feature updates</li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <h4 className="text-lg font-semibold text-white mb-3">Payment Processing</h4>
-                      <p className="text-harmonix-sage-fade text-sm">
-                        All payments are processed securely through Stripe. We accept major credit cards and ACH transfers. 
-                        Invoices are due within 30 days of issuance unless otherwise agreed in writing.
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Intellectual Property */}
-                <Card className="harmonix-card-enhanced">
-                  <CardHeader>
-                    <CardTitle className="text-2xl text-harmonix-regal-gold font-serif">
-                      5. Intellectual Property Rights
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div>
-                        <h4 className="text-lg font-semibold text-white mb-3">Harmonix Property</h4>
-                        <ul className="list-disc list-inside space-y-1 text-harmonix-sage-fade text-sm">
-                          <li>Platform source code and algorithms</li>
-                          <li>AI agent templates and configurations</li>
-                          <li>SŌL brain orchestration engine</li>
-                          <li>Harmonix branding and trademarks</li>
-                        </ul>
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-semibold text-white mb-3">User Content</h4>
-                        <ul className="list-disc list-inside space-y-1 text-harmonix-sage-fade text-sm">
-                          <li>You retain ownership of your business data</li>
-                          <li>Grant us license to process for service delivery</li>
-                          <li>We do not claim ownership of your content</li>
-                          <li>Custom configurations remain your property</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Limitation of Liability */}
-                <Card className="harmonix-card-enhanced">
-                  <CardHeader>
-                    <CardTitle className="text-2xl text-harmonix-regal-gold font-serif">
-                      6. Limitation of Liability
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="bg-harmonix-night-pine/30 rounded-lg p-6">
-                      <h4 className="text-lg font-semibold text-white mb-3">Service Limitations</h4>
-                      <p className="text-harmonix-sage-fade text-sm mb-4">
-                        Harmonix provides AI automation services "as is" and makes no warranties about uninterrupted service, 
-                        specific performance outcomes, or fitness for particular business purposes.
-                      </p>
-                      <div className="grid md:grid-cols-2 gap-4">
-                        <div>
-                          <h5 className="font-semibold text-harmonix-regal-gold mb-2">Excluded Damages</h5>
-                          <ul className="text-xs text-harmonix-sage-fade space-y-1">
-                            <li>Indirect or consequential business losses</li>
-                            <li>Lost profits or revenue projections</li>
-                            <li>Data loss not caused by our negligence</li>
-                            <li>Third-party integration failures</li>
-                          </ul>
-                        </div>
-                        <div>
-                          <h5 className="font-semibold text-harmonix-regal-gold mb-2">Liability Cap</h5>
-                          <p className="text-xs text-harmonix-sage-fade">
-                            Our total liability is limited to the amount paid by you in the 12 months 
-                            preceding the claim, excluding setup fees.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Termination */}
-                <Card className="harmonix-card-enhanced">
-                  <CardHeader>
-                    <CardTitle className="text-2xl text-harmonix-regal-gold font-serif">
-                      7. Termination & Data Handling
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div>
-                      <h4 className="text-lg font-semibold text-white mb-3">Termination Rights</h4>
-                      <p className="text-harmonix-sage-fade text-sm mb-4">
-                        Either party may terminate this agreement with 30 days written notice. We may terminate immediately 
-                        for breach of terms, non-payment, or illegal use of services.
-                      </p>
-                      
-                      <div className="bg-harmonix-night-pine/30 rounded-lg p-6">
-                        <h5 className="font-semibold text-harmonix-regal-gold mb-3">Data Export & Deletion</h5>
-                        <ul className="list-disc list-inside space-y-2 text-harmonix-sage-fade text-sm">
-                          <li>30-day grace period for data export after termination</li>
-                          <li>All business data provided in standard formats</li>
-                          <li>Configuration backups available upon request</li>
-                          <li>Complete data deletion within 90 days of termination</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Governing Law */}
-                <Card className="harmonix-card-enhanced">
-                  <CardHeader>
-                    <CardTitle className="text-2xl text-harmonix-regal-gold font-serif">
-                      8. Governing Law & Dispute Resolution
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div>
-                        <h4 className="text-lg font-semibold text-white mb-3">Jurisdiction</h4>
-                        <p className="text-harmonix-sage-fade text-sm">
-                          These terms are governed by the laws of Delaware, USA. Any disputes will be resolved in Delaware state 
-                          or federal courts, and you consent to jurisdiction in these venues.
-                        </p>
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-semibold text-white mb-3">Dispute Process</h4>
-                        <ol className="list-decimal list-inside space-y-1 text-harmonix-sage-fade text-sm">
-                          <li>Good faith negotiation (30 days)</li>
-                          <li>Mediation through neutral third party</li>
-                          <li>Binding arbitration if mediation fails</li>
-                          <li>Court proceedings for injunctive relief</li>
-                        </ol>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Contact Information */}
-                <Card className="harmonix-card-enhanced">
-                  <CardHeader>
-                    <CardTitle className="text-2xl text-harmonix-regal-gold font-serif">
-                      9. Contact & Legal Notices
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="bg-harmonix-night-pine/30 rounded-lg p-6">
-                      <p className="text-harmonix-sage-fade mb-4">
-                        For legal notices, terms questions, or formal communications:
-                      </p>
-                      <div className="space-y-2 text-harmonix-sage-fade">
-                        <p><strong>Legal Department:</strong> legal@harmonixdigital.com</p>
-                        <p><strong>General Counsel:</strong> counsel@harmonixdigital.com</p>
-                        <p><strong>Registered Agent:</strong> Available upon request</p>
-                        <p><strong>Business Address:</strong> Available for service of process</p>
-                      </div>
-                      <p className="text-xs text-harmonix-sage-fade mt-4">
-                        Legal notices must be in writing and delivered to the above address or email to be considered effective.
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
-
+              <div className="flex items-center justify-center gap-4 mt-6 text-sm text-jade-forest/60">
+                <div className="flex items-center gap-1">
+                  <Clock className="w-4 h-4" />
+                  <span>Last updated: June 27, 2025</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <CheckCircle className="w-4 h-4" />
+                  <span>Effective immediately</span>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
-      </div>
 
-      <Footer />
-    </div>
+            {/* Content */}
+            <div className="space-y-8">
+              <Card className="bg-harmonix-night-pine/30 border-jade-forest/20">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-white">
+                    <Scale className="w-5 h-5 text-harmonix-gold" />
+                    Service Philosophy
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-jade-forest/80 space-y-4">
+                  <p>
+                    Harmonix exists to help you <strong>Build. Automate. Exit.</strong> — building powerful systems, 
+                    automating complex workflows, and ultimately achieving the sovereignty to exit manual operations.
+                  </p>
+                  <p>
+                    Our terms ensure <strong>your business works for you, not you working for your business</strong>, 
+                    while maintaining fair and transparent service agreements.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <Card className="bg-harmonix-night-pine/30 border-jade-forest/20">
+                  <CardHeader>
+                    <CardTitle className="text-white">Service Scope</CardTitle>
+                  </CardHeader>
+                  <CardContent className="text-jade-forest/80 space-y-3">
+                    <div>
+                      <h4 className="font-semibold text-harmonix-gold mb-1">AI Agent Platform</h4>
+                      <p className="text-sm">12+ specialized agents for business automation</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-harmonix-gold mb-1">SŌL Brain Engine</h4>
+                      <p className="text-sm">Orchestration and workflow management</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-harmonix-gold mb-1">Marketplace</h4>
+                      <p className="text-sm">NFT agent trading and creator economy</p>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-harmonix-night-pine/30 border-jade-forest/20">
+                  <CardHeader>
+                    <CardTitle className="text-white">User Responsibilities</CardTitle>
+                  </CardHeader>
+                  <CardContent className="text-jade-forest/80 space-y-3">
+                    <div>
+                      <h4 className="font-semibold text-harmonix-gold mb-1">Account Security</h4>
+                      <p className="text-sm">Maintain secure login and API credentials</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-harmonix-gold mb-1">Usage Compliance</h4>
+                      <p className="text-sm">Follow platform guidelines and integration terms</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-harmonix-gold mb-1">Payment Terms</h4>
+                      <p className="text-sm">Timely payment for subscriptions and services</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <Card className="bg-harmonix-night-pine/30 border-jade-forest/20">
+                <CardHeader>
+                  <CardTitle className="text-white">Service Levels & Support</CardTitle>
+                </CardHeader>
+                <CardContent className="text-jade-forest/80 space-y-4">
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <div className="text-center p-4 bg-jade-forest/5 rounded-lg">
+                      <h4 className="font-semibold text-harmonix-gold mb-2">Uptime</h4>
+                      <p className="text-2xl font-bold text-white">99.9%</p>
+                      <p className="text-sm">Platform availability</p>
+                    </div>
+                    <div className="text-center p-4 bg-jade-forest/5 rounded-lg">
+                      <h4 className="font-semibold text-harmonix-gold mb-2">Response</h4>
+                      <p className="text-2xl font-bold text-white">&lt;24h</p>
+                      <p className="text-sm">Support response time</p>
+                    </div>
+                    <div className="text-center p-4 bg-jade-forest/5 rounded-lg">
+                      <h4 className="font-semibold text-harmonix-gold mb-2">Updates</h4>
+                      <p className="text-2xl font-bold text-white">Weekly</p>
+                      <p className="text-sm">Feature enhancements</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-harmonix-night-pine/30 border-jade-forest/20">
+                <CardHeader>
+                  <CardTitle className="text-white">Pricing & Refunds</CardTitle>
+                </CardHeader>
+                <CardContent className="text-jade-forest/80 space-y-4">
+                  <ul className="space-y-2">
+                    <li>• Transparent pricing with no hidden fees</li>
+                    <li>• Early bird discounts honored for contract duration</li>
+                    <li>• 30-day satisfaction guarantee on all new subscriptions</li>
+                    <li>• Pro-rated refunds for unused service periods</li>
+                    <li>• Split payment options available with financing terms</li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              {/* Contact & Waitlist */}
+              <Card className="bg-gradient-to-r from-jade-forest/10 to-harmonix-gold/10 border-harmonix-gold/30">
+                <CardContent className="p-8 text-center">
+                  <h3 className="text-xl font-bold text-white mb-4">
+                    Questions About Terms?
+                  </h3>
+                  <p className="text-jade-forest/80 mb-6">
+                    Contact our legal team or join our waitlist for priority support access.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Link href="/contact">
+                      <Button size="lg" className="bg-jade-forest hover:bg-jade-forest/80 text-white">
+                        Contact Legal Team
+                      </Button>
+                    </Link>
+                    <Link href="/waitlist">
+                      <Button size="lg" variant="outline" className="border-harmonix-gold text-harmonix-gold hover:bg-harmonix-gold/10">
+                        Join Waitlist
+                      </Button>
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+
+        <Footer />
+      </div>
+    </PageWrapper>
   );
 }

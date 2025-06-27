@@ -139,7 +139,7 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
               className="bg-gradient-to-r from-harmonix-gold/20 to-jade-forest/20 text-harmonix-gold border-harmonix-gold/40 px-6 py-3 text-sm sm:text-base font-medium backdrop-blur-sm shadow-lg shadow-harmonix-gold/20"
             >
               <Sparkles className="w-4 h-4 mr-2 animate-pulse" />
-              Early Bird: 30% Off for First 280 Customers
+              Limited Time Offer - Early Bird 30% Off
             </Badge>
           </div>
 
@@ -192,10 +192,10 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
               )}
             >
               <p className="font-light text-jade-forest/90 mb-2">
-                Build your business like a sacred machine.
+                Build. Automate. Exit.
               </p>
               <p className="font-medium bg-gradient-to-r from-harmonix-gold via-[#F4E4A1] to-harmonix-gold bg-clip-text text-transparent">
-                Powered by AI. Designed for freedom.
+                Have your business work for you, not you working for your business.
               </p>
             </div>
           </div>
