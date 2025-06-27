@@ -23,7 +23,7 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
 
   useEffect(() => {
     if (isLoaded) {
-      const words = "Intelligent Systems for Timeless Sovereignty".split(" ");
+      const words = "Intelligent systems for timeless sovereignty".split(" ");
       words.forEach((word, index) => {
         setTimeout(() => {
           setSloganWords(prev => [...prev, word]);
@@ -191,11 +191,14 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
                 isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               )}
             >
-              <p className="font-light text-jade-forest/90 mb-2">
-                Build. Automate. Exit.
+              <p className="font-light text-jade-forest/90 mb-3 text-2xl sm:text-3xl">
+                Build • Automate • Exit
               </p>
-              <p className="font-medium bg-gradient-to-r from-harmonix-gold via-[#F4E4A1] to-harmonix-gold bg-clip-text text-transparent">
-                Have your business work for you, not you working for your business.
+              <p className="font-medium bg-gradient-to-r from-harmonix-gold via-[#F4E4A1] to-harmonix-gold bg-clip-text text-transparent mb-2">
+                Powered By Harmony AI. Designed for Freedom
+              </p>
+              <p className="font-light text-jade-forest/80 text-lg sm:text-xl">
+                Why work in your business when your business should work for you
               </p>
             </div>
           </div>

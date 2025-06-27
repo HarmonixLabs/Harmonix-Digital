@@ -1,13 +1,18 @@
 import { PageWrapper } from "@/components/transitions/page-wrapper";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { HarmonixLogo } from "@/components/brand/HarmonixLogo";
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
 import { Link } from "wouter";
-import { ArrowLeft, Clock, Users, Zap } from "lucide-react";
+import { ArrowLeft, Clock, Users, Zap, Sparkles, Star, CheckCircle } from "lucide-react";
 
 export default function Waitlist() {
   return (
-    <PageWrapper>
-      <div className="min-h-screen bg-gradient-to-br from-ivoryLight via-ivoryLight to-jadeForest/5">
+    <PageWrapper enableParallax={true} enableGeometry={true}>
+      <div className="min-h-screen bg-harmonix-deep-forest">
+        <Navbar />
         <div className="container mx-auto px-6 py-12">
           
           {/* Header Section */}

@@ -1,6 +1,19 @@
 # HARMONIX Platform Critical Issues Analysis & Fix Plan
 ## Comprehensive Visual, Functional & Design System Consolidation
 
+## 🎯 LATEST USER REQUIREMENTS (December 27, 2025)
+
+### Priority Updates Required:
+1. **Main Join Waitlist Page**: Fully stylized and connected to CRM
+2. **Website Spacing/Margins/Paddings**: Fix design system conflicts and animations
+3. **Home Page Hero Copy Updates**:
+   - Primary: "Intelligent systems for timeless sovereignty"
+   - Subhead: "Build • Automate • Exit"
+   - Subhead: "Powered By Harmony AI. Designed for Freedom"
+   - Optional: "Why work in your business when your business should work for you"
+4. **Footer Update**: Add "Harmony By Harmonix"
+5. **Active Animations**: Ensure raining light animations work on homepage
+
 ---
 
 ## Critical Issues Identified

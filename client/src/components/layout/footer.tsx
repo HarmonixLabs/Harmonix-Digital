@@ -40,6 +40,9 @@ export function Footer() {
             <p className="text-sm text-charcoalDeep/70 leading-relaxed">
               Intelligent Systems for Timeless Sovereignty. Transform your business with AI-powered digital team members.
             </p>
+            <p className="text-sm text-jadeForest font-medium mt-2">
+              Harmony By Harmonix
+            </p>
             <div className="flex space-x-4">
               <a href="#" className="text-jadeForest/60 hover:text-jadeForest transition-colors">
                 <Twitter className="w-5 h-5" />
