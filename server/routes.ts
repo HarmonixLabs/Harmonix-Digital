@@ -592,5 +592,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin routes
+  app.use('/api/admin', (await import('./routes/admin')).default);
+
   return httpServer;
 }
