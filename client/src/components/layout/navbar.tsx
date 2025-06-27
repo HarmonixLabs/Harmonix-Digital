@@ -42,7 +42,7 @@ export function Navbar() {
   const publicLinks = [
     { href: "/", label: "Home" },
     { href: "/marketplace", label: "Marketplace" },
-    { href: "/pricing", label: "Pricing" },
+    { href: "/service-pricing", label: "Pricing" },
     { href: "/demo", label: "Demo" },
     { href: "/case-studies", label: "Success Stories" },
     { href: "/faq", label: "FAQ" },
