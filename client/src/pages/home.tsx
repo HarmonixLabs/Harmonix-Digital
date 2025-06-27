@@ -699,7 +699,8 @@ export default function Home() {
       performance: "+75%",
       tier: "flagship", 
       gradient: "from-blue-500 to-cyan-600",
-      available: true
+      available: true,
+      royalty: "12"
     },
     {
       id: 3,
@@ -710,7 +711,8 @@ export default function Home() {
       performance: "+68%",
       tier: "flagship",
       gradient: "from-purple-500 to-pink-600",
-      available: true
+      available: true,
+      royalty: "10"
     },
     {
       id: 4,
@@ -721,7 +723,8 @@ export default function Home() {
       performance: "+92%",
       tier: "flagship",
       gradient: "from-amber-500 to-yellow-600",
-      available: true
+      available: true,
+      royalty: "14"
     },
     {
       id: 5,
@@ -732,7 +735,8 @@ export default function Home() {
       performance: "+78%",
       tier: "next-wave",
       gradient: "from-indigo-500 to-blue-600",
-      available: true
+      available: true,
+      royalty: "8"
     },
     {
       id: 6,
@@ -743,7 +747,8 @@ export default function Home() {
       performance: "+84%",
       tier: "next-wave",
       gradient: "from-teal-500 to-green-600",
-      available: false
+      available: false,
+      royalty: "10"
     },
 
   ];

@@ -88,7 +88,7 @@ export default function PricingEnhanced() {
                 />
               </div>
               
-              <Button
+              <AnimatedButton
                 variant={showROICalculator ? "default" : "outline"}
                 onClick={() => setShowROICalculator(!showROICalculator)}
                 className={showROICalculator 
