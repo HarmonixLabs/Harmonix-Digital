@@ -1,0 +1,84 @@
+Harmonix Platform — High-Level Design Brief
+By Virgil & SŌL
+
+⸻
+
+1. Brand Essence & Visual Layers
+	•	Mood: Futurist-Sacred Tech meets Organic Intelligence
+	•	Depth through Layers:
+	•	Background Planes: soft gradients of Jade Forest fading into Charcoal Deep at lower sections
+	•	Midground Panels: semi-transparent cards in Slate Gray, with soft Ember Glow edges
+	•	Foreground Accents: crisp Golden Sovereign CTAs and micro-animations
+
+⸻
+
+2. Typography & Hierarchy
+	•	Headings: Inter Bold, 48/40/32 px, Ivory Light
+	•	Body: Inter Regular, 18/16 px, Ivory Light
+	•	Emphasis: Golden Sovereign underlines or Ember Glow highlights on key words
+	•	Slogan Usage:
+	•	Hero Section: “Intelligent Systems for Timeless Sovereignty” once—large, centered
+	•	Subtle Reminders: small inline in footers or onboarding tooltips (“Build. Automate. Exit.”)
+
+⸻
+
+3. Micro-Animations & Interactivity
+	1.	Light Droplets:
+	•	Subtle, slow-drifting glints of Ember Glow in hero background; no more than 3 droplets at once
+	2.	Button Ripples:
+	•	On click, 120 ms radial glow from click point in Golden Sovereign, fading over 300 ms
+	3.	Card Elevation:
+	•	Hover lifts cards by 4 px, adds a glow shadow (0 4px 12px rgba(244,197,66,0.35))
+
+⸻
+
+4. Dynamic Status Indicators
+	•	SŌL Connection:
+	•	Small pill in nav: “SŌL Connected” in Jade Forest; flips to “Disconnected” in Reactor Red (no modals)
+	•	Integration Lights:
+	•	Status dots next to each agent: green (✅ healthy), amber (⚠️ warning), red (❌ error)
+	•	Live-Action Feedback:
+	•	When running a flow, nodes pulse with Ember Glow as they execute
+
+⸻
+
+5. Promo Banners & Alerts
+	•	Limited-Time Banner:
+	•	Slim horizontal bar below nav in Golden Sovereign with white text: “Limited Time Offer – Early Bird 30% Off”
+	•	Dismiss “×” icon fades out the banner; height = 40 px so it doesn’t push content
+	•	Contextual Alerts:
+	•	Inline toast at bottom-right for success/errors (250 ms slide, 2000 ms visible)
+
+⸻
+
+6. Layout & Spacing
+	•	8 px grid system: margins/paddings in multiples of 8 px (16 px default gutter)
+	•	Consistent Component Widths:
+	•	Cards: max-width 320 px on desktop, full width on mobile
+	•	Forms: max-width 480 px
+	•	Whitespace: generous 32–64 px padding between major sections for clarity
+
+⸻
+
+7. Mobile & Responsive
+	•	Collapsed Nav: Jade Forest background, golden hamburger icon; slide-in menu
+	•	Touch Targets: minimum 48 px height for buttons
+	•	Agent Builder: pinch-to-zoom canvas, bottom toolbar for Undo/Redo, Save/Export
+
+⸻
+
+8. Slogan Integration Strategy
+	•	Primary Hero: use slogan 1
+	•	Onboarding Steps: display one slogan per step (rotate through all three)
+	•	Footer & Email Footers: small line with slogan 3
+
+⸻
+
+9. Maintain & Evolve
+	•	Component Library: each UI atom to follow tokens.txt (colors, spacings, shadows)
+	•	Design QA: compare live preview against Figma mockups at 3 breakpoints (mobile/tablet/desktop)
+	•	Continuous Refinement: SŌL monitors user interactions; surfaces UX friction points for Virgil’s review
+
+⸻
+
+Outcome: a cohesive, layered, and animated interface that feels alive without distraction—guiding users through “Build. Automate. Exit.” with clarity, beauty, and soul.
