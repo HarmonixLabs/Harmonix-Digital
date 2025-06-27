@@ -40,16 +40,16 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
   return (
     <section className={cn("relative min-h-screen flex items-center justify-center overflow-hidden", className)}>
       {/* Atmospheric Background */}
-      <div className="absolute inset-0 bg-harmonix-deep-forest">
+      <div className="absolute inset-0 bg-deep-space-black">
         {/* Subtle gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-harmonix-cedar-mist/20 via-transparent to-harmonix-regal-gold/10" />
+        <div className="absolute inset-0 bg-gradient-to-br from-jade-blue/20 via-transparent to-harmonix-gold/10" />
         
         {/* Starfall animation */}
         <div className="absolute inset-0 overflow-hidden">
           {[...Array(20)].map((_, i) => (
             <div
               key={i}
-              className="absolute w-1 h-8 bg-gradient-to-b from-harmonix-regal-gold to-transparent starfall-animation"
+              className="absolute w-1 h-8 bg-gradient-to-b from-harmonix-gold to-transparent starfall-animation"
               style={{
                 left: `${Math.random() * 100}%`,
                 animationDelay: `${Math.random() * 8}s`,

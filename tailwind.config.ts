@@ -100,12 +100,12 @@ export default {
           border: "var(--sidebar-border)",
           ring: "var(--sidebar-ring)",
         },
-        // Harmonix Green Core Palette
-        "deep-forest-black": "#0b0f0e",
-        "cedar-green-mist": "#2f4e46",
-        "sage-fade": "#768b7c", 
-        "regal-gold": "#d7b76d",
-        "night-pine-shadow": "#111f1a",
+        // Timeless Futurism Palette
+        "deep-space-black": "#0F1115",
+        "jade-blue": "#4A90E2",
+        "jade-blue-muted": "#3A7BD5",
+        "harmonix-gold": "#D4AF37",
+        "harmonix-gold-muted": "#B8941F",
         
         // Legacy Colors
         "harmony-dark": "hsl(210, 24%, 8%)",

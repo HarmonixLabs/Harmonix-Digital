@@ -26,24 +26,24 @@
   --ring: hsl(240, 4.9%, 83.9%);
   --radius: 0.5rem;
   
-  /* Official Harmonix Brand Palette - Mysticism, clarity, and grounded sovereignty */
-  --harmonix-deep-forest: hsl(158, 40%, 5%);        /* #0b0f0e - Deep Forest Black */
-  --harmonix-cedar-mist: hsl(156, 25%, 25%);        /* #2f4e46 - Cedar Green Mist */
-  --harmonix-sage-fade: hsl(151, 9%, 51%);          /* #768b7c - Sage Fade */
-  --harmonix-regal-gold: hsl(42, 46%, 62%);         /* #d7b76d - Regal Gold */
-  --harmonix-night-pine: hsl(150, 30%, 9%);         /* #111f1a - Night Pine Shadow */
+  /* Timeless Futurism Brand Palette - Sophisticated, premium, approachable */
+  --harmonix-deep-space: hsl(225, 21%, 7%);         /* #0F1115 - Deep Space Black */
+  --harmonix-jade-blue: hsl(212, 78%, 57%);         /* #4A90E2 - Jade Blue */
+  --harmonix-jade-muted: hsl(212, 78%, 45%);        /* #3A7BD5 - Muted Jade Blue */
+  --harmonix-gold: hsl(45, 76%, 52%);               /* #D4AF37 - Gold */
+  --harmonix-gold-muted: hsl(45, 76%, 42%);         /* #B8941F - Muted Gold */
 }
 
 /* Emergency fallback styling to ensure app renders */
 body {
-  background: var(--harmonix-deep-forest, #0b0f0e) !important;
-  color: var(--harmonix-sage-fade, #768b7c) !important;
+  background: var(--harmonix-deep-space, #0F1115) !important;
+  color: var(--harmonix-jade-blue, #4A90E2) !important;
   font-family: Inter, system-ui, -apple-system, sans-serif !important;
 }
 
 #root {
   min-height: 100vh;
-  background: var(--harmonix-deep-forest, #0b0f0e);
+  background: var(--harmonix-deep-space, #0F1115);
 }
 
 /* Critical Harmonix utility classes */
