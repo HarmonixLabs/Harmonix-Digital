@@ -78,7 +78,7 @@ export function Navbar() {
   return (
     <>
       <nav 
-        className="border-b border-jade-blue/20 bg-deep-space-black/90 backdrop-blur-md sticky top-0 z-50"
+        className="border-b border-jade-forest/20 bg-deep-space-black/90 backdrop-blur-md sticky top-0 z-50"
         data-tour="navbar"
       >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -94,7 +94,7 @@ export function Navbar() {
               <Link key={link.href} href={link.href}>
                 <Button 
                   variant={location === link.href ? "default" : "ghost"}
-                  className={location === link.href ? "bg-harmonix-gold text-deep-space-black" : "text-jade-blue hover:text-harmonix-gold"}
+                  className={location === link.href ? "bg-harmonix-gold text-deep-space-black" : "text-jade-forest hover:text-harmonix-gold"}
                 >
                   {link.label}
                 </Button>
@@ -105,7 +105,7 @@ export function Navbar() {
           {/* User Menu */}
           <div className="flex items-center space-x-4">
             {/* SŌL Connection Status */}
-            <div className="flex items-center space-x-2 text-sm text-jade-blue">
+            <div className="flex items-center space-x-2 text-sm text-jade-forest">
               <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-harmonix-gold' : 'bg-red-400'}`}></div>
               <span>{isConnected ? 'SŌL Connected' : 'SŌL Disconnected'}</span>
             </div>
@@ -118,8 +118,8 @@ export function Navbar() {
                   data-tour="tokens"
                 >
                   <Coins className="harmony-gold" size={16} />
-                  <span className="font-semibold text-jade-blue">{user.tokenBalance.toLocaleString()}</span>
-                  <span className="text-jade-blue/70">Harmony</span>
+                  <span className="font-semibold text-jade-forest">{user.tokenBalance.toLocaleString()}</span>
+                  <span className="text-jade-forest/70">Harmony</span>
                 </div>
 
                 {/* User Dropdown */}

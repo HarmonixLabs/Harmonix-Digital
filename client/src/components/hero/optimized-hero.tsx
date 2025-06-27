@@ -221,7 +221,7 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
               variant="outline"
               size="lg"
               onClick={() => setLocation('/demo')}
-              className="group relative w-full sm:w-auto min-w-[220px] h-14 sm:h-16 px-8 text-base sm:text-lg font-medium border-2 border-jade-blue/40 bg-gradient-to-r from-jade-blue/5 to-jade-blue/10 text-jade-blue hover:bg-gradient-to-r hover:from-jade-blue/15 hover:to-jade-blue/20 hover:border-jade-blue/60 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-jade-blue/20 backdrop-blur-sm"
+              className="group relative w-full sm:w-auto min-w-[220px] h-14 sm:h-16 px-8 text-base sm:text-lg font-medium border-2 border-jade-forest/40 bg-gradient-to-r from-jade-forest/5 to-jade-forest/10 text-jade-forest hover:bg-gradient-to-r hover:from-jade-forest/15 hover:to-jade-forest/20 hover:border-jade-forest/60 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-jade-forest/20 backdrop-blur-sm"
             >
               <Sparkles className="relative mr-3 h-5 w-5 group-hover:animate-pulse" />
               <span className="relative">See Live Demo</span>
