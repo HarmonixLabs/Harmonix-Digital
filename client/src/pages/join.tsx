@@ -187,7 +187,7 @@ export default function JoinPage() {
                           <p className="text-jade-forest/80">{benefit.description}</p>
                         </div>
                       </div>
-                    </MysticalTooltip>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -330,14 +330,5 @@ export default function JoinPage() {
         <Footer />
       </div>
     </PageWrapper>
-  );
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      <Footer />
-    </div>
   );
 }

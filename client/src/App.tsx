@@ -22,6 +22,7 @@ import MyAgents from "@/pages/my-agents";
 import Create from "@/pages/create";
 import Settings from "@/pages/settings";
 import Login from "@/pages/login";
+import Signin from "@/pages/signin";
 import OnboardingPage from "@/pages/onboarding";
 import DemoScenariosPage from "@/pages/demo-scenarios";
 import Signup from "@/pages/signup";
@@ -72,6 +73,7 @@ function Router() {
           <Route path="/careers" component={lazy(() => import("./pages/careers"))} />
           <Route path="/onboarding" component={OnboardingPage} />
           <Route path="/login" component={Login} />
+          <Route path="/signin" component={Signin} />
           <Route path="/signup" component={Signup} />
           <Route path="/thank-you" component={ThankYou} />
           <Route path="/checkout" component={Checkout} />
