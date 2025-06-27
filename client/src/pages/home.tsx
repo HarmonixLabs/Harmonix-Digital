@@ -570,9 +570,9 @@ function JoinMovementSection() {
                   id="deposit"
                   checked={deposit}
                   onChange={(e) => setDeposit(e.target.checked)}
-                  className="w-4 h-4 text-harmonix-regal-gold bg-harmonix-night-pine border-harmonix-sage-fade rounded focus:ring-harmonix-regal-gold"
+                  className="w-4 h-4 text-harmonix-gold bg-deep-space-black border-jade-blue/30 rounded focus:ring-harmonix-gold"
                 />
-                <label htmlFor="deposit" className="text-sm text-harmonix-sage-fade">
+                <label htmlFor="deposit" className="text-sm text-jade-blue/80">
                   Pay $444 deposit now → Get 30% off + priority access
                 </label>
               </div>

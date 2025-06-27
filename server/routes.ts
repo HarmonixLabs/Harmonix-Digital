@@ -530,14 +530,44 @@ export async function registerRoutes(app: Express): Promise<Server> {
         useCase, 
         roiAdjustment = 0,
         promoCode,
-        isDeposit = false 
+        isDeposit = false,
+        paymentType = 'full', // 'full', 'split_upfront', 'split_milestone1', 'split_completion'
+        splitPaymentId = null
       } = req.body;
 
       const pricingTiers = {
-        starter: { setupFee: 440000, name: 'Harmony Starter Package' },
-        growth: { setupFee: 800000, name: 'Harmony Growth Package' },
-        expansion: { setupFee: 1500000, name: 'Harmony Expansion Package' },
-        enterprise: { setupFee: 2150000, name: 'Harmony Enterprise Package' },
+        starter: { 
+          setupFee: 440000, 
+          name: 'Harmony Starter Package',
+          splitTotal: 514800, // 17% increase for split payments
+          upfront: 257400, // 50% upfront
+          milestone1: 128700, // 25% at milestone 1
+          completion: 128700 // 25% at completion
+        },
+        growth: { 
+          setupFee: 800000, 
+          name: 'Harmony Growth Package',
+          splitTotal: 936000, // 17% increase for split payments
+          upfront: 468000, // 50% upfront
+          milestone1: 234000, // 25% at milestone 1
+          completion: 234000 // 25% at completion
+        },
+        expansion: { 
+          setupFee: 1500000, 
+          name: 'Harmony Expansion Package',
+          splitTotal: 1755000, // 17% increase for split payments
+          upfront: 877500, // 50% upfront
+          milestone1: 438750, // 25% at milestone 1
+          completion: 438750 // 25% at completion
+        },
+        enterprise: { 
+          setupFee: 2150000, 
+          name: 'Harmony Enterprise Package',
+          splitTotal: 2515500, // 17% increase for split payments
+          upfront: 1257750, // 50% upfront
+          milestone1: 628875, // 25% at milestone 1
+          completion: 628875 // 25% at completion
+        },
         deposit: { setupFee: 44400, name: 'Harmony Early Bird Deposit' }
       };
 
@@ -548,9 +578,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: 'Invalid tier selected' });
       }
 
-      let finalAmount = tierData.setupFee;
-      if (promoCode === 'EARLYBIRD30' || isDeposit) {
-        finalAmount = Math.round(finalAmount * 0.7);
+      let finalAmount;
+      let paymentDescription = tierData.name;
+
+      // Determine payment amount based on type
+      if (isDeposit) {
+        finalAmount = tierData.setupFee;
+        if (promoCode === 'EARLYBIRD30') {
+          finalAmount = Math.round(finalAmount * 0.7);
+        }
+      } else if (paymentType === 'full') {
+        finalAmount = tierData.setupFee;
+        if (promoCode === 'EARLYBIRD30') {
+          finalAmount = Math.round(finalAmount * 0.7);
+        }
+        paymentDescription += ' - Full Payment';
+      } else if (paymentType === 'split_upfront') {
+        finalAmount = tierData.upfront;
+        paymentDescription += ' - Split Payment (50% Upfront)';
+      } else if (paymentType === 'split_milestone1') {
+        finalAmount = tierData.milestone1;
+        paymentDescription += ' - Split Payment (25% Milestone 1)';
+      } else if (paymentType === 'split_completion') {
+        finalAmount = tierData.completion;
+        paymentDescription += ' - Split Payment (25% Completion)';
+      } else {
+        finalAmount = tierData.setupFee;
       }
 
       if (!process.env.STRIPE_SECRET_KEY) {
@@ -565,10 +618,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: tierData.name,
+              name: paymentDescription,
               description: isDeposit 
                 ? 'Early bird deposit - secure your 30% discount' 
-                : `AI automation package with ${tier} tier agents`,
+                : paymentType.includes('split') 
+                  ? `Split payment for ${tier} tier - Total project: $${(tierData.splitTotal / 100).toLocaleString()}`
+                  : `AI automation package with ${tier} tier agents`,
             },
             unit_amount: finalAmount,
           },
@@ -583,7 +638,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
           useCase: useCase || '',
           promoCode: promoCode || '',
           isDeposit: isDeposit.toString(),
+          paymentType: paymentType,
+          splitPaymentId: splitPaymentId || '',
           originalAmount: tierData.setupFee.toString(),
+          splitTotal: tierData.splitTotal?.toString() || tierData.setupFee.toString(),
           discountApplied: finalAmount < tierData.setupFee ? 'true' : 'false'
         },
         billing_address_collection: 'required',
