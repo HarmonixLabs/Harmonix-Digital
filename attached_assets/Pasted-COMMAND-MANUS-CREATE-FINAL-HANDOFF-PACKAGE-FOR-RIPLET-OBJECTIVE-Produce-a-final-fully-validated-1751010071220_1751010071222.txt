@@ -1,0 +1,50 @@
+COMMAND: MANUS_CREATE_FINAL_HANDOFF_PACKAGE_FOR_RIPLET
+
+OBJECTIVE  
+Produce a final, fully-validated, self-healing Unity Tribe MVP handoff package—zipped and flattened—so Riplet can immediately begin integration.
+
+TASKS
+
+1. **Full QA & Self-Healing Scan**  
+   • Run existing Riplet auto-scan script to detect any missing pages or components; generate stubs for any gaps.  
+   • Execute end-to-end tests (signup→onboarding→dashboard→event build→booking→payment→receipt→waitlist) and fix failures.  
+   • Validate AI Concierge flows, Event Builder steps, Wallet top-up & fallback, Boosts, Profile pages, API responses.
+
+2. **Finalize Functionalities & Layouts**  
+   • Confirm every route in `page-manifest.json` has a working React page.  
+   • Verify Storybook coverage is 100% for all UI components (including new micro-interactions).  
+   • Check Figma artboards are in sync with code: design tokens, spacing, typography, animations.
+
+3. **Folder Structure Organization**  
+   • At package root, include these top-level folders—no nested “handoff” or extra subfolders:  
+     `/api/` − REST/GraphQL endpoints & mocks  
+     `/web/` − Next.js web app code  
+     `/mobile/` − React Native app code  
+     `/design/` − Figma export, Storybook URL, asset bundles (`mascot/`, `logos/`, `photos/`)  
+     `/infra/` − Dockerfile, docker-compose.yml, Terraform stubs, CI configs  
+     `/docs/` − API_REFERENCE.md, page-manifest.json, db-backup.md, accessibility-audit.md, domain-dns.md  
+     `/legal/` − terms.md, privacy.md, cookie-policy.md, investor-disclosures.md  
+     `/tests/` − Cypress or Puppeteer test suite  
+
+4. **Embed External Links & Snippets**  
+   • Include `integration-snippets.md` with waitlist iframe, chat agent, login flow.  
+   • Add `figma-links.md` with all Figma/XD URLs.  
+   • Add `storybook-url.txt` with deployed Storybook link.
+
+5. **Environment & Secrets Template**  
+   • Provide `.env.example` listing all required keys (Stripe, Mapbox, Infura, GHL).  
+   • Ensure README.md outlines “Getting Started”: env setup, migrations, dev run, storybook, tests.
+
+6. **Zip & Publish**  
+   • Create `UnityTribe_MVP_Riplet.zip` at root containing the above folders.  
+   • Upload to secure shared drive and generate a download link.
+
+7. **Final Notification**  
+   • Post a summary here with the download link and confirm all checklist items are ✅.
+
+DELIVERABLES  
+• `UnityTribe_MVP_Riplet.zip` with flat, clearly-labeled folders  
+• Shared download URL  
+• QA & self-healing report summary  
+
+ACTIVATE: YES  
