@@ -99,6 +99,14 @@ export default function AdminPanel() {
     platform: { uptime: '0%', responseTime: '0ms', errorRate: '0%', lastDeployment: 'N/A' }
   };
 
+  // Default features structure
+  const safeFeatures = features || {
+    core: {},
+    experimental: {},
+    integrations: {},
+    monitoring: {}
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active': return 'bg-green-500';
@@ -199,9 +207,9 @@ export default function AdminPanel() {
                       <Users className="h-4 w-4 text-harmonix-gold" />
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold text-harmonix-gold">{analytics.users.total.toLocaleString()}</div>
+                      <div className="text-2xl font-bold text-harmonix-gold">{safeAnalytics.users.total.toLocaleString()}</div>
                       <p className="text-xs text-harmonix-sage">
-                        <span className="text-green-400">{analytics.users.growth}</span> from last month
+                        <span className="text-green-400">{safeAnalytics.users.growth}</span> from last month
                       </p>
                     </CardContent>
                   </Card>
@@ -212,9 +220,9 @@ export default function AdminPanel() {
                       <Zap className="h-4 w-4 text-harmonix-gold" />
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold text-harmonix-gold">{analytics.agents.activeAgents.toLocaleString()}</div>
+                      <div className="text-2xl font-bold text-harmonix-gold">{safeAnalytics.agents.activeAgents.toLocaleString()}</div>
                       <p className="text-xs text-harmonix-sage">
-                        {analytics.agents.averageEfficiency}% avg efficiency
+                        {safeAnalytics.agents.averageEfficiency}% avg efficiency
                       </p>
                     </CardContent>
                   </Card>
@@ -225,9 +233,9 @@ export default function AdminPanel() {
                       <Coins className="h-4 w-4 text-harmonix-gold" />
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold text-harmonix-gold">{(analytics.tokens.circulation / 1000).toFixed(0)}K</div>
+                      <div className="text-2xl font-bold text-harmonix-gold">{(safeAnalytics.tokens.circulation / 1000).toFixed(0)}K</div>
                       <p className="text-xs text-harmonix-sage">
-                        {analytics.tokens.averageBalance} avg balance
+                        {safeAnalytics.tokens.averageBalance} avg balance
                       </p>
                     </CardContent>
                   </Card>
@@ -238,9 +246,9 @@ export default function AdminPanel() {
                       <DollarSign className="h-4 w-4 text-harmonix-gold" />
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold text-harmonix-gold">${analytics.revenue.monthly.toLocaleString()}</div>
+                      <div className="text-2xl font-bold text-harmonix-gold">${safeAnalytics.revenue.monthly.toLocaleString()}</div>
                       <p className="text-xs text-harmonix-sage">
-                        <span className="text-green-400">{analytics.revenue.growth}</span> growth
+                        <span className="text-green-400">{safeAnalytics.revenue.growth}</span> growth
                       </p>
                     </CardContent>
                   </Card>
@@ -256,21 +264,21 @@ export default function AdminPanel() {
                       <div className="space-y-4">
                         <div className="flex items-center justify-between">
                           <span className="text-harmonix-sage">Trial Users</span>
-                          <span className="text-harmonix-gold">{analytics.users.trial}</span>
+                          <span className="text-harmonix-gold">{safeAnalytics.users.trial}</span>
                         </div>
-                        <Progress value={(analytics.users.trial / analytics.users.total) * 100} className="h-2" />
+                        <Progress value={(safeAnalytics.users.trial / safeAnalytics.users.total) * 100} className="h-2" />
                         
                         <div className="flex items-center justify-between">
                           <span className="text-harmonix-sage">Premium Users</span>
-                          <span className="text-harmonix-gold">{analytics.users.premium}</span>
+                          <span className="text-harmonix-gold">{safeAnalytics.users.premium}</span>
                         </div>
-                        <Progress value={(analytics.users.premium / analytics.users.total) * 100} className="h-2" />
+                        <Progress value={(safeAnalytics.users.premium / safeAnalytics.users.total) * 100} className="h-2" />
                         
                         <div className="flex items-center justify-between">
                           <span className="text-harmonix-sage">Active Users</span>
-                          <span className="text-harmonix-gold">{analytics.users.active}</span>
+                          <span className="text-harmonix-gold">{safeAnalytics.users.active}</span>
                         </div>
-                        <Progress value={(analytics.users.active / analytics.users.total) * 100} className="h-2" />
+                        <Progress value={(safeAnalytics.users.active / safeAnalytics.users.total) * 100} className="h-2" />
                       </div>
                     </CardContent>
                   </Card>
@@ -283,23 +291,23 @@ export default function AdminPanel() {
                       <div className="space-y-4">
                         <div className="flex items-center justify-between">
                           <span className="text-harmonix-sage">Uptime</span>
-                          <Badge className="bg-green-500 text-white">{analytics.platform.uptime}</Badge>
+                          <Badge className="bg-green-500 text-white">{safeAnalytics.platform.uptime}</Badge>
                         </div>
                         
                         <div className="flex items-center justify-between">
                           <span className="text-harmonix-sage">Response Time</span>
-                          <Badge className="bg-blue-500 text-white">{analytics.platform.responseTime}</Badge>
+                          <Badge className="bg-blue-500 text-white">{safeAnalytics.platform.responseTime}</Badge>
                         </div>
                         
                         <div className="flex items-center justify-between">
                           <span className="text-harmonix-sage">Error Rate</span>
-                          <Badge className="bg-green-500 text-white">{analytics.platform.errorRate}</Badge>
+                          <Badge className="bg-green-500 text-white">{safeAnalytics.platform.errorRate}</Badge>
                         </div>
                         
                         <div className="flex items-center justify-between">
                           <span className="text-harmonix-sage">Last Deployment</span>
                           <span className="text-harmonix-sage text-sm">
-                            {new Date(analytics.platform.lastDeployment).toLocaleDateString()}
+                            {new Date(safeAnalytics.platform.lastDeployment).toLocaleDateString()}
                           </span>
                         </div>
                       </div>
@@ -312,7 +320,7 @@ export default function AdminPanel() {
 
           {/* Features Tab */}
           <TabsContent value="features" className="space-y-6">
-            {features && (
+            {safeFeatures && (
               <>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {/* Core Features */}
@@ -325,7 +333,7 @@ export default function AdminPanel() {
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-4">
-                        {Object.entries(features.core).map(([key, feature]: [string, any]) => (
+                        {Object.entries(safeFeatures.core).map(([key, feature]: [string, any]) => (
                           <div key={key} className="flex items-center justify-between p-3 bg-harmonix-cedar/10 rounded-lg">
                             <div className="flex items-center gap-3">
                               {getStatusIcon(feature.status)}
@@ -366,7 +374,7 @@ export default function AdminPanel() {
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-4">
-                        {Object.entries(features.experimental).map(([key, feature]: [string, any]) => (
+                        {Object.entries(safeFeatures.experimental).map(([key, feature]: [string, any]) => (
                           <div key={key} className="flex items-center justify-between p-3 bg-harmonix-cedar/10 rounded-lg">
                             <div className="flex items-center gap-3">
                               {getStatusIcon(feature.status)}
@@ -403,9 +411,9 @@ export default function AdminPanel() {
 
           {/* Integrations Tab */}
           <TabsContent value="integrations" className="space-y-6">
-            {features && (
+            {safeFeatures && (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {Object.entries(features.integrations).map(([key, integration]: [string, any]) => (
+                {Object.entries(safeFeatures.integrations).map(([key, integration]: [string, any]) => (
                   <Card key={key} className="bg-harmonix-night border-harmonix-cedar">
                     <CardHeader>
                       <CardTitle className="text-harmonix-gold flex items-center justify-between">
@@ -447,9 +455,9 @@ export default function AdminPanel() {
 
           {/* Monitoring Tab */}
           <TabsContent value="monitoring" className="space-y-6">
-            {features && (
+            {safeFeatures && (
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {Object.entries(features.monitoring).map(([key, monitor]: [string, any]) => (
+                {Object.entries(safeFeatures.monitoring).map(([key, monitor]: [string, any]) => (
                   <Card key={key} className="bg-harmonix-night border-harmonix-cedar">
                     <CardHeader>
                       <CardTitle className="text-harmonix-gold capitalize">
