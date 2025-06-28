@@ -589,6 +589,7 @@ function JoinMovementSection() {
 
 export default function Home() {
   const { isAuthenticated, user } = useAuth();
+  const { showOnboarding } = useOnboarding();
   const [showOnboardingDemo, setShowOnboardingDemo] = useState(false);
   
   const { data: agentTypes = [] } = useQuery({
@@ -683,6 +684,12 @@ export default function Home() {
       <DemoSuccessSection />
       <JoinMovementSection />
       <Footer />
+      
+      {/* Health Monitor */}
+      <HealthMonitor />
+      
+      {/* Personalized Onboarding */}
+      {showOnboarding && <PersonalizedOnboarding />}
       </div>
     </PageWrapper>
   );
