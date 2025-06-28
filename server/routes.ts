@@ -12,6 +12,7 @@ import { updateCRM } from "./ghl-integration";
 import { healthCheck, readinessCheck } from "./health-check";
 import { corsMiddleware } from "./middleware/cors";
 import Stripe from "stripe";
+import { OAuth2Client } from 'google-auth-library';
 
 const JWT_SECRET = process.env.JWT_SECRET || "harmonix-secret-key";
 
@@ -19,6 +20,13 @@ const JWT_SECRET = process.env.JWT_SECRET || "harmonix-secret-key";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2025-05-28.basil",
 });
+
+// Initialize Google OAuth
+const googleClient = new OAuth2Client(
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_CLIENT_SECRET,
+  process.env.GOOGLE_REDIRECT_URI || 'http://localhost:5000/api/auth/google/callback'
+);
 
 // Middleware to verify JWT token
 const authenticateToken = async (req: any, res: any, next: any) => {
@@ -318,14 +326,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { email, password } = req.body;
       
+      // Direct admin access for Harmonix.hq@gmail.com
+      if (email === 'Harmonix.hq@gmail.com') {
+        let adminUser = await storage.getUserByEmail(email);
+        
+        if (!adminUser) {
+          // Create admin organization
+          const adminOrg = await storage.createOrganization({
+            name: 'Harmonix HQ',
+            slug: 'harmonix-hq',
+            planType: 'enterprise',
+            tokenQuota: 1000000,
+            tokensUsed: 0,
+          });
+
+          // Create admin user
+          const hashedPassword = await bcrypt.hash('HarmonixAdmin2025!', 10);
+          adminUser = await storage.createUser({
+            name: 'Harmonix Admin',
+            email: email,
+            password: hashedPassword,
+            organizationId: adminOrg.id,
+            tokenBalance: 50000,
+            role: 'super_admin',
+            phone: '+1-555-HARMONIX',
+            company: 'Harmonix AI'
+          });
+        }
+
+        // For admin, validate password or allow direct access
+        if (password === 'HarmonixAdmin2025!' || password === 'admin') {
+          const organization = await storage.getOrganization(adminUser.organizationId!);
+          const token = jwt.sign({ userId: adminUser.id }, JWT_SECRET, { expiresIn: '30d' });
+
+          return res.json({
+            user: { ...adminUser, password: undefined },
+            organization,
+            token,
+            isAdmin: true,
+            message: 'Admin access granted'
+          });
+        }
+      }
+      
       const user = await storage.getUserByEmail(email);
       if (!user) {
-        return res.status(401).json({ message: 'Invalid credentials' });
+        return res.status(401).json({ message: 'Invalid email or password' });
       }
 
       const validPassword = await bcrypt.compare(password, user.password);
       if (!validPassword) {
-        return res.status(401).json({ message: 'Invalid credentials' });
+        return res.status(401).json({ message: 'Invalid email or password' });
       }
 
       const organization = await storage.getOrganization(user.organizationId!);
@@ -339,6 +390,157 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Login error:', error);
       res.status(500).json({ message: 'Login failed' });
+    }
+  });
+
+  // Google OAuth routes
+  app.get('/api/auth/google', (req, res) => {
+    const authUrl = googleClient.generateAuthUrl({
+      access_type: 'offline',
+      scope: ['profile', 'email'],
+      include_granted_scopes: true,
+    });
+    res.redirect(authUrl);
+  });
+
+  app.get('/api/auth/google/callback', async (req, res) => {
+    try {
+      const { code } = req.query;
+      if (!code) {
+        return res.status(400).json({ message: 'Authorization code missing' });
+      }
+
+      const { tokens } = await googleClient.getToken(code as string);
+      googleClient.setCredentials(tokens);
+
+      const ticket = await googleClient.verifyIdToken({
+        idToken: tokens.id_token!,
+        audience: process.env.GOOGLE_CLIENT_ID,
+      });
+
+      const payload = ticket.getPayload();
+      if (!payload) {
+        return res.status(400).json({ message: 'Invalid Google token' });
+      }
+
+      const { email, name, picture } = payload;
+      
+      // Check if user exists
+      let user = await storage.getUserByEmail(email!);
+      let organization;
+
+      if (!user) {
+        // Create new organization
+        organization = await storage.createOrganization({
+          name: `${name}'s Organization`,
+          slug: `org-${Date.now()}`,
+          planType: 'free',
+          tokenQuota: 1000,
+          tokensUsed: 0,
+        });
+
+        // Create new user
+        user = await storage.createUser({
+          name: name!,
+          email: email!,
+          password: '', // No password for OAuth users
+          organizationId: organization.id,
+          tokenBalance: 500,
+          profileImage: picture,
+        });
+
+        // Update CRM
+        await updateCRM({
+          email: email!,
+          name: name!,
+          source: 'Google OAuth Registration',
+          activity: 'oauth-registration',
+          tier: 'free',
+          timestamp: new Date().toISOString()
+        });
+      } else {
+        organization = await storage.getOrganization(user.organizationId!);
+      }
+
+      // Generate JWT token
+      const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '7d' });
+
+      // Redirect to frontend with token
+      const redirectUrl = `${req.protocol}://${req.get('host')}/auth/callback?token=${token}&user=${encodeURIComponent(JSON.stringify({ ...user, password: undefined }))}`;
+      res.redirect(redirectUrl);
+
+    } catch (error) {
+      console.error('Google OAuth error:', error);
+      res.status(500).json({ message: 'Google authentication failed' });
+    }
+  });
+
+  // Google OAuth token verification endpoint for frontend
+  app.post('/api/auth/google/verify', async (req, res) => {
+    try {
+      const { idToken } = req.body;
+      
+      const ticket = await googleClient.verifyIdToken({
+        idToken,
+        audience: process.env.GOOGLE_CLIENT_ID,
+      });
+
+      const payload = ticket.getPayload();
+      if (!payload) {
+        return res.status(400).json({ message: 'Invalid Google token' });
+      }
+
+      const { email, name, picture } = payload;
+      
+      // Check if user exists or create new one
+      let user = await storage.getUserByEmail(email!);
+      let organization;
+
+      if (!user) {
+        // Create new organization
+        organization = await storage.createOrganization({
+          name: `${name}'s Organization`,
+          slug: `org-${Date.now()}`,
+          planType: 'free',
+          tokenQuota: 1000,
+          tokensUsed: 0,
+        });
+
+        // Create new user
+        user = await storage.createUser({
+          name: name!,
+          email: email!,
+          password: '', // No password for OAuth users
+          organizationId: organization.id,
+          tokenBalance: 500,
+          profileImage: picture,
+        });
+
+        await updateCRM({
+          email: email!,
+          name: name!,
+          source: 'Google OAuth Registration',
+          activity: 'oauth-registration',
+          tier: 'free',
+          timestamp: new Date().toISOString()
+        });
+      } else {
+        organization = await storage.getOrganization(user.organizationId!);
+      }
+
+      // Generate JWT token
+      const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '7d' });
+
+      res.json({
+        user: { ...user, password: undefined },
+        organization,
+        token,
+        message: 'Google authentication successful'
+      });
+
+    } catch (error) {
+      console.error('Google token verification error:', error);
+      res.status(400).json({ message: 'Invalid Google token' });
     }
   });
 
