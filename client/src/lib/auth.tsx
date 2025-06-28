@@ -17,6 +17,7 @@ interface AuthContextType {
   organization: Organization | null;
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, password: string, name: string, phone?: string, company?: string) => Promise<void>;
+  signup: (email: string, password: string, name: string, phone?: string, company?: string) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
   isAuthenticated: boolean;
@@ -108,6 +109,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     await registerMutation.mutateAsync({ email, password, name, phone, company });
   };
 
+  const signup = async (email: string, password: string, name: string, phone?: string, company?: string) => {
+    await registerMutation.mutateAsync({ email, password, name, phone, company });
+  };
+
   const logout = () => {
     localStorage.removeItem('harmonix_token');
     setToken(null);
@@ -122,6 +127,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         organization,
         login,
         register,
+        signup,
         logout,
         isLoading: isLoading || loginMutation.isPending || registerMutation.isPending,
         isAuthenticated,
