@@ -49,10 +49,8 @@ export default function LoginPage() {
   };
 
   const handleGoogleLogin = () => {
-    toast({
-      title: "Google Sign-In",
-      description: "Google authentication will be available soon.",
-    });
+    // Redirect to Google OAuth endpoint
+    window.location.href = '/api/auth/google';
   };
 
   const handleWalletLogin = () => {

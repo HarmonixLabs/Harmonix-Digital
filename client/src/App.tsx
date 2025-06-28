@@ -23,6 +23,7 @@ import Create from "@/pages/create";
 import Settings from "@/pages/settings";
 import Login from "@/pages/login";
 import Signin from "@/pages/signin";
+import AuthCallback from "@/pages/auth-callback";
 import OnboardingPage from "@/pages/onboarding";
 import DemoScenariosPage from "@/pages/demo-scenarios";
 import Signup from "@/pages/signup";

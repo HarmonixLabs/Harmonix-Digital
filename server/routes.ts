@@ -446,7 +446,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           password: '', // No password for OAuth users
           organizationId: organization.id,
           tokenBalance: 500,
-          profileImage: picture,
+          avatar: picture,
         });
 
         // Update CRM
@@ -513,7 +513,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           password: '', // No password for OAuth users
           organizationId: organization.id,
           tokenBalance: 500,
-          profileImage: picture,
+          avatar: picture,
         });
 
         await updateCRM({
