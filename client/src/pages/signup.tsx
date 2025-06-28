@@ -9,12 +9,14 @@ import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
+import { createErrorToast, useFormErrorHandler } from "@/lib/errors";
 import { Eye, EyeOff, Chrome, Wallet, ArrowRight, Building } from "lucide-react";
 
 export default function SignupPage() {
   const [, setLocation] = useLocation();
-  const { signup } = useAuth();
+  const { register } = useAuth(); // Use register instead of signup for consistency
   const { toast } = useToast();
+  const { handleError } = useFormErrorHandler();
   
   const [formData, setFormData] = useState({
     name: "",
@@ -27,6 +29,7 @@ export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,20 +53,21 @@ export default function SignupPage() {
     }
 
     setIsLoading(true);
+    setFieldErrors({}); // Clear previous errors
 
     try {
-      await signup(formData.email, formData.password, formData.name);
+      await register(formData.email, formData.password, formData.name, undefined, formData.company);
       toast({
-        title: "Welcome to Harmony!",
+        title: "Welcome to Harmonix!",
         description: "Your account has been created successfully.",
       });
       setLocation("/dashboard");
     } catch (error) {
-      toast({
-        title: "Account creation failed",
-        description: "Please try again or contact support.",
-        variant: "destructive",
+      const errorMessage = handleError(error, (field, message) => {
+        setFieldErrors(prev => ({ ...prev, [field]: message }));
       });
+      
+      toast(createErrorToast(error));
     } finally {
       setIsLoading(false);
     }
