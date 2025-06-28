@@ -136,7 +136,7 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
           >
             <Badge 
               variant="secondary" 
-              className="bg-gradient-to-r from-harmonix-gold/20 to-jade-forest/20 text-harmonix-gold border-harmonix-gold/40 px-6 py-3 text-sm sm:text-base font-medium backdrop-blur-sm shadow-lg shadow-harmonix-gold/20"
+              className="bg-gradient-to-r from-harmonix-regal-gold/20 to-harmonix-cedar-mist/20 text-harmonix-regal-gold border-harmonix-regal-gold/40 px-6 py-3 text-sm sm:text-base font-medium backdrop-blur-sm shadow-lg shadow-harmonix-regal-gold/20"
             >
               <Sparkles className="w-4 h-4 mr-2 animate-pulse" />
               Limited Time Offer - Early Bird 30% Off
@@ -148,7 +148,7 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
             <h1 className="font-bold leading-tight tracking-tight relative">
               {/* Sacred geometric backdrop */}
               <div className="absolute inset-0 -z-10">
-                <div className="w-full h-full bg-gradient-to-r from-transparent via-harmonix-gold/5 to-transparent rounded-3xl blur-3xl"></div>
+                <div className="w-full h-full bg-gradient-to-r from-transparent via-harmonix-regal-gold/5 to-transparent rounded-3xl blur-3xl"></div>
               </div>
               
               <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif leading-none">
@@ -160,22 +160,22 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
                       index < sloganWords.length ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95"
                     )}
                     style={{
-                      background: word === "Timeless" || word === "Sovereignty" 
-                        ? "linear-gradient(135deg, #D4AF37 0%, #F4E4A1 100%)"
-                        : "linear-gradient(135deg, #1D6B4A 0%, #2A8059 100%)",
+                      background: word === "timeless" || word === "sovereignty" 
+                        ? "linear-gradient(135deg, var(--harmonix-regal-gold) 0%, var(--harmonix-gold-bright) 100%)"
+                        : "linear-gradient(135deg, var(--harmonix-cedar-mist) 0%, var(--harmonix-sage-fade) 100%)",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
-                      filter: word === "Timeless" || word === "Sovereignty"
-                        ? "drop-shadow(0 0 20px rgba(212, 175, 55, 0.4))"
-                        : "drop-shadow(0 0 15px rgba(29, 107, 74, 0.4))",
+                      filter: word === "timeless" || word === "sovereignty"
+                        ? "drop-shadow(0 0 20px rgba(215, 183, 109, 0.4))"
+                        : "drop-shadow(0 0 15px rgba(47, 78, 70, 0.4))",
                       animationDelay: `${index * 0.08}s`,
                     }}
                   >
                     {word}
-                    {(word === "Timeless" || word === "Sovereignty") && (
+                    {(word === "timeless" || word === "sovereignty") && (
                       <div 
-                        className="absolute inset-0 bg-gradient-to-r from-harmonix-gold/20 to-transparent rounded-lg blur-md -z-10"
+                        className="absolute inset-0 bg-gradient-to-r from-harmonix-regal-gold/20 to-transparent rounded-lg blur-md -z-10"
                         style={{ animation: "breathe 3s ease-in-out infinite" }}
                       />
                     )}
@@ -191,13 +191,13 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
                 isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               )}
             >
-              <p className="font-light text-jade-forest/90 mb-3 text-2xl sm:text-3xl">
+              <p className="font-light text-harmonix-sage-fade mb-3 text-2xl sm:text-3xl">
                 Build • Automate • Exit
               </p>
-              <p className="font-medium bg-gradient-to-r from-harmonix-gold via-[#F4E4A1] to-harmonix-gold bg-clip-text text-transparent mb-2">
+              <p className="font-medium bg-gradient-to-r from-harmonix-regal-gold via-harmonix-gold-bright to-harmonix-regal-gold bg-clip-text text-transparent mb-2">
                 Powered By Harmony AI. Designed for Freedom
               </p>
-              <p className="font-light text-jade-forest/80 text-lg sm:text-xl">
+              <p className="font-light text-harmonix-sage-fade/80 text-lg sm:text-xl">
                 Why work in your business when your business should work for you
               </p>
             </div>
@@ -213,9 +213,9 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
             <Button
               size="lg"
               onClick={() => setLocation('/marketplace')}
-              className="group relative w-full sm:w-auto min-w-[220px] h-14 sm:h-16 px-8 text-base sm:text-lg font-semibold bg-gradient-to-r from-harmonix-gold via-[#F4E4A1] to-harmonix-gold text-deep-space-black transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-harmonix-gold/40 border border-harmonix-gold/30 overflow-hidden"
+              className="group relative w-full sm:w-auto min-w-[220px] h-14 sm:h-16 px-8 text-base sm:text-lg font-semibold bg-gradient-to-r from-harmonix-regal-gold via-harmonix-gold-bright to-harmonix-regal-gold text-harmonix-deep-forest transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-harmonix-regal-gold/40 border border-harmonix-regal-gold/30 overflow-hidden"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-harmonix-gold/80 to-harmonix-gold/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-harmonix-regal-gold/80 to-harmonix-regal-gold/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <ArrowRight className="relative mr-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
               <span className="relative">Activate Your Agents</span>
             </Button>
@@ -224,7 +224,7 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
               variant="outline"
               size="lg"
               onClick={() => setLocation('/demo')}
-              className="group relative w-full sm:w-auto min-w-[220px] h-14 sm:h-16 px-8 text-base sm:text-lg font-medium border-2 border-jade-forest/40 bg-gradient-to-r from-jade-forest/5 to-jade-forest/10 text-jade-forest hover:bg-gradient-to-r hover:from-jade-forest/15 hover:to-jade-forest/20 hover:border-jade-forest/60 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-jade-forest/20 backdrop-blur-sm"
+              className="group relative w-full sm:w-auto min-w-[220px] h-14 sm:h-16 px-8 text-base sm:text-lg font-medium border-2 border-harmonix-cedar-mist/40 bg-gradient-to-r from-harmonix-cedar-mist/5 to-harmonix-cedar-mist/10 text-harmonix-cedar-mist hover:bg-gradient-to-r hover:from-harmonix-cedar-mist/15 hover:to-harmonix-cedar-mist/20 hover:border-harmonix-cedar-mist/60 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-harmonix-cedar-mist/20 backdrop-blur-sm"
             >
               <Sparkles className="relative mr-3 h-5 w-5 group-hover:animate-pulse" />
               <span className="relative">See Live Demo</span>

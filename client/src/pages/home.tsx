@@ -50,7 +50,7 @@ function PlatformPillarsSection() {
     <section className="py-16 sm:py-20 lg:py-24 bg-harmonix-night-pine/30">
       <div className="harmonix-container">
         <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-white font-serif">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-harmonix-ivory-light font-serif">
             Build your business like a <span className="text-harmonix-regal-gold">sacred machine</span>
           </h2>
           <p className="text-lg sm:text-xl text-harmonix-sage-fade max-w-4xl mx-auto">
