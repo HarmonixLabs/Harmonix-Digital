@@ -17,7 +17,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "harmonix-secret-key";
 
 // Initialize Stripe
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2024-11-20.acacia",
+  apiVersion: "2025-05-28.basil",
 });
 
 // Middleware to verify JWT token
@@ -289,8 +289,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       await updateCRM({
         email: user.email,
         name: user.name,
-        phone: userData.phone,
-        company: userData.company,
+        phone: userData.phone || undefined,
+        company: userData.company || undefined,
         source: 'Harmonix Platform Registration',
         interests: ['platform-signup'],
         activity: 'user-registration',
