@@ -8,12 +8,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
+import { createErrorToast, useFormErrorHandler } from "@/lib/errors";
 import { Eye, EyeOff, Chrome, Wallet, ArrowRight } from "lucide-react";
 
 export default function LoginPage() {
   const [, setLocation] = useLocation();
   const { login } = useAuth();
   const { toast } = useToast();
+  const { handleError } = useFormErrorHandler();
   
   const [formData, setFormData] = useState({
     email: "",
@@ -21,24 +23,26 @@ export default function LoginPage() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setFieldErrors({}); // Clear previous errors
 
     try {
       await login(formData.email, formData.password);
       toast({
         title: "Welcome back!",
-        description: "Successfully signed in to Harmony.",
+        description: "Successfully signed in to Harmonix.",
       });
       setLocation("/dashboard");
     } catch (error) {
-      toast({
-        title: "Sign in failed",
-        description: "Please check your credentials and try again.",
-        variant: "destructive",
+      const errorMessage = handleError(error, (field, message) => {
+        setFieldErrors(prev => ({ ...prev, [field]: message }));
       });
+      
+      toast(createErrorToast(error));
     } finally {
       setIsLoading(false);
     }
