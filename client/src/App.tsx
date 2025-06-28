@@ -79,6 +79,7 @@ function Router() {
           <Route path="/onboarding" component={OnboardingPage} />
           <Route path="/login" component={Login} />
           <Route path="/signin" component={Signin} />
+          <Route path="/auth/callback" component={AuthCallback} />
           <Route path="/signup" component={Signup} />
           <Route path="/thank-you" component={ThankYou} />
           <Route path="/checkout" component={Checkout} />

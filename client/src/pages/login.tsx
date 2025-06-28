@@ -68,7 +68,7 @@ export default function LoginPage() {
         <Card className="bg-gray-900/50 border-harmony-gold/30 backdrop-blur-sm">
           <CardHeader className="text-center space-y-6">
             <div className="flex justify-center">
-              <HarmonixLogo size="lg" variant="gold" showText={false} />
+              <HarmonixLogo size="lg" variant="h-mark" />
             </div>
             <div>
               <CardTitle className="text-3xl font-bold text-white font-serif">
@@ -172,6 +172,14 @@ export default function LoginPage() {
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </form>
+
+            {/* Admin Access Notice */}
+            <div className="bg-harmony-gold/10 border border-harmony-gold/30 rounded-lg p-4 text-center">
+              <p className="text-sm text-harmony-gold font-medium mb-2">🔑 Admin Access Available</p>
+              <p className="text-xs text-gray-300">
+                Use <span className="font-mono bg-gray-800 px-2 py-1 rounded">Harmonix.hq@gmail.com</span> with password <span className="font-mono bg-gray-800 px-2 py-1 rounded">admin</span>
+              </p>
+            </div>
 
             <div className="text-center text-sm text-gray-400">
               By signing in, you agree to our{" "}
