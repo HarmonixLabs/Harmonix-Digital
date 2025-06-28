@@ -1,0 +1,56 @@
+I am trying to fix both the pasted and as follows:
+
+- Please Riplet, please perform a full self-healing audit and remediation of the entire Harmonix website. For every route, component, and UI pattern, do the following:
+- 
+- 1. **Functionality & Routing**  
+-    - Verify every link, button, form, and API integration works end-to-end.  
+-    - On 404s or broken routes, replace the default page with our branded “Join the Waitlist” form.  
+-    - Ensure Sign In / Get Started buttons either log in users or send anonymous visitors to the waitlist.
+- 
+- 2. **Layout, Spacing & Responsiveness**  
+-    - Audit every page’s grid: header, hero, content sections, footer.  
+-    - Standardize margins, paddings, gutters, and max-width breakpoints according to the 8px baseline grid.  
+-    - Test across mobile, tablet, desktop breakpoints and fix any overflow, clipping, or misalignment.
+- 
+- 3. **Typography & Color**  
+-    - Enforce our brand fonts (Inter + Montserrat): weight, size, line-height, scale steps.  
+-    - Validate all text colors meet WCAG AA contrast on both dark (#0B0B0B / #1A1A1A) and light backgrounds.  
+-    - Confirm every headline, body, caption, and label uses the proper token or CSS class.
+- 
+- 4. **Brand Palette & Gradients**  
+-    - Check all primary buttons, CTAs, highlights, icons, and accents use the exact hex values:  
+-      • Neon Pulse Green #39FF14  
+-      • Obsidian Black #0B0B0B  
+-      • Plasma White #F4F4F4  
+-      • Solar Teal #00FFE0  
+-      • Lunar Gold #FDC500  
+-      • Midnight Grey #1A1A1A  
+-    - Audit any custom gradients or background overlays and adjust to brand-approved patterns.
+- 
+- 5. **Animations & Micro-Interactions**  
+-    - Verify all entrance/hover/focus animations run smoothly at 60 fps: buttons, modals, tooltips, list pop-ins.  
+-    - Ensure no jank or layout shifts during scroll or component mount.  
+-    - Add missing subtle fades, pops, or parallax effects to key brand sections (hero, feature lists, agent cards).
+- 
+- 6. **Forms & Modals**  
+-    - Self-heal every form (waitlist, login, onboarding, demo) so field validation, error messages, and success flows work flawlessly.  
+-    - On any form error or unimplemented path, default to the waitlist CTA.  
+-    - Confirm consent checkboxes are wired to track opt-in for email/SMS and appear on every relevant form.
+- 
+- 7. **Accessibility & SEO**  
+-    - Run an a11y audit (axe/Lighthouse) and fix all critical issues (labels, focus states, ARIA).  
+-    - Ensure each page has unique title, meta description, OG tags, and structured data where needed.
+- 
+- 8. **Monitoring & Health Checks**  
+-    - Add a lightweight health-check endpoint or UI badge (for founders/admins) showing “SOL Connected” live status.  
+-    - Implement automated smoke tests for every major flow (signup → dashboard → marketplace → deploy).
+- 
+- 9. **Repeat & Verify**  
+-    - After remediation, re-run the full audit and smoke tests.  
+-    - Iterate until 100% of checks pass: no broken links, no layout shifts, no console errors, no missing assets.
+- 
+- Deliver a one-page summary of every fix applied, with before/after screenshots and the final “all green” checklist. Then stand ready to redeploy to staging.   ```
+- 
+- - Copy that entire block into Riplet so it knows to continuously loop: audit → fix → verify → report, until the MVP is truly launch-ready.
+Please:
+Research deeply across my codebase Find what's causing these conflicts Develop a plan to fix the configuration Write the plan into Instructions.md
