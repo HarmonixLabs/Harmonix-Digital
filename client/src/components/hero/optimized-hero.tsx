@@ -40,18 +40,18 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
   return (
     <section className={cn("relative min-h-screen flex items-center justify-center overflow-hidden", className)}>
       {/* Sacred Atmospheric Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-deep-space-black via-[#1a2332] to-deep-space-black">
+      <div className="absolute inset-0 bg-gradient-to-br from-harmonix-deep-forest via-harmonix-night-pine to-harmonix-deep-forest">
         {/* Multi-layer Brand Gradients */}
-        <div className="absolute inset-0 bg-gradient-to-br from-jade-forest/15 via-transparent to-harmonix-gold/20" />
-        <div className="absolute inset-0 bg-gradient-to-tl from-harmonix-gold/10 via-transparent to-jade-forest/5" />
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-jade-forest/5 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-br from-harmonix-cedar-mist/15 via-transparent to-harmonix-regal-gold/20" />
+        <div className="absolute inset-0 bg-gradient-to-tl from-harmonix-regal-gold/10 via-transparent to-harmonix-cedar-mist/5" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-harmonix-cedar-mist/5 to-transparent" />
         
         {/* Sacred Starfall animation */}
         <div className="absolute inset-0 overflow-hidden">
           {[...Array(15)].map((_, i) => (
             <div
               key={i}
-              className="absolute w-1 h-12 bg-gradient-to-b from-harmonix-gold via-jade-forest/50 to-transparent"
+              className="absolute w-1 h-12 bg-gradient-to-b from-harmonix-regal-gold via-harmonix-sage-fade/50 to-transparent"
               style={{
                 left: `${Math.random() * 100}%`,
                 animationName: 'starfallSacred',
@@ -66,7 +66,7 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
           {[...Array(8)].map((_, i) => (
             <div
               key={`sacred-${i}`}
-              className="absolute w-2 h-2 bg-harmonix-gold rounded-full opacity-60"
+              className="absolute w-2 h-2 bg-harmonix-regal-gold rounded-full opacity-60"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
@@ -82,8 +82,8 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
           <svg className="w-full h-full" viewBox="0 0 1200 800">
             <defs>
               <linearGradient id="webGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.3" />
-                <stop offset="100%" stopColor="#4A90E2" stopOpacity="0.1" />
+                <stop offset="0%" stopColor="var(--harmonix-regal-gold)" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="var(--harmonix-sage-fade)" stopOpacity="0.2" />
               </linearGradient>
             </defs>
             {/* Constellation connecting lines */}
@@ -96,7 +96,7 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
               <path d="M1000,200 L900,400" />
             </g>
             {/* Constellation nodes */}
-            <g fill="#d7b76d" opacity="0.6">
+            <g fill="var(--harmonix-regal-gold)" opacity="0.7">
               <circle cx="200" cy="200" r="3" className="animate-pulse" />
               <circle cx="600" cy="200" r="3" className="animate-pulse" style={{ animationDelay: "0.5s" }} />
               <circle cx="1000" cy="200" r="3" className="animate-pulse" style={{ animationDelay: "1s" }} />
@@ -114,9 +114,9 @@ export function OptimizedHero({ className }: OptimizedHeroProps) {
           className="absolute inset-0 opacity-10"
           style={{
             backgroundImage: `
-              linear-gradient(rgba(212, 175, 55, 0.15) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(212, 175, 55, 0.15) 1px, transparent 1px),
-              linear-gradient(45deg, rgba(74, 144, 226, 0.08) 1px, transparent 1px)
+              linear-gradient(var(--harmonix-regal-gold, #d7b76d) 1px, transparent 1px),
+              linear-gradient(90deg, var(--harmonix-regal-gold, #d7b76d) 1px, transparent 1px),
+              linear-gradient(45deg, var(--harmonix-sage-fade, #768b7c) 1px, transparent 1px)
             `,
             backgroundSize: '60px 60px'
           }}

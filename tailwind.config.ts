@@ -144,20 +144,30 @@ export default {
           ring: "var(--sidebar-ring)",
         },
         
-        // HARMONIX Brand Colors - Single Source of Truth
-        "jade-forest": "#0A3925",
-        "golden-sovereign": "#F4C542", 
-        "ivory-light": "#FAFAF5",
-        "charcoal-deep": "#1E1E1E",
+        // HARMONIX Core Brand Palette - Unified System
+        "harmonix-deep-forest": "var(--harmonix-deep-forest)",
+        "harmonix-cedar-mist": "var(--harmonix-cedar-mist)",
+        "harmonix-sage-fade": "var(--harmonix-sage-fade)",
+        "harmonix-regal-gold": "var(--harmonix-regal-gold)",
+        "harmonix-night-pine": "var(--harmonix-night-pine)",
+        "harmonix-emerald-deep": "var(--harmonix-emerald-deep)",
+        "harmonix-gold-bright": "var(--harmonix-gold-bright)",
+        "harmonix-ivory-light": "var(--harmonix-ivory-light)",
+        
+        // Legacy Support (redirects to harmonix)
+        "jade-forest": "var(--jade-forest)",
+        "golden-sovereign": "var(--golden-sovereign)", 
+        "ivory-light": "var(--ivory-light)",
+        "charcoal-deep": "var(--charcoal-deep)",
         "slate-gray": "#2F2F2F",
-        "ember-glow": "#FFD966",
+        "ember-glow": "var(--ember-glow)",
         "reactor-red": "#E63946",
         
-        // Functional colors (derived from primary)
-        "jade-forest-muted": "#4A9B8E",
-        "jade-forest-dark": "#072419",
+        // Functional colors (derived from harmonix)
+        "jade-forest-muted": "var(--jade-forest-muted)",
+        "jade-forest-dark": "var(--jade-forest-dark)",
         "golden-muted": "#F4E4A1",
-        "golden-dark": "#D4AF37",
+        "golden-dark": "var(--golden-dark)",
         
         // Semantic Colors
         "success-green": "#22c55e",

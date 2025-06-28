@@ -26,20 +26,32 @@
   --ring: hsl(240, 4.9%, 83.9%);
   --radius: 0.5rem;
   
-  /* HARMONIX Unified Color System - Single Source of Truth */
-  --jade-forest: #0A3925;           /* Primary brand color */
-  --golden-sovereign: #F4C542;      /* Premium accent color */
-  --ivory-light: #FAFAF5;           /* Clean light background */
-  --charcoal-deep: #1E1E1E;         /* Primary dark background */
-  --slate-gray: #2F2F2F;            /* Secondary gray */
-  --ember-glow: #FFD966;            /* Lighter gold variant */
-  --reactor-red: #E63946;           /* Error/warning color */
+  /* HARMONIX Core Brand Palette - Complete System */
+  --harmonix-deep-forest: #0b0f0e;      /* Primary dark background */
+  --harmonix-cedar-mist: #2f4e46;       /* Secondary green */
+  --harmonix-sage-fade: #768b7c;        /* Muted green text */
+  --harmonix-regal-gold: #d7b76d;       /* Primary accent */
+  --harmonix-night-pine: #111f1a;       /* Background dark variant */
   
-  /* Functional colors (derived from primary) */
-  --jade-forest-muted: #4A9B8E;     /* Hover states */
-  --jade-forest-dark: #072419;      /* Deeper variant */
-  --golden-muted: #F4E4A1;          /* Subtle backgrounds */
-  --golden-dark: #D4AF37;           /* Deeper accent */
+  /* Extended Harmonix Palette */
+  --harmonix-emerald-deep: #014321;     /* Deepest green */
+  --harmonix-gold-bright: #F4C542;      /* Bright gold accent */
+  --harmonix-ivory-light: #FAFAF5;      /* Clean backgrounds */
+  
+  /* Legacy Support - Redirect to Harmonix */
+  --jade-forest: var(--harmonix-cedar-mist);
+  --golden-sovereign: var(--harmonix-regal-gold);
+  --ivory-light: var(--harmonix-ivory-light);
+  --charcoal-deep: var(--harmonix-deep-forest);
+  --slate-gray: #2F2F2F;
+  --ember-glow: var(--harmonix-gold-bright);
+  --reactor-red: #E63946;
+  
+  /* Functional colors (derived from harmonix) */
+  --jade-forest-muted: var(--harmonix-sage-fade);
+  --jade-forest-dark: var(--harmonix-emerald-deep);
+  --golden-muted: #F4E4A1;
+  --golden-dark: var(--harmonix-regal-gold);
   
   /* Semantic Colors */
   --success-green: #22c55e;
