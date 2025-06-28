@@ -564,7 +564,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
               agentTypeId: agentType.id,
               organizationId: req.user.organizationId,
               isActive: true,
-              config: onboardingData
+              customPrompt: `Onboarding context: ${JSON.stringify(onboardingData)}`
             });
           }
         }
@@ -729,7 +729,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       };
 
       const selectedTier = isDeposit ? 'deposit' : tier;
-      const tierData = pricingTiers[selectedTier];
+      const tierData = (pricingTiers as any)[selectedTier];
       
       if (!tierData) {
         return res.status(400).json({ error: 'Invalid tier selected' });

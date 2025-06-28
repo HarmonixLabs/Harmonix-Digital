@@ -60,11 +60,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const loginMutation = useMutation({
     mutationFn: async ({ email, password }: { email: string; password: string }) => {
-      const response = await apiRequest('POST', '/api/auth/login', { email, password });
-      return response.json();
+      const data = await authAPI.login({ email, password });
+      return data;
     },
     onSuccess: (data) => {
-      localStorage.setItem('harmonix_token', data.token);
+      tokenManager.setToken(data.token);
       setToken(data.token);
       setIsAuthenticated(true);
       queryClient.invalidateQueries({ queryKey: ['/api/auth/me'] });
@@ -79,17 +79,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
       phone?: string; 
       company?: string; 
     }) => {
-      const response = await apiRequest('POST', '/api/auth/register', { 
+      const data = await authAPI.register({ 
         email, 
         password, 
         name, 
         phone, 
         company 
       });
-      return response.json();
+      return data;
     },
     onSuccess: (data) => {
-      localStorage.setItem('harmonix_token', data.token);
+      tokenManager.setToken(data.token);
       setToken(data.token);
       setIsAuthenticated(true);
       queryClient.invalidateQueries({ queryKey: ['/api/auth/me'] });
