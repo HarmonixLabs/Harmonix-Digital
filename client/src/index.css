@@ -99,6 +99,119 @@ body {
   }
 }
 
+/* HARMONIX Button & Interactive Element Overrides */
+/* Fix pricing page dimmed button issues */
+
+/* Primary Button Enhancement */
+.btn-primary, 
+button[data-variant="default"],
+[class*="bg-harmonix-gold"] {
+  background: var(--harmonix-regal-gold) !important;
+  color: var(--harmonix-deep-forest) !important;
+  border: none !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+}
+
+.btn-primary:hover, 
+button[data-variant="default"]:hover,
+[class*="bg-harmonix-gold"]:hover {
+  background: var(--harmonix-gold-bright) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3) !important;
+}
+
+/* Outline Button Enhancement */
+.btn-outline, 
+button[data-variant="outline"],
+[class*="border-harmonix"] {
+  border: 2px solid var(--harmonix-regal-gold) !important;
+  color: var(--harmonix-regal-gold) !important;
+  background: transparent !important;
+  font-weight: 500 !important;
+}
+
+.btn-outline:hover, 
+button[data-variant="outline"]:hover,
+[class*="border-harmonix"]:hover {
+  background: var(--harmonix-regal-gold) !important;
+  color: var(--harmonix-deep-forest) !important;
+}
+
+/* Switch Component Fix */
+.switch-thumb,
+button[role="switch"] > span {
+  background: var(--harmonix-regal-gold) !important;
+}
+
+button[role="switch"][data-state="checked"] {
+  background: var(--harmonix-cedar-mist) !important;
+}
+
+button[role="switch"][data-state="unchecked"] {
+  background: rgba(118, 139, 124, 0.3) !important;
+}
+
+/* Slider Component Enhancement */
+.slider-track,
+[role="slider"] {
+  background: var(--harmonix-cedar-mist) !important;
+}
+
+.slider-thumb,
+[role="slider"] > span {
+  background: var(--harmonix-regal-gold) !important;
+  border: 2px solid var(--harmonix-gold-bright) !important;
+}
+
+/* Remove disabled opacity for active elements */
+button:not(:disabled),
+input:not(:disabled),
+select:not(:disabled) {
+  opacity: 1 !important;
+}
+
+/* Enhanced focus states */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--harmonix-regal-gold) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2) !important;
+}
+
+/* Card hover enhancement */
+.card-hover:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
+  border-color: rgba(212, 175, 55, 0.4) !important;
+}
+
+/* Pricing tier enhancement */
+.pricing-tier-card {
+  background: linear-gradient(145deg, 
+    var(--harmonix-deep-forest) 0%, 
+    var(--harmonix-night-pine) 100%) !important;
+  border: 2px solid var(--harmonix-cedar-mist) !important;
+  transition: all 0.3s ease !important;
+}
+
+.pricing-tier-card.featured {
+  border-color: var(--harmonix-regal-gold) !important;
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.2) !important;
+}
+
+/* Text contrast enhancement */
+.text-harmonix-sage {
+  color: var(--harmonix-sage-fade) !important;
+  opacity: 1 !important;
+}
+
+.text-harmonix-gold {
+  color: var(--harmonix-regal-gold) !important;
+  opacity: 1 !important;
+}
+
 .harmonix-card-enhanced {
   background: linear-gradient(135deg, 
     var(--harmonix-night-pine, #111f1a) 0%, 

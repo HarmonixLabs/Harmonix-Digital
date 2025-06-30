@@ -43,6 +43,7 @@ export function Navbar() {
     { href: "/", label: "Home" },
     { href: "/marketplace", label: "Marketplace" },
     { href: "/service-pricing", label: "Pricing" },
+    { href: "/dashboard/roi", label: "ROI Calculator" },
     { href: "/demo", label: "Demo" },
     { href: "/harmony-waitlist", label: "Join Waitlist" },
     { href: "/case-studies", label: "Success Stories" },
@@ -53,6 +54,7 @@ export function Navbar() {
     { href: "/dashboard", label: "Dashboard" },
     { href: "/my-agents", label: "My Agents" },
     { href: "/marketplace", label: "Marketplace" },
+    { href: "/dashboard/roi", label: "ROI Analytics" },
     { href: "/create", label: "Create" },
     { href: "/wallet", label: "Wallet" },
   ];
