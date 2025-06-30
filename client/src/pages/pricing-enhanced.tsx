@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
+import { HarmonixButton } from "@/components/ui/harmonix-button";
+import { HarmonixSwitch } from "@/components/ui/harmonix-switch";
 import { AnimatedButton } from "@/components/ui/animated-button";
 import { AnimatedCard } from "@/components/ui/animated-card";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
-import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Check, Star, Zap, ArrowRight, Calculator, TrendingUp, Wallet, Users, Bot, Clock, DollarSign } from "lucide-react";
 import { Link } from "wouter";
@@ -81,24 +82,21 @@ export default function PricingEnhanced() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-8">
               <div className="flex items-center gap-4">
                 <Label htmlFor="early-bird" className="text-harmonix-sage">Early Bird Pricing</Label>
-                <Switch
+                <HarmonixSwitch
                   id="early-bird"
                   checked={isEarlyBird}
                   onCheckedChange={setIsEarlyBird}
                 />
               </div>
               
-              <AnimatedButton
-                variant={showROICalculator ? "default" : "outline"}
+              <HarmonixButton
+                variant={showROICalculator ? "harmonix-primary" : "harmonix-outline"}
                 onClick={() => setShowROICalculator(!showROICalculator)}
-                className={showROICalculator 
-                  ? "bg-harmonix-gold text-harmonix-black" 
-                  : "border-harmonix-gold text-harmonix-gold hover:bg-harmonix-gold hover:text-harmonix-black"
-                }
+                size="lg"
               >
                 <Calculator className="w-4 h-4 mr-2" />
                 ROI Calculator
-              </AnimatedButton>
+              </HarmonixButton>
             </div>
           </div>
 
