@@ -1,0 +1,131 @@
+{
+  "colors": {
+    "primary": {
+      "base": "#0A3D3F",
+      "light": "#1A5D5F",
+      "lighter": "#2A7D7F",
+      "dark": "#072D2F",
+      "darker": "#041D1F"
+    },
+    "accent": {
+      "base": "#E6B325",
+      "light": "#F6C335",
+      "lighter": "#F8D355",
+      "dark": "#D6A315",
+      "darker": "#B68905"
+    },
+    "neutral": {
+      "white": "#F7F7F2",
+      "light": "#E5E5E0",
+      "medium": "#C0C0BB",
+      "dark": "#4A4A4A",
+      "charcoal": "#2A2A2A",
+      "black": "#121212"
+    },
+    "status": {
+      "success": "#2E7D32",
+      "warning": "#ED6C02",
+      "error": "#D32F2F",
+      "info": "#0288D1"
+    },
+    "background": {
+      "primary": "#0A1A1A",
+      "secondary": "#0F2222",
+      "tertiary": "#142A2A"
+    }
+  },
+  "typography": {
+    "fontFamilies": {
+      "primary": "Inter, sans-serif",
+      "secondary": "Playfair Display, serif",
+      "code": "Fira Code, monospace"
+    },
+    "fontSizes": {
+      "xs": "12px",
+      "sm": "14px",
+      "md": "16px",
+      "lg": "18px",
+      "xl": "20px",
+      "2xl": "24px",
+      "3xl": "30px",
+      "4xl": "36px",
+      "5xl": "48px",
+      "6xl": "60px"
+    },
+    "fontWeights": {
+      "regular": 400,
+      "medium": 500,
+      "bold": 700
+    },
+    "lineHeights": {
+      "tight": 1.2,
+      "normal": 1.5,
+      "loose": 1.8
+    },
+    "letterSpacing": {
+      "tight": "-0.01em",
+      "normal": "0",
+      "wide": "0.01em"
+    }
+  },
+  "spacing": {
+    "0": "0",
+    "1": "4px",
+    "2": "8px",
+    "3": "12px",
+    "4": "16px",
+    "5": "20px",
+    "6": "24px",
+    "8": "32px",
+    "10": "40px",
+    "12": "48px",
+    "16": "64px",
+    "20": "80px",
+    "24": "96px"
+  },
+  "borderRadius": {
+    "none": "0",
+    "sm": "4px",
+    "md": "8px",
+    "lg": "12px",
+    "xl": "16px",
+    "full": "9999px"
+  },
+  "shadows": {
+    "none": "none",
+    "sm": "0 1px 2px rgba(0, 0, 0, 0.05)",
+    "md": "0 4px 6px rgba(0, 0, 0, 0.1)",
+    "lg": "0 10px 15px rgba(0, 0, 0, 0.1)",
+    "xl": "0 20px 25px rgba(0, 0, 0, 0.15)",
+    "inner": "inset 0 2px 4px rgba(0, 0, 0, 0.05)"
+  },
+  "animations": {
+    "durations": {
+      "fast": "150ms",
+      "normal": "300ms",
+      "slow": "450ms"
+    },
+    "easings": {
+      "default": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "in": "cubic-bezier(0.4, 0, 1, 1)",
+      "out": "cubic-bezier(0, 0, 0.2, 1)",
+      "inOut": "cubic-bezier(0.4, 0, 0.2, 1)"
+    }
+  },
+  "breakpoints": {
+    "xs": "480px",
+    "sm": "768px",
+    "md": "1024px",
+    "lg": "1280px",
+    "xl": "1440px"
+  },
+  "zIndices": {
+    "base": 0,
+    "dropdown": 1000,
+    "sticky": 1100,
+    "fixed": 1200,
+    "modal": 1300,
+    "popover": 1400,
+    "toast": 1500
+  }
+}

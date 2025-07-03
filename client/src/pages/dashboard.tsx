@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { PlatformLayout } from "@/components/layout/platform-layout";
 import { TokenMeter } from "@/components/token-meter";
 import { SacredButton } from "@/components/ui/sacred-button";
 import { SacredCard } from "@/components/ui/sacred-card";
@@ -14,6 +15,15 @@ import { useAuth } from "@/lib/auth";
 import { QuickStartTour } from "@/components/onboarding/quick-start-tour";
 import { OnboardingTrigger } from "@/components/onboarding/onboarding-trigger";
 import { DemoPreviewWidget } from "@/components/demo/demo-preview-widget";
+import { 
+  AgentPerformanceWidget,
+  TaskCompletionWidget,
+  EnergyMeterWidget,
+  AchievementWidget,
+  QuickStatsWidget
+} from "@/components/ui/personalized-widgets";
+import { AILoadingSkeleton } from "@/components/ui/ai-loading-skeleton";
+import { AITooltip } from "@/components/ui/ai-tooltip-system";
 import { UserRoundCheck, Clock, CheckCircle, Activity, HelpCircle, BarChart3, Users, Zap, Crown } from "lucide-react";
 
 export default function Dashboard() {
@@ -106,8 +116,9 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen harmonix-gradient">
-      <Navbar />
+    <PlatformLayout showFeatures={true} enableSelfHealing={true}>
+      <div className="min-h-screen harmonix-gradient">
+        <Navbar />
       
       <div className="harmonix-content-width py-8">
         {/* Sacred Welcome Header */}
@@ -317,6 +328,7 @@ export default function Dashboard() {
           }}
         />
       )}
-    </div>
+      </div>
+    </PlatformLayout>
   );
 }

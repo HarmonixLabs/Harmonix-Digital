@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { HarmonixLogo } from "@/components/brand/HarmonixLogo";
+import { PlatformLayout } from "@/components/layout/platform-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { 
+  AnimatedFormField, 
+  AnimatedSubmitButton, 
+  validationRules 
+} from "@/components/ui/animated-form-validation";
+import { AITooltip } from "@/components/ui/ai-tooltip-system";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 import { createErrorToast, useFormErrorHandler } from "@/lib/errors";
@@ -61,11 +68,12 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-harmony-dark flex items-center justify-center">
-      <div className="absolute inset-0 bg-gradient-to-br from-harmony-green/20 via-transparent to-harmony-gold/10"></div>
-      
-      <div className="w-full max-w-md relative">
-        <Card className="bg-gray-900/50 border-harmony-gold/30 backdrop-blur-sm">
+    <PlatformLayout showFeatures={true} enableSelfHealing={true}>
+      <div className="min-h-screen bg-harmony-dark flex items-center justify-center">
+        <div className="absolute inset-0 bg-gradient-to-br from-harmony-green/20 via-transparent to-harmony-gold/10"></div>
+        
+        <div className="w-full max-w-md relative">
+          <Card className="bg-gray-900/50 border-harmony-gold/30 backdrop-blur-sm">
           <CardHeader className="text-center space-y-6">
             <div className="flex justify-center">
               <HarmonixLogo size="lg" variant="h-mark" />
@@ -110,48 +118,41 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Email Login Form */}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-gray-300">Email Address</Label>
-                <Input
-                  id="email"
+            {/* Enhanced Email Login Form with Animated Validation */}
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <AITooltip
+                content="Enter your registered email address to access your Harmonix platform"
+                personality="harmonix"
+                position="top"
+                showAvatar={false}
+              >
+                <AnimatedFormField
+                  name="email"
                   type="email"
                   placeholder="your@email.com"
                   value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  onChange={(value) => setFormData({...formData, email: value})}
+                  validation={validationRules.email}
                   required
-                  className="bg-gray-800 border-gray-700 text-white focus:border-harmony-gold"
                 />
-              </div>
+              </AITooltip>
 
-              <div className="space-y-2">
-                <Label htmlFor="password" className="text-gray-300">Password</Label>
-                <div className="relative">
-                  <Input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Your password"
-                    value={formData.password}
-                    onChange={(e) => setFormData({...formData, password: e.target.value})}
-                    required
-                    className="bg-gray-800 border-gray-700 text-white focus:border-harmony-gold pr-10"
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4 text-gray-400" />
-                    ) : (
-                      <Eye className="h-4 w-4 text-gray-400" />
-                    )}
-                  </Button>
-                </div>
-              </div>
+              <AITooltip
+                content="Enter your secure password. We use advanced encryption to protect your account"
+                personality="atlas"
+                position="top"
+                showAvatar={false}
+              >
+                <AnimatedFormField
+                  name="password"
+                  type="password"
+                  placeholder="Your password"
+                  value={formData.password}
+                  onChange={(value) => setFormData({...formData, password: value})}
+                  validation={validationRules.required}
+                  required
+                />
+              </AITooltip>
 
               <div className="flex items-center justify-between">
                 <Link href="/forgot-password" className="text-sm text-harmony-gold hover:text-harmony-gold/80">
@@ -162,15 +163,14 @@ export default function LoginPage() {
                 </Link>
               </div>
 
-              <Button
-                type="submit"
-                disabled={isLoading}
-                className="w-full bg-harmony-gold text-harmony-dark hover:bg-harmony-gold/90 font-semibold"
-                size="lg"
+              <AnimatedSubmitButton
+                isLoading={isLoading}
+                success={false}
+                onClick={handleSubmit}
+                className="w-full"
               >
-                {isLoading ? "Signing in..." : "Sign In"}
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+                Sign In to Harmonix
+              </AnimatedSubmitButton>
             </form>
 
             {/* Admin Access Notice */}
@@ -200,6 +200,6 @@ export default function LoginPage() {
           </Link>
         </div>
       </div>
-    </div>
+    </PlatformLayout>
   );
 }
