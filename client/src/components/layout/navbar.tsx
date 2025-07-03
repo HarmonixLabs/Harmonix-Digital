@@ -89,7 +89,7 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <HarmonixLogo size="md" variant="full" className="harmonix-logo-glow" />
+            <HarmonixLogo size="md" variant="monogram" className="harmonix-logo-glow" />
           </Link>
 
           {/* Desktop Navigation Links */}

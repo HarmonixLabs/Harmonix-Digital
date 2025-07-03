@@ -37,7 +37,7 @@ export function Footer() {
           {/* Brand Section */}
           <div className="space-y-4">
             <Link href="/">
-              <HarmonixLogo size="lg" variant="full" className="mb-4" />
+              <HarmonixLogo size="lg" variant="monogram" className="mb-4" />
             </Link>
             <p className="text-sm text-charcoalDeep/70 leading-relaxed">
               Intelligent Systems for Timeless Sovereignty. Transform your business with AI-powered digital team members.

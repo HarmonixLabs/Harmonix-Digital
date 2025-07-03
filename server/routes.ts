@@ -223,6 +223,80 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       }
 
+      // Send to Google Sheets (if credentials are available)
+      if (process.env.HD_SERVICE_ACCOUNT_JSON && process.env.HD_SHEETS_ID) {
+        try {
+          const { google } = await import('googleapis');
+          const credentials = JSON.parse(process.env.HD_SERVICE_ACCOUNT_JSON);
+          
+          const auth = new google.auth.GoogleAuth({
+            credentials: credentials,
+            scopes: ['https://www.googleapis.com/auth/spreadsheets']
+          });
+
+          const sheets = google.sheets({ version: 'v4', auth });
+          const spreadsheetId = process.env.HD_SHEETS_ID;
+
+          // Prepare data for sheets
+          const timestamp = new Date().toISOString();
+          const rowData = [
+            timestamp,
+            leadData.email,
+            leadData.firstName || '',
+            leadData.lastName || '',
+            leadData.company || '',
+            leadData.phone || '',
+            leadData.leadSource || 'website',
+            leadData.interest || '',
+            leadData.budget || '',
+            leadData.timeline || ''
+          ];
+
+          // Check if headers exist, if not add them
+          try {
+            const sheetResponse = await sheets.spreadsheets.values.get({
+              spreadsheetId,
+              range: 'A1:J1'
+            });
+
+            if (!sheetResponse.data.values || sheetResponse.data.values.length === 0) {
+              // Add headers
+              const headers = [
+                'Timestamp', 'Email', 'First Name', 'Last Name', 'Company', 
+                'Phone', 'Lead Source', 'Interest', 'Budget', 'Timeline'
+              ];
+              
+              await sheets.spreadsheets.values.update({
+                spreadsheetId,
+                range: 'A1:J1',
+                valueInputOption: 'RAW',
+                requestBody: {
+                  values: [headers]
+                }
+              });
+            }
+          } catch (headerError) {
+            console.log('Adding headers to new sheet...');
+          }
+
+          // Append the lead data
+          await sheets.spreadsheets.values.append({
+            spreadsheetId,
+            range: 'A:J',
+            valueInputOption: 'RAW',
+            insertDataOption: 'INSERT_ROWS',
+            requestBody: {
+              values: [rowData]
+            }
+          });
+
+          results.sheets = true;
+          console.log('✅ Lead sent to Google Sheets successfully');
+        } catch (error) {
+          console.error('❌ Google Sheets error:', error);
+        }
+      }
+
       // If at least one destination succeeded, consider it a success
       if (results.ghl || results.hubspot || results.sheets) {
         res.status(200).json({
@@ -267,7 +341,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         stripe: process.env.STRIPE_SECRET_KEY ? 'healthy' : 'error',
         ghl: process.env.GHL_API_KEY_HARMONIX ? 'healthy' : 'warning',
         hubspot: process.env.HUBSPOT_API_KEY ? 'healthy' : 'warning',
-        sheets: process.env.GOOGLE_SHEETS_CREDENTIALS ? 'healthy' : 'warning',
+        sheets: (process.env.HD_SERVICE_ACCOUNT_JSON && process.env.HD_SHEETS_ID) ? 'healthy' : 'warning',
         openai: process.env.OPENAI_API_KEY ? 'healthy' : 'error'
       };
 
@@ -1034,6 +1108,77 @@ export async function registerRoutes(app: Express): Promise<Server> {
         notes: `Interested in: ${crmData.customFields.interest}`,
         timestamp: new Date().toISOString()
       });
+
+      // Also add to Google Sheets for backup
+      if (process.env.HD_SERVICE_ACCOUNT_JSON && process.env.HD_SHEETS_ID) {
+        try {
+          const { google } = await import('googleapis');
+          const credentials = JSON.parse(process.env.HD_SERVICE_ACCOUNT_JSON);
+          
+          const auth = new google.auth.GoogleAuth({
+            credentials: credentials,
+            scopes: ['https://www.googleapis.com/auth/spreadsheets']
+          });
+
+          const sheets = google.sheets({ version: 'v4', auth });
+          const spreadsheetId = process.env.HD_SHEETS_ID;
+
+          // Prepare waitlist data
+          const timestamp = new Date().toISOString();
+          const rowData = [
+            timestamp,
+            email,
+            name,
+            company || '',
+            phone || '',
+            'Waitlist',
+            interest || '',
+            industry || '',
+            page || 'homepage'
+          ];
+
+          // Ensure waitlist sheet exists and has headers
+          try {
+            const sheetResponse = await sheets.spreadsheets.values.get({
+              spreadsheetId,
+              range: 'Waitlist!A1:I1'
+            });
+
+            if (!sheetResponse.data.values || sheetResponse.data.values.length === 0) {
+              const headers = [
+                'Timestamp', 'Email', 'Name', 'Company', 'Phone', 
+                'Type', 'Interest', 'Industry', 'Source Page'
+              ];
+              
+              await sheets.spreadsheets.values.update({
+                spreadsheetId,
+                range: 'Waitlist!A1:I1',
+                valueInputOption: 'RAW',
+                requestBody: {
+                  values: [headers]
+                }
+              });
+            }
+          } catch (headerError) {
+            console.log('Adding headers to waitlist sheet...');
+          }
+
+          // Append waitlist data
+          await sheets.spreadsheets.values.append({
+            spreadsheetId,
+            range: 'Waitlist!A:I',
+            valueInputOption: 'RAW',
+            insertDataOption: 'INSERT_ROWS',
+            requestBody: {
+              values: [rowData]
+            }
+          });
+
+          console.log('✅ Waitlist entry added to Google Sheets');
+        } catch (error) {
+          console.error('❌ Google Sheets waitlist error:', error);
+        }
+      }
 
       res.json({ 
         success: true, 
