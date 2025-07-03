@@ -166,7 +166,14 @@ export default function LoginPage() {
               <AnimatedSubmitButton
                 isLoading={isLoading}
                 success={false}
-                onClick={handleSubmit}
+                onClick={() => {
+                  // Create a synthetic form event
+                  const form = document.querySelector('form');
+                  if (form) {
+                    const event = new Event('submit', { bubbles: true, cancelable: true });
+                    form.dispatchEvent(event);
+                  }
+                }}
                 className="w-full"
               >
                 Sign In to Harmonix
@@ -198,6 +205,7 @@ export default function LoginPage() {
           <Link href="/" className="text-gray-400 hover:text-white text-sm">
             ← Back to Homepage
           </Link>
+        </div>
         </div>
       </div>
     </PlatformLayout>

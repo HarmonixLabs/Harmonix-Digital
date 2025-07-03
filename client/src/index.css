@@ -1176,13 +1176,16 @@ select:focus-visible {
 /* Mobile menu improvements */
 @media (max-width: 768px) {
   .mobile-menu {
-    @apply fixed inset-x-0 top-16 bg-harmonix-deep-forest/98 backdrop-blur-lg z-50 border-t border-harmonix-sage-fade/20;
+    @apply fixed inset-x-0 top-16 backdrop-blur-lg z-50 border-t;
+    background-color: rgb(11 15 14 / 0.98); /* harmonix-deep-forest with 98% opacity */
+    border-top-color: rgb(118 139 124 / 0.2); /* harmonix-sage-fade with 20% opacity */
     max-height: calc(100vh - 4rem);
     overflow-y: auto;
   }
   
   .mobile-menu-item {
-    @apply block px-4 py-3 text-base font-medium border-b border-harmonix-sage-fade/10;
+    @apply block px-4 py-3 text-base font-medium border-b;
+    border-bottom-color: rgb(118 139 124 / 0.1); /* harmonix-sage-fade with 10% opacity */
   }
 }
 
