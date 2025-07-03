@@ -21,11 +21,12 @@ export function HarmonixLogo({
   size = "md", 
   className 
 }: HarmonixLogoProps) {
+  // Responsive size classes with mobile-first approach
   const sizeClasses = {
-    sm: "h-6",
-    md: "h-8",
-    lg: "h-12",
-    xl: "h-16"
+    sm: "h-6 sm:h-6 md:h-8 lg:h-8",      // 24px → 32px
+    md: "h-8 sm:h-10 md:h-12 lg:h-12",   // 32px → 48px  
+    lg: "h-10 sm:h-12 md:h-14 lg:h-16",  // 40px → 64px
+    xl: "h-12 sm:h-14 md:h-16 lg:h-20"   // 48px → 80px
   };
 
   const getLogoSrc = () => {
@@ -47,12 +48,26 @@ export function HarmonixLogo({
     }
   };
 
+  // Get image source
+  const logoSrc = getLogoSrc();
+  
   return (
-    <img
-      src={getLogoSrc()}
-      alt="Harmonix Digital"
-      className={cn(sizeClasses[size], "object-contain", className)}
-    />
+    <picture>
+      {/* WebP format for modern browsers */}
+      <source 
+        type="image/webp" 
+        srcSet={`${logoSrc} 1x, ${logoSrc} 2x, ${logoSrc} 3x`}
+      />
+      {/* PNG fallback with retina support */}
+      <img
+        src={logoSrc}
+        srcSet={`${logoSrc} 1x, ${logoSrc} 2x, ${logoSrc} 3x`}
+        alt="Harmonix Digital"
+        className={cn(sizeClasses[size], "object-contain", className)}
+        loading="lazy"
+        decoding="async"
+      />
+    </picture>
   );
 }
 

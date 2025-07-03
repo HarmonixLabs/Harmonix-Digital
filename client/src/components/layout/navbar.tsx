@@ -89,7 +89,7 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <HarmonixLogo size="lg" variant="full" className="harmonix-logo-glow" />
+            <HarmonixLogo size="md" variant="full" className="harmonix-logo-glow" />
           </Link>
 
           {/* Desktop Navigation Links */}
@@ -205,11 +205,11 @@ export function Navbar() {
             {/* Mobile Menu Button */}
             <Button
               variant="ghost"
-              size="sm"
-              className="md:hidden"
+              size="icon"
+              className="md:hidden touch-friendly-btn h-12 w-12"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </Button>
           </div>
         </div>

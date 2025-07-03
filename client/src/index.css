@@ -520,6 +520,36 @@ select:focus-visible {
   border: 1px solid var(--harmonix-regal-gold, #d7b76d);
 }
 
+/* Responsive Feature Grid System */
+.feature-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .feature-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .feature-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+}
+
+/* Mobile-friendly feature boxes */
+@media (max-width: 480px) {
+  .feature-box {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+}
+
 /* Mobile-First Responsive Typography System */
 .hero-responsive-title {
   font-size: 2.5rem; /* 40px mobile */

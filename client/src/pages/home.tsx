@@ -61,9 +61,9 @@ function PlatformPillarsSection() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
+        <div className="feature-grid">
           {pillars.map((pillar, index) => (
-            <Card key={index} className="harmonix-card-enhanced p-6 sm:p-8 group hover:scale-105 transition-all duration-300">
+            <Card key={index} className="harmonix-card-enhanced p-6 sm:p-8 group hover:scale-105 transition-all duration-300 feature-box">
               <div className="text-center space-y-4">
                 <div className="mx-auto w-16 h-16 bg-harmonix-regal-gold/10 rounded-full flex items-center justify-center mb-6">
                   <pillar.icon className="w-8 h-8 text-harmonix-regal-gold" />
@@ -339,7 +339,7 @@ function PricingSection() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {pricingTiers.map((tier, index) => (
             <Card 
               key={index}
@@ -542,10 +542,13 @@ function JoinMovementSection() {
       <div className="harmonix-container">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-harmonix-regal-gold font-serif">
-            Join the Movement
+            Reserve Your Spot Today
           </h2>
-          <p className="text-lg sm:text-xl text-harmonix-sage-fade mb-8 sm:mb-12">
+          <p className="text-lg sm:text-xl text-harmonix-sage-fade mb-3">
             Over 280+ early adopters have activated their agents. Secure your 30% discount before we reach capacity.
+          </p>
+          <p className="text-base sm:text-lg text-harmonix-regal-gold font-medium mb-8 sm:mb-12">
+            30% Deposit Now → Save 15% + Priority Access
           </p>
 
           <Card className="harmonix-card-enhanced p-6 sm:p-8">
