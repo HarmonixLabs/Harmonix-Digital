@@ -1,0 +1,75 @@
+I am trying to fix both the pasted and as follows:
+
+Riplet,
+
+Add a **Token Auto-Recharge** feature to every Agent’s settings panel and billing page to ensure continuity when users exhaust their monthly credits. Implement as follows:
+
+---
+
+## 1. Data Model & API  
+- **Prisma Schema** (or equivalent)  
+  ```prisma
+  model UserSettings {
+    id                  Int     @id @default(autoincrement())
+    userId              Int     @unique
+    autoRechargeEnabled Boolean @default(false)
+    autoRechargeAmount  Float   @default(0)  // in USD, min 10
+    updatedAt           DateTime @updatedAt
+  }
+
+	•	API Endpoints under /pages/api/user/settings
+	•	GET /auto-recharge → returns { enabled, amount }
+	•	PUT /auto-recharge → accepts { enabled: boolean, amount: number }, validates amount >= 10
+
+⸻
+
+2. Front-End UI/UX
+
+A. Agent Settings Panel (/dashboard & Agent Builder)
+	•	Section Title: “Auto-Recharge Tokens”
+	•	Controls:
+	•	Toggle Switch “Enable Auto-Recharge”
+	•	Number Input “Amount (USD)” (disabled unless toggle is on, min = 10, step = 5)
+	•	Helper Text: “When your monthly tokens run out, we’ll automatically charge this amount to your card on file.”
+	•	Styling:
+	•	Use Jade Forest background for the section container, Ivory Light text, Golden Sovereign toggle accent.
+	•	Inputs in Charcoal Deep with Slate Gray border.
+
+B. Billing Page (/billing)
+	•	Add the same “Auto-Recharge Tokens” controls at top of billing summary.
+	•	Show next scheduled recharge date and last recharge amount.
+
+⸻
+
+3. Recharge Workflow
+	1.	Monitor user’s token balance after each usage via a middleware hook.
+	2.	Trigger when balance ≤ 0 and autoRechargeEnabled === true:
+	•	Create a Stripe PaymentIntent for autoRechargeAmount USD.
+	•	On success:
+	•	Add autoRechargeAmount / tokenPrice to user’s token balance.
+	•	Log the transaction in RechargeLog model.
+	•	On failure:
+	•	Send email to connect@harmonixdigital.com and toast error in-app: “Auto-recharge failed—please update your payment method.”
+
+⸻
+
+4. Notifications & Error Handling
+	•	On Successful Recharge: toast “Tokens recharged by $XX. You now have YY tokens.”
+	•	On Failed Recharge: inline alert in billing page + email alert to user + Slack notification.
+	•	Activity Log: expose each recharge event in /user/activity feed.
+
+⸻
+
+5. Tests & Self-Heal
+	•	Unit Tests: validate API PUT /auto-recharge rejects <10, accepts valid.
+	•	E2E Tests: toggle on/off, set amount, exhaust tokens, assert recharge triggers correctly.
+	•	Load Test: simulate multiple users depleting tokens simultaneously.
+
+⸻
+
+Loop through audit → implement → test → verify until both the Agent Settings panel and Billing page show the new feature working flawlessly. Begin now.
+
+
+
+Please:
+Research deeply across my codebase Find what's causing these conflicts Develop a plan to fix the configuration Write the plan into Instructions.md

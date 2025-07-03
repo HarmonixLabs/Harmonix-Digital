@@ -1,8 +1,266 @@
-# Harmonix Platform Comprehensive Audit & Lead Capture Implementation Plan
+# Harmonix Platform Comprehensive Responsive Design & UI/UX Fix Plan
 
 ## Executive Summary
 
-This document outlines the complete fix strategy for implementing platform-wide lead capture functionality, comprehensive UI/UX audit, and system health monitoring as requested. The plan addresses all critical issues identified in the platform analysis and provides step-by-step implementation guidance.
+This document outlines the complete fix strategy for logo implementation, responsive design issues, button copy updates, and comprehensive platform QA. The plan addresses all critical issues identified in the platform analysis and provides step-by-step implementation guidance.
+
+## Update Date: July 3, 2025
+
+## PRIORITY FIXES: Logo, Responsiveness & CTA Updates
+
+### 1. Logo & Header Implementation (Critical)
+
+#### Current Issues:
+- Logo component exists but needs verification for retina display
+- Missing fallback PNGs for unsupported browsers
+- Inconsistent sizing across breakpoints
+
+#### Implementation Plan:
+```typescript
+// Update HarmonixLogo component with retina support
+// File: client/src/components/brand/HarmonixLogo.tsx
+
+1. Add srcSet for retina displays:
+   - 1x, 2x, and 3x versions of all logo variants
+   - Use responsive image sizing with picture element
+
+2. Add fallback mechanisms:
+   - WebP format with PNG fallback
+   - SVG with PNG fallback for older browsers
+
+3. Update size classes for responsive breakpoints:
+   - Mobile: h-6 (24px)
+   - Tablet: h-8 (32px) 
+   - Desktop: h-12 (48px)
+```
+
+### 2. Responsive Design Fixes (High Priority)
+
+#### Breakpoint Issues Identified:
+- **Mobile (≤480px)**: Feature boxes overflow, text truncation
+- **Tablet (481-768px)**: Inconsistent grid layouts, button misalignment
+- **Desktop (>768px)**: Some sections exceed max-width constraints
+
+#### Component-Specific Fixes:
+
+**Feature Boxes / Dev Boxes:**
+```css
+/* Update responsive classes for feature boxes */
+.feature-box {
+  /* Mobile: Stack vertically */
+  @media (max-width: 480px) {
+    width: 100%;
+    max-width: 320px; /* Design Brief requirement */
+    margin: 0 auto;
+  }
+  
+  /* Tablet: 2-column grid */
+  @media (min-width: 481px) and (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px; /* 8px baseline grid */
+  }
+  
+  /* Desktop: 3-4 column grid */
+  @media (min-width: 769px) {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px; /* 8px baseline grid */
+  }
+}
+```
+
+**Navigation Menu:**
+- Implement proper hamburger menu for mobile
+- Fix overflow issues in mobile navigation drawer
+- Ensure touch targets are minimum 48px (Design Brief)
+
+### 3. "Join the Movement" Section Update (Immediate)
+
+#### Current State:
+- Button text: "Join the Movement"
+- No deposit/discount messaging
+
+#### Required Updates:
+```typescript
+// File: client/src/pages/home.tsx
+// Update JoinMovementSection component
+
+1. Change button text:
+   FROM: "Join the Movement"
+   TO: "Reserve My Spot"
+
+2. Add subtext element:
+   <p className="text-sm text-harmonix-sage-fade mt-2">
+     30% Deposit Now → Save 15% + Priority Access
+   </p>
+
+3. Update form submission logic:
+   - Add deposit calculation (30% of selected tier)
+   - Apply 15% discount to total
+   - Store pricing info in checkout flow
+```
+
+### 4. Global Responsiveness Audit
+
+#### Pages to Audit:
+1. **Homepage** (/)
+   - Hero section
+   - Feature grid
+   - Pricing tables
+   - Join Movement section
+
+2. **Pricing** (/pricing)
+   - Tier comparison table
+   - Mobile-friendly pricing cards
+   - CTA buttons
+
+3. **Agents** (/marketplace)
+   - Agent cards grid
+   - Filter sidebar (mobile drawer)
+   - Deploy buttons
+
+4. **Contact** (/contact)
+   - Form layout
+   - Map integration
+   - Contact info cards
+
+#### Testing Matrix:
+| Device | Resolution | Critical Elements |
+|--------|-----------|-------------------|
+| iPhone SE | 375x667 | Navigation, Forms, CTAs |
+| iPhone 12/13 | 390x844 | Feature boxes, Pricing |
+| iPad | 768x1024 | Grid layouts, Tables |
+| iPad Pro | 1024x1366 | Full layouts |
+| Desktop | 1920x1080 | All elements |
+
+### 5. Implementation Checklist
+
+#### Phase 1: Logo Updates (Day 1)
+- [ ] Generate 2x and 3x logo assets
+- [ ] Update HarmonixLogo component with srcSet
+- [ ] Add WebP versions with fallbacks
+- [ ] Test on high-DPI displays
+- [ ] Verify loading performance
+
+#### Phase 2: Responsive Fixes (Days 2-3)
+- [ ] Update feature box grid system
+- [ ] Fix mobile navigation overflow
+- [ ] Implement responsive pricing tables
+- [ ] Update all touch targets to 48px minimum
+- [ ] Fix tablet layout inconsistencies
+
+#### Phase 3: CTA Updates (Day 4)
+- [ ] Update "Join the Movement" button text
+- [ ] Add deposit/discount subtext
+- [ ] Update checkout flow with 30% deposit logic
+- [ ] Implement 15% discount calculation
+- [ ] Test payment flow end-to-end
+
+#### Phase 4: QA & Testing (Days 5-6)
+- [ ] Run through testing matrix on all devices
+- [ ] Use Chrome DevTools device emulation
+- [ ] Test on real devices (iOS/Android)
+- [ ] Validate all forms and CTAs
+- [ ] Check for console errors
+
+### 6. CSS/Tailwind Utilities to Add
+
+```css
+/* Add to index.css for consistent responsive utilities */
+
+/* Touch-friendly button sizes */
+.touch-friendly-btn {
+  min-height: 48px;
+  padding: 12px 24px;
+  touch-action: manipulation;
+}
+
+/* Responsive container with max-widths */
+.responsive-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+@media (min-width: 768px) {
+  .responsive-container {
+    padding: 0 24px;
+  }
+}
+
+/* Feature box responsive grid */
+.feature-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .feature-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .feature-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+}
+```
+
+### 7. Self-Healing Protocol Updates
+
+Add these checks to the self-healing system:
+```typescript
+// File: client/src/lib/self-healing-protocol.ts
+
+1. Logo loading verification
+2. Responsive breakpoint testing
+3. Touch target size validation
+4. Form submission success rate
+5. CTA click tracking
+```
+
+### 8. Deployment Strategy
+
+#### Staging Environment:
+1. Deploy to staging branch first
+2. Run automated Playwright tests
+3. Manual QA on multiple devices
+4. Performance testing (Lighthouse)
+
+#### Production Deployment:
+1. Deploy during low-traffic window
+2. Monitor error rates for 30 minutes
+3. Check payment flow immediately
+4. Run smoke tests on production
+
+### 9. Success Metrics
+
+- **Logo Display**: 100% crisp on all devices
+- **Responsive Layout**: No horizontal scroll on any device
+- **Touch Targets**: All interactive elements ≥48px
+- **CTA Conversion**: Track "Reserve My Spot" clicks
+- **Error Rate**: <0.1% on form submissions
+
+### 10. Rollback Plan
+
+If critical issues arise:
+1. Revert to previous deployment
+2. Hotfix critical bugs only
+3. Re-test in staging
+4. Re-deploy with fixes
+
+## Next Steps
+
+1. Begin with Logo implementation (highest visibility)
+2. Fix responsive issues on homepage first
+3. Update CTA text and pricing logic
+4. Comprehensive testing before production
+
+This plan ensures all responsive design issues are addressed systematically while maintaining platform stability.
 
 ## Critical Issues Identified
 
