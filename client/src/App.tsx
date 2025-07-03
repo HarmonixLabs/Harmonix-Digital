@@ -46,6 +46,7 @@ import EnhancedDashboard from "@/pages/enhanced-dashboard";
 import LeadCaptureDemo from "@/pages/lead-capture-demo";
 import SystemHealth from "@/pages/system-health";
 import SimpleLoginPage from "@/pages/simple-login";
+import ResponsiveTest from "@/pages/responsive-test";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -67,6 +68,7 @@ function Router() {
           <Route path="/enhanced-dashboard" component={EnhancedDashboard} />
           <Route path="/lead-capture-demo" component={LeadCaptureDemo} />
           <Route path="/system-health" component={SystemHealth} />
+          <Route path="/responsive-test" component={ResponsiveTest} />
           <Route path="/my-agents" component={MyAgents} />
           <Route path="/create" component={Create} />
           <Route path="/settings" component={Settings} />

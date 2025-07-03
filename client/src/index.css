@@ -1115,3 +1115,109 @@ select:focus-visible {
     opacity: 1; 
   }
 }
+
+/* ============================================= */
+/* RESPONSIVE DESIGN UTILITIES                   */
+/* ============================================= */
+
+/* Touch-friendly button utilities */
+.touch-friendly-btn {
+  min-height: 48px;
+  min-width: 48px;
+  @apply flex items-center justify-center;
+}
+
+/* Responsive text utilities */
+.text-truncate {
+  @apply truncate;
+}
+
+.text-truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.text-truncate-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Responsive card utilities */
+.responsive-card {
+  @apply p-4 sm:p-6 lg:p-8;
+}
+
+.responsive-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6;
+}
+
+/* Mobile-first spacing */
+.mobile-spacing {
+  @apply space-y-4 sm:space-y-6 lg:space-y-8;
+}
+
+/* Responsive text sizes */
+.responsive-heading {
+  @apply text-2xl sm:text-3xl lg:text-4xl xl:text-5xl;
+}
+
+.responsive-subheading {
+  @apply text-lg sm:text-xl lg:text-2xl;
+}
+
+.responsive-body {
+  @apply text-sm sm:text-base lg:text-lg;
+}
+
+/* Mobile menu improvements */
+@media (max-width: 768px) {
+  .mobile-menu {
+    @apply fixed inset-x-0 top-16 bg-harmonix-deep-forest/98 backdrop-blur-lg z-50 border-t border-harmonix-sage-fade/20;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+  }
+  
+  .mobile-menu-item {
+    @apply block px-4 py-3 text-base font-medium border-b border-harmonix-sage-fade/10;
+  }
+}
+
+/* Ensure proper stacking on mobile */
+@media (max-width: 480px) {
+  .feature-grid {
+    @apply grid-cols-1 !important;
+  }
+  
+  .pricing-grid {
+    @apply grid-cols-1 !important;
+  }
+  
+  .responsive-flex {
+    @apply flex-col !important;
+  }
+  
+  /* Ensure cards don't overflow */
+  .harmonix-card-enhanced {
+    @apply max-w-full;
+  }
+  
+  /* Adjust container padding on mobile */
+  .harmonix-container {
+    @apply px-4;
+  }
+}
+
+/* Tablet-specific adjustments */
+@media (min-width: 481px) and (max-width: 768px) {
+  .tablet-grid-2 {
+    @apply grid-cols-2 !important;
+  }
+  
+  .harmonix-container {
+    @apply px-6;
+  }
+}
