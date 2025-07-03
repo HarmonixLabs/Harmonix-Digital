@@ -41,6 +41,7 @@ import TermsAndConditions from "@/pages/TermsAndConditions";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import ServicePricing from "@/pages/ServicePricing";
 import Waitlist from "@/pages/Waitlist";
+import FeaturesDemo from "@/pages/features-demo";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -58,6 +59,7 @@ function Router() {
           <Route path="/demo" component={Demo} />
           <Route path="/sol-brain-demo" component={SolBrainDemo} />
           <Route path="/demo-scenarios" component={DemoScenariosPage} />
+          <Route path="/features-demo" component={FeaturesDemo} />
           <Route path="/my-agents" component={MyAgents} />
           <Route path="/create" component={Create} />
           <Route path="/settings" component={Settings} />
