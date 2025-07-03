@@ -43,6 +43,7 @@ import ServicePricing from "@/pages/ServicePricing";
 import Waitlist from "@/pages/Waitlist";
 import FeaturesDemo from "@/pages/features-demo";
 import EnhancedDashboard from "@/pages/enhanced-dashboard";
+import LeadCaptureDemo from "@/pages/lead-capture-demo";
 import SimpleLoginPage from "@/pages/simple-login";
 import NotFound from "@/pages/not-found";
 
@@ -63,6 +64,7 @@ function Router() {
           <Route path="/demo-scenarios" component={DemoScenariosPage} />
           <Route path="/features-demo" component={FeaturesDemo} />
           <Route path="/enhanced-dashboard" component={EnhancedDashboard} />
+          <Route path="/lead-capture-demo" component={LeadCaptureDemo} />
           <Route path="/my-agents" component={MyAgents} />
           <Route path="/create" component={Create} />
           <Route path="/settings" component={Settings} />

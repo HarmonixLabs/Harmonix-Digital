@@ -4,6 +4,104 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Harmonix Design System Tokens */
+:root {
+  /* Colors - Primary */
+  --color-primary-base: #0A3D3F;
+  --color-primary-light: #1A5D5F;
+  --color-primary-lighter: #2A7D7F;
+  --color-primary-dark: #072D2F;
+  --color-primary-darker: #041D1F;
+  
+  /* Colors - Accent */
+  --color-accent-base: #E6B325;
+  --color-accent-light: #F6C335;
+  --color-accent-lighter: #F8D355;
+  --color-accent-dark: #D6A315;
+  --color-accent-darker: #B68905;
+  
+  /* Colors - Neutral */
+  --color-neutral-white: #F7F7F2;
+  --color-neutral-light: #E5E5E0;
+  --color-neutral-medium: #C0C0BB;
+  --color-neutral-dark: #4A4A4A;
+  --color-neutral-charcoal: #2A2A2A;
+  --color-neutral-black: #121212;
+  
+  /* Colors - Status */
+  --color-status-success: #2E7D32;
+  --color-status-warning: #ED6C02;
+  --color-status-error: #D32F2F;
+  --color-status-info: #0288D1;
+  
+  /* Colors - Background */
+  --color-background-primary: #0A1A1A;
+  --color-background-secondary: #0F2222;
+  --color-background-tertiary: #142A2A;
+  
+  /* Typography */
+  --font-family-primary: Inter, sans-serif;
+  --font-family-secondary: 'Playfair Display', serif;
+  --font-family-code: 'Fira Code', monospace;
+  
+  /* Font Sizes */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 30px;
+  --font-size-4xl: 36px;
+  --font-size-5xl: 48px;
+  --font-size-6xl: 60px;
+  
+  /* Spacing (8px baseline grid) */
+  --spacing-0: 0;
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+  --spacing-16: 64px;
+  --spacing-20: 80px;
+  --spacing-24: 96px;
+  
+  /* Border Radius */
+  --border-radius-none: 0;
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+  --border-radius-full: 9999px;
+  
+  /* Shadows */
+  --shadow-none: none;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+  
+  /* Animations */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 450ms;
+  
+  /* Z-indices */
+  --z-base: 0;
+  --z-dropdown: 1000;
+  --z-sticky: 1100;
+  --z-fixed: 1200;
+  --z-modal: 1300;
+  --z-popover: 1400;
+  --z-toast: 1500;
+}
+
 :root {
   --background: hsl(240, 10%, 3.9%);
   --foreground: hsl(0, 0%, 98%);

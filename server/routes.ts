@@ -147,6 +147,112 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   };
 
+  // Multi-CRM Lead Capture Endpoint
+  app.post("/api/leads", async (req, res) => {
+    try {
+      const leadData = req.body;
+      
+      // Basic validation
+      if (!leadData.email) {
+        return res.status(400).json({ error: 'Email is required' });
+      }
+
+      // Add timestamp if not present
+      if (!leadData.timestamp) {
+        leadData.timestamp = new Date().toISOString();
+      }
+
+      console.log('Processing lead submission:', leadData.email);
+
+      // Track success of each destination
+      const results = {
+        ghl: false,
+        hubspot: false,
+        sheets: false,
+      };
+
+      // Send to GoHighLevel
+      try {
+        await updateCRM({
+          email: leadData.email,
+          firstName: leadData.firstName,
+          lastName: leadData.lastName,
+          business: leadData.business,
+          phone: leadData.phone,
+          source: leadData.source || 'Harmonix Website',
+          formType: leadData.formType || 'waitlist',
+        });
+        results.ghl = true;
+        console.log('✅ Lead sent to GoHighLevel successfully');
+      } catch (error) {
+        console.error('❌ GoHighLevel error:', error);
+      }
+
+      // Send to HubSpot (if API key is available)
+      if (process.env.HUBSPOT_API_KEY) {
+        try {
+          const hubspotData = {
+            properties: {
+              email: leadData.email,
+              firstname: leadData.firstName || '',
+              lastname: leadData.lastName || '',
+              company: leadData.business || '',
+              phone: leadData.phone || '',
+              hs_lead_status: 'NEW',
+              source: leadData.source || 'Harmonix Website',
+            },
+          };
+
+          const hubspotResponse = await fetch('https://api.hubapi.com/crm/v3/objects/contacts', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${process.env.HUBSPOT_API_KEY}`,
+            },
+            body: JSON.stringify(hubspotData),
+          });
+
+          if (hubspotResponse.ok) {
+            results.hubspot = true;
+            console.log('✅ Lead sent to HubSpot successfully');
+          } else {
+            console.error('❌ HubSpot error:', await hubspotResponse.text());
+          }
+        } catch (error) {
+          console.error('❌ HubSpot error:', error);
+        }
+      }
+
+      // If at least one destination succeeded, consider it a success
+      if (results.ghl || results.hubspot || results.sheets) {
+        res.status(200).json({
+          message: 'Lead captured successfully',
+          results,
+          leadId: `lead_${Date.now()}`,
+        });
+        
+        // Broadcast lead capture to connected clients
+        broadcast({
+          type: 'lead_captured',
+          data: {
+            email: leadData.email,
+            source: leadData.source,
+            timestamp: leadData.timestamp,
+          }
+        });
+      } else {
+        // All destinations failed
+        res.status(500).json({
+          message: 'Failed to process lead, please try again',
+          results,
+        });
+      }
+    } catch (error) {
+      console.error('Unexpected error in lead capture:', error);
+      res.status(500).json({ error: 'Server error processing lead' });
+    }
+  });
+
   // Health check endpoint for self-healing audit system
   app.get('/api/health', async (req, res) => {
     try {
