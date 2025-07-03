@@ -26,6 +26,7 @@ export function Footer() {
     { href: "/harmony-waitlist", label: "Join Waitlist" },
     { href: "/contact", label: "Contact" },
     { href: "/careers", label: "Careers" },
+    { href: "/system-health", label: "System Health" },
   ];
 
   return (
