@@ -47,6 +47,7 @@ import LeadCaptureDemo from "@/pages/lead-capture-demo";
 import SystemHealth from "@/pages/system-health";
 import SimpleLoginPage from "@/pages/simple-login";
 import ResponsiveTest from "@/pages/responsive-test";
+import InteractiveDemo from "@/pages/interactive-demo";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -69,6 +70,7 @@ function Router() {
           <Route path="/lead-capture-demo" component={LeadCaptureDemo} />
           <Route path="/system-health" component={SystemHealth} />
           <Route path="/responsive-test" component={ResponsiveTest} />
+          <Route path="/interactive-demo" component={InteractiveDemo} />
           <Route path="/my-agents" component={MyAgents} />
           <Route path="/create" component={Create} />
           <Route path="/settings" component={Settings} />

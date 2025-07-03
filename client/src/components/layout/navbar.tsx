@@ -197,7 +197,7 @@ export function Navbar() {
                     setShowAuthModal(true);
                   }}
                 >
-                  Get Started
+                  Pay 30% Deposit & Get 15% Off, Priority Access
                 </Button>
               </div>
             )}

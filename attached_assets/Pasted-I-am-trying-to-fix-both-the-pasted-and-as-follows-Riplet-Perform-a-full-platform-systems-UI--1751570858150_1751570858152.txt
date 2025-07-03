@@ -1,0 +1,64 @@
+I am trying to fix both the pasted and as follows:
+
+Riplet,
+
+Perform a **full platform systems & UI/UX audit** of Harmonix and self-heal or scaffold fixes page-by-page until every feature, demo, form and layout is flawless. Follow these steps:
+
+---
+
+## 1. Layout & Responsiveness  
+- Audit every page (public, auth, dashboard, demo, admin, 404) at mobile/tablet/desktop breakpoints.  
+- Standardize margins, padding, and grids on an 8px baseline. Fix any panels or forms pushed off-grid.  
+- Ensure all containers fluidly resize and center (no horizontal scroll).
+
+## 2. Header & Footer  
+- Replace all logo instances with the transparent **monogram PNG**.  
+- Update CTA in nav/footer “Reserve My Spot” to read:  
+  **“Pay 30% Deposit & Get 15% Off, Priority Access”**  
+- Remove “Self-Heal” from the footer; add a new link **“System Health”** at the very bottom that routes to `/system-health`.
+
+## 3. Forms & Lead Capture  
+- Verify every form (waitlist, auth, onboarding, demos) renders correctly, validates inputs, and submits.  
+- For waitlist: ensure submissions write to your CRM (GHL webhook) or fallback Google Sheet integration.  
+- Test 5 submissions, verify contacts arrive at `connect@harmonixdigital.com` destination/list.
+
+## 4. Self-Healing & System Health Page  
+- Create a new page `/system-health` with status widgets:  
+  • API health checks (Auth, CRM, Web3, Orchestrator)  
+  • Form webhook status  
+  • Demo endpoints (sales, content, meeting)  
+- Link to `/system-health` in the footer under “System Health.”
+
+## 5. Demo Flows & Deploy Buttons  
+- On `/demo` and `/marketplace`, ensure each “Deploy,” “Run Prompt,” and “Generate” button either:  
+  • Executes the correct API flow for signed-in users  
+  • Or shows the “Join Waitlist” modal for anonymous users  
+- Verify demo results render properly (JSON or UI cards).
+
+## 6. Dashboard & Auth  
+- Confirm `/login` & “Get Started” buttons authenticate and redirect to `/dashboard`.  
+- On `/dashboard`, ensure agent cards, stats, and builder links show only when authenticated; otherwise redirect to waitlist.
+
+## 7. UI/UX Polish  
+- Retain hero animations (droplets, grid, hero transitions); optimize performance.  
+- Check typography scales (Inter) and color tokens (Jade Forest, Golden Sovereign, Ivory Light) on all text.  
+- Add micro-animations: button ripples, card hovers, skeleton loaders on data fetches.
+
+## 8. Email Integration  
+- Confirm “connect@harmonixdigital.com” is the recipient on all internal notification emails (form submissions, demo runs, system alerts).
+
+## 9. Error States & 404  
+- For any broken route or unimplemented feature, show a branded 404 with “Join Waitlist” CTA.  
+- Ensure error toasts appear for form/API failures and prompt retry or waitlist signup.
+
+---
+
+**Loop & Verify**  
+After making each set of changes, rerun the audit and responsive tests. Repeat until **all** checks pass (no broken layouts, no console errors, 100% form success, 100% link coverage).
+
+When complete, provide a summary of all fixes and confirm the platform is launch-ready. Begin now.  
+
+Also, some of the dev boxes are still not properly responsive, and or centralized where there’s supposed to be within their section
+
+Please:
+Research deeply across my codebase Find what's causing these conflicts Develop a plan to fix the configuration Write the plan into Instructions.md

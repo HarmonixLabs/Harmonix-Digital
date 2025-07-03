@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { Section, Container } from "@/components/layout";
 import { PageWrapper } from "@/components/transitions/page-wrapper";
 import { ParallaxText } from "@/components/transitions/parallax-background";
 import { OptimizedHero } from "@/components/hero/optimized-hero";
@@ -131,8 +132,8 @@ function AgentShowcaseSection() {
   ];
 
   return (
-    <section className="py-16 sm:py-20 lg:py-24">
-      <div className="harmonix-container">
+    <Section spacing="lg">
+      <Container>
         <div className="text-center mb-12 sm:mb-16">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-harmonix-regal-gold font-serif">
             What Can Harmony Agents Do?
@@ -146,30 +147,39 @@ function AgentShowcaseSection() {
           {/* Agent Tabs */}
           <div className="lg:w-1/3 space-y-4">
             {agentCards.map((agent, index) => (
-              <Card 
+              <AnimatedCard 
                 key={index}
-                className={cn(
-                  "p-4 cursor-pointer transition-all duration-300 border-2",
-                  activeAgent === index 
-                    ? "border-harmonix-regal-gold bg-harmonix-regal-gold/10" 
-                    : "border-harmonix-sage-fade/20 hover:border-harmonix-regal-gold/50"
-                )}
-                onClick={() => setActiveAgent(index)}
+                variant={activeAgent === index ? "glow" : "shimmer"}
               >
-                <h3 className="text-lg font-bold text-harmonix-regal-gold mb-2">{agent.name}</h3>
-                <p className="text-sm text-harmonix-sage-fade">{agent.description}</p>
-                <div className="flex justify-between items-center mt-3">
-                  <div className="text-xs text-harmonix-sage-fade">
-                    <span>Saves {agent.timeSaved}</span>
-                    <br />
-                    <span>Tokens: {agent.tokenUsage}</span>
+                <Card 
+                  className={cn(
+                    "p-6 cursor-pointer transition-all duration-300 border-2 bg-harmonix-night-pine/50",
+                    activeAgent === index 
+                      ? "border-harmonix-regal-gold shadow-lg shadow-harmonix-regal-gold/20" 
+                      : "border-harmonix-cedar-mist/20 hover:border-harmonix-regal-gold/50"
+                  )}
+                  onClick={() => setActiveAgent(index)}
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <h3 className="text-lg font-bold text-white">{agent.name}</h3>
+                    <div className={cn(
+                      "w-2 h-2 rounded-full",
+                      activeAgent === index ? "bg-harmonix-regal-gold animate-pulse" : "bg-harmonix-sage-fade/30"
+                    )} />
                   </div>
-                  <div className="text-right">
-                    <div className="text-sm font-bold text-harmonix-regal-gold">{agent.monthlyPrice}</div>
-                    <div className="text-xs text-harmonix-sage-fade">{agent.setupNote}</div>
+                  <p className="text-sm text-harmonix-sage-fade mb-4">{agent.description}</p>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="p-2 bg-harmonix-deep-forest/50 rounded">
+                      <div className="text-xs text-harmonix-sage-fade">Time Saved</div>
+                      <div className="text-sm font-medium text-harmonix-regal-gold">{agent.timeSaved}</div>
+                    </div>
+                    <div className="p-2 bg-harmonix-deep-forest/50 rounded">
+                      <div className="text-xs text-harmonix-sage-fade">Monthly</div>
+                      <div className="text-sm font-medium text-harmonix-regal-gold">{agent.monthlyPrice}</div>
+                    </div>
                   </div>
-                </div>
-              </Card>
+                </Card>
+              </AnimatedCard>
             ))}
           </div>
 
@@ -249,8 +259,8 @@ function AgentShowcaseSection() {
             </Card>
           </div>
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 }
 
@@ -495,11 +505,15 @@ function DemoSuccessSection() {
 
         <div className="grid md:grid-cols-3 gap-8 lg:gap-12 mb-12">
           {metrics.map((metric, index) => (
-            <Card key={index} className="harmonix-card-enhanced p-6 sm:p-8 text-center">
-              <metric.icon className="w-12 h-12 mx-auto mb-4 text-harmonix-regal-gold" />
-              <div className="text-3xl sm:text-4xl font-bold text-harmonix-regal-gold mb-2">{metric.value}</div>
-              <div className="text-harmonix-sage-fade">{metric.label}</div>
-            </Card>
+            <AnimatedCard key={index} variant="float" delay={index * 0.1}>
+              <Card className="harmonix-card-enhanced p-8 text-center bg-harmonix-night-pine/50 border-harmonix-cedar-mist/20 hover:border-harmonix-regal-gold/50 transition-all duration-300">
+                <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-harmonix-regal-gold/10 rounded-full">
+                  <metric.icon className="w-8 h-8 text-harmonix-regal-gold" />
+                </div>
+                <div className="text-4xl font-bold text-white mb-2">{metric.value}</div>
+                <div className="text-harmonix-sage-fade text-sm">{metric.label}</div>
+              </Card>
+            </AnimatedCard>
           ))}
         </div>
 
@@ -548,7 +562,7 @@ function JoinMovementSection() {
             Over 280+ early adopters have activated their agents. Secure your 30% discount before we reach capacity.
           </p>
           <p className="text-base sm:text-lg text-harmonix-regal-gold font-medium mb-8 sm:mb-12">
-            30% Deposit Now → Save 15% + Priority Access
+            Pay 30% deposit now → Get 15% off + Priority Access
           </p>
 
           <Card className="harmonix-card-enhanced p-6 sm:p-8">

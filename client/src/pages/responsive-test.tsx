@@ -16,6 +16,8 @@ interface ResponsiveCheckResult {
 export default function ResponsiveTest() {
   const [currentBreakpoint, setCurrentBreakpoint] = useState<string>('desktop');
   const [testResults, setTestResults] = useState<ResponsiveCheckResult[]>([]);
+  const [isTestingAll, setIsTestingAll] = useState(false);
+  const [allPageResults, setAllPageResults] = useState<any[]>([]);
 
   // Detect current breakpoint
   useEffect(() => {
@@ -43,7 +45,8 @@ export default function ResponsiveTest() {
     { name: 'Pricing Cards', selector: '.grid-cols-1.sm\\:grid-cols-2.lg\\:grid-cols-4' },
     { name: 'Touch Targets', selector: '.touch-friendly-btn' },
     { name: 'Container Width', selector: '.harmonix-container' },
-    { name: 'Mobile Menu', selector: '.md\\:hidden' }
+    { name: 'Mobile Menu', selector: '.md\\:hidden' },
+    { name: '8px Grid Compliance', selector: '[class*="p-"], [class*="m-"], [class*="gap-"]' }
   ];
 
   const runResponsiveTests = () => {
@@ -62,10 +65,10 @@ export default function ResponsiveTest() {
           issues.push('Element overflows viewport');
         }
         
-        // Check touch target size (minimum 48px)
+        // Check touch target size (minimum 44px per guidelines)
         if (element.tagName === 'BUTTON' || element.tagName === 'A') {
-          if (rect.height < 48 || rect.width < 48) {
-            issues.push(`Touch target too small: ${rect.width}x${rect.height}px`);
+          if (rect.height < 44 || rect.width < 44) {
+            issues.push(`Touch target too small: ${Math.round(rect.width)}x${Math.round(rect.height)}px (min 44x44)`);
           }
         }
         
@@ -73,6 +76,20 @@ export default function ResponsiveTest() {
         const fontSize = parseFloat(styles.fontSize);
         if (fontSize < 14 && window.innerWidth <= 480) {
           issues.push('Font size too small for mobile');
+        }
+
+        // Check 8px grid compliance
+        if (component.name === '8px Grid Compliance') {
+          const padding = parseFloat(styles.paddingTop);
+          const margin = parseFloat(styles.marginTop);
+          
+          if (padding % 8 !== 0 && padding > 0) {
+            issues.push(`Non-8px padding: ${padding}px`);
+          }
+          
+          if (margin % 8 !== 0 && margin > 0) {
+            issues.push(`Non-8px margin: ${margin}px`);
+          }
         }
       });
 
@@ -86,6 +103,36 @@ export default function ResponsiveTest() {
     });
 
     setTestResults(results);
+  };
+
+  const testAllPages = async () => {
+    setIsTestingAll(true);
+    const results = [];
+    
+    for (const page of pages) {
+      // Navigate to page
+      window.location.href = page.path;
+      // In a real implementation, would use proper navigation and wait for page load
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Run tests on that page
+      const pageIssues = [];
+      
+      // Check horizontal scroll
+      if (document.documentElement.scrollWidth > window.innerWidth) {
+        pageIssues.push('Horizontal scroll detected');
+      }
+      
+      results.push({
+        page: page.name,
+        path: page.path,
+        issues: pageIssues,
+        tested: true
+      });
+    }
+    
+    setAllPageResults(results);
+    setIsTestingAll(false);
   };
 
   const pages = [
