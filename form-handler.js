@@ -54,6 +54,9 @@ class FormHandler {
         case 'roi-request':
           await this.handleROIRequest(data, form);
           break;
+        case 'google-sheets':
+          await this.handleGoogleSheetsSubmission(data, form);
+          break;
         default:
           throw new Error(`Unknown form handler: ${handler}`);
       }
@@ -236,6 +239,51 @@ class FormHandler {
       email: data.email,
       company: data.company
     });
+  }
+
+  async handleGoogleSheetsSubmission(data, form) {
+    // Validate required fields (customize based on your form)
+    if (!data.email) {
+      throw new Error('Email is required');
+    }
+
+    // Prepare data for Google Sheets
+    const submissionData = {
+      timestamp: new Date().toISOString(),
+      email: data.email,
+      name: data.name || '',
+      company: data.company || '',
+      phone: data.phone || '',
+      message: data.message || '',
+      source: data.source || 'website',
+      ...data // Include any additional form fields
+    };
+
+    // Submit to Google Sheets endpoint
+    const response = await fetch('/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(submissionData)
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to submit form: ${errorText}`);
+    }
+
+    const result = await response.json();
+    
+    this.showFormSuccess(form, 'Form submitted successfully! Your information has been saved.');
+    
+    // Track conversion
+    this.trackEvent('google_sheets_submitted', {
+      email: data.email,
+      formType: 'google_sheets'
+    });
+
+    return result;
   }
 
   setFormLoading(form, loading) {

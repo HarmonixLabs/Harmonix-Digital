@@ -1180,6 +1180,210 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Google Sheets form submission endpoint
+  app.post('/submit', async (req, res) => {
+    try {
+      const { google } = await import('googleapis');
+      
+      console.log('📝 Received form submission:', req.body);
+
+      // Validate required environment variables
+      const SPREADSHEET_ID = process.env.GOOGLE_SPREADSHEET_ID;
+      const GOOGLE_SERVICE_ACCOUNT_EMAIL = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
+      const GOOGLE_PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n');
+
+      if (!SPREADSHEET_ID || !GOOGLE_SERVICE_ACCOUNT_EMAIL || !GOOGLE_PRIVATE_KEY) {
+        return res.status(500).json({
+          success: false,
+          error: 'Google Sheets configuration missing. Please check environment variables.'
+        });
+      }
+
+      // Initialize Google Sheets API
+      const auth = new google.auth.JWT(
+        GOOGLE_SERVICE_ACCOUNT_EMAIL,
+        null,
+        GOOGLE_PRIVATE_KEY,
+        ['https://www.googleapis.com/auth/spreadsheets']
+      );
+
+      await auth.authorize();
+      const sheets = google.sheets({ version: 'v4', auth });
+
+      // Extract form data
+      const formData = req.body;
+      const timestamp = new Date().toISOString();
+      
+      // Define the sheet name
+      const sheetName = formData.sheetName || 'Form Submissions';
+      
+      // Prepare headers and values
+      const headers = [
+        'Timestamp',
+        'Email',
+        'Name',
+        'Company',
+        'Phone',
+        'Message',
+        'Source',
+        ...Object.keys(formData).filter(key => 
+          !['timestamp', 'email', 'name', 'company', 'phone', 'message', 'source', 'sheetName'].includes(key)
+        )
+      ];
+
+      // Prepare row data
+      const rowData = [
+        timestamp,
+        formData.email || '',
+        formData.name || '',
+        formData.company || '',
+        formData.phone || '',
+        formData.message || '',
+        formData.source || 'website'
+      ];
+
+      // Add additional fields
+      headers.slice(7).forEach(header => {
+        rowData.push(formData[header] || '');
+      });
+
+      // Get column letter for range
+      const getColumnLetter = (index: number) => {
+        let letter = '';
+        while (index >= 0) {
+          letter = String.fromCharCode((index % 26) + 65) + letter;
+          index = Math.floor(index / 26) - 1;
+        }
+        return letter;
+      };
+
+      // Ensure headers exist (check first row)
+      try {
+        const headerResponse = await sheets.spreadsheets.values.get({
+          spreadsheetId: SPREADSHEET_ID,
+          range: `${sheetName}!A1:ZZ1`,
+        });
+
+        const currentHeaders = headerResponse.data.values?.[0] || [];
+        
+        // Add headers if sheet is empty
+        if (currentHeaders.length === 0) {
+          await sheets.spreadsheets.values.update({
+            spreadsheetId: SPREADSHEET_ID,
+            range: `${sheetName}!A1`,
+            valueInputOption: 'RAW',
+            requestBody: {
+              values: [headers],
+            },
+          });
+          console.log(`✅ Headers added to ${sheetName}`);
+        }
+      } catch (error) {
+        console.log('📝 Creating new sheet with headers');
+      }
+
+      // Append data to sheet
+      const appendResponse = await sheets.spreadsheets.values.append({
+        spreadsheetId: SPREADSHEET_ID,
+        range: `${sheetName}!A:${getColumnLetter(headers.length - 1)}`,
+        valueInputOption: 'RAW',
+        insertDataOption: 'INSERT_ROWS',
+        requestBody: {
+          values: [rowData],
+        },
+      });
+
+      console.log('✅ Data successfully written to Google Sheets');
+      console.log('📊 Updated range:', appendResponse.data.updates?.updatedRange);
+
+      // Also update CRM if email provided
+      if (formData.email) {
+        try {
+          await updateCRM({
+            email: formData.email,
+            name: formData.name || 'Form Submission',
+            source: 'Google Sheets Form',
+            activity: 'Form submitted via Google Sheets integration',
+            tier: 'lead',
+            timestamp: timestamp
+          });
+        } catch (crmError) {
+          console.warn('CRM update failed:', crmError);
+        }
+      }
+
+      // Send success response
+      res.json({
+        success: true,
+        message: 'Form submitted successfully',
+        data: {
+          timestamp,
+          rowCount: appendResponse.data.updates?.updatedRows,
+          range: appendResponse.data.updates?.updatedRange
+        }
+      });
+
+    } catch (error) {
+      console.error('❌ Error processing form submission:', error);
+      
+      res.status(500).json({
+        success: false,
+        error: error.message || 'Internal server error',
+        details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      });
+    }
+  });
+
+  // Test Google Sheets connection endpoint
+  app.get('/test-sheets', async (req, res) => {
+    try {
+      const { google } = await import('googleapis');
+      
+      const SPREADSHEET_ID = process.env.GOOGLE_SPREADSHEET_ID;
+      const GOOGLE_SERVICE_ACCOUNT_EMAIL = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
+      const GOOGLE_PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n');
+
+      if (!SPREADSHEET_ID || !GOOGLE_SERVICE_ACCOUNT_EMAIL || !GOOGLE_PRIVATE_KEY) {
+        return res.status(500).json({
+          success: false,
+          error: 'Google Sheets configuration missing'
+        });
+      }
+
+      const auth = new google.auth.JWT(
+        GOOGLE_SERVICE_ACCOUNT_EMAIL,
+        null,
+        GOOGLE_PRIVATE_KEY,
+        ['https://www.googleapis.com/auth/spreadsheets']
+      );
+
+      await auth.authorize();
+      const sheets = google.sheets({ version: 'v4', auth });
+
+      // Test by getting spreadsheet metadata
+      const response = await sheets.spreadsheets.get({
+        spreadsheetId: SPREADSHEET_ID,
+      });
+
+      res.json({
+        success: true,
+        message: 'Google Sheets connection successful',
+        spreadsheet: {
+          title: response.data.properties?.title,
+          sheetCount: response.data.sheets?.length,
+          sheets: response.data.sheets?.map(sheet => sheet.properties?.title)
+        }
+      });
+
+    } catch (error) {
+      console.error('❌ Google Sheets test failed:', error);
+      res.status(500).json({
+        success: false,
+        error: error.message
+      });
+    }
+  });
+
   // Admin routes
   app.use('/api/admin', (await import('./routes/admin')).default);
 
