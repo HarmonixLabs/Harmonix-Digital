@@ -1,12 +1,11 @@
 /**
- * Google Sheets Integration Server
- * Handles form submissions and writes data to Google Sheets
+ * Harmonix Google Sheets Integration Server
+ * Handles form submissions and writes data to Google Sheets using HD secrets
  */
 
 const express = require('express');
 const { google } = require('googleapis');
 const cors = require('cors');
-const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -16,10 +15,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Google Sheets Configuration
-const SPREADSHEET_ID = process.env.GOOGLE_SPREADSHEET_ID;
-const GOOGLE_SERVICE_ACCOUNT_EMAIL = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-const GOOGLE_PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n');
+// Google Sheets Configuration using HD secrets
+const HD_GOOGLE_SHEET_ID = process.env.HD_GOOGLE_SHEET_ID;
+const HD_GOOGLE_SHEETS_CREDENTIALS = process.env.HD_GOOGLE_SHEETS_CREDENTIALS;
 
 // Initialize Google Sheets API
 let sheets;
@@ -27,11 +25,23 @@ let auth;
 
 async function initializeGoogleSheets() {
   try {
-    // Create JWT auth client
+    // Parse the credentials JSON
+    if (!HD_GOOGLE_SHEETS_CREDENTIALS) {
+      throw new Error('HD_GOOGLE_SHEETS_CREDENTIALS environment variable is required');
+    }
+
+    let credentials;
+    try {
+      credentials = JSON.parse(HD_GOOGLE_SHEETS_CREDENTIALS);
+    } catch (parseError) {
+      throw new Error('HD_GOOGLE_SHEETS_CREDENTIALS must be valid JSON');
+    }
+
+    // Create JWT auth client using parsed credentials
     auth = new google.auth.JWT(
-      GOOGLE_SERVICE_ACCOUNT_EMAIL,
+      credentials.client_email,
       null,
-      GOOGLE_PRIVATE_KEY,
+      credentials.private_key,
       ['https://www.googleapis.com/auth/spreadsheets']
     );
 
@@ -42,6 +52,7 @@ async function initializeGoogleSheets() {
     sheets = google.sheets({ version: 'v4', auth });
     
     console.log('✅ Google Sheets API initialized successfully');
+    console.log(`📋 Using sheet ID: ${HD_GOOGLE_SHEET_ID}`);
     return true;
   } catch (error) {
     console.error('❌ Failed to initialize Google Sheets API:', error.message);
@@ -64,7 +75,7 @@ async function ensureHeaders(sheetName, headers) {
   try {
     // Get current sheet data
     const response = await sheets.spreadsheets.values.get({
-      spreadsheetId: SPREADSHEET_ID,
+      spreadsheetId: HD_GOOGLE_SHEET_ID,
       range: `${sheetName}!A1:ZZ1`,
     });
 
@@ -74,7 +85,7 @@ async function ensureHeaders(sheetName, headers) {
     if (currentHeaders.length === 0) {
       // Add headers to empty sheet
       await sheets.spreadsheets.values.update({
-        spreadsheetId: SPREADSHEET_ID,
+        spreadsheetId: HD_GOOGLE_SHEET_ID,
         range: `${sheetName}!A1`,
         valueInputOption: 'RAW',
         requestBody: {
@@ -97,10 +108,10 @@ app.post('/submit', async (req, res) => {
     console.log('📝 Received form submission:', req.body);
 
     // Validate required environment variables
-    if (!SPREADSHEET_ID || !GOOGLE_SERVICE_ACCOUNT_EMAIL || !GOOGLE_PRIVATE_KEY) {
+    if (!HD_GOOGLE_SHEET_ID || !HD_GOOGLE_SHEETS_CREDENTIALS) {
       return res.status(500).json({
         success: false,
-        error: 'Google Sheets configuration missing. Please check environment variables.'
+        error: 'Google Sheets configuration missing. Please set HD_GOOGLE_SHEET_ID and HD_GOOGLE_SHEETS_CREDENTIALS environment variables.'
       });
     }
 
@@ -157,7 +168,7 @@ app.post('/submit', async (req, res) => {
 
     // Append data to sheet
     const appendResponse = await sheets.spreadsheets.values.append({
-      spreadsheetId: SPREADSHEET_ID,
+      spreadsheetId: HD_GOOGLE_SHEET_ID,
       range: `${sheetName}!A:${getColumnLetter(headers.length - 1)}`,
       valueInputOption: 'RAW',
       insertDataOption: 'INSERT_ROWS',
@@ -217,7 +228,7 @@ app.get('/test-sheets', async (req, res) => {
 
     // Test by getting spreadsheet metadata
     const response = await sheets.spreadsheets.get({
-      spreadsheetId: SPREADSHEET_ID,
+      spreadsheetId: HD_GOOGLE_SHEET_ID,
     });
 
     res.json({
@@ -255,10 +266,11 @@ app.use((err, req, res, next) => {
 async function startServer() {
   try {
     // Initialize Google Sheets on startup
-    if (SPREADSHEET_ID && GOOGLE_SERVICE_ACCOUNT_EMAIL && GOOGLE_PRIVATE_KEY) {
+    if (HD_GOOGLE_SHEET_ID && HD_GOOGLE_SHEETS_CREDENTIALS) {
       await initializeGoogleSheets();
     } else {
-      console.warn('⚠️ Google Sheets configuration missing. Server will start but sheets integration will be disabled.');
+      console.warn('⚠️ HD Google Sheets configuration missing. Server will start but sheets integration will be disabled.');
+      console.warn('⚠️ Required: HD_GOOGLE_SHEET_ID and HD_GOOGLE_SHEETS_CREDENTIALS environment variables');
     }
 
     app.listen(PORT, () => {
