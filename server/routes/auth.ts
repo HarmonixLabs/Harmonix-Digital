@@ -80,14 +80,16 @@ router.post('/register', async (req, res) => {
 
     const organization = await storage.createOrganization(organizationData);
 
-    // Create user
+    // Create user - check if this is the platform owner
+    const isPlatformOwner = validatedData.email.toLowerCase().trim() === 'harmonix.hq@gmail.com';
+    
     const userData = insertUserSchema.parse({
       email: validatedData.email.toLowerCase().trim(),
       password: hashedPassword,
       name: validatedData.name.trim(),
       organizationId: organization.id,
-      role: 'admin',
-      tokenBalance: 500, // Starting tokens
+      role: isPlatformOwner ? 'super_admin' : 'admin',
+      tokenBalance: isPlatformOwner ? 10000 : 500, // Super admin gets more starting tokens
       onboardingCompleted: false,
       onboardingData: JSON.stringify({
         phone: validatedData.phone,
