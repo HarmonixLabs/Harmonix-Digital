@@ -1,0 +1,97 @@
+I am trying to fix both the pasted and as follows:
+
+Riplet,
+
+Please perform a verification pass on all recent UI, UX, and functional changes across Harmonix and self-heal anything that isn’t correctly implemented. Specifically:
+
+1. **Email Contact**  
+   - Confirm all notification emails (forms, demo runs, auto-recharge failures) are sent from and reply-to “connect@harmonixdigital.com.”  
+
+2. **Logo Swap**  
+   - Ensure every header and footer uses the transparent **monogram PNG** (no background). Remove any old logo assets.
+
+3. **Responsive Dev Boxes**  
+   - Audit all code-editor or “dev box” containers (e.g. demo JSON outputs, API playgrounds) on mobile/tablet/desktop.  
+   - Fix any overflow or left-alignment issues so boxes scale fluidly within their parent grid.
+
+4. **System Health Page**  
+   - Verify `/system-health` exists and the footer link “System Health” points to it.  
+   - Remove any lingering health widgets from the footer itself.
+
+5. **Global Responsiveness & Spacing**  
+   - Run through every page (home, demo, dashboard, marketplace, profiles, admin) at 320px, 768px, 1440px widths.  
+   - Confirm margins, paddings, and grid columns adhere to the 8px baseline and content never squashes or overflows.
+
+6. **Forms & Waitlist**  
+   - Test each form end-to-end: waitlist, sign-in, demo forms.  
+   - Validate CRM (GHL) and Google Sheets integrations are capturing every submission without error.
+
+7. **CTA Updates**  
+   - Check all “Reserve My Spot” or similar CTAs now read **“Pay 30% Deposit & Get 15% Off, Priority Access.”**
+
+8. **Finalize & Report**  
+   - After fixes, re-run a smoke test suite and responsive audit.  
+   - Provide a summary report of any remaining issues and a before/after screenshot for each fix.
+
+Loop until all items above are fully resolved and the platform is 100% launch-ready. Begin verification now.  
+
+2- 
+
+Riplet,
+
+This is a **critical full-system audit** and self-heal request. Many recent updates appear incomplete on the live site. You must verify and implement **all** changes we’ve discussed—across every page, component, and flow—and confirm via live preview. Follow this comprehensive checklist:
+
+---
+
+## 1. Branding & Assets  
+- **Monogram Logo**: header, footer, nav, mobile menu—no legacy logos remain.  
+- **Primary Email**: all outgoing system emails use “connect@harmonixdigital.com” as sender and reply-to.
+
+## 2. Layout & Responsiveness  
+- Audit every route: home, waitlist, login, dashboard, demo, marketplace, profiles, admin, system-health, 404.  
+- Ensure margins/paddings follow the 8px grid; no horizontal scroll or clipped content.  
+- “Dev boxes” (JSON outputs, code previews) scale fluidly—text wraps or scrolls neatly.
+
+## 3. Navigation & CTAs  
+- **System Health**: remove from footer; add a footer link “System Health” to `/system-health`.  
+- **Reserve My Spot** CTAs now read: “Pay 30% Deposit & Get 15% Off, Priority Access.”  
+- **Sign In / Get Started**: if unauthenticated, redirect to waitlist; if authenticated, proceed correctly.
+
+## 4. Forms & Lead Capture  
+- Waitlist, sign-up, demo forms: render correctly, validate inputs, show inline errors.  
+- Confirm each submission appears in GoHighLevel CRM or Google Sheet buffer.  
+- Test 5 unique entries on live preview; verify in CRM/Sheet.
+
+## 5. Demo & Deployment Flows  
+- On `/demo` and `/marketplace`, test each “Generate,” “Run Prompt,” “Deploy” button for auth and guest states.  
+- Confirm demo results render properly and no flows break.
+
+## 6. Dashboard & Auth  
+- Login and logout flows must function: test on live preview.  
+- Authenticated sees dashboard; anonymous is redirected to waitlist on protected routes.
+
+## 7. Token Auto-Recharge Settings  
+- In Agent Settings and Billing pages, toggle auto-recharge on/off and set amounts ≥10 USD.  
+- Simulate token depletion to confirm recharge triggers and notifications.
+
+## 8. UI/UX Polishing  
+- Hero animations (droplets, grid) maintain performance and visuals.  
+- Buttons, toggles, cards use correct colors, shadows, typography.  
+- Micro-interactions (hover, focus, loading skeletons) render smoothly.
+
+## 9. Error States & 404  
+- Broken URLs → branded 404 with “Join Waitlist” CTA.  
+- API or form errors display toast/error modals guiding user to retry or waitlist.
+
+---
+
+### Process  
+1. **Audit** live preview on staging.  
+2. **Implement** any missing fixes.  
+3. **Verify** each item above in live preview.  
+4. **Repeat** until everything is green.  
+
+Deliver a final report with screenshots of before/after for each section. This must be done end-to-end on **live preview**—not just local. Begin immediately.  
+
+Please:
+Research deeply across my codebase Find what's causing these conflicts Develop a plan to fix the configuration Write the plan into Instructions.md

@@ -1,0 +1,123 @@
+/* Responsive Fixes for Code Containers and Dev Boxes */
+
+/* Code containers - ensure proper overflow handling */
+pre, 
+code,
+.code-container,
+.code-editor,
+.json-output,
+.dev-box {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Specific fixes for JSON outputs */
+.json-output,
+pre.json {
+  background-color: var(--harmonix-night-pine, #111f1a);
+  border: 1px solid var(--harmonix-sage-fade, #768b7c);
+  border-radius: 8px;
+  padding: 16px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Mobile responsiveness for code blocks */
+@media (max-width: 640px) {
+  pre, 
+  code,
+  .code-container,
+  .json-output {
+    font-size: 12px;
+    padding: 12px;
+  }
+}
+
+/* Tablet responsiveness */
+@media (min-width: 641px) and (max-width: 1024px) {
+  pre, 
+  code,
+  .code-container,
+  .json-output {
+    font-size: 13px;
+    padding: 14px;
+  }
+}
+
+/* Ensure dev boxes scale properly within grid */
+.grid .dev-box,
+.grid .code-container {
+  min-width: 0; /* Prevent grid blowout */
+  overflow: hidden;
+}
+
+/* Custom scrollbar for code containers */
+.code-container::-webkit-scrollbar,
+.json-output::-webkit-scrollbar,
+pre::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.code-container::-webkit-scrollbar-track,
+.json-output::-webkit-scrollbar-track,
+pre::-webkit-scrollbar-track {
+  background: var(--harmonix-deep-forest, #014321);
+  border-radius: 4px;
+}
+
+.code-container::-webkit-scrollbar-thumb,
+.json-output::-webkit-scrollbar-thumb,
+pre::-webkit-scrollbar-thumb {
+  background: var(--harmonix-regal-gold, #d7b76d);
+  border-radius: 4px;
+}
+
+/* Prevent horizontal scroll on mobile */
+@media (max-width: 480px) {
+  body {
+    overflow-x: hidden;
+  }
+  
+  .harmonix-container,
+  .container,
+  main {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+}
+
+/* Fix for responsive tables in code outputs */
+.code-container table,
+.json-output table {
+  width: 100%;
+  overflow-x: auto;
+  display: block;
+}
+
+/* Ensure touch-friendly scrolling */
+.overflow-x-auto,
+.overflow-x-scroll {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--harmonix-regal-gold) var(--harmonix-deep-forest);
+}
+
+/* Fix for API playground containers */
+.api-playground,
+.demo-output {
+  container-type: inline-size;
+  width: 100%;
+}
+
+@container (max-width: 640px) {
+  .api-playground pre,
+  .demo-output pre {
+    font-size: 0.75rem;
+    padding: 0.75rem;
+  }
+}

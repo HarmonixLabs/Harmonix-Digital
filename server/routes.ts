@@ -1076,7 +1076,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/waitlist', async (req, res) => {
     try {
-      const { name, email, company, industry, interest, page } = req.body;
+      const { name, email, company, phone, industry, interest, page } = req.body;
       
       if (!name || !email) {
         return res.status(400).json({ message: 'Name and email are required' });

@@ -410,7 +410,7 @@ function PricingSection() {
                   variant={tier.popular ? "default" : "outline"}
                   onClick={() => window.location.href = '/waitlist?ref=home'}
                 >
-                  Reserve My Spot
+                  Pay 30% Deposit & Get 15% Off + Priority Access
                 </Button>
               </div>
             </Card>
@@ -556,7 +556,7 @@ function JoinMovementSection() {
       <div className="harmonix-container">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-harmonix-regal-gold font-serif">
-            Reserve Your Spot Today
+            Pay 30% Deposit & Get 15% Off + Priority Access
           </h2>
           <p className="text-lg sm:text-xl text-harmonix-sage-fade mb-3">
             Over 280+ early adopters have activated their agents. Secure your 30% discount before we reach capacity.
@@ -580,7 +580,7 @@ function JoinMovementSection() {
                   type="submit"
                   className="touch-friendly-btn bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90"
                 >
-                  Reserve My Spot
+                  Pay 30% Deposit & Get 15% Off + Priority Access
                 </Button>
               </div>
 

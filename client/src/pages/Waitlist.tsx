@@ -116,7 +116,7 @@ export default function Waitlist() {
                   Secure Registration
                 </Badge>
                 <CardTitle className="text-3xl sm:text-4xl font-bold text-harmonix-regal-gold font-serif mb-4">
-                  Reserve Your Spot
+                  Pay 30% Deposit & Get 15% Off + Priority Access
                 </CardTitle>
                 <CardDescription className="text-lg text-harmonix-sage-fade max-w-2xl mx-auto leading-relaxed">
                   Join thousands of forward-thinking businesses already on the waitlist. 
