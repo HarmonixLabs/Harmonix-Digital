@@ -1,0 +1,176 @@
+/* Harmonix Responsive Framework */
+
+/* Breakpoints */
+:root {
+  --mobile: 375px;
+  --tablet: 768px;
+  --desktop: 1024px;
+  --wide: 1440px;
+}
+
+/* Prevent horizontal scroll */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* Container fixes */
+.responsive-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+@media (min-width: 768px) {
+  .responsive-container {
+    padding: 0 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-container {
+    padding: 0 32px;
+  }
+}
+
+/* Fix button sizes for touch targets */
+button, .btn, [role="button"], a[class*="btn"] {
+  min-height: 44px;
+  padding: 12px 24px;
+}
+
+/* Mobile-first typography */
+.text-responsive-sm { font-size: 14px; }
+.text-responsive-base { font-size: 16px; }
+.text-responsive-lg { font-size: 18px; }
+.text-responsive-xl { font-size: 20px; }
+.text-responsive-2xl { font-size: 24px; }
+.text-responsive-3xl { font-size: 28px; }
+.text-responsive-4xl { font-size: 32px; }
+
+@media (min-width: 768px) {
+  .text-responsive-sm { font-size: 14px; }
+  .text-responsive-base { font-size: 16px; }
+  .text-responsive-lg { font-size: 20px; }
+  .text-responsive-xl { font-size: 24px; }
+  .text-responsive-2xl { font-size: 32px; }
+  .text-responsive-3xl { font-size: 40px; }
+  .text-responsive-4xl { font-size: 48px; }
+}
+
+/* Mobile font size overrides */
+@media (max-width: 768px) {
+  h1 { font-size: 28px !important; line-height: 1.2; }
+  h2 { font-size: 24px !important; line-height: 1.3; }
+  h3 { font-size: 20px !important; line-height: 1.4; }
+  h4 { font-size: 18px !important; line-height: 1.4; }
+  p { font-size: 16px !important; line-height: 1.5; }
+  
+  /* Fix Tailwind text sizes on mobile */
+  .text-4xl { font-size: 28px !important; }
+  .text-3xl { font-size: 24px !important; }
+  .text-2xl { font-size: 20px !important; }
+  .text-xl { font-size: 18px !important; }
+  .text-lg { font-size: 16px !important; }
+}
+
+/* Ensure images don't overflow */
+img, video, iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Utility classes for proper centering */
+.center-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.center-block {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Fix form inputs */
+input, textarea, select {
+  min-height: 44px;
+  padding: 8px 16px;
+  width: 100%;
+}
+
+/* Card and container max-widths */
+.card-responsive {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .card-responsive {
+    max-width: 600px;
+  }
+}
+
+/* Fix grid gaps for mobile */
+@media (max-width: 768px) {
+  .grid { gap: 16px !important; }
+  .flex { gap: 16px !important; }
+}
+
+/* Ensure proper spacing on mobile */
+@media (max-width: 768px) {
+  .px-4 { padding-left: 16px !important; padding-right: 16px !important; }
+  .py-4 { padding-top: 16px !important; padding-bottom: 16px !important; }
+  .p-4 { padding: 16px !important; }
+  
+  .mx-4 { margin-left: 16px !important; margin-right: 16px !important; }
+  .my-4 { margin-top: 16px !important; margin-bottom: 16px !important; }
+  .m-4 { margin: 16px !important; }
+}
+
+/* Fix overflow on small screens */
+.overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Responsive tables */
+@media (max-width: 768px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* Fix modal and dialog sizing */
+@media (max-width: 768px) {
+  [role="dialog"] {
+    max-width: calc(100vw - 32px) !important;
+    margin: 16px !important;
+  }
+}
+
+/* Ensure cards stack on mobile */
+@media (max-width: 768px) {
+  .grid-cols-2, .grid-cols-3, .grid-cols-4 {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Fix navigation on mobile */
+@media (max-width: 768px) {
+  nav {
+    padding: 16px !important;
+  }
+  
+  nav a, nav button {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}

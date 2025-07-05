@@ -19,6 +19,7 @@ import { UnifiedAuthModal } from "@/components/auth/unified-auth-modal";
 import { MysticalTooltip, NeuralTooltip } from "@/components/ui/animated-tooltip";
 import { Coins, User, Settings, LogOut, Menu, X, HelpCircle } from "lucide-react";
 import { useState } from "react";
+import { MobileNavigation } from "@/components/mobile-navigation";
 
 export function Navbar() {
   const [location] = useLocation();
@@ -209,15 +210,8 @@ export function Navbar() {
               </div>
             )}
 
-            {/* Mobile Menu Button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden touch-friendly-btn h-12 w-12"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </Button>
+            {/* Mobile Navigation */}
+            <MobileNavigation />
           </div>
         </div>
 

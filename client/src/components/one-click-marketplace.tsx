@@ -153,14 +153,14 @@ export function OneClickMarketplace({ showHeader = true, maxItems }: OneClickMar
     .slice(0, maxItems);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       {showHeader && (
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-bold text-harmonix-regal-gold mb-2">
+            <h2 className="text-responsive-2xl font-bold text-harmonix-regal-gold mb-2">
               One-Click Agent Marketplace
             </h2>
-            <p className="text-harmonix-sage-fade/70">
+            <p className="text-responsive-base text-harmonix-sage-fade/70">
               Deploy powerful AI agents instantly to your organization
             </p>
           </div>
@@ -212,11 +212,11 @@ export function OneClickMarketplace({ showHeader = true, maxItems }: OneClickMar
       </div>
       
       {/* Agent Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {filteredAgents.map((agent) => (
           <Card 
             key={agent.id} 
-            className="bg-harmonix-night-pine/50 border-harmonix-sage-fade/20 hover:border-harmonix-regal-gold/30 transition-colors group"
+            className="bg-harmonix-night-pine/50 border-harmonix-sage-fade/20 hover:border-harmonix-regal-gold/30 transition-colors group mx-auto w-full max-w-[320px] md:max-w-none"
           >
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between">

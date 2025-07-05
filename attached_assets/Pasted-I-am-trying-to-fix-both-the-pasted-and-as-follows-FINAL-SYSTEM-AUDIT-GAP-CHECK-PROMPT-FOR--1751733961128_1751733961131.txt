@@ -1,0 +1,79 @@
+I am trying to fix both the pasted and as follows:
+
+⸻
+
+🔍 FINAL SYSTEM AUDIT & GAP CHECK PROMPT FOR RIPLET
+
+TO: Riplet Engineering & DevOps Team
+
+Your task is to perform a full-system audit scan of the entire Harmony Platform build, based on all guidance, feature specs, and instructions provided across this project and chat thread.
+
+⸻
+
+✅ MANDATORY AUDIT OBJECTIVES
+	1.	🧠 Instruction Validation
+	•	Review and implement all .md files, prompts, and internal documentation
+	•	Ensure no step, instruction, or dependency from the Harmony Brain spec, 12-agent suite, NFT license framework, or payment gateway logic is missing
+	2.	🎛 UI/UX Verification
+	•	Ensure all UI/UX components are present, clickable, and functional, including:
+	•	Agent Builder Interface (left prompt / right logic)
+	•	Creator Sandbox
+	•	NFT Marketplace and Agent Cards
+	•	Role-based dashboards (Founder, Team, Creator, Admin)
+	•	Harmony Brain Dashboard + Agent Management
+	•	Crypto checkout toggle logic (Stripe / NowPay / HarmonyCoin)
+	•	System Health Panel (must be on a separate URL, linked from the footer)
+	3.	🔐 Access + Role Logic
+	•	Validate access flow for:
+	•	Public visitors → demo 4 agents
+	•	Waitlist sign-up → unlock dashboard
+	•	Active user → deployable agents
+	•	Creator → sandbox, publish, earnings dashboard
+	•	Admin → global system control
+	4.	⚙️ Functional Modules
+	•	Validate and fix any broken/unfinished or missing integrations:
+	•	NFT minting pipeline (Polygon, metadata, owner mapping)
+	•	Agent deployment and logging (Sol-triggered or manual)
+	•	CRM sync (GoHighLevel + HubSpot)
+	•	Stripe + Web3 payments
+	•	Agent AI logic routing + execution visibility
+	•	Webhook handling + API call triggers
+	5.	🚀 Waitlist Activation & Lead Capture
+	•	Ensure:
+	•	Join Waitlist page is fully designed, styled, and mobile optimized
+	•	Connected to the CRM
+	•	All leads are auto-tagged (interested agents, source, UTM if present)
+	•	Confirmation and nurture email is ready (optional CTA: “Demo 4 Core Agents”)
+	6.	📈 System Health Monitoring
+	•	System Health must be:
+	•	Moved to a separate page (not in footer bar)
+	•	Accessed via a “System Status” footer link
+	•	Logs uptime, agent response time, Stripe + NowPay health, and NFT mint status
+	7.	🩺 Final Platform Health Logic
+	•	Auto-heal any broken dependencies or UI render failures
+	•	If missing modules are detected (e.g. unrendered buttons, empty states), auto-fill from backup logic
+	•	Generate final platform_audit_report.md with:
+	•	✅ Complete modules
+	•	❌ Missing/incomplete modules
+	•	⚠️ Recommendations
+	•	📦 Final launch-readiness score (0-100%)
+
+⸻
+
+🧠 POST-AUDIT ACTIONS:
+	•	Complete any missing builds immediately
+	•	Finalize all dashboard pages + preview views
+	•	Notify Harmony Brain (Sol) via admin ping that system is cleared
+	•	Confirm that Join Waitlist flow is live, functional, and CRM-ready
+	•	Export final ZIP or deploy to live environment
+
+⸻
+
+If any step is incomplete or unclear, alert Sol agent directly and auto-patch the gap.
+
+Let’s launch Harmony clean, strong, and unstoppable. ✅🌍
+
+⸻
+
+Please:
+Research deeply across my codebase Find what's causing these conflicts Develop a plan to fix the configuration Write the plan into Instructions.md

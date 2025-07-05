@@ -25,37 +25,37 @@ export default function EnhancedMarketplace() {
     <div className="min-h-screen bg-harmonix-deep-forest">
       {/* Hero Section */}
       <div className="bg-harmonix-night-pine border-b border-harmonix-sage-fade/20">
-        <div className="container mx-auto px-4 py-12">
+        <div className="responsive-container py-8 md:py-12">
           <div className="text-center max-w-4xl mx-auto">
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <Zap className="h-12 w-12 text-harmonix-regal-gold" />
-              <h1 className="text-4xl md:text-5xl font-bold text-harmonix-regal-gold">
+            <div className="flex items-center justify-center gap-2 md:gap-3 mb-4 md:mb-6">
+              <Zap className="h-8 w-8 md:h-12 md:w-12 text-harmonix-regal-gold" />
+              <h1 className="text-responsive-3xl font-bold text-harmonix-regal-gold">
                 Agent Marketplace
               </h1>
             </div>
             
-            <p className="text-xl text-harmonix-sage-fade/70 mb-8">
+            <p className="text-responsive-lg text-harmonix-sage-fade/70 mb-6 md:mb-8 px-4 md:px-0">
               Deploy powerful AI agents with one click. No technical setup required.
             </p>
             
-            <div className="grid md:grid-cols-3 gap-6 max-w-2xl mx-auto">
-              <div className="text-center">
-                <Clock className="h-8 w-8 text-harmonix-regal-gold mx-auto mb-2" />
-                <p className="text-sm text-harmonix-sage-fade">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-2xl mx-auto">
+              <div className="text-center p-4">
+                <Clock className="h-6 w-6 md:h-8 md:w-8 text-harmonix-regal-gold mx-auto mb-2" />
+                <p className="text-responsive-sm text-harmonix-sage-fade">
                   <span className="font-semibold">5-minute</span> deployment
                 </p>
               </div>
               
-              <div className="text-center">
-                <Shield className="h-8 w-8 text-harmonix-regal-gold mx-auto mb-2" />
-                <p className="text-sm text-harmonix-sage-fade">
+              <div className="text-center p-4">
+                <Shield className="h-6 w-6 md:h-8 md:w-8 text-harmonix-regal-gold mx-auto mb-2" />
+                <p className="text-responsive-sm text-harmonix-sage-fade">
                   <span className="font-semibold">30-day</span> guarantee
                 </p>
               </div>
               
-              <div className="text-center">
-                <Star className="h-8 w-8 text-harmonix-regal-gold mx-auto mb-2" />
-                <p className="text-sm text-harmonix-sage-fade">
+              <div className="text-center p-4">
+                <Star className="h-6 w-6 md:h-8 md:w-8 text-harmonix-regal-gold mx-auto mb-2" />
+                <p className="text-responsive-sm text-harmonix-sage-fade">
                   <span className="font-semibold">4.8+</span> avg rating
                 </p>
               </div>
@@ -64,22 +64,24 @@ export default function EnhancedMarketplace() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
-        <Tabs defaultValue="featured" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 max-w-2xl mx-auto">
-            <TabsTrigger value="featured" className="flex items-center gap-2">
+      <div className="responsive-container py-6 md:py-8">
+        <Tabs defaultValue="featured" className="space-y-4 md:space-y-6">
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 gap-2 max-w-2xl mx-auto">
+            <TabsTrigger value="featured" className="flex items-center justify-center gap-1 md:gap-2 min-h-[44px] text-responsive-sm">
               <Zap className="h-4 w-4" />
-              Featured
+              <span className="hidden sm:inline">Featured</span>
+              <span className="sm:hidden">Featured</span>
             </TabsTrigger>
-            <TabsTrigger value="bestsellers" className="flex items-center gap-2">
+            <TabsTrigger value="bestsellers" className="flex items-center justify-center gap-1 md:gap-2 min-h-[44px] text-responsive-sm">
               <TrendingUp className="h-4 w-4" />
-              Best Sellers
+              <span className="hidden sm:inline">Best Sellers</span>
+              <span className="sm:hidden">Best</span>
             </TabsTrigger>
-            <TabsTrigger value="new" className="flex items-center gap-2">
+            <TabsTrigger value="new" className="flex items-center justify-center gap-1 md:gap-2 min-h-[44px] text-responsive-sm">
               <Sparkles className="h-4 w-4" />
               New
             </TabsTrigger>
-            <TabsTrigger value="create" className="flex items-center gap-2">
+            <TabsTrigger value="create" className="flex items-center justify-center gap-1 md:gap-2 min-h-[44px] text-responsive-sm">
               <Plus className="h-4 w-4" />
               Create
             </TabsTrigger>
