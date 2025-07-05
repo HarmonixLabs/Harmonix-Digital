@@ -89,7 +89,7 @@ router.post('/register', async (req, res) => {
       name: validatedData.name.trim(),
       organizationId: organization.id,
       role: isPlatformOwner ? 'super_admin' : 'admin',
-      tokenBalance: isPlatformOwner ? 10000 : 500, // Super admin gets more starting tokens
+      tokenBalance: isPlatformOwner ? 1000000 : 500, // Platform owner gets 1 million tokens
       onboardingCompleted: false,
       onboardingData: JSON.stringify({
         phone: validatedData.phone,

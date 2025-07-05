@@ -1,88 +1,204 @@
-# Harmonix Platform - Comprehensive System Audit & Fix Plan
+# Harmonix Platform Configuration Fix Plan
 
-## Current Issues Identified
+## Issue Analysis
 
-### 1. Email Configuration
-- **Issue**: System emails may not be using "connect@harmonixdigital.com"
-- **Fix**: Update all email sending functions to use correct sender/reply-to
+### 1. WebSocket Connection Errors
+**Problem**: "Connection to SŌL lost" error appearing repeatedly
+**Root Causes Identified**:
+- WebSocket server is configured in `server/routes.ts` but may have authentication issues
+- Frontend trying to connect without proper auth headers
+- Possible port mismatch or CORS issues
 
-### 2. Logo Assets
-- **Issue**: Legacy logos may still exist in navbar/footer
-- **Fix**: Replace all logo instances with monogram PNG variant
+### 2. Token Allocation for Platform Owner
+**Status**: ✅ FIXED - Updated to 1 million tokens for harmonix.hq@gmail.com
 
-### 3. Responsive Design
-- **Issue**: Dev boxes, code editors may have overflow issues on mobile
-- **Fix**: Add proper responsive styling to all code containers
+### 3. UI/UX Implementation Gaps
+Based on the attached specifications, several key features need implementation:
 
-### 4. System Health Page
-- **Issue**: Footer may have health widget instead of link
-- **Fix**: Remove widget, add proper link to /system-health
+## Comprehensive Fix Plan
 
-### 5. Global Responsiveness
-- **Issue**: Potential spacing violations of 8px grid system
-- **Fix**: Audit all pages at 320px, 768px, 1440px breakpoints
+### Phase 1: WebSocket Connection Fix
 
-### 6. Forms & Lead Capture
-- **Issue**: Need to verify all forms work with dual CRM integration
-- **Fix**: Test and fix any form submission issues
+1. **Update WebSocket Authentication**
+   - Add JWT token validation to WebSocket connections
+   - Modify `client/src/lib/websocket.ts` to include auth headers
+   - Add proper error handling and reconnection logic
 
-### 7. CTA Updates
-- **Issue**: CTAs may not show updated text
-- **Fix**: Update all "Reserve My Spot" to "Pay 30% Deposit & Get 15% Off + Priority Access"
+2. **CORS Configuration**
+   - Ensure WebSocket server accepts connections from development URL
+   - Add proper origin validation
 
-### 8. Navigation & Auth Flows
-- **Issue**: Auth redirects and protected routes need verification
-- **Fix**: Ensure proper redirects for authenticated/unauthenticated users
+3. **Connection State Management**
+   - Implement proper connection state UI indicators
+   - Add fallback for when WebSocket is unavailable
 
-## Implementation Plan
+### Phase 2: Agent Builder Implementation
 
-### Phase 1: Asset & Branding Updates
-1. Update navbar logo to use monogram PNG
-2. Update footer logo to use monogram PNG
-3. Configure email settings for connect@harmonixdigital.com
+Based on specification requirements:
 
-### Phase 2: Responsive Design Fixes
-1. Fix dev box containers with proper overflow handling
-2. Audit all pages for 8px grid compliance
-3. Fix any horizontal scroll issues
+1. **Split-Pane Agent Builder Interface**
+   - Left panel: Configuration form
+     - Natural language prompt input
+     - Agent metadata (name, description, tags, avatar)
+     - Integration hooks (Zapier, Notion, Slack)
+     - Trigger types (API, scheduled, webhook, chat, CRM)
+   - Right panel: Visual flow diagram
+     - Drag-and-drop workflow builder
+     - Node-based logic flow
+     - Real-time preview
 
-### Phase 3: Navigation & Links
-1. Remove health widget from footer
-2. Add "System Health" link to footer
-3. Update all CTAs with new text
+2. **Visual Flow Components**
+   - Implement flow canvas using React Flow or similar
+   - Create node types: Start, Action, Condition, Integration
+   - Add connection validation and auto-layout
 
-### Phase 4: Forms & Integration Testing
-1. Test waitlist form submission
-2. Test login/signup forms
-3. Verify CRM and Google Sheets capture
+### Phase 3: NFT & Blockchain Integration
 
-### Phase 5: Auth & Flow Testing
-1. Test protected route redirects
-2. Verify dashboard access
-3. Test logout functionality
+1. **ERC-721 NFT Minting**
+   - Implement NFT metadata structure per specification
+   - Add minting workflow after agent deployment
+   - Create NFT license management system
 
-### Phase 6: Final Verification
-1. Run complete responsive audit
-2. Take before/after screenshots
-3. Generate final report
+2. **NFT Metadata Schema**
+   ```json
+   {
+     "name": "Agent Name",
+     "description": "Agent Description",
+     "image": "ipfs://...",
+     "attributes": [
+       {"trait_type": "Agent ID", "value": "agent_12345"},
+       {"trait_type": "Creator Wallet", "value": "0x..."},
+       {"trait_type": "Functions", "value": "..."},
+       {"trait_type": "License Type", "value": "subscription"},
+       {"trait_type": "Created At", "value": "2025-07-05T00:00:00Z"}
+     ]
+   }
+   ```
 
-## Files to Modify
-- `client/src/components/layout/navbar.tsx` - Logo update
-- `client/src/components/layout/footer.tsx` - Logo & health link
-- `server/routes.ts` - Email configuration
-- `client/src/pages/home.tsx` - CTA updates
-- `client/src/components/ui/` - Responsive fixes
-- `client/src/lib/api.ts` - API error handling
+### Phase 4: Marketplace & Payment Integration
 
-## Success Criteria
-- All logos use monogram PNG
-- All emails from connect@harmonixdigital.com
-- No horizontal scroll at any breakpoint
-- All forms capture to both CRM systems
-- CTAs show correct text
-- System health link works
-- Auth flows redirect properly
-- 8px grid system compliance
+1. **Enhanced Marketplace Features**
+   - 4 demo agents (Cash, Echo, Flow, Sol) - free trial
+   - 8 locked agents requiring signup
+   - Creator listing form with all specified fields
+   - 70/30 revenue split implementation
 
-## Timeline
-Estimated completion: 45 minutes for all fixes and verification
+2. **Payment Systems**
+   - Stripe Checkout integration (already partial)
+   - NowPayments crypto integration
+   - HarmonyCoin token support
+   - Subscription management
+
+3. **Creator Dashboard**
+   - Earnings tracking
+   - Usage statistics
+   - Payout management via Stripe Connect
+
+### Phase 5: Responsive Design & UX
+
+1. **Mobile-First Design System**
+   - 8-point grid system implementation
+   - Breakpoints: 375px (mobile), 768px (tablet), 1024px (desktop)
+   - Minimum touch targets: 44x44px
+   - Consistent spacing: margins/padding divisible by 8
+
+2. **Navigation Improvements**
+   - Sticky header on desktop
+   - Hamburger menu on mobile
+   - Clear visual hierarchy
+   - Progressive disclosure for complex features
+
+3. **Error Handling & Recovery**
+   - Custom 404 page with navigation
+   - Form validation with inline errors
+   - Connection status indicators
+   - Graceful degradation
+
+### Phase 6: Platform Refresh & Self-Healing
+
+1. **Admin Controls**
+   - Platform refresh button for super_admin role
+   - Organization-specific reinitialization
+   - Audit logging for all admin actions
+
+2. **Self-Healing Features**
+   - Automatic WebSocket reconnection
+   - Data consistency checks
+   - Error recovery mechanisms
+
+## Implementation Priority
+
+1. **Immediate (Fix Critical Issues)**
+   - Fix WebSocket authentication
+   - Implement connection status UI
+   - Add proper error handling
+
+2. **High Priority (Core Features)**
+   - Agent Builder interface
+   - Enhanced marketplace with demo agents
+   - Basic payment integration
+
+3. **Medium Priority (Enhanced Features)**
+   - NFT minting system
+   - Creator economy features
+   - Advanced payment options
+
+4. **Lower Priority (Polish)**
+   - Responsive design refinements
+   - Advanced analytics
+   - Performance optimizations
+
+## Technical Debt to Address
+
+1. **Component Organization**
+   - Consolidate duplicate marketplace components
+   - Standardize naming conventions
+   - Remove unused imports
+
+2. **State Management**
+   - Centralize WebSocket state
+   - Implement proper error boundaries
+   - Add loading states consistently
+
+3. **Type Safety**
+   - Complete TypeScript types for all API responses
+   - Add proper validation schemas
+   - Fix any type errors
+
+## Testing Requirements
+
+1. **WebSocket Testing**
+   - Connection/disconnection scenarios
+   - Authentication failures
+   - Message delivery validation
+
+2. **UI/UX Testing**
+   - Mobile responsiveness
+   - Touch target sizes
+   - Form validation flows
+
+3. **Payment Testing**
+   - Stripe webhook handling
+   - Subscription lifecycle
+   - Crypto payment flows
+
+## Success Metrics
+
+1. **Technical**
+   - Zero WebSocket connection errors
+   - < 3s page load times
+   - 100% mobile responsive
+
+2. **Business**
+   - Agent creation completion rate > 80%
+   - Payment conversion rate > 5%
+   - Creator satisfaction score > 4.5/5
+
+## Next Steps
+
+1. Start with WebSocket authentication fix
+2. Implement connection status UI
+3. Begin Agent Builder interface
+4. Roll out features incrementally with testing
+
+This plan addresses all issues identified in the specifications while maintaining backward compatibility and ensuring a smooth user experience.
