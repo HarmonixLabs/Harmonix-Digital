@@ -81,14 +81,21 @@ export function Navbar() {
 
   return (
     <>
+      {/* Skip to main content link for keyboard navigation */}
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
+      
       <nav 
         className="border-b border-jade-forest/20 bg-charcoalDeep backdrop-blur-md sticky top-0 z-50"
         data-tour="navbar"
+        role="navigation"
+        aria-label="Main navigation"
       >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
+          <Link href="/" className="flex items-center" aria-label="Harmonix Home">
             <HarmonixLogo size="md" variant="monogram" className="harmonix-logo-glow" />
           </Link>
 

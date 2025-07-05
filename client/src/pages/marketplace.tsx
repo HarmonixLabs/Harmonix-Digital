@@ -23,7 +23,9 @@ import {
   Play,
   Settings,
   Crown,
-  Gem
+  Gem,
+  Lock,
+  Unlock
 } from 'lucide-react';
 import { useAuth } from '@/lib/auth';
 import { Link } from 'wouter';
@@ -251,6 +253,14 @@ export default function Marketplace() {
     );
   };
 
+  // Demo agents that are available without authentication
+  const DEMO_AGENT_IDS = ['cash-agent', 'echo-agent', 'flow-agent', 'sol-agent'];
+  
+  const isAgentLocked = (agentId: string) => {
+    // Agents are locked if user is not authenticated AND it's not a demo agent
+    return !isAuthenticated && !DEMO_AGENT_IDS.includes(agentId);
+  };
+
   const handleDeploy = (agent: Agent) => {
     if (!isAuthenticated) {
       // Prompt login/signup if user is anonymous
@@ -390,13 +400,33 @@ export default function Marketplace() {
             {/* Agent Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredAgents.map((agent) => (
-                <Card key={agent.id} className="bg-slate-800/50 border-slate-600 hover:border-emerald-400/50 transition-all duration-300 group">
+                <Card key={agent.id} className={`bg-slate-800/50 border-slate-600 hover:border-emerald-400/50 transition-all duration-300 group ${isAgentLocked(agent.id) ? 'opacity-90' : ''}`}>
                   <CardHeader className="relative">
+                    {/* Lock overlay for locked agents */}
+                    {isAgentLocked(agent.id) && (
+                      <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px] rounded-t-lg flex items-center justify-center z-10">
+                        <Lock className="w-6 h-6 text-slate-400" />
+                      </div>
+                    )}
+                    
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="text-3xl">{agent.avatar}</div>
+                        <div className="text-3xl relative">
+                          {agent.avatar}
+                          {/* Small lock indicator next to avatar */}
+                          {isAgentLocked(agent.id) && (
+                            <Lock className="w-4 h-4 text-slate-400 absolute -bottom-1 -right-1 bg-slate-800 rounded-full p-0.5" />
+                          )}
+                        </div>
                         <div>
-                          <CardTitle className="text-emerald-100 text-lg">{agent.name}</CardTitle>
+                          <CardTitle className="text-emerald-100 text-lg flex items-center gap-2">
+                            {agent.name}
+                            {!isAgentLocked(agent.id) && DEMO_AGENT_IDS.includes(agent.id) && (
+                              <Badge variant="secondary" className="text-xs bg-emerald-600/20 text-emerald-400 border-emerald-400/30">
+                                Demo
+                              </Badge>
+                            )}
+                          </CardTitle>
                           <div className="flex items-center gap-2">
                             <Badge className={`${RARITY_COLORS[agent.rarity]} text-white`}>
                               {getRarityIcon(agent.rarity)}
@@ -468,19 +498,49 @@ export default function Marketplace() {
 
                     {/* Actions */}
                     <div className="flex gap-2">
-                      <Button 
-                        className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white"
-                        onClick={() => handleDeploy(agent)}
-                      >
-                        <Play className="w-4 h-4 mr-2" />
-                        Deploy
-                      </Button>
-                      <Button variant="outline" className="border-emerald-400/50 text-emerald-400 hover:bg-emerald-400/10">
-                        <Download className="w-4 h-4" />
-                      </Button>
-                      <Button variant="outline" className="border-emerald-400/50 text-emerald-400 hover:bg-emerald-400/10">
-                        <Settings className="w-4 h-4" />
-                      </Button>
+                      {isAgentLocked(agent.id) ? (
+                        <>
+                          <Button 
+                            className="flex-1 bg-slate-600 hover:bg-slate-700 text-white"
+                            onClick={() => window.location.href = '/get-started'}
+                          >
+                            <Lock className="w-4 h-4 mr-2" />
+                            Sign Up to Deploy
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            className="border-slate-500 text-slate-400"
+                            disabled
+                          >
+                            <Settings className="w-4 h-4" />
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          <Button 
+                            className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white"
+                            onClick={() => handleDeploy(agent)}
+                          >
+                            {DEMO_AGENT_IDS.includes(agent.id) && !isAuthenticated ? (
+                              <>
+                                <Play className="w-4 h-4 mr-2" />
+                                Try Demo
+                              </>
+                            ) : (
+                              <>
+                                <Play className="w-4 h-4 mr-2" />
+                                Deploy
+                              </>
+                            )}
+                          </Button>
+                          <Button variant="outline" className="border-emerald-400/50 text-emerald-400 hover:bg-emerald-400/10">
+                            <Download className="w-4 h-4" />
+                          </Button>
+                          <Button variant="outline" className="border-emerald-400/50 text-emerald-400 hover:bg-emerald-400/10">
+                            <Settings className="w-4 h-4" />
+                          </Button>
+                        </>
+                      )}
                     </div>
                   </CardContent>
                 </Card>

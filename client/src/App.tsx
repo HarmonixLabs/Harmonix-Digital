@@ -120,6 +120,13 @@ function Router() {
           <Route path="/admin/status" component={lazy(() => import("./pages/admin/status"))} />
           <Route path="/transitions-demo" component={lazy(() => import("./pages/transitions-demo"))} />
           <Route path="/loading-showcase" component={LoadingShowcase} />
+          
+          {/* Error Pages */}
+          <Route path="/error/400" component={lazy(() => import("./pages/errors/error-400"))} />
+          <Route path="/error/401" component={lazy(() => import("./pages/errors/error-401"))} />
+          <Route path="/error/403" component={lazy(() => import("./pages/errors/error-403"))} />
+          <Route path="/error/500" component={lazy(() => import("./pages/errors/error-500"))} />
+          
           <Route component={NotFound} />
         </Switch>
       </PageTransition>

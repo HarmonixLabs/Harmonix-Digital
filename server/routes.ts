@@ -82,6 +82,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
       return;
     }
     
+    // Verify authentication token
+    const url = new URL(req.url || '', `http://${req.headers.host}`);
+    const token = url.searchParams.get('token');
+    
+    if (!token) {
+      console.log('WebSocket connection rejected: No authentication token');
+      ws.close(1008, 'Authentication required');
+      return;
+    }
+    
+    // Verify JWT token
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'default-secret') as any;
+      // Attach user info to the WebSocket connection
+      (ws as any).userId = decoded.userId;
+      (ws as any).organizationId = decoded.organizationId;
+    } catch (error) {
+      console.log('WebSocket connection rejected: Invalid token');
+      ws.close(1008, 'Invalid authentication token');
+      return;
+    }
+    
     connectionAttempts.set(clientIP, { count: attempts.count + 1, lastAttempt: now });
     console.log('WebSocket client connected');
     

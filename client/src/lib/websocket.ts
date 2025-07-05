@@ -39,12 +39,20 @@ export function useWebSocket(options: UseWebSocketOptions = {}) {
       return;
     }
 
+    // Don't try to connect if there's no auth token
+    const token = localStorage.getItem('harmonix_token');
+    if (!token) {
+      console.log('No authentication token found, skipping WebSocket connection');
+      setConnectionState('disconnected');
+      return;
+    }
+
     setConnectionState('connecting');
 
     try {
       const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
       const host = import.meta.env.PROD ? window.location.host : 'localhost:5000';
-      const wsUrl = `${protocol}//${host}/ws`;
+      const wsUrl = `${protocol}//${host}/ws?token=${encodeURIComponent(token)}`;
       
       wsRef.current = new WebSocket(wsUrl);
 

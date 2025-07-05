@@ -4,13 +4,17 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useAuth } from '@/lib/auth';
 import { 
   Users, TrendingUp, DollarSign, Cpu, Activity, Settings,
   UserPlus, CreditCard, BarChart3, PieChart, AlertCircle,
-  Zap, Shield, Building2, Briefcase
+  Zap, Shield, Building2, Briefcase, RefreshCw, Loader2
 } from 'lucide-react';
 import { Link } from 'wouter';
+import { useToast } from '@/hooks/use-toast';
+import { useMutation } from '@tanstack/react-query';
+import { apiRequest } from '@/lib/queryClient';
 
 // Mock data for demonstration
 const mockMetrics = {
@@ -32,7 +36,37 @@ const mockTeamMembers = [
 
 export default function FounderDashboard() {
   const { user } = useAuth();
+  const { toast } = useToast();
   const [selectedPeriod, setSelectedPeriod] = useState('7d');
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const handlePlatformRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      // Call the platform refresh API endpoint
+      await apiRequest('POST', '/api/admin/refresh', { 
+        organizationId: user?.organizationId 
+      });
+      
+      toast({
+        title: "Platform Refreshed",
+        description: "Your organization data has been successfully refreshed.",
+      });
+      
+      // Reload the page to show fresh data
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    } catch (error) {
+      toast({
+        title: "Refresh Failed",
+        description: "Failed to refresh platform data. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -57,6 +91,27 @@ export default function FounderDashboard() {
             <UserPlus className="h-4 w-4 mr-2" />
             Invite Team
           </Button>
+          {(user?.role === 'super_admin' || user?.role === 'admin' || user?.role === 'founder') && (
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={handlePlatformRefresh}
+              disabled={isRefreshing}
+              className="text-harmonix-regal-gold border-harmonix-regal-gold hover:bg-harmonix-regal-gold/10"
+            >
+              {isRefreshing ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Refreshing...
+                </>
+              ) : (
+                <>
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  Platform Refresh
+                </>
+              )}
+            </Button>
+          )}
         </div>
       </div>
 
@@ -152,7 +207,22 @@ export default function FounderDashboard() {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="h-64 flex items-center justify-center text-harmonix-sage-fade">
+                {/* Mobile: Accordion view for charts */}
+                <div className="md:hidden">
+                  <Accordion type="single" collapsible>
+                    <AccordionItem value="chart" className="border-0">
+                      <AccordionTrigger className="text-sm">View Usage Chart</AccordionTrigger>
+                      <AccordionContent>
+                        <div className="h-48 flex items-center justify-center text-harmonix-sage-fade">
+                          <BarChart3 className="h-10 w-10 opacity-50" />
+                          <span className="ml-2 text-sm">Usage chart</span>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                </div>
+                {/* Desktop: Full chart view */}
+                <div className="hidden md:block h-64 flex items-center justify-center text-harmonix-sage-fade">
                   <BarChart3 className="h-12 w-12 opacity-50" />
                   <span className="ml-2">Usage chart visualization</span>
                 </div>
@@ -210,7 +280,53 @@ export default function FounderDashboard() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              {/* Mobile View with Accordion */}
+              <div className="md:hidden">
+                <Accordion type="single" collapsible className="space-y-2">
+                  {mockTeamMembers.map((member, index) => (
+                    <AccordionItem key={member.id} value={`member-${member.id}`} className="bg-harmonix-deep-forest/50 rounded-lg border-0">
+                      <AccordionTrigger className="px-4 py-3 hover:no-underline">
+                        <div className="flex items-center gap-3 text-left">
+                          <div className="w-8 h-8 bg-harmonix-cedar-green/30 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span className="text-sm text-harmonix-regal-gold font-semibold">
+                              {member.name.split(' ').map(n => n[0]).join('')}
+                            </span>
+                          </div>
+                          <div>
+                            <p className="font-medium text-white text-sm">{member.name}</p>
+                            <p className="text-xs text-harmonix-sage-fade">{member.role}</p>
+                          </div>
+                        </div>
+                      </AccordionTrigger>
+                      <AccordionContent className="px-4 pb-3">
+                        <div className="space-y-3 text-sm">
+                          <div className="flex items-center justify-between">
+                            <span className="text-harmonix-sage-fade">Email:</span>
+                            <span className="text-white">{member.email}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-harmonix-sage-fade">Last Active:</span>
+                            <span className="text-white">{member.lastActive}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-harmonix-sage-fade">Role:</span>
+                            <Badge variant="outline" className="text-harmonix-regal-gold border-harmonix-regal-gold/50">
+                              {member.role}
+                            </Badge>
+                          </div>
+                          <Button variant="outline" size="sm" className="w-full mt-2">
+                            <Settings className="h-4 w-4 mr-2" />
+                            Manage Member
+                          </Button>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+
+              {/* Desktop View */}
+              <div className="hidden md:block space-y-4">
                 {mockTeamMembers.map((member) => (
                   <div key={member.id} className="flex items-center justify-between p-4 bg-harmonix-deep-forest/50 rounded-lg">
                     <div>

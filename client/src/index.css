@@ -5,6 +5,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import Accessibility Styles */
+@import './styles/accessibility.css';
+
 /* Harmonix Design System Tokens */
 :root {
   /* Colors - Primary */

@@ -1,0 +1,220 @@
+/* WCAG AA Compliant Focus States & Accessibility Styles */
+
+/* Enhanced Focus States for Keyboard Navigation */
+:focus-visible {
+  outline: 2px solid var(--harmonix-regal-gold, #d7b76d);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Skip Link for Keyboard Navigation */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--harmonix-deep-forest, #0b0f0e);
+  color: var(--harmonix-regal-gold, #d7b76d);
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 0 0 4px 0;
+  z-index: 100;
+  transition: top 0.3s ease;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  :root {
+    --harmonix-deep-forest: #000000;
+    --harmonix-sage-fade: #ffffff;
+    --harmonix-regal-gold: #ffff00;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Interactive Element Focus States */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--harmonix-regal-gold, #d7b76d);
+  outline-offset: 2px;
+}
+
+/* Card Focus States */
+.card-focusable:focus-visible {
+  box-shadow: 0 0 0 2px var(--harmonix-regal-gold, #d7b76d),
+              0 0 0 4px rgba(215, 183, 109, 0.3);
+}
+
+/* Form Field Focus States */
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--harmonix-regal-gold, #d7b76d);
+  box-shadow: 0 0 0 3px rgba(215, 183, 109, 0.2);
+}
+
+/* Error States with WCAG AA Contrast */
+.error-state {
+  color: #ff6b6b;
+  background-color: #2d0f0f;
+  border-color: #ff6b6b;
+}
+
+/* Success States with WCAG AA Contrast */
+.success-state {
+  color: #51cf66;
+  background-color: #0d2818;
+  border-color: #51cf66;
+}
+
+/* Warning States with WCAG AA Contrast */
+.warning-state {
+  color: #ffd93d;
+  background-color: #2d2418;
+  border-color: #ffd93d;
+}
+
+/* Screen Reader Only Content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Focus Trap for Modals */
+.focus-trap {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+/* Accessible Loading States */
+.loading-spinner {
+  border: 3px solid rgba(215, 183, 109, 0.3);
+  border-top-color: var(--harmonix-regal-gold, #d7b76d);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Accessible Button States */
+button:disabled,
+[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Focus Within for Complex Components */
+.focus-within:focus-within {
+  box-shadow: 0 0 0 2px var(--harmonix-regal-gold, #d7b76d);
+  border-radius: 8px;
+}
+
+/* Keyboard Navigation Indicators */
+.keyboard-nav-indicator {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 8px;
+  background: var(--harmonix-deep-forest, #0b0f0e);
+  color: var(--harmonix-regal-gold, #d7b76d);
+  font-size: 12px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.keyboard-nav-indicator.visible {
+  opacity: 1;
+}
+
+/* Enhanced Tab Navigation */
+[role="tablist"] {
+  display: flex;
+  gap: 8px;
+  border-bottom: 2px solid var(--harmonix-sage-fade, #768b7c);
+}
+
+[role="tab"] {
+  padding: 8px 16px;
+  background: transparent;
+  border: none;
+  color: var(--harmonix-sage-fade, #768b7c);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+[role="tab"]:hover {
+  color: var(--harmonix-regal-gold, #d7b76d);
+}
+
+[role="tab"][aria-selected="true"] {
+  color: var(--harmonix-regal-gold, #d7b76d);
+}
+
+[role="tab"][aria-selected="true"]::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--harmonix-regal-gold, #d7b76d);
+}
+
+/* Accessible Tooltips */
+[role="tooltip"] {
+  position: absolute;
+  background: var(--harmonix-deep-forest, #0b0f0e);
+  color: var(--harmonix-sage-fade, #768b7c);
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* Focus Visible Polyfill for Older Browsers */
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}
+
+/* High Contrast Button Styles */
+@media (prefers-contrast: high) {
+  button {
+    border: 2px solid currentColor;
+  }
+}
