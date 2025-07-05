@@ -82,11 +82,6 @@ export function Navbar() {
 
   return (
     <>
-      {/* Skip to main content link for keyboard navigation */}
-      <a href="#main-content" className="skip-link">
-        Skip to main content
-      </a>
-      
       <nav 
         className="border-b border-jade-forest/20 bg-charcoalDeep backdrop-blur-md sticky top-0 z-50"
         data-tour="navbar"

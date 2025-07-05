@@ -40,7 +40,7 @@ export function useWebSocket(options: UseWebSocketOptions = {}) {
     }
 
     // Don't try to connect if there's no auth token
-    const token = localStorage.getItem('harmonix_token');
+    const token = localStorage.getItem('auth_token');
     if (!token) {
       console.log('No authentication token found, skipping WebSocket connection');
       setConnectionState('disconnected');
