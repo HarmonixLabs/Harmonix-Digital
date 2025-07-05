@@ -105,12 +105,13 @@ function Router() {
           <Route path="/harmony-waitlist" component={Waitlist} />
           <Route path="/dashboard" component={RoleDashboard} />
           <Route path="/dashboard/legacy" component={Dashboard} />
-          <Route path="/marketplace" component={EnhancedMarketplace} />
+          <Route path="/marketplace" component={lazy(() => import("./pages/enhanced-marketplace"))} />
           <Route path="/marketplace/legacy" component={Marketplace} />
           <Route path="/auth/login" component={EnhancedLogin} />
           <Route path="/create-agent" component={lazy(() => import("./pages/create-agent"))} />
           <Route path="/agent-builder" component={lazy(() => import("./pages/agent-builder"))} />
           <Route path="/creator-dashboard" component={lazy(() => import("./pages/creator-dashboard"))} />
+          <Route path="/marketplace/deploy/:agentId" component={lazy(() => import("./pages/marketplace-deploy"))} />
           <Route path="/agent-marketplace" component={AgentMarketplace} />
           <Route path="/nft-marketplace" component={NFTMarketplace} />
           <Route path="/nft-mint" component={NFTMint} />

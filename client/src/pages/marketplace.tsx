@@ -23,10 +23,12 @@ import {
   Play,
   Settings,
   Crown,
+  Plus,
   Gem,
   Lock,
   Unlock
 } from 'lucide-react';
+import { OneClickMarketplace } from '@/components/one-click-marketplace';
 import { useAuth } from '@/lib/auth';
 import { Link } from 'wouter';
 
