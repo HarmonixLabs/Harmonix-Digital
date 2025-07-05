@@ -10,6 +10,9 @@ import { ErrorBoundary } from "@/components/error-boundary";
 import { PageTransition, SacredLoader } from "@/components/transitions/page-transition";
 import Home from "@/pages/home";
 import Dashboard from "@/pages/dashboard";
+import RoleDashboard from "@/pages/dashboard/RoleDashboard";
+import EnhancedLogin from "@/pages/auth/Login";
+import EnhancedMarketplace from "@/pages/marketplace/EnhancedMarketplace";
 import Harmony from "@/pages/harmony";
 // Standardized to sol-brain route
 import Join from "@/pages/join";
@@ -100,8 +103,11 @@ function Router() {
           <Route path="/privacy-policy" component={PrivacyPolicy} />
           <Route path="/service-pricing" component={ServicePricing} />
           <Route path="/harmony-waitlist" component={Waitlist} />
-          <Route path="/dashboard" component={Dashboard} />
-          <Route path="/marketplace" component={Marketplace} />
+          <Route path="/dashboard" component={RoleDashboard} />
+          <Route path="/dashboard/legacy" component={Dashboard} />
+          <Route path="/marketplace" component={EnhancedMarketplace} />
+          <Route path="/marketplace/legacy" component={Marketplace} />
+          <Route path="/auth/login" component={EnhancedLogin} />
           <Route path="/create-agent" component={lazy(() => import("./pages/create-agent"))} />
           <Route path="/agent-marketplace" component={AgentMarketplace} />
           <Route path="/nft-marketplace" component={NFTMarketplace} />
