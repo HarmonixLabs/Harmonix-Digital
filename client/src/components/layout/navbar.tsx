@@ -101,7 +101,7 @@ export function Navbar() {
               <Link key={link.href} href={link.href}>
                 <Button 
                   variant={location === link.href ? "default" : "ghost"}
-                  className={location === link.href ? "bg-harmonix-gold text-deep-space-black" : "text-jade-forest hover:text-harmonix-gold"}
+                  className={`touch-friendly-btn ${location === link.href ? "bg-harmonix-gold text-deep-space-black" : "text-jade-forest hover:text-harmonix-gold"}`}
                 >
                   {link.label}
                 </Button>

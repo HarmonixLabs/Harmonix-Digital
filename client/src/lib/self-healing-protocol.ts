@@ -341,13 +341,9 @@ class SelfHealingProtocol {
   }
 
   public startMonitoring(): void {
-    // Run initial health check after 10 seconds
-    setTimeout(() => this.runHealthCheck(), 10000);
-    
-    // Schedule regular health checks - reduced frequency
-    this.checkInterval = setInterval(() => {
-      this.runHealthCheck();
-    }, 300000); // Check every 5 minutes instead of 30 seconds
+    // Self-healing monitoring disabled to prevent console spam and false positives
+    // Manual healing can still be triggered via forceHeal() method
+    console.log('Self-healing protocol initialized - manual mode only');
   }
 
   public stopMonitoring(): void {

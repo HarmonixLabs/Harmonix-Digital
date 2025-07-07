@@ -87,7 +87,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     const token = url.searchParams.get('token');
     
     if (!token) {
-      console.log('WebSocket connection rejected: No authentication token');
+      // Silently reject unauthenticated connections without logging
       ws.close(1008, 'Authentication required');
       return;
     }
