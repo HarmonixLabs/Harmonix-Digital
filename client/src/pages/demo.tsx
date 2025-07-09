@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -9,8 +9,17 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { WhimsicalLoader } from "@/components/loading/whimsical-loader";
 import { MysticalTooltip, NeuralTooltip } from "@/components/ui/animated-tooltip";
+import { DemoScenarioCard } from "@/components/demo/demo-scenario-card";
+import { DemoExecution } from "@/components/demo/demo-execution";
 import { useAuth } from "@/lib/auth";
-import { Play, Users, MessageCircle, Calendar, User, ArrowRight, Bot, Zap, DollarSign, Clock, Target, Star, Sparkles, CheckCircle, Send } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { 
+  demoScenarios, 
+  getDemoScenariosByCategory, 
+  getFeaturedDemoScenarios,
+  type DemoScenario 
+} from "@/data/demo-scenarios";
+import { Play, Users, MessageCircle, Calendar, User, ArrowRight, Bot, Zap, DollarSign, Clock, Target, Star, Sparkles, CheckCircle, Send, Search, Filter, TrendingUp, BarChart3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const demoAgents = [
@@ -51,6 +60,7 @@ const demoAgents = [
 
 export default function DemoPage() {
   const { user } = useAuth();
+  const { toast } = useToast();
   const [selectedAgent, setSelectedAgent] = useState(0);
   const [businessProfile, setBusinessProfile] = useState({
     industry: "",
@@ -61,6 +71,23 @@ export default function DemoPage() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [demoInput, setDemoInput] = useState("");
   const [agentResponse, setAgentResponse] = useState("");
+  
+  // Scenario filtering state
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedComplexity, setSelectedComplexity] = useState<string>('all');
+  const [runningDemo, setRunningDemo] = useState<DemoScenario | null>(null);
+  const [showDemoExecution, setShowDemoExecution] = useState(false);
+  const [demoView, setDemoView] = useState<'simple' | 'scenarios'>('simple');
+
+  // Handle URL parameters for direct navigation
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const view = urlParams.get('view');
+    if (view === 'scenarios') {
+      setDemoView('scenarios');
+    }
+  }, []);
 
   const handleDemoSubmit = async () => {
     if (!demoInput.trim()) return;
@@ -74,6 +101,53 @@ export default function DemoPage() {
       setIsProcessing(false);
     }, 2000);
   };
+
+  const handleStartDemo = (scenario: DemoScenario) => {
+    setRunningDemo(scenario);
+    setShowDemoExecution(true);
+    
+    toast({
+      title: "Demo Starting",
+      description: `Initializing ${scenario.title} demonstration...`,
+    });
+  };
+
+  const handleDemoComplete = () => {
+    toast({
+      title: "Demo Complete",
+      description: "Scenario demonstration finished successfully!",
+    });
+    setShowDemoExecution(false);
+    setRunningDemo(null);
+  };
+
+  const handleDemoClose = () => {
+    setShowDemoExecution(false);
+    setRunningDemo(null);
+  };
+
+  const categories = [
+    { id: 'all', label: 'All Scenarios', count: demoScenarios.length },
+    { id: 'sales', label: 'Sales Automation', count: getDemoScenariosByCategory('sales').length },
+    { id: 'operations', label: 'Operations', count: getDemoScenariosByCategory('operations').length },
+    { id: 'customer-service', label: 'Customer Service', count: getDemoScenariosByCategory('customer-service').length },
+    { id: 'marketing', label: 'Marketing', count: getDemoScenariosByCategory('marketing').length },
+    { id: 'enterprise', label: 'Enterprise', count: getDemoScenariosByCategory('enterprise').length }
+  ];
+
+  const complexityLevels = ['all', 'Simple', 'Intermediate', 'Advanced'];
+
+  const filteredScenarios = demoScenarios.filter(scenario => {
+    const matchesCategory = selectedCategory === 'all' || scenario.category === selectedCategory;
+    const matchesSearch = scenario.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         scenario.industry.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         scenario.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesComplexity = selectedComplexity === 'all' || scenario.complexity === selectedComplexity;
+    
+    return matchesCategory && matchesSearch && matchesComplexity;
+  });
+
+  const featuredScenarios = getFeaturedDemoScenarios();
 
   return (
     <div className="min-h-screen bg-harmonix-deep-forest">
@@ -96,25 +170,28 @@ export default function DemoPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Button 
                 size="lg"
+                variant={demoView === 'simple' ? "default" : "outline"}
                 className="touch-friendly-btn bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90"
-                onClick={() => window.location.href = '/join'}
+                onClick={() => setDemoView('simple')}
               >
-                Join Waitlist
+                <Bot className="w-5 h-5 mr-2" />
+                Quick Agent Demo
               </Button>
               <Button 
                 size="lg" 
-                variant="outline" 
+                variant={demoView === 'scenarios' ? "default" : "outline"}
                 className="touch-friendly-btn border-harmonix-sage-fade text-harmonix-sage-fade hover:bg-harmonix-sage-fade/10"
-                onClick={() => window.location.href = '/marketplace'}
+                onClick={() => setDemoView('scenarios')}
               >
-                <ArrowRight className="w-5 h-5 mr-2" />
-                Deploy Agent Demo
+                <BarChart3 className="w-5 h-5 mr-2" />
+                Industry Scenarios
               </Button>
             </div>
           </div>
         </section>
 
         {/* Enhanced Agent Demo Cards Section */}
+        {demoView === 'simple' && (
         <section className="py-16 sm:py-20 lg:py-24">
           <div className="harmonix-container">
             <div className="text-center mb-12 sm:mb-16">
@@ -292,8 +369,10 @@ export default function DemoPage() {
             </div>
           </div>
         </section>
+        )}
 
         {/* SŌL Brain Integration Demo */}
+        {demoView === 'simple' && (
         <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-r from-harmonix-night-pine/20 to-harmonix-cedar-mist/20">
           <div className="harmonix-container">
             <div className="text-center mb-12">
@@ -378,6 +457,107 @@ export default function DemoPage() {
             </div>
           </div>
         </section>
+        )}
+
+        {/* Industry Scenarios Section */}
+        {demoView === 'scenarios' && (
+        <section className="py-16 sm:py-20 lg:py-24">
+          <div className="harmonix-container">
+            <div className="text-center mb-12 sm:mb-16">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-harmonix-regal-gold font-serif">
+                Industry Demo Scenarios
+              </h2>
+              <p className="text-lg sm:text-xl text-harmonix-sage-fade max-w-4xl mx-auto">
+                Experience real-world AI automation through comprehensive industry-specific use cases
+              </p>
+            </div>
+
+            {/* Filters */}
+            <div className="flex flex-wrap gap-4 justify-center mb-12">
+              <div className="flex items-center gap-2">
+                <Search className="w-4 h-4 text-harmonix-sage-fade" />
+                <Input
+                  placeholder="Search scenarios..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-48 bg-harmonix-night-pine/30 border-harmonix-sage-fade/30 text-white"
+                />
+              </div>
+              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                <SelectTrigger className="w-48 bg-harmonix-night-pine/30 border-harmonix-sage-fade/30 text-white">
+                  <SelectValue placeholder="Select category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories.map(cat => (
+                    <SelectItem key={cat.id} value={cat.id}>
+                      {cat.label} ({cat.count})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Select value={selectedComplexity} onValueChange={setSelectedComplexity}>
+                <SelectTrigger className="w-48 bg-harmonix-night-pine/30 border-harmonix-sage-fade/30 text-white">
+                  <SelectValue placeholder="Select complexity" />
+                </SelectTrigger>
+                <SelectContent>
+                  {complexityLevels.map(level => (
+                    <SelectItem key={level} value={level}>
+                      {level === 'all' ? 'All Complexity' : level}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Featured Scenarios */}
+            <div className="mb-16">
+              <h3 className="text-2xl font-bold text-white mb-8 text-center">Featured Scenarios</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {featuredScenarios.map((scenario) => (
+                  <DemoScenarioCard
+                    key={scenario.id}
+                    scenario={scenario}
+                    onStartDemo={handleStartDemo}
+                    isRunning={runningDemo?.id === scenario.id}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* All Scenarios */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredScenarios.map((scenario) => (
+                <DemoScenarioCard
+                  key={scenario.id}
+                  scenario={scenario}
+                  onStartDemo={handleStartDemo}
+                  isRunning={runningDemo?.id === scenario.id}
+                />
+              ))}
+            </div>
+
+            {/* No Results */}
+            {filteredScenarios.length === 0 && (
+              <div className="text-center py-16">
+                <Sparkles className="w-16 h-16 text-harmonix-sage-fade mx-auto mb-4" />
+                <h3 className="text-2xl font-bold text-white mb-2">No scenarios found</h3>
+                <p className="text-harmonix-sage-fade">
+                  Try adjusting your filters or search terms to discover relevant demo scenarios.
+                </p>
+              </div>
+            )}
+          </div>
+        </section>
+        )}
+
+        {/* Demo Execution Modal */}
+        {showDemoExecution && runningDemo && (
+          <DemoExecution
+            scenario={runningDemo}
+            onComplete={handleDemoComplete}
+            onClose={handleDemoClose}
+          />
+        )}
 
         {/* Call to Action */}
         <section className="py-16 sm:py-20 lg:py-24">

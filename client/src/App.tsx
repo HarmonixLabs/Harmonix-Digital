@@ -28,7 +28,6 @@ import Login from "@/pages/login";
 import Signin from "@/pages/signin";
 import AuthCallback from "@/pages/auth-callback";
 import OnboardingPage from "@/pages/onboarding";
-import DemoScenariosPage from "@/pages/demo-scenarios";
 import Signup from "@/pages/signup";
 import Marketplace from "@/pages/marketplace";
 import AgentMarketplace from "@/pages/agent-marketplace";
@@ -67,7 +66,7 @@ function Router() {
           <Route path="/demo-deploy" component={DemoDeploy} />
           <Route path="/demo" component={Demo} />
           <Route path="/sol-brain-demo" component={SolBrainDemo} />
-          <Route path="/demo-scenarios" component={DemoScenariosPage} />
+
           <Route path="/features-demo" component={FeaturesDemo} />
           <Route path="/enhanced-dashboard" component={EnhancedDashboard} />
           <Route path="/lead-capture-demo" component={LeadCaptureDemo} />

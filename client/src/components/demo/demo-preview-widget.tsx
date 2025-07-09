@@ -63,7 +63,7 @@ export function DemoPreviewWidget({ className = "" }: DemoPreviewWidgetProps) {
           <div 
             key={demo.id}
             className="p-3 rounded-lg bg-harmonix-cedar-mist/5 border border-harmonix-cedar-mist/30 hover:bg-harmonix-cedar-mist/10 transition-all duration-300 cursor-pointer"
-            onClick={() => setLocation('/demo-scenarios')}
+            onClick={() => setLocation('/demo?view=scenarios')}
           >
             <div className="flex items-start justify-between">
               <div className="flex-1">
@@ -96,7 +96,7 @@ export function DemoPreviewWidget({ className = "" }: DemoPreviewWidgetProps) {
         ))}
 
         <Button
-          onClick={() => setLocation('/demo-scenarios')}
+          onClick={() => setLocation('/demo?view=scenarios')}
           className="w-full mt-4 bg-harmonix-regal-gold hover:bg-harmonix-regal-gold/90 text-harmonix-deep-forest font-semibold"
         >
           <ArrowRight className="w-4 h-4 mr-2" />
