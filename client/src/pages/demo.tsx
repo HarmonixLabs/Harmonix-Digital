@@ -19,7 +19,7 @@ import {
   getFeaturedDemoScenarios,
   type DemoScenario 
 } from "@/data/demo-scenarios";
-import { Play, Users, MessageCircle, Calendar, User, ArrowRight, Bot, Zap, DollarSign, Clock, Target, Star, Sparkles, CheckCircle, Send, Search, Filter, TrendingUp, BarChart3 } from "lucide-react";
+import { Play, Users, MessageCircle, Calendar, User, ArrowRight, Bot, Zap, DollarSign, Clock, Target, Star, Sparkles, CheckCircle, Send, Search, Filter, TrendingUp, BarChart3, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const demoAgents = [
@@ -29,32 +29,35 @@ const demoAgents = [
     specialty: "Sales & Revenue Generation",
     tier: "Elite",
     icon: DollarSign,
-    description: "Elite sales agent specializing in lead conversion and revenue optimization",
-    capabilities: ["Lead Qualification", "Sales Automation", "CRM Integration", "Revenue Analytics"],
-    metrics: { efficiency: "98%", accuracy: "94%", speed: "< 2s" },
-    demoResponse: "I've analyzed your sales funnel and identified 3 key optimization opportunities that could increase conversion by 47%. Would you like me to implement these changes?"
+    description: "Elite sales agent with GoHighLevel CRM integration and predictive analytics",
+    capabilities: ["Lead Qualification", "CRM Automation", "Revenue Forecasting", "Pipeline Analytics"],
+    metrics: { efficiency: "98%", accuracy: "95%", speed: "< 2s" },
+    demoResponse: "I've analyzed your sales pipeline and identified 23 warm leads requiring immediate follow-up. Based on engagement patterns, I recommend prioritizing the 7 enterprise prospects with 80%+ engagement scores. I can create personalized sequences in your GoHighLevel CRM with projected revenue of $47K this quarter. Shall I activate the automation?",
+    integration: "✅ Connected: Stripe Payments, GoHighLevel CRM, OpenAI GPT-4o, Email Marketing"
   },
   {
     id: "concierge",
-    name: "AI Concierge",
-    specialty: "Customer Experience",
-    tier: "Premium",
+    name: "GRACE Agent",
+    specialty: "Premium Customer Experience",
+    tier: "Premium", 
     icon: Users,
-    description: "Premium customer service agent for seamless client interactions",
-    capabilities: ["24/7 Support", "Multi-channel", "Sentiment Analysis", "Escalation Management"],
-    metrics: { efficiency: "96%", accuracy: "92%", speed: "< 1s" },
-    demoResponse: "Hello! I'm here to assist you with any questions about our platform. I can help with onboarding, feature explanations, or technical support. How may I help you today?"
+    description: "AI customer service with emotional intelligence and multi-channel support",
+    capabilities: ["24/7 Support", "Sentiment Analysis", "Multi-language", "Escalation Management"],
+    metrics: { efficiency: "96%", accuracy: "94%", speed: "< 1s" },
+    demoResponse: "Welcome to Harmonix! I've detected you're exploring our AI agent platform. Based on your browsing pattern, you're interested in sales automation and customer service solutions. I can provide a personalized demo or connect you with our founding team for enterprise pricing. What specific business challenge should I address first?",
+    integration: "✅ Connected: Live Chat Widgets, Support Tickets, Knowledge Base, CRM Systems"
   },
   {
     id: "executive",
     name: "Executive Assistant",
-    specialty: "Executive Support",
+    specialty: "C-Suite Operations & Productivity",
     tier: "Professional",
     icon: Calendar,
-    description: "Professional executive support for scheduling and task management",
-    capabilities: ["Calendar Management", "Email Automation", "Meeting Coordination", "Task Prioritization"],
-    metrics: { efficiency: "95%", accuracy: "98%", speed: "< 3s" },
-    demoResponse: "I've reviewed your calendar and identified 4 scheduling conflicts next week. I've prepared alternative meeting times and can send the updates to all participants. Shall I proceed?"
+    description: "AI executive assistant for strategy, scheduling, and decision support",
+    capabilities: ["Calendar Optimization", "Email Prioritization", "Meeting Intelligence", "Strategic Planning"],
+    metrics: { efficiency: "97%", accuracy: "98%", speed: "< 2s" },
+    demoResponse: "I've analyzed your calendar and discovered 4 scheduling conflicts next week that could impact Q4 strategy sessions. I've identified optimal alternatives based on all participants' preferences. Additionally, I've flagged 12 high-priority emails and prepared summaries. The Johnson Industries proposal needs review by Thursday - shall I schedule focused time?",
+    integration: "✅ Connected: Google Calendar, Gmail, Outlook, Slack, Teams, Productivity Suites"
   }
 ];
 
@@ -150,40 +153,48 @@ export default function DemoPage() {
   const featuredScenarios = getFeaturedDemoScenarios();
 
   return (
-    <div className="min-h-screen bg-harmonix-deep-forest">
+    <div className="min-h-screen rain-background">
       <Navbar />
       
-      <div className="pt-20">
+      <div className="pt-20 rain-content">
         {/* Hero Section */}
         <section className="py-16 sm:py-20 lg:py-24">
           <div className="harmonix-container">
             <div className="text-center mb-12 sm:mb-16">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-white font-serif">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white font-serif leading-tight">
                 AI Agent
                 <span className="text-harmonix-regal-gold block">Demo Platform</span>
               </h1>
-              <p className="text-xl text-harmonix-sage-fade max-w-4xl mx-auto leading-relaxed">
+              <p className="text-lg sm:text-xl text-white/90 max-w-4xl mx-auto leading-relaxed px-4">
                 Experience the power of specialized AI agents with live demonstrations
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12 px-4">
               <Button 
                 size="lg"
                 variant={demoView === 'simple' ? "default" : "outline"}
-                className="touch-friendly-btn bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90"
+                className={`min-h-[48px] px-6 py-3 text-base sm:text-lg font-semibold w-full sm:w-auto ${
+                  demoView === 'simple' 
+                    ? 'bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90' 
+                    : 'border-harmonix-regal-gold text-harmonix-regal-gold hover:bg-harmonix-regal-gold/10 bg-white/5'
+                }`}
                 onClick={() => setDemoView('simple')}
               >
-                <Bot className="w-5 h-5 mr-2" />
+                <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                 Quick Agent Demo
               </Button>
               <Button 
                 size="lg" 
                 variant={demoView === 'scenarios' ? "default" : "outline"}
-                className="touch-friendly-btn border-harmonix-sage-fade text-harmonix-sage-fade hover:bg-harmonix-sage-fade/10"
+                className={`min-h-[48px] px-6 py-3 text-base sm:text-lg font-semibold w-full sm:w-auto ${
+                  demoView === 'scenarios' 
+                    ? 'bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90' 
+                    : 'border-harmonix-regal-gold text-harmonix-regal-gold hover:bg-harmonix-regal-gold/10 bg-white/5'
+                }`}
                 onClick={() => setDemoView('scenarios')}
               >
-                <BarChart3 className="w-5 h-5 mr-2" />
+                <Play className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                 Industry Scenarios
               </Button>
             </div>
@@ -198,33 +209,33 @@ export default function DemoPage() {
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-harmonix-regal-gold font-serif">
                 Test Our AI Agents
               </h2>
-              <p className="text-lg sm:text-xl text-harmonix-sage-fade max-w-4xl mx-auto">
+              <p className="text-lg sm:text-xl text-white/80 max-w-4xl mx-auto px-4">
                 Experience the power of specialized AI agents with live demonstrations
               </p>
             </div>
 
-            <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+            <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
               {/* Agent Selection Tabs */}
-              <div className="lg:w-1/3 space-y-4">
+              <div className="lg:w-1/3 space-y-3">
                 {demoAgents.map((agent, index) => (
                   <Card 
                     key={agent.id}
                     className={cn(
-                      "bg-harmonix-night-pine/50 border-harmonix-sage-fade/30 hover:border-harmonix-regal-gold/50 transition-all cursor-pointer",
-                      selectedAgent === index && "border-harmonix-regal-gold bg-harmonix-regal-gold/10"
+                      "bg-white/10 backdrop-blur-sm border-white/20 hover:border-harmonix-regal-gold/50 transition-all cursor-pointer min-h-[80px]",
+                      selectedAgent === index && "border-harmonix-regal-gold bg-harmonix-regal-gold/20"
                     )}
                     onClick={() => setSelectedAgent(index)}
                   >
-                    <CardContent className="p-6">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-12 h-12 rounded-lg bg-harmonix-regal-gold/20 flex items-center justify-center">
-                          {React.createElement(agent.icon, { className: "w-6 h-6 text-harmonix-regal-gold" })}
+                    <CardContent className="p-4 sm:p-6">
+                      <div className="flex items-center space-x-3 sm:space-x-4">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-harmonix-regal-gold/30 flex items-center justify-center flex-shrink-0">
+                          {React.createElement(agent.icon, { className: "w-5 h-5 sm:w-6 sm:h-6 text-harmonix-regal-gold" })}
                         </div>
-                        <div className="flex-1">
-                          <h3 className="font-semibold text-white">{agent.name}</h3>
-                          <p className="text-sm text-harmonix-sage-fade">{agent.specialty}</p>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-semibold text-white text-sm sm:text-base truncate">{agent.name}</h3>
+                          <p className="text-xs sm:text-sm text-white/70 truncate">{agent.specialty}</p>
                         </div>
-                        <Badge variant="outline" className="border-harmonix-regal-gold/30 text-harmonix-regal-gold">
+                        <Badge variant="outline" className="border-harmonix-regal-gold/40 text-harmonix-regal-gold text-xs hidden sm:inline-flex">
                           {agent.tier}
                         </Badge>
                       </div>
@@ -235,18 +246,18 @@ export default function DemoPage() {
 
               {/* Agent Demo Interface */}
               <div className="lg:w-2/3">
-                <Card className="bg-harmonix-night-pine/50 border-harmonix-sage-fade/30">
+                <Card className="bg-white/10 backdrop-blur-sm border-white/20">
                   <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-16 h-16 rounded-lg bg-harmonix-regal-gold/20 flex items-center justify-center">
-                          {React.createElement(demoAgents[selectedAgent].icon, { className: "w-8 h-8 text-harmonix-regal-gold" })}
+                    <div className="flex items-center justify-between flex-wrap gap-4">
+                      <div className="flex items-center space-x-3 sm:space-x-4 min-w-0 flex-1">
+                        <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg bg-harmonix-regal-gold/30 flex items-center justify-center flex-shrink-0">
+                          {React.createElement(demoAgents[selectedAgent].icon, { className: "w-6 h-6 sm:w-8 sm:h-8 text-harmonix-regal-gold" })}
                         </div>
-                        <div>
-                          <CardTitle className="text-harmonix-regal-gold font-serif">
+                        <div className="min-w-0 flex-1">
+                          <CardTitle className="text-harmonix-regal-gold font-serif text-lg sm:text-xl truncate">
                             {demoAgents[selectedAgent].name}
                           </CardTitle>
-                          <CardDescription className="text-harmonix-sage-fade">
+                          <CardDescription className="text-white/70 text-sm sm:text-base">
                             {demoAgents[selectedAgent].description}
                           </CardDescription>
                         </div>
@@ -275,19 +286,27 @@ export default function DemoPage() {
                     {/* Demo Metrics */}
                     <div>
                       <h4 className="font-semibold text-white mb-3">Performance Metrics</h4>
-                      <div className="grid grid-cols-3 gap-4">
-                        <div className="text-center p-3 bg-harmonix-night-pine/30 rounded-lg">
-                          <div className="text-2xl font-bold text-harmonix-regal-gold">{demoAgents[selectedAgent].metrics.efficiency}</div>
-                          <div className="text-xs text-harmonix-sage-fade">Efficiency</div>
+                      <div className="grid grid-cols-3 gap-3 sm:gap-4">
+                        <div className="text-center p-2 sm:p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
+                          <div className="text-lg sm:text-2xl font-bold text-harmonix-regal-gold">{demoAgents[selectedAgent].metrics.efficiency}</div>
+                          <div className="text-xs text-white/60">Efficiency</div>
                         </div>
-                        <div className="text-center p-3 bg-harmonix-night-pine/30 rounded-lg">
-                          <div className="text-2xl font-bold text-harmonix-regal-gold">{demoAgents[selectedAgent].metrics.accuracy}</div>
-                          <div className="text-xs text-harmonix-sage-fade">Accuracy</div>
+                        <div className="text-center p-2 sm:p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
+                          <div className="text-lg sm:text-2xl font-bold text-harmonix-regal-gold">{demoAgents[selectedAgent].metrics.accuracy}</div>
+                          <div className="text-xs text-white/60">Accuracy</div>
                         </div>
-                        <div className="text-center p-3 bg-harmonix-night-pine/30 rounded-lg">
-                          <div className="text-2xl font-bold text-harmonix-regal-gold">{demoAgents[selectedAgent].metrics.speed}</div>
-                          <div className="text-xs text-harmonix-sage-fade">Response Time</div>
+                        <div className="text-center p-2 sm:p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
+                          <div className="text-lg sm:text-2xl font-bold text-harmonix-regal-gold">{demoAgents[selectedAgent].metrics.speed}</div>
+                          <div className="text-xs text-white/60">Response Time</div>
                         </div>
+                      </div>
+                    </div>
+
+                    {/* Integration Status */}
+                    <div>
+                      <h4 className="font-semibold text-white mb-3">Platform Integration</h4>
+                      <div className="bg-white/5 backdrop-blur-sm rounded-lg p-3 sm:p-4 border border-white/10">
+                        <div className="text-sm text-white/80">{demoAgents[selectedAgent].integration}</div>
                       </div>
                     </div>
 
@@ -300,7 +319,7 @@ export default function DemoPage() {
                             value={demoInput}
                             onChange={(e) => setDemoInput(e.target.value)}
                             placeholder={`Ask ${demoAgents[selectedAgent].name} a question...`}
-                            className="flex-1 bg-harmonix-night-pine/30 border-harmonix-sage-fade/30 text-white placeholder:text-harmonix-sage-fade"
+                            className="flex-1 bg-white/5 backdrop-blur-sm border-white/20 text-white placeholder:text-white/50 focus:border-harmonix-regal-gold"
                             onKeyPress={(e) => e.key === 'Enter' && handleDemoSubmit()}
                           />
                           <NeuralTooltip content="Send your question to the AI agent for processing">
@@ -315,9 +334,9 @@ export default function DemoPage() {
                           </NeuralTooltip>
                         </div>
                         
-                        <div className="bg-harmonix-night-pine/30 rounded-lg p-4 min-h-[120px] border border-harmonix-sage-fade/20">
-                          <div className="text-sm text-harmonix-sage-fade mb-2">Agent Response:</div>
-                          <div className="text-white">
+                        <div className="bg-white/5 backdrop-blur-sm rounded-lg p-4 min-h-[120px] border border-white/10">
+                          <div className="text-sm text-white/60 mb-2">Agent Response:</div>
+                          <div className="text-white text-sm sm:text-base leading-relaxed">
                             {isProcessing ? (
                               <div className="flex items-center justify-center py-4">
                                 <WhimsicalLoader 
@@ -373,20 +392,20 @@ export default function DemoPage() {
 
         {/* SŌL Brain Integration Demo */}
         {demoView === 'simple' && (
-        <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-r from-harmonix-night-pine/20 to-harmonix-cedar-mist/20">
+        <section className="py-16 sm:py-20 lg:py-24">
           <div className="harmonix-container">
             <div className="text-center mb-12">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-harmonix-regal-gold font-serif">
                 Ask SŌL Brain Anything
               </h2>
-              <p className="text-lg sm:text-xl text-harmonix-sage-fade max-w-4xl mx-auto">
+              <p className="text-lg sm:text-xl text-white/80 max-w-4xl mx-auto px-4">
                 Experience our advanced AI orchestration engine that coordinates multiple agents for complex tasks
               </p>
             </div>
 
             <div className="max-w-4xl mx-auto">
-              <Card className="bg-harmonix-night-pine/50 border-harmonix-sage-fade/30">
-                <CardContent className="p-8">
+              <Card className="bg-white/10 backdrop-blur-sm border-white/20">
+                <CardContent className="p-6 sm:p-8">
                   <div className="space-y-6">
                     {/* Business Profile Section */}
                     <div className="grid md:grid-cols-3 gap-4">
