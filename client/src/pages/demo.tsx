@@ -98,11 +98,44 @@ export default function DemoPage() {
     setIsProcessing(true);
     setAgentResponse("");
     
-    // Simulate processing time for whimsical loader display
-    setTimeout(() => {
-      setAgentResponse(demoAgents[selectedAgent].demoResponse);
-      setIsProcessing(false);
-    }, 2000);
+    const agent = demoAgents[selectedAgent];
+    
+    try {
+      // Try to execute real Pipedream workflow if available
+      const response = await fetch('/api/pipedream/execute', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({
+          agentId: agent.id === 'cash' ? 'cash-agent' : agent.id === 'concierge' ? 'grace-agent' : 'executive-agent',
+          action: agent.id === 'cash' ? 'lead_qualification' : agent.id === 'concierge' ? 'customer_support' : 'email_prioritization',
+          data: {
+            user_input: demoInput,
+            context: businessProfile,
+            demo_mode: true
+          }
+        })
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.status === 'success') {
+          setAgentResponse(`${agent.demoResponse}\n\n✅ **Pipedream Workflow Executed Successfully!**\nExecution ID: ${result.execution_id}\nProcessing completed with live integrations.`);
+        } else {
+          throw new Error(result.error || 'Workflow execution failed');
+        }
+      } else {
+        throw new Error('API request failed');
+      }
+    } catch (error) {
+      console.log('Pipedream integration not available, showing demo response:', error);
+      // Fallback to demo response if Pipedream isn't configured
+      setAgentResponse(`${agent.demoResponse}\n\n💡 **Demo Mode**: Connect your Pipedream workflows for live automation!`);
+    }
+    
+    setIsProcessing(false);
   };
 
   const handleStartDemo = (scenario: DemoScenario) => {

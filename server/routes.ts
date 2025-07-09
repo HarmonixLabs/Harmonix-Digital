@@ -12,6 +12,7 @@ import { updateCRM } from "./ghl-integration";
 import { healthCheck, readinessCheck } from "./health-check";
 import { corsMiddleware } from "./middleware/cors";
 import Stripe from "stripe";
+import { pipedreamIntegration } from "./services/pipedream-integration";
 import { OAuth2Client } from 'google-auth-library';
 
 const JWT_SECRET = process.env.JWT_SECRET || "harmonix-secret-key";
@@ -1720,6 +1721,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Admin routes
   app.use('/api/admin', (await import('./routes/admin')).default);
+
+  // Pipedream integration endpoints
+  app.get('/api/pipedream/workflows', authenticateToken, async (req, res) => {
+    try {
+      const workflows = await pipedreamIntegration.getWorkflows();
+      res.json({ workflows });
+    } catch (error: any) {
+      console.error('Failed to fetch Pipedream workflows:', error);
+      res.status(500).json({ message: error.message || 'Failed to fetch workflows' });
+    }
+  });
+
+  app.post('/api/pipedream/execute', authenticateToken, async (req, res) => {
+    try {
+      const { agentId, action, data } = req.body;
+      
+      if (!agentId || !action) {
+        return res.status(400).json({ message: 'Agent ID and action are required' });
+      }
+
+      const result = await pipedreamIntegration.executeAgentWorkflow(agentId, action, {
+        ...data,
+        user_id: req.user.id,
+        organization_id: req.user.organizationId
+      });
+
+      res.json(result);
+    } catch (error: any) {
+      console.error('Failed to execute Pipedream workflow:', error);
+      res.status(500).json({ message: error.message || 'Workflow execution failed' });
+    }
+  });
+
+  app.get('/api/pipedream/status/:executionId', authenticateToken, async (req, res) => {
+    try {
+      const { executionId } = req.params;
+      const status = await pipedreamIntegration.getExecutionStatus(executionId);
+      res.json(status);
+    } catch (error: any) {
+      console.error('Failed to get execution status:', error);
+      res.status(500).json({ message: error.message || 'Failed to get status' });
+    }
+  });
 
   return httpServer;
 }
