@@ -17,6 +17,13 @@ export const users = pgTable("users", {
   tokenBalance: integer("token_balance").notNull().default(0),
   onboardingCompleted: boolean("onboarding_completed").default(false),
   onboardingData: text("onboarding_data"),
+  // Referral system fields
+  referralId: text("referral_id").unique(), // Unique referral code for this user
+  referredBy: integer("referred_by").references(() => users.id), // Who referred this user
+  referralCount: integer("referral_count").default(0).notNull(), // Number of successful referrals
+  referralTokensEarned: integer("referral_tokens_earned").default(0).notNull(), // Total tokens earned from referrals
+  referralDiscountPercent: integer("referral_discount_percent").default(0).notNull(), // Current MRR discount percentage (max 30%)
+  hasUsedReferral: boolean("has_used_referral").default(false).notNull(), // If this user joined via referral
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -198,6 +205,23 @@ export const successMetrics = pgTable("success_metrics", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+// Referral tracking table
+export const referrals = pgTable("referrals", {
+  id: serial("id").primaryKey(),
+  referrerId: integer("referrer_id").notNull().references(() => users.id),
+  referredUserId: integer("referred_user_id").references(() => users.id),
+  referralCode: text("referral_code").notNull().unique(),
+  status: text("status").notNull().default("pending"), // pending, completed, expired
+  tokensAwarded: integer("tokens_awarded").default(0),
+  discountApplied: integer("discount_applied").default(0), // Percentage
+  referredEmail: text("referred_email"),
+  referredCompany: text("referred_company"),
+  referredIndustry: text("referred_industry"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+  expiresAt: timestamp("expires_at"),
+});
+
 // Relations
 export const organizationsRelations = relations(organizations, ({ many }) => ({
   users: many(users),
@@ -214,6 +238,12 @@ export const usersRelations = relations(users, ({ one, many }) => ({
   tasks: many(tasks),
   nfts: many(nfts),
   tokenTransactions: many(tokenTransactions),
+  referralsMade: many(referrals, { relationName: "referrer" }),
+  referralReceived: one(referrals, {
+    fields: [users.referredBy],
+    references: [referrals.referrerId],
+    relationName: "referred"
+  }),
 }));
 
 export const agentTypesRelations = relations(agentTypes, ({ many }) => ({
@@ -275,6 +305,20 @@ export const nftsRelations = relations(nfts, ({ one }) => ({
   }),
 }));
 
+// Referrals relations
+export const referralsRelations = relations(referrals, ({ one }) => ({
+  referrer: one(users, {
+    fields: [referrals.referrerId],
+    references: [users.id],
+    relationName: "referrer"
+  }),
+  referredUser: one(users, {
+    fields: [referrals.referredUserId],
+    references: [users.id],
+    relationName: "referred"
+  }),
+}));
+
 // Insert schemas
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
@@ -331,6 +375,12 @@ export const insertLeadSchema = createInsertSchema(leads).omit({
   updatedAt: true,
 });
 
+export const insertReferralSchema = createInsertSchema(referrals).omit({
+  id: true,
+  createdAt: true,
+  completedAt: true,
+});
+
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -353,3 +403,5 @@ export type SuccessMetric = typeof successMetrics.$inferSelect;
 export type InsertSuccessMetric = z.infer<typeof insertSuccessMetricSchema>;
 export type Lead = typeof leads.$inferSelect;
 export type InsertLead = z.infer<typeof insertLeadSchema>;
+export type Referral = typeof referrals.$inferSelect;
+export type InsertReferral = z.infer<typeof insertReferralSchema>;

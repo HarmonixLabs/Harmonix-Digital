@@ -2305,5 +2305,97 @@ Ready to explore how our platform can specifically help your business?
     }
   });
 
+
+
+  // Referral System Routes
+  app.post('/api/referral/generate-code', authenticateToken, async (req, res) => {
+    try {
+      const userId = req.user.id;
+      const { ReferralService } = await import('./services/referral-service');
+      
+      const referralCode = await ReferralService.generateReferralCode(userId);
+      
+      res.json({
+        success: true,
+        referralCode,
+        referralUrl: `https://harmonixdigital.com?r=${referralCode}`
+      });
+    } catch (error) {
+      console.error('Failed to generate referral code:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Failed to generate referral code' 
+      });
+    }
+  });
+
+  app.get('/api/referral/stats', authenticateToken, async (req, res) => {
+    try {
+      const userId = req.user.id;
+      const { ReferralService } = await import('./services/referral-service');
+      
+      const stats = await ReferralService.getReferralStats(userId);
+      
+      res.json({
+        success: true,
+        ...stats
+      });
+    } catch (error) {
+      console.error('Failed to get referral stats:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Failed to get referral statistics' 
+      });
+    }
+  });
+
+  app.post('/api/referral/validate', async (req, res) => {
+    try {
+      const { referralCode } = req.body;
+      
+      if (!referralCode) {
+        return res.status(400).json({
+          success: false,
+          error: 'Referral code is required'
+        });
+      }
+      
+      const { ReferralService } = await import('./services/referral-service');
+      const validation = await ReferralService.validateReferralCode(referralCode);
+      
+      res.json({
+        success: true,
+        ...validation
+      });
+    } catch (error) {
+      console.error('Failed to validate referral code:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Failed to validate referral code' 
+      });
+    }
+  });
+
+  app.post('/api/referral/apply-discount', authenticateToken, async (req, res) => {
+    try {
+      const userId = req.user.id;
+      const { basePrice } = req.body;
+      
+      const { ReferralService } = await import('./services/referral-service');
+      const discountInfo = await ReferralService.applyReferralDiscount(userId, basePrice);
+      
+      res.json({
+        success: true,
+        ...discountInfo
+      });
+    } catch (error) {
+      console.error('Failed to apply referral discount:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Failed to apply referral discount' 
+      });
+    }
+  });
+
   return httpServer;
 }

@@ -1,11 +1,11 @@
 import { 
   users, organizations, agents, agentTypes, tasks, tokenTransactions, nfts,
-  platformServices, platformFeatures, successMetrics, leads,
+  platformServices, platformFeatures, successMetrics, leads, referrals,
   type User, type InsertUser, type Organization, type InsertOrganization,
   type Agent, type InsertAgent, type AgentType, type Task, type InsertTask,
   type TokenTransaction, type InsertTokenTransaction, type NFT, type InsertNft,
   type PlatformService, type PlatformFeature, type SuccessMetric,
-  type Lead, type InsertLead
+  type Lead, type InsertLead, type Referral, type InsertReferral
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc, sum, count, like, or, ilike } from "drizzle-orm";
@@ -72,31 +72,37 @@ export interface IStorage {
   updateLead(id: number, updates: Partial<InsertLead>): Promise<Lead>;
   getLeadsByAgent(agentId: string): Promise<Lead[]>;
   getRecentLeads(limit?: number): Promise<Lead[]>;
+  
+  // Referral Management
+  getUserByReferralCode(referralCode: string): Promise<User | undefined>;
+  createReferral(referral: InsertReferral): Promise<Referral>;
+  getReferral(id: number): Promise<Referral | undefined>;
+  getReferralsByReferrer(referrerId: number): Promise<Referral[]>;
 }
 
 export class DatabaseStorage implements IStorage {
   async getUser(id: number): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.id, id));
-    return user || undefined;
+    const result = await db.select().from(users).where(eq(users.id, id));
+    return result[0] || undefined;
   }
 
   async getUserByEmail(email: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.email, email));
-    return user || undefined;
+    const result = await db.select().from(users).where(eq(users.email, email));
+    return result[0] || undefined;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const [user] = await db.insert(users).values(insertUser).returning();
-    return user;
+    const result = await db.insert(users).values(insertUser).returning();
+    return result[0];
   }
 
   async updateUser(id: number, updates: Partial<InsertUser>): Promise<User> {
-    const [user] = await db
+    const result = await db
       .update(users)
       .set({ ...updates, updatedAt: new Date() })
       .where(eq(users.id, id))
       .returning();
-    return user;
+    return result[0];
   }
 
   async getOrganization(id: number): Promise<Organization | undefined> {
@@ -426,6 +432,39 @@ export class DatabaseStorage implements IStorage {
       .from(leads)
       .orderBy(desc(leads.createdAt))
       .limit(limit);
+  }
+
+  // Referral Management Implementation
+  async getUserByReferralCode(referralCode: string): Promise<User | undefined> {
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(eq(users.referralCode, referralCode));
+    return user || undefined;
+  }
+
+  async createReferral(insertReferral: InsertReferral): Promise<Referral> {
+    const [referral] = await db
+      .insert(referrals)
+      .values(insertReferral)
+      .returning();
+    return referral;
+  }
+
+  async getReferral(id: number): Promise<Referral | undefined> {
+    const [referral] = await db
+      .select()
+      .from(referrals)
+      .where(eq(referrals.id, id));
+    return referral || undefined;
+  }
+
+  async getReferralsByReferrer(referrerId: number): Promise<Referral[]> {
+    return await db
+      .select()
+      .from(referrals)
+      .where(eq(referrals.referrerId, referrerId))
+      .orderBy(desc(referrals.createdAt));
   }
 }
 

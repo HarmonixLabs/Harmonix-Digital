@@ -34,6 +34,7 @@ HARMONIX is a sophisticated AI agent orchestration platform that enables busines
 - **NEW: NFT INTEGRATION PIPELINE - Blockchain agent ownership with utility benefits and rarity tiers**
 - **NEW: AFFILIATE REVENUE SYSTEM - GoHighLevel partnerships with commission tracking**
 - **NEW: COMPREHENSIVE REVENUE ACTIVATION - Four-tier pricing with immediate monetization**
+- **NEW: VIRAL REFERRAL SYSTEM COMPLETE - Users earn +500 tokens & -5% MRR discount per referral (max 30%), referees get +250 tokens & -10% off first month**
 
 **API Key Management:**
 - GHL API Key: GHL_API_KEY_HARMONIX (active)
@@ -185,6 +186,7 @@ HARMONIX is a sophisticated AI agent orchestration platform that enables busines
 ## Changelog
 
 - July 10, 2025: **HARMONIX HARMONY SOFT LAUNCH COMPLETE** - Comprehensive revenue activation system implemented with enhanced Stripe deposits, NFT integration, and advanced CRM automation
+- July 10, 2025: **VIRAL REFERRAL SYSTEM COMPLETE** - Implemented comprehensive referral system with rewards (referrers: +500 tokens, -5% MRR stackable to 30%; referees: +250 tokens, -10% first month), anti-fraud protection, social sharing, and full API/dashboard integration
 - July 10, 2025: Implemented enhanced Stripe deposit service with $444 agent reservations and 30% package deposits with early bird discounts
 - July 10, 2025: Created NFT Agent service with Founder Mirror Agent collection featuring rarity tiers and utility benefits
 - July 10, 2025: Built comprehensive deposit modal with tier selection, pricing calculator, and professional UI/UX design
