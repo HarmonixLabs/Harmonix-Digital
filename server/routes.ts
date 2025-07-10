@@ -1857,8 +1857,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
           agent.role
         );
 
-        // Format the comprehensive response for display
-        const formattedResponse = `${enhancedResponse.mainResponse}
+        // Format response with clarifying questions if needed
+        let formattedResponse = enhancedResponse.mainResponse;
+
+        // Add clarifying questions section if agent needs more info
+        if (enhancedResponse.needsMoreInfo && enhancedResponse.clarifyingQuestions?.length) {
+          formattedResponse += `
+
+**To give you the most personalized recommendations, I'd like to know:**
+${enhancedResponse.clarifyingQuestions.map((q, i) => `${i + 1}. ${q}`).join('\n')}
+
+Meanwhile, here's what I can recommend based on your current question:`;
+        }
+
+        // Add comprehensive details
+        formattedResponse += `
 
 **Real Use Case:**
 ${enhancedResponse.useCase.scenario}

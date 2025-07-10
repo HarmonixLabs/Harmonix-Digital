@@ -6,6 +6,8 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export interface EnhancedAgentResponse {
   mainResponse: string;
+  clarifyingQuestions?: string[];
+  needsMoreInfo?: boolean;
   useCase: {
     scenario: string;
     challenge: string;
@@ -77,17 +79,26 @@ ${JSON.stringify(platformData.metrics.map(m => ({
   industry: m.industry
 })), null, 2)}
 
+INTELLIGENCE ASSESSMENT:
+Before providing a comprehensive response, analyze if you need more specific information to give the BEST personalized recommendations. If the user's question is vague or lacks business context that would significantly improve your recommendations, include 1-3 direct, high-level clarifying questions.
+
+CLARIFYING QUESTIONS CRITERIA:
+- Only ask if it would substantially improve the response quality
+- Keep questions direct and business-focused (not overwhelming)
+- Focus on: business size, industry, current challenges, goals, timeline, budget range
+- Examples of GOOD questions: "What's your current monthly revenue range?", "What industry are you in?", "What's your biggest operational challenge right now?"
+- Avoid generic questions - be specific and purposeful
+
 INSTRUCTIONS:
-Create a comprehensive response that includes:
-1. A personalized main response addressing their specific question
-2. A detailed real-world use case showing exactly how our platform solves their problem
-3. Specific action steps (immediate, short-term, long-term) they can take
-4. Clear platform integration recommendations with pricing and ROI
-5. Measurable success metrics with baselines and targets
+1. First, assess if you have enough information for a highly personalized response
+2. If you need critical business context, include 1-3 direct questions
+3. Always provide a comprehensive response regardless, but indicate if more info would help
 
 Respond in JSON format matching this structure:
 {
-  "mainResponse": "Direct answer to their question with expertise",
+  "needsMoreInfo": true/false,
+  "clarifyingQuestions": ["Direct question 1", "Direct question 2"] (only if needsMoreInfo is true, max 3),
+  "mainResponse": "Direct answer to their question with current available information",
   "useCase": {
     "scenario": "Specific business scenario relevant to their question",
     "challenge": "Exact problem they're facing",
@@ -183,7 +194,56 @@ function createIntelligentFallback(
     description: "Significant efficiency gains"
   };
 
+  // Generate smart clarifying questions based on agent type and question vagueness
+  const needsMoreInfo = userQuestion.length < 50 || 
+    !userQuestion.includes('business') && !userQuestion.includes('company') && 
+    !userQuestion.includes('revenue') && !userQuestion.includes('team');
+
+  let clarifyingQuestions: string[] = [];
+  
+  if (needsMoreInfo) {
+    const agentQuestions = {
+      'cash-agent': [
+        "What's your current monthly revenue range?",
+        "What's your biggest sales challenge right now?",
+        "How many leads do you generate per month?"
+      ],
+      'grace-agent': [
+        "What industry is your business in?",
+        "How many customers do you serve monthly?", 
+        "What's your biggest customer service challenge?"
+      ],
+      'echo-agent': [
+        "What social media platforms are you currently using?",
+        "What's your target audience demographic?",
+        "What's your monthly marketing budget range?"
+      ],
+      'flow-agent': [
+        "What business processes take up most of your time?",
+        "How many employees are in your organization?",
+        "What tools are you currently using for operations?"
+      ],
+      'kairos-agent': [
+        "What types of projects does your team typically manage?",
+        "How many team members are involved in project coordination?",
+        "What's your biggest project management challenge?"
+      ],
+      'sol-agent': [
+        "What's your organization's primary business objective this year?",
+        "What technology challenges are you facing?",
+        "What's your budget range for AI automation solutions?"
+      ]
+    };
+    
+    clarifyingQuestions = agentQuestions[agentId as keyof typeof agentQuestions]?.slice(0, 2) || [
+      "What industry is your business in?",
+      "What's your biggest operational challenge right now?"
+    ];
+  }
+
   return {
+    needsMoreInfo,
+    clarifyingQuestions: needsMoreInfo ? clarifyingQuestions : undefined,
     mainResponse: `Based on your question "${userQuestion}", I can help you implement specific solutions using our AI platform. Our ${getAgentExpertise(agentId)} capabilities are designed to address exactly these types of challenges.`,
     useCase: {
       scenario: `Business looking to solve: ${userQuestion}`,
