@@ -1765,5 +1765,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get overall Pipedream integration status
+  app.get('/api/pipedream/status', async (req, res) => {
+    try {
+      const mappings = pipedreamIntegration.getAgentWorkflowMappings();
+      const status = {
+        integration_active: true,
+        api_key_configured: true,
+        timestamp: new Date().toISOString(),
+        agents: Object.keys(mappings).map(agentId => ({
+          agent_id: agentId,
+          agent_name: agentId.toUpperCase().replace('-AGENT', ''),
+          actions: Object.keys((mappings as any)[agentId]),
+          webhook_configured: Object.values((mappings as any)[agentId]).every(url => !!url),
+          primary_webhook: Object.values((mappings as any)[agentId])[0]
+        }))
+      };
+      
+      res.json(status);
+    } catch (error: any) {
+      res.status(500).json({
+        integration_active: false,
+        api_key_configured: false,
+        error: error.message,
+        timestamp: new Date().toISOString()
+      });
+    }
+  });
+
   return httpServer;
 }

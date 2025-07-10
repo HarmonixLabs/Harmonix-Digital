@@ -28,12 +28,12 @@ class PipedreamIntegrationService {
   private baseUrl = 'https://api.pipedream.com/v1';
   
   constructor() {
-    // Use CLIENT_ID from config file if environment variables not available
-    this.apiKey = process.env.PIPEDREAM_API_KEY || process.env.PIPEDREAM_CLIENT_ID || PIPEDREAM_CONFIG.CLIENT_ID;
+    // Use API_KEY from config file if environment variables not available
+    this.apiKey = process.env.PIPEDREAM_API_KEY || PIPEDREAM_CONFIG.API_KEY;
     if (!this.apiKey) {
       console.warn('PIPEDREAM_API_KEY not configured - Pipedream integration disabled');
     } else {
-      console.log('Pipedream integration initialized with config');
+      console.log('Pipedream integration initialized with API key');
     }
   }
 
