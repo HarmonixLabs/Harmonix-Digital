@@ -33,7 +33,7 @@ const demoAgents = [
     capabilities: ["Lead Qualification", "Sales Automation", "Revenue Forecasting", "Pipeline Analytics"],
     metrics: { efficiency: "98%", accuracy: "95%", speed: "< 2s" },
     demoResponse: "I've analyzed your sales pipeline and identified 23 warm leads requiring immediate follow-up. Based on engagement patterns, I recommend prioritizing the 7 enterprise prospects with 80%+ engagement scores. I can create personalized sequences in your GoHighLevel CRM with projected revenue of $47K this quarter. Shall I activate the automation?",
-    integration: "✅ Connected: Stripe Payments, GoHighLevel CRM, OpenAI GPT-4o, Pipedream Workflows"
+    integration: "✅ Connected: Stripe Payments, GoHighLevel CRM, OpenAI GPT-4o, Live Automation Workflows"
   },
   {
     id: "grace",
@@ -45,7 +45,7 @@ const demoAgents = [
     capabilities: ["24/7 Support", "Live Chat", "Sentiment Analysis", "Multi-language"],
     metrics: { efficiency: "96%", accuracy: "94%", speed: "< 1s" },
     demoResponse: "Welcome to Harmonix! I've detected you're exploring our AI agent platform. Based on your browsing pattern, you're interested in sales automation and customer service solutions. I can provide a personalized demo or connect you with our founding team for enterprise pricing. What specific business challenge should I address first?",
-    integration: "✅ Connected: Live Chat Widgets, Support Tickets, Knowledge Base, Pipedream Workflows"
+    integration: "✅ Connected: Live Chat Widgets, Support Tickets, Knowledge Base, Live Automation Workflows"
   },
   {
     id: "echo",
@@ -57,7 +57,7 @@ const demoAgents = [
     capabilities: ["Content Scheduling", "Social Media Posting", "Engagement Tracking", "Trend Analysis"],
     metrics: { efficiency: "94%", accuracy: "92%", speed: "< 3s" },
     demoResponse: "I've analyzed your social media presence and identified optimal posting times for 300% higher engagement. I can schedule 15 posts across platforms this week, with trending hashtags and audience-specific content. Your LinkedIn engagement could increase by 45% with my proposed strategy. Ready to activate?",
-    integration: "✅ Connected: Facebook, Instagram, LinkedIn, Twitter, Content Libraries, Pipedream Workflows"
+    integration: "✅ Connected: Facebook, Instagram, LinkedIn, Twitter, Content Libraries, Live Automation Workflows"
   },
   {
     id: "flow",
@@ -69,7 +69,7 @@ const demoAgents = [
     capabilities: ["Process Automation", "Workflow Optimization", "Task Routing", "Integration Sync"],
     metrics: { efficiency: "97%", accuracy: "96%", speed: "< 2s" },
     demoResponse: "I've mapped your current business processes and identified 8 automation opportunities that could save 25 hours per week. I can create workflows connecting your CRM, email marketing, and project management tools with 90% less manual work. Shall I implement the automation suite?",
-    integration: "✅ Connected: Zapier, Make, API Integrations, Business Tools, Pipedream Workflows"
+    integration: "✅ Connected: Zapier, Make, API Integrations, Business Tools, Live Automation Workflows"
   },
   {
     id: "kairos",
@@ -81,7 +81,7 @@ const demoAgents = [
     capabilities: ["Project Management", "Task Scheduling", "Team Coordination", "Progress Tracking"],
     metrics: { efficiency: "95%", accuracy: "97%", speed: "< 2s" },
     demoResponse: "I've reviewed your project timeline and detected 3 critical bottlenecks that could delay delivery by 2 weeks. I've optimized resource allocation and identified parallel tasks to maintain your deadline. The development team can gain 40% efficiency with my proposed schedule. Implement changes?",
-    integration: "✅ Connected: Asana, Monday.com, Slack, Teams, Calendar Apps, Pipedream Workflows"
+    integration: "✅ Connected: Asana, Monday.com, Slack, Teams, Calendar Apps, Live Automation Workflows"
   },
   {
     id: "sol",
@@ -93,7 +93,7 @@ const demoAgents = [
     capabilities: ["AI Orchestration", "Agent Coordination", "System Optimization", "Harmony Analysis"],
     metrics: { efficiency: "99%", accuracy: "98%", speed: "< 1s" },
     demoResponse: "I am SŌL, the Harmony Brain orchestrating your AI ecosystem. I've analyzed cross-agent performance and identified optimal task distribution. CA$H can handle leads while GRACE manages support and ECHO posts content - all synchronized for maximum efficiency. Your business harmony score: 94%. Shall I optimize further?",
-    integration: "✅ Connected: All Agent Networks, OpenAI GPT-4o, Platform APIs, Pipedream Master Workflows"
+    integration: "✅ Connected: All Agent Networks, OpenAI GPT-4o, Platform APIs, Master Automation Hub"
   }
 ];
 
@@ -172,14 +172,14 @@ export default function DemoPage() {
       });
 
       if (response.ok) {
-        setAgentResponse(`${agent.demoResponse}\n\n✅ **Live Pipedream Workflow Executed Successfully!**\n🔗 Webhook triggered for ${agent.name}\n⚡ Real-time integration active\n📊 Processing completed with live backend systems`);
+        setAgentResponse(`${agent.demoResponse}\n\n✅ **Live Agent Response Complete!**\n🔗 ${agent.name} successfully processed your request\n⚡ Real-time AI integration active\n📊 Connected to your business systems`);
       } else {
-        throw new Error('Workflow execution failed');
+        throw new Error('Agent processing failed');
       }
     } catch (error) {
-      console.log('Pipedream integration not available, showing demo response:', error);
-      // Fallback to demo response if Pipedream isn't configured
-      setAgentResponse(`${agent.demoResponse}\n\n💡 **Demo Mode**: Connect your Pipedream workflows for live automation!`);
+      console.log('Live integration not available, showing demo response:', error);
+      // Fallback to demo response if live integration isn't configured
+      setAgentResponse(`${agent.demoResponse}\n\n💡 **Demo Mode**: Connect to live systems for full automation!`);
     }
     
     setIsProcessing(false);
