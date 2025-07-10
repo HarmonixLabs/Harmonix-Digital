@@ -1,21 +1,11 @@
-// Go High Level CRM Integration
+/**
+ * GoHighLevel Integration Service
+ * Handles lead capture and CRM synchronization for Harmonix platform
+ */
 
-interface CRMContact {
-  email: string;
-  name?: string;
-  phone?: string;
-  company?: string;
-  source?: string;
-  interests?: string[];
-  activity?: string;
-  tier?: string;
-  timestamp?: string;
-  [key: string]: any;
-}
-
-interface GHLContact {
-  firstName?: string;
-  lastName?: string;
+export interface GHLContact {
+  firstName: string;
+  lastName: string;
   email: string;
   phone?: string;
   companyName?: string;
@@ -24,267 +14,238 @@ interface GHLContact {
   customFields?: Record<string, any>;
 }
 
-class GHLIntegration {
+export interface GHLResponse {
+  success: boolean;
+  contactId?: string;
+  message?: string;
+  error?: string;
+}
+
+class GHLIntegrationService {
   private apiKey: string;
-  private baseUrl = 'https://rest.gohighlevel.com/v1';
-  
+  private locationId: string;
+  private baseUrl = 'https://services.leadconnectorhq.com';
+
   constructor() {
-    this.apiKey = process.env.GHL_API_KEY_HARMONIX || process.env.GHL_API_KEY || '';
+    // Use environment variables for API credentials
+    this.apiKey = process.env.GHL_API_KEY || '';
+    this.locationId = process.env.GHL_LOCATION_ID || 'eKlKYR6vdxwBnCFOUy5l';
+    
     if (!this.apiKey) {
-      console.warn('GHL_API_KEY_HARMONIX not provided - CRM sync will be logged only');
+      console.warn('GHL_API_KEY not found in environment variables');
     }
   }
 
-  async createOrUpdateContact(contactData: CRMContact): Promise<{ success: boolean; contactId?: string; message?: string }> {
+  /**
+   * Create or update a contact in GoHighLevel
+   */
+  async createContact(contactData: GHLContact): Promise<GHLResponse> {
     if (!this.apiKey) {
-      // Log the contact data when API key is not available
-      console.log('GHL CRM Contact (API key not configured):', {
-        email: contactData.email,
-        name: contactData.name,
-        phone: contactData.phone,
-        company: contactData.company,
-        source: contactData.source,
-        activity: contactData.activity,
-        timestamp: contactData.timestamp
-      });
-      
-      return { 
-        success: true, 
-        message: 'Contact logged (GHL API key not configured)' 
+      return {
+        success: false,
+        error: 'GHL API key not configured'
       };
     }
 
     try {
-      // Split name into first and last name
-      const nameParts = (contactData.name || '').split(' ');
-      const firstName = nameParts[0] || '';
-      const lastName = nameParts.slice(1).join(' ') || '';
-
-      // Prepare GHL contact data
-      const ghlContact: GHLContact = {
-        firstName,
-        lastName,
+      const payload = {
+        firstName: contactData.firstName,
+        lastName: contactData.lastName,
         email: contactData.email,
         phone: contactData.phone || '',
-        companyName: contactData.company || '',
-        source: contactData.source || 'harmonix_platform',
-        tags: this.prepareTags(contactData),
+        companyName: contactData.companyName || '',
+        source: contactData.source || 'Harmonix Agent Chat',
+        locationId: this.locationId,
+        tags: contactData.tags || ['agent-lead', 'harmonix-platform'],
         customFields: {
-          harmonix_activity: contactData.activity,
-          harmonix_timestamp: contactData.timestamp,
-          harmonix_interests: contactData.interests?.join(', ') || '',
-          harmonix_tier: contactData.tier || ''
+          ...contactData.customFields,
+          lead_source: 'Agent Interaction',
+          platform: 'Harmonix AI'
         }
       };
 
-      // Check if contact exists
-      const existingContact = await this.findContactByEmail(contactData.email);
-      
-      let response;
-      if (existingContact) {
-        // Update existing contact
-        response = await this.updateContact(existingContact.id, ghlContact);
+      const response = await fetch(`${this.baseUrl}/contacts/`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.apiKey}`,
+          'Content-Type': 'application/json',
+          'Version': '2021-07-28'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        return {
+          success: true,
+          contactId: result.contact?.id,
+          message: 'Contact created successfully'
+        };
       } else {
-        // Create new contact
-        response = await this.createContact(ghlContact);
+        console.error('GHL API Error:', result);
+        return {
+          success: false,
+          error: result.message || 'Failed to create contact'
+        };
       }
 
-      return {
-        success: true,
-        contactId: response.contact?.id || existingContact?.id,
-        message: existingContact ? 'Contact updated' : 'Contact created'
-      };
-
-    } catch (error) {
-      console.error('GHL API Error:', error);
+    } catch (error: any) {
+      console.error('GHL Integration Error:', error);
       return {
         success: false,
-        message: `GHL sync failed: ${error.message}`
+        error: error.message || 'Network error'
       };
     }
   }
 
-  private async findContactByEmail(email: string): Promise<any> {
+  /**
+   * Add tags to an existing contact
+   */
+  async addTagsToContact(contactId: string, tags: string[]): Promise<GHLResponse> {
+    if (!this.apiKey || !contactId) {
+      return {
+        success: false,
+        error: 'Missing API key or contact ID'
+      };
+    }
+
     try {
-      const response = await fetch(`${this.baseUrl}/contacts/?email=${encodeURIComponent(email)}`, {
+      const response = await fetch(`${this.baseUrl}/contacts/${contactId}/tags`, {
+        method: 'POST',
         headers: {
           'Authorization': `Bearer ${this.apiKey}`,
           'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify({ tags })
       });
 
-      if (!response.ok) {
-        throw new Error(`GHL API error: ${response.status}`);
+      if (response.ok) {
+        return {
+          success: true,
+          message: 'Tags added successfully'
+        };
+      } else {
+        const result = await response.json();
+        return {
+          success: false,
+          error: result.message || 'Failed to add tags'
+        };
       }
 
-      const data = await response.json();
-      return data.contacts?.[0] || null;
-    } catch (error) {
-      console.error('Error finding contact:', error);
-      return null;
+    } catch (error: any) {
+      console.error('GHL Tag Error:', error);
+      return {
+        success: false,
+        error: error.message
+      };
     }
   }
 
-  private async createContact(contactData: GHLContact): Promise<any> {
-    const response = await fetch(`${this.baseUrl}/contacts/`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${this.apiKey}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(contactData)
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to create contact: ${response.status}`);
-    }
-
-    return await response.json();
-  }
-
-  private async updateContact(contactId: string, contactData: Partial<GHLContact>): Promise<any> {
-    const response = await fetch(`${this.baseUrl}/contacts/${contactId}`, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${this.apiKey}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(contactData)
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to update contact: ${response.status}`);
-    }
-
-    return await response.json();
-  }
-
-  private prepareTags(contactData: CRMContact): string[] {
-    const tags = ['harmonix'];
-    
-    if (contactData.source) {
-      tags.push(`source-${contactData.source}`);
-    }
-    
-    if (contactData.activity) {
-      tags.push(`activity-${contactData.activity}`);
-    }
-    
-    if (contactData.tier) {
-      tags.push(`tier-${contactData.tier}`);
-    }
-    
-    if (contactData.interests) {
-      contactData.interests.forEach(interest => {
-        tags.push(`interest-${interest}`);
-      });
-    }
-    
-    return tags;
-  }
-
-  async addToOpportunity(contactId: string, opportunityData: {
-    name: string;
-    value: number;
-    stage: string;
-    source?: string;
-  }): Promise<{ success: boolean; message?: string }> {
-    if (!this.apiKey) {
-      console.log('GHL Opportunity (API key not configured):', { contactId, ...opportunityData });
-      return { success: true, message: 'Opportunity logged' };
+  /**
+   * Trigger a workflow for lead nurturing
+   */
+  async triggerWorkflow(contactId: string, workflowId: string): Promise<GHLResponse> {
+    if (!this.apiKey || !contactId || !workflowId) {
+      return {
+        success: false,
+        error: 'Missing required parameters'
+      };
     }
 
     try {
-      const response = await fetch(`${this.baseUrl}/opportunities/`, {
+      const response = await fetch(`${this.baseUrl}/workflows/${workflowId}/subscribers`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${this.apiKey}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          contactId,
-          ...opportunityData
+          contactId: contactId
         })
       });
 
-      if (!response.ok) {
-        throw new Error(`Failed to create opportunity: ${response.status}`);
+      if (response.ok) {
+        return {
+          success: true,
+          message: 'Workflow triggered successfully'
+        };
+      } else {
+        const result = await response.json();
+        return {
+          success: false,
+          error: result.message || 'Failed to trigger workflow'
+        };
       }
 
-      return { success: true, message: 'Opportunity created' };
-    } catch (error) {
-      console.error('Error creating opportunity:', error);
-      return { success: false, message: error.message };
+    } catch (error: any) {
+      console.error('GHL Workflow Error:', error);
+      return {
+        success: false,
+        error: error.message
+      };
+    }
+  }
+
+  /**
+   * Create opportunity in GoHighLevel
+   */
+  async createOpportunity(contactId: string, opportunityData: {
+    name: string;
+    pipelineId: string;
+    stageId: string;
+    monetaryValue?: number;
+    source?: string;
+  }): Promise<GHLResponse> {
+    if (!this.apiKey || !contactId) {
+      return {
+        success: false,
+        error: 'Missing API key or contact ID'
+      };
+    }
+
+    try {
+      const payload = {
+        contactId: contactId,
+        name: opportunityData.name,
+        pipelineId: opportunityData.pipelineId,
+        stageId: opportunityData.stageId,
+        monetaryValue: opportunityData.monetaryValue || 0,
+        source: opportunityData.source || 'Agent Interaction'
+      };
+
+      const response = await fetch(`${this.baseUrl}/opportunities/`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.apiKey}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        return {
+          success: true,
+          contactId: result.opportunity?.id,
+          message: 'Opportunity created successfully'
+        };
+      } else {
+        const result = await response.json();
+        return {
+          success: false,
+          error: result.message || 'Failed to create opportunity'
+        };
+      }
+
+    } catch (error: any) {
+      console.error('GHL Opportunity Error:', error);
+      return {
+        success: false,
+        error: error.message
+      };
     }
   }
 }
 
-// Export singleton instance
-export const ghlIntegration = new GHLIntegration();
-
-// Function to trigger GHL workflow with proper format
-async function triggerGHLWorkflow(contactData: CRMContact): Promise<void> {
-  try {
-    // Use the correct webhook URL you provided
-    const webhookUrl = process.env.HARMONIX_GHL_WEBHOOK || 'https://services.leadconnectorhq.com/hooks/eKlKYR6vdxwBnCFOUy5l/webhook-trigger/f46e0e80-24f6-4abe-8798-8bc9368a3a58';
-    if (!webhookUrl) {
-      console.log('GHL webhook URL not configured');
-      return;
-    }
-
-    // Format payload for GHL inbound webhook
-    const workflowPayload = {
-      // Simple flat structure that GHL can easily map
-      email: contactData.email,
-      firstName: contactData.name?.split(' ')[0] || '',
-      lastName: contactData.name?.split(' ').slice(1).join(' ') || '',
-      phone: contactData.phone || '',
-      companyName: contactData.company || '',
-      source: contactData.source || 'Harmonix Platform',
-      eventType: 'contact_created',
-      platform: 'Harmonix',
-      timestamp: new Date().toISOString()
-    };
-
-    console.log('Triggering GHL workflow for:', contactData.email);
-    
-    const response = await fetch(webhookUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(workflowPayload)
-    });
-
-    const responseText = await response.text();
-    console.log('GHL webhook response:', response.status, responseText);
-    
-  } catch (error) {
-    console.error('GHL workflow trigger error:', error);
-  }
-}
-
-// Main function for updating CRM
-export async function updateCRM(contactData: CRMContact): Promise<{ success: boolean; message?: string }> {
-  try {
-    // Create/update in GHL API first
-    const result = await ghlIntegration.createOrUpdateContact(contactData);
-    
-    // Trigger the workflow webhook
-    await triggerGHLWorkflow(contactData);
-    
-    console.log('CRM Update Result:', {
-      email: contactData.email,
-      success: result.success,
-      message: result.message
-    });
-    
-    return result;
-  } catch (error) {
-    console.error('CRM update error:', error);
-    return {
-      success: false,
-      message: `CRM sync failed: ${error.message}`
-    };
-  }
-}
+export const ghlIntegration = new GHLIntegrationService();

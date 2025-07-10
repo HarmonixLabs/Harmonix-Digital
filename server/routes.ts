@@ -8,7 +8,7 @@ import { storage } from "./storage";
 import { insertUserSchema, insertOrganizationSchema, insertAgentSchema, insertTaskSchema } from "@shared/schema";
 import { z } from "zod";
 import { processAgentTask } from "./openai";
-import { updateCRM } from "./ghl-integration";
+// GHL integration will be imported dynamically when needed
 import { healthCheck, readinessCheck } from "./health-check";
 import { corsMiddleware } from "./middleware/cors";
 import Stripe from "stripe";
@@ -197,17 +197,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Send to GoHighLevel
       try {
-        await updateCRM({
+        const { ghlIntegration } = await import("./ghl-integration");
+        const ghlResult = await ghlIntegration.createContact({
+          firstName: leadData.firstName || '',
+          lastName: leadData.lastName || '',
           email: leadData.email,
-          firstName: leadData.firstName,
-          lastName: leadData.lastName,
-          business: leadData.business,
           phone: leadData.phone,
+          companyName: leadData.business,
           source: leadData.source || 'Harmonix Website',
-          formType: leadData.formType || 'waitlist',
+          tags: ['harmonix-lead', 'website-form']
         });
-        results.ghl = true;
-        console.log('✅ Lead sent to GoHighLevel successfully');
+        
+        if (ghlResult.success) {
+          results.ghl = true;
+          console.log('✅ Lead sent to GoHighLevel successfully');
+        } else {
+          console.error('❌ GoHighLevel error:', ghlResult.error);
+        }
       } catch (error) {
         console.error('❌ GoHighLevel error:', error);
       }
@@ -2040,6 +2046,143 @@ Ready to explore how our platform can specifically help your business?
       res.status(500).json({ 
         success: false, 
         message: error.message || 'Agent processing failed' 
+      });
+    }
+  });
+
+  // Lead capture endpoint
+  app.post("/api/capture-lead", async (req, res) => {
+    try {
+      const {
+        firstName,
+        lastName,
+        email,
+        phone,
+        businessName,
+        industry,
+        jobTitle,
+        companySize,
+        agentId,
+        question,
+        agentResponse,
+        sessionId
+      } = req.body;
+
+      // Validate required fields
+      if (!firstName || !lastName || !email || !agentId) {
+        return res.status(400).json({
+          success: false,
+          message: "First name, last name, email, and agent ID are required"
+        });
+      }
+
+      // Import GHL integration service
+      const { ghlIntegration } = await import("./ghl-integration");
+
+      // Create lead in database
+      const leadData = {
+        firstName,
+        lastName,
+        email,
+        phone: phone || null,
+        businessName: businessName || null,
+        industry: industry || null,
+        jobTitle: jobTitle || null,
+        companySize: companySize || null,
+        agentId,
+        interactionData: {
+          question: question || '',
+          agentResponse: agentResponse || '',
+          timestamp: new Date().toISOString(),
+          sessionId: sessionId || undefined
+        },
+        leadStatus: 'new',
+        leadSource: 'agent_chat'
+      };
+
+      const lead = await storage.createLead(leadData);
+
+      // Create contact in GoHighLevel
+      const ghlContact = {
+        firstName,
+        lastName,
+        email,
+        phone: phone || undefined,
+        companyName: businessName || undefined,
+        source: `Agent ${agentId} Interaction`,
+        tags: [`agent-${agentId.toLowerCase()}`, 'harmonix-lead', 'needs-follow-up'],
+        customFields: {
+          agent_interaction: agentId,
+          business_name: businessName,
+          industry: industry,
+          job_title: jobTitle,
+          company_size: companySize,
+          lead_quality: 'high',
+          interaction_context: question,
+          harmonix_lead_id: lead.id.toString()
+        }
+      };
+
+      const ghlResult = await ghlIntegration.createContact(ghlContact);
+
+      // Update lead with GHL contact ID if successful
+      if (ghlResult.success && ghlResult.contactId) {
+        await storage.updateLead(lead.id, {
+          ghlContactId: ghlResult.contactId,
+          leadStatus: 'contacted'
+        });
+
+        // Trigger lead nurturing workflow (optional)
+        const workflowId = process.env.GHL_LEAD_NURTURING_WORKFLOW_ID;
+        if (workflowId) {
+          await ghlIntegration.triggerWorkflow(ghlResult.contactId, workflowId);
+        }
+
+        // Add agent-specific tags
+        const agentTags = [`${agentId.toLowerCase()}-interested`, 'high-intent'];
+        await ghlIntegration.addTagsToContact(ghlResult.contactId, agentTags);
+      }
+
+      res.json({
+        success: true,
+        message: "Lead captured successfully",
+        leadId: lead.id,
+        ghlSync: ghlResult.success,
+        ghlContactId: ghlResult.contactId
+      });
+
+    } catch (error: any) {
+      console.error('Lead capture error:', error);
+      res.status(500).json({
+        success: false,
+        message: error.message || 'Failed to capture lead'
+      });
+    }
+  });
+
+  // Get recent leads endpoint (for admin/dashboard)
+  app.get("/api/leads", async (req, res) => {
+    try {
+      const { agentId, limit } = req.query;
+      
+      let leads;
+      if (agentId) {
+        leads = await storage.getLeadsByAgent(agentId as string);
+      } else {
+        leads = await storage.getRecentLeads(parseInt(limit as string) || 50);
+      }
+
+      res.json({
+        success: true,
+        leads: leads,
+        count: leads.length
+      });
+
+    } catch (error: any) {
+      console.error('Get leads error:', error);
+      res.status(500).json({
+        success: false,
+        message: error.message || 'Failed to fetch leads'
       });
     }
   });

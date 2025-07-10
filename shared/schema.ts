@@ -49,6 +49,31 @@ export const agentTypes = pgTable("agent_types", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+// Lead capture from agent interactions
+export const leads = pgTable("leads", {
+  id: serial("id").primaryKey(),
+  firstName: text("first_name").notNull(),
+  lastName: text("last_name").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone"),
+  businessName: text("business_name"),
+  industry: text("industry"),
+  jobTitle: text("job_title"),
+  companySize: text("company_size"),
+  agentId: text("agent_id").notNull(), // Which agent they interacted with
+  interactionData: json("interaction_data").$type<{
+    question: string;
+    agentResponse: string;
+    timestamp: string;
+    sessionId?: string;
+  }>().notNull(),
+  ghlContactId: text("ghl_contact_id"), // GoHighLevel contact ID
+  leadStatus: text("lead_status").notNull().default("new"), // new, contacted, qualified, converted
+  leadSource: text("lead_source").notNull().default("agent_chat"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 // Agent NFT skins and marketplace
 export const agentSkins = pgTable("agent_skins", {
   id: serial("id").primaryKey(),
@@ -300,6 +325,12 @@ export const insertSuccessMetricSchema = createInsertSchema(successMetrics).omit
   createdAt: true,
 });
 
+export const insertLeadSchema = createInsertSchema(leads).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -320,3 +351,5 @@ export type PlatformFeature = typeof platformFeatures.$inferSelect;
 export type InsertPlatformFeature = z.infer<typeof insertPlatformFeatureSchema>;
 export type SuccessMetric = typeof successMetrics.$inferSelect;
 export type InsertSuccessMetric = z.infer<typeof insertSuccessMetricSchema>;
+export type Lead = typeof leads.$inferSelect;
+export type InsertLead = z.infer<typeof insertLeadSchema>;

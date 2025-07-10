@@ -1,10 +1,11 @@
 import { 
   users, organizations, agents, agentTypes, tasks, tokenTransactions, nfts,
-  platformServices, platformFeatures, successMetrics,
+  platformServices, platformFeatures, successMetrics, leads,
   type User, type InsertUser, type Organization, type InsertOrganization,
   type Agent, type InsertAgent, type AgentType, type Task, type InsertTask,
   type TokenTransaction, type InsertTokenTransaction, type NFT, type InsertNft,
-  type PlatformService, type PlatformFeature, type SuccessMetric
+  type PlatformService, type PlatformFeature, type SuccessMetric,
+  type Lead, type InsertLead
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc, sum, count, like, or, ilike } from "drizzle-orm";
@@ -65,6 +66,12 @@ export interface IStorage {
     features: PlatformFeature[];
     metrics: SuccessMetric[];
   }>;
+
+  // Lead Management
+  createLead(lead: InsertLead): Promise<Lead>;
+  updateLead(id: number, updates: Partial<InsertLead>): Promise<Lead>;
+  getLeadsByAgent(agentId: string): Promise<Lead[]>;
+  getRecentLeads(limit?: number): Promise<Lead[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -355,6 +362,54 @@ export class DatabaseStorage implements IStorage {
       );
     
     return { services, features, metrics };
+  }
+
+  // Lead Management Implementation
+  async createLead(insertLead: InsertLead): Promise<Lead> {
+    // Ensure sessionId is properly typed
+    const leadData = {
+      ...insertLead,
+      interactionData: insertLead.interactionData ? {
+        ...insertLead.interactionData,
+        sessionId: insertLead.interactionData.sessionId as string | undefined
+      } : undefined
+    };
+    
+    const [lead] = await db.insert(leads).values(leadData).returning();
+    return lead;
+  }
+
+  async updateLead(id: number, updates: Partial<InsertLead>): Promise<Lead> {
+    const updateData = { ...updates, updatedAt: new Date() };
+    // Remove undefined values to avoid TypeScript issues
+    Object.keys(updateData).forEach(key => {
+      if (updateData[key as keyof typeof updateData] === undefined) {
+        delete updateData[key as keyof typeof updateData];
+      }
+    });
+    
+    const [lead] = await db
+      .update(leads)
+      .set(updateData)
+      .where(eq(leads.id, id))
+      .returning();
+    return lead;
+  }
+
+  async getLeadsByAgent(agentId: string): Promise<Lead[]> {
+    return await db
+      .select()
+      .from(leads)
+      .where(eq(leads.agentId, agentId))
+      .orderBy(desc(leads.createdAt));
+  }
+
+  async getRecentLeads(limit = 50): Promise<Lead[]> {
+    return await db
+      .select()
+      .from(leads)
+      .orderBy(desc(leads.createdAt))
+      .limit(limit);
   }
 }
 
