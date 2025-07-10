@@ -50,6 +50,7 @@ import SystemHealth from "@/pages/system-health";
 import SimpleLoginPage from "@/pages/simple-login";
 import ResponsiveTest from "@/pages/responsive-test";
 import InteractiveDemo from "@/pages/interactive-demo";
+import AgentTest from "@/pages/agent-test";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -73,6 +74,7 @@ function Router() {
           <Route path="/system-health" component={SystemHealth} />
           <Route path="/responsive-test" component={ResponsiveTest} />
           <Route path="/interactive-demo" component={InteractiveDemo} />
+          <Route path="/agent-test" component={AgentTest} />
           <Route path="/my-agents" component={MyAgents} />
           <Route path="/create" component={Create} />
           <Route path="/settings" component={Settings} />
