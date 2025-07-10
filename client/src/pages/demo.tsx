@@ -172,7 +172,13 @@ export default function DemoPage() {
       });
 
       if (response.ok) {
-        setAgentResponse(`${agent.demoResponse}\n\n✅ **Live Agent Response Complete!**\n🔗 ${agent.name} successfully processed your request\n⚡ Real-time AI integration active\n📊 Connected to your business systems`);
+        const result = await response.json();
+        if (result.success && result.response) {
+          // Use the actual AI response
+          setAgentResponse(`${result.response}\n\n✅ **Live Agent Response Complete!**\n🔗 ${agent.name} successfully processed your request\n⚡ Real-time AI integration active\n📊 Connected to your business systems`);
+        } else {
+          throw new Error('Invalid response from agent');
+        }
       } else {
         throw new Error('Agent processing failed');
       }

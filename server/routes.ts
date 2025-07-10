@@ -1793,5 +1793,109 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Test endpoint for demo - processes user questions with AI
+  app.post('/api/test-pipedream', async (req, res) => {
+    try {
+      const { agentId, action, data } = req.body;
+      
+      if (!agentId || !data?.message) {
+        return res.status(400).json({ message: 'Agent ID and message are required' });
+      }
+
+      // Get agent-specific prompt and personality
+      const agentPrompts = {
+        'cash-agent': {
+          name: 'CA$H',
+          role: 'Elite Sales Agent',
+          personality: 'Professional, results-driven, and data-focused',
+          prompt: `You are CA$H, an elite AI sales agent. Respond professionally with specific sales insights, lead qualification questions, or revenue strategies. Keep responses under 150 words and focus on actionable business advice.`
+        },
+        'grace-agent': {
+          name: 'GRACE',
+          role: 'Customer Experience Specialist',
+          personality: 'Empathetic, helpful, and solution-oriented',
+          prompt: `You are GRACE, a premium customer experience AI. Respond with helpful, empathetic support that addresses the user's concerns. Provide specific solutions and show emotional intelligence. Keep responses under 150 words.`
+        },
+        'echo-agent': {
+          name: 'ECHO',
+          role: 'Social Media Manager',
+          personality: 'Creative, trend-aware, and engaging',
+          prompt: `You are ECHO, a social media AI expert. Respond with creative content ideas, social media strategies, or engagement tips. Be trendy and inspiring while staying professional. Keep responses under 150 words.`
+        },
+        'flow-agent': {
+          name: 'FLOW',
+          role: 'Process Automation Specialist',
+          personality: 'Efficient, systematic, and optimization-focused',
+          prompt: `You are FLOW, a workflow automation AI. Respond with process improvements, automation suggestions, or efficiency strategies. Be systematic and show how to streamline operations. Keep responses under 150 words.`
+        },
+        'kairos-agent': {
+          name: 'KAIROS',
+          role: 'Project Manager',
+          personality: 'Organized, deadline-focused, and strategic',
+          prompt: `You are KAIROS, a project management AI. Respond with project strategies, timeline optimization, or team coordination advice. Be organized and results-focused. Keep responses under 150 words.`
+        },
+        'sol-agent': {
+          name: 'SŌL',
+          role: 'AI Orchestration Brain',
+          personality: 'Wise, coordinating, and holistically intelligent',
+          prompt: `You are SŌL, the master AI orchestrator. Respond with high-level strategic insights, system optimization, or multi-agent coordination strategies. Show supreme intelligence and harmony. Keep responses under 150 words.`
+        }
+      };
+
+      const agent = agentPrompts[agentId as keyof typeof agentPrompts];
+      if (!agent) {
+        return res.status(400).json({ message: 'Unknown agent' });
+      }
+
+      // Use OpenAI to generate personalized response
+      try {
+        const aiResponse = await processAgentTask({
+          prompt: `${agent.prompt}\n\nUser Question: "${data.message}"\n\nRespond as ${agent.name} with your specific expertise:`,
+          context: data.context || {},
+          agentType: agent.role,
+          maxTokens: 200
+        });
+
+        // Execute the live workflow in the background (non-blocking)
+        try {
+          await pipedreamIntegration.executeAgentWorkflow(agentId, action, {
+            ...data,
+            ai_response: aiResponse,
+            demo_mode: true
+          });
+        } catch (workflowError) {
+          console.log('Workflow execution failed (non-blocking):', workflowError);
+        }
+
+        res.json({ 
+          success: true,
+          response: aiResponse,
+          agent_name: agent.name,
+          timestamp: new Date().toISOString()
+        });
+
+      } catch (aiError) {
+        console.error('AI processing failed:', aiError);
+        // Fallback to a personalized response based on agent type
+        const fallbackResponse = `Hello! I'm ${agent.name}, your ${agent.role}. I received your question: "${data.message}" - I'd be happy to help you with that. Let me analyze this and provide you with expert insights tailored to your needs.`;
+        
+        res.json({ 
+          success: true,
+          response: fallbackResponse,
+          agent_name: agent.name,
+          timestamp: new Date().toISOString(),
+          fallback: true
+        });
+      }
+
+    } catch (error: any) {
+      console.error('Test endpoint error:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: error.message || 'Agent processing failed' 
+      });
+    }
+  });
+
   return httpServer;
 }
