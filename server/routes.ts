@@ -2187,5 +2187,123 @@ Ready to explore how our platform can specifically help your business?
     }
   });
 
+  // Enhanced Stripe Deposit Routes
+  app.post("/api/stripe/create-reservation", async (req, res) => {
+    try {
+      const { agentId, customerEmail, customerName, userId } = req.body;
+      
+      const { stripeDepositService } = await import("./services/stripe-deposit-service");
+      const result = await stripeDepositService.createReservationDeposit({
+        agentId,
+        customerEmail,
+        customerName,
+        userId
+      });
+
+      res.json(result);
+    } catch (error) {
+      console.error('Reservation deposit error:', error);
+      res.status(500).json({ error: 'Failed to create reservation deposit' });
+    }
+  });
+
+  app.post("/api/stripe/create-package-deposit", async (req, res) => {
+    try {
+      const { packageTier, customerEmail, customerName, userId, addOns, estimatedValue } = req.body;
+      
+      const { stripeDepositService } = await import("./services/stripe-deposit-service");
+      const result = await stripeDepositService.createPackageDeposit({
+        packageTier,
+        customerEmail,
+        customerName,
+        userId,
+        addOns,
+        estimatedValue
+      });
+
+      res.json(result);
+    } catch (error) {
+      console.error('Package deposit error:', error);
+      res.status(500).json({ error: 'Failed to create package deposit' });
+    }
+  });
+
+  app.post("/api/stripe/process-deposit-success", async (req, res) => {
+    try {
+      const { sessionId } = req.body;
+      
+      const { stripeDepositService } = await import("./services/stripe-deposit-service");
+      const result = await stripeDepositService.processDepositSuccess(sessionId);
+
+      res.json(result);
+    } catch (error) {
+      console.error('Deposit success processing error:', error);
+      res.status(500).json({ error: 'Failed to process deposit success' });
+    }
+  });
+
+  // NFT Agent Routes
+  app.post("/api/nft/mint-agent", async (req, res) => {
+    try {
+      const { userId, walletAddress, agentId, depositSessionId, mintTrigger } = req.body;
+      
+      const { nftAgentService } = await import("./services/nft-agent-service");
+      const result = await nftAgentService.triggerNFTMint({
+        userId,
+        walletAddress,
+        agentId,
+        depositSessionId,
+        mintTrigger
+      });
+
+      res.json(result);
+    } catch (error) {
+      console.error('NFT mint error:', error);
+      res.status(500).json({ error: 'Failed to mint NFT' });
+    }
+  });
+
+  app.get("/api/nft/collections", async (req, res) => {
+    try {
+      const { nftAgentService } = await import("./services/nft-agent-service");
+      const collections = nftAgentService.getAgentCollections();
+      res.json(collections);
+    } catch (error) {
+      console.error('NFT collections error:', error);
+      res.status(500).json({ error: 'Failed to get NFT collections' });
+    }
+  });
+
+  app.get("/api/nft/user/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const { nftAgentService } = await import("./services/nft-agent-service");
+      const userNFTs = await nftAgentService.getUserNFTs(userId);
+      res.json(userNFTs);
+    } catch (error) {
+      console.error('User NFTs error:', error);
+      res.status(500).json({ error: 'Failed to get user NFTs' });
+    }
+  });
+
+  // GHL Integration with Affiliate Links
+  app.post("/api/ghl/signup-with-affiliate", async (req, res) => {
+    try {
+      const { userEmail, affiliateId } = req.body;
+      
+      // GoHighLevel affiliate signup link
+      const ghlAffiliateLink = `https://gohighlevel.com/?affiliate=${affiliateId || 'harmonix_default'}`;
+      
+      res.json({
+        success: true,
+        signupUrl: ghlAffiliateLink,
+        message: "Affiliate link generated successfully"
+      });
+    } catch (error) {
+      console.error('GHL affiliate error:', error);
+      res.status(500).json({ error: 'Failed to generate affiliate link' });
+    }
+  });
+
   return httpServer;
 }

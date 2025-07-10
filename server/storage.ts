@@ -366,25 +366,41 @@ export class DatabaseStorage implements IStorage {
 
   // Lead Management Implementation
   async createLead(insertLead: InsertLead): Promise<Lead> {
-    // Ensure sessionId is properly typed
+    // Ensure sessionId is properly typed and handle undefined
     const leadData = {
       ...insertLead,
       interactionData: insertLead.interactionData ? {
-        ...insertLead.interactionData,
+        question: insertLead.interactionData.question,
+        agentResponse: insertLead.interactionData.agentResponse,
+        timestamp: insertLead.interactionData.timestamp,
         sessionId: insertLead.interactionData.sessionId as string | undefined
-      } : undefined
+      } : {
+        question: '',
+        agentResponse: '',
+        timestamp: new Date().toISOString(),
+        sessionId: undefined
+      }
     };
     
-    const [lead] = await db.insert(leads).values(leadData).returning();
+    const [lead] = await db.insert(leads).values([leadData]).returning();
     return lead;
   }
 
   async updateLead(id: number, updates: Partial<InsertLead>): Promise<Lead> {
-    const updateData = { ...updates, updatedAt: new Date() };
+    const updateData: any = { ...updates, updatedAt: new Date() };
+    
+    // Ensure interactionData is properly typed if present
+    if (updateData.interactionData) {
+      updateData.interactionData = {
+        ...updateData.interactionData,
+        sessionId: updateData.interactionData.sessionId as string | undefined
+      };
+    }
+    
     // Remove undefined values to avoid TypeScript issues
     Object.keys(updateData).forEach(key => {
-      if (updateData[key as keyof typeof updateData] === undefined) {
-        delete updateData[key as keyof typeof updateData];
+      if (updateData[key] === undefined) {
+        delete updateData[key];
       }
     });
     
