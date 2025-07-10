@@ -1,0 +1,91 @@
+HARMONIX DIGITAL — REFERRAL LOGIC FLOW DOC
+
+Purpose:
+Launch the referral engine that rewards both the inviter and the invited user with token usage, subscription discounts, and bonus perks. This doc outlines the backend logic, GHL tag flow, reward system, and infrastructure needed.
+
+⸻
+
+1. SYSTEM OVERVIEW
+
+Referral Engine Name: Harmony Rise Loop
+Referral Format: https://harmonixdigital.com?r={referrerID} or .ca
+
+Each referrer receives a unique code. When someone signs up using that code:
+	•	The referrer earns bonus tokens + monthly % discount (stackable)
+	•	The new user receives welcome tokens + first-month discount
+
+⸻
+
+2. REFERRAL FLOW BREAKDOWN
+
+🔗 STEP 1: LINK GENERATION
+	•	Upon signup, system auto-generates a referral ID:
+	•	ref=firstnamelastname123
+	•	Stored in DB + displayed in user dashboard
+
+🤝 STEP 2: NEW USER JOINS VIA LINK
+	•	Referral parameter captured in browser
+	•	Stored in cookie/localStorage (7-day expiry)
+	•	On signup:
+	•	Referral ID submitted as hidden field
+	•	Triggers DB update & GHL webhook
+
+🎁 STEP 3: REWARD ISSUED
+	•	Referrer receives:
+	•	+500 tokens
+	•	-5% MRR discount (max -30%)
+	•	Referee receives:
+	•	+250 tokens
+	•	-10% off first month
+
+⸻
+
+3. GO HIGH LEVEL TAG MAP
+
+Event	GHL Tag	Notes
+New Waitlist (No Referrer)	waitlist_user	Standard join
+New Waitlist (With Referrer)	waitlist_referred	Ref chain started
+Reserved Spot ($444)	reserved_user	Priority flag
+30% Deposit Paid	priority_client	Service contract locked
+Referral Bonus Triggered	referral_bonus_given	Referrer tag
+Referred User Onboarded	referred_user_live	Status update
+
+
+⸻
+
+4. DATA TO TRACK (PER USER)
+	•	referrerID
+	•	referredCount
+	•	totalReferralTokens
+	•	discountPercent
+	•	hasUsedReferral
+
+⸻
+
+5. API + AUTOMATIONS
+	•	Create webhook to capture referral ID → send to GHL custom field
+	•	Token reward logic connected to backend or CRM automations
+	•	Email drip logic triggered post-referral with copy:
+	•	“Congrats, you just earned +500 tokens”
+	•	“Only 2 more invites to unlock another agent!”
+
+⸻
+
+6. SECURITY
+	•	Prevent self-referrals (same IP/email block)
+	•	Limit max monthly discount to -30% unless whitelisted
+
+⸻
+
+7. FUTURE V2
+	•	On-chain referral with NFT rewards
+	•	Referral leaderboard
+	•	Partner program tiering
+
+⸻
+
+OWNER: Kwaccar Jok
+
+DATE: [Soft Launch Day]
+
+STATUS: READY TO BUILD
