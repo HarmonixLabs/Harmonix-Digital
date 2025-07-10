@@ -127,6 +127,52 @@ export const nfts = pgTable("nfts", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+// Platform services and offerings
+export const platformServices = pgTable("platform_services", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  category: text("category").notNull(), // ai-agents, web-design, blockchain, launchpad, advisory
+  description: text("description").notNull(),
+  features: json("features").$type<string[]>().notNull().default([]),
+  pricing: json("pricing").$type<{
+    fullPayment: number;
+    splitPayment: number;
+    monthly?: number;
+    setup?: number;
+  }>().notNull(),
+  benefits: json("benefits").$type<string[]>().notNull().default([]),
+  targetAudience: text("target_audience").notNull(),
+  deliveryTime: text("delivery_time"),
+  requirements: json("requirements").$type<string[]>().notNull().default([]),
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Platform capabilities and features
+export const platformFeatures = pgTable("platform_features", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  category: text("category").notNull(), // agent-marketplace, workflow-automation, nft-integration, payment-processing, etc.
+  description: text("description").notNull(),
+  howItHelps: text("how_it_helps").notNull(),
+  examples: json("examples").$type<string[]>().notNull().default([]),
+  integrations: json("integrations").$type<string[]>().notNull().default([]),
+  isCore: boolean("is_core").notNull().default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// ROI and success metrics
+export const successMetrics = pgTable("success_metrics", {
+  id: serial("id").primaryKey(),
+  serviceId: integer("service_id").references(() => platformServices.id),
+  metricName: text("metric_name").notNull(),
+  value: text("value").notNull(),
+  description: text("description").notNull(),
+  industry: text("industry"),
+  timePeriod: text("time_period"), // monthly, quarterly, annually
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 // Relations
 export const organizationsRelations = relations(organizations, ({ many }) => ({
   users: many(users),
@@ -239,6 +285,21 @@ export const insertNftSchema = createInsertSchema(nfts).omit({
   createdAt: true,
 });
 
+export const insertPlatformServiceSchema = createInsertSchema(platformServices).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertPlatformFeatureSchema = createInsertSchema(platformFeatures).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertSuccessMetricSchema = createInsertSchema(successMetrics).omit({
+  id: true,
+  createdAt: true,
+});
+
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -253,3 +314,9 @@ export type TokenTransaction = typeof tokenTransactions.$inferSelect;
 export type InsertTokenTransaction = z.infer<typeof insertTokenTransactionSchema>;
 export type NFT = typeof nfts.$inferSelect;
 export type InsertNft = z.infer<typeof insertNftSchema>;
+export type PlatformService = typeof platformServices.$inferSelect;
+export type InsertPlatformService = z.infer<typeof insertPlatformServiceSchema>;
+export type PlatformFeature = typeof platformFeatures.$inferSelect;
+export type InsertPlatformFeature = z.infer<typeof insertPlatformFeatureSchema>;
+export type SuccessMetric = typeof successMetrics.$inferSelect;
+export type InsertSuccessMetric = z.infer<typeof insertSuccessMetricSchema>;

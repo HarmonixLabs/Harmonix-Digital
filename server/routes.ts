@@ -1847,13 +1847,64 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: 'Unknown agent' });
       }
 
-      // Use OpenAI to generate personalized response
+      // Get relevant platform data based on user question
+      const platformData = await storage.searchPlatformData(data.message);
+      
+      // Create comprehensive context for AI response
+      const platformContext = {
+        services: platformData.services,
+        features: platformData.features,
+        metrics: platformData.metrics,
+        agentCapabilities: {
+          'cash-agent': 'Lead qualification, sales automation, CRM integration, revenue optimization',
+          'grace-agent': 'Customer support, issue resolution, satisfaction improvement, service automation',
+          'echo-agent': 'Social media management, content creation, engagement strategies, brand building',
+          'flow-agent': 'Process automation, workflow optimization, efficiency improvements, system integration',
+          'kairos-agent': 'Project management, timeline optimization, team coordination, deliverable tracking',
+          'sol-agent': 'AI orchestration, system coordination, strategic insights, multi-agent optimization'
+        }
+      };
+
+      // Use OpenAI to generate personalized response with platform data
       try {
+        const contextualPrompt = `${agent.prompt}
+
+PLATFORM KNOWLEDGE:
+Services Available: ${JSON.stringify(platformData.services.map(s => ({
+  name: s.name,
+  description: s.description,
+  pricing: s.pricing,
+  benefits: s.benefits
+})))}
+
+Platform Features: ${JSON.stringify(platformData.features.map(f => ({
+  name: f.name,
+  description: f.description,
+  howItHelps: f.howItHelps
+})))}
+
+Success Metrics: ${JSON.stringify(platformData.metrics.map(m => ({
+  metric: m.metricName,
+  value: m.value,
+  description: m.description
+})))}
+
+User Question: "${data.message}"
+
+Instructions: Provide a specific, actionable response that:
+1. Directly addresses their question
+2. References specific platform services/features that solve their problem
+3. Includes relevant success metrics and ROI data
+4. Explains exactly how the platform supports their goals
+5. Gives concrete next steps they can take
+
+Respond as ${agent.name} with your expertise in ${platformContext.agentCapabilities[agentId as keyof typeof platformContext.agentCapabilities]}:`;
+
         const aiResponse = await processAgentTask({
-          prompt: `${agent.prompt}\n\nUser Question: "${data.message}"\n\nRespond as ${agent.name} with your specific expertise:`,
-          context: data.context || {},
+          prompt: contextualPrompt,
+          context: platformContext,
           agentType: agent.role,
-          maxTokens: 200
+          maxTokens: 300
         });
 
         // Execute the live workflow in the background (non-blocking)
@@ -1876,8 +1927,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       } catch (aiError) {
         console.error('AI processing failed:', aiError);
-        // Fallback to a personalized response based on agent type
-        const fallbackResponse = `Hello! I'm ${agent.name}, your ${agent.role}. I received your question: "${data.message}" - I'd be happy to help you with that. Let me analyze this and provide you with expert insights tailored to your needs.`;
+        
+        // Create data-driven fallback response
+        const relevantServices = platformData.services.slice(0, 2);
+        const relevantMetrics = platformData.metrics.slice(0, 2);
+        
+        const fallbackResponse = `Hello! I'm ${agent.name}, your ${agent.role}. 
+
+Regarding your question: "${data.message}"
+
+Based on our platform capabilities, I can help you with:
+
+${relevantServices.map(service => 
+  `• **${service.name}**: ${service.description.substring(0, 100)}... 
+    Starting at $${service.pricing.fullPayment.toLocaleString()}`
+).join('\n')}
+
+Here's what our clients typically see:
+${relevantMetrics.map(metric => 
+  `• ${metric.metricName}: ${metric.value} - ${metric.description}`
+).join('\n')}
+
+Let me connect you with our platform for a detailed consultation. I can provide specific recommendations based on your exact needs.`;
         
         res.json({ 
           success: true,

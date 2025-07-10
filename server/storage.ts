@@ -1,11 +1,13 @@
 import { 
   users, organizations, agents, agentTypes, tasks, tokenTransactions, nfts,
+  platformServices, platformFeatures, successMetrics,
   type User, type InsertUser, type Organization, type InsertOrganization,
   type Agent, type InsertAgent, type AgentType, type Task, type InsertTask,
-  type TokenTransaction, type InsertTokenTransaction, type NFT, type InsertNft
+  type TokenTransaction, type InsertTokenTransaction, type NFT, type InsertNft,
+  type PlatformService, type PlatformFeature, type SuccessMetric
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, and, desc, sum, count } from "drizzle-orm";
+import { eq, and, desc, sum, count, like, or, ilike } from "drizzle-orm";
 
 export interface IStorage {
   // Users
@@ -52,6 +54,16 @@ export interface IStorage {
     totalTasks: number;
     tokensUsed: number;
     tokensRemaining: number;
+  }>;
+
+  // Platform Knowledge
+  getPlatformServices(category?: string): Promise<PlatformService[]>;
+  getPlatformFeatures(category?: string): Promise<PlatformFeature[]>;
+  getSuccessMetrics(serviceId?: number, industry?: string): Promise<SuccessMetric[]>;
+  searchPlatformData(query: string): Promise<{
+    services: PlatformService[];
+    features: PlatformFeature[];
+    metrics: SuccessMetric[];
   }>;
 }
 
@@ -235,6 +247,114 @@ export class DatabaseStorage implements IStorage {
       tokensUsed: org.tokensUsed,
       tokensRemaining: org.tokenQuota - org.tokensUsed,
     };
+  }
+
+  async getPlatformServices(category?: string): Promise<PlatformService[]> {
+    if (category) {
+      return await db
+        .select()
+        .from(platformServices)
+        .where(and(
+          eq(platformServices.isActive, true),
+          eq(platformServices.category, category)
+        ));
+    }
+    
+    return await db
+      .select()
+      .from(platformServices)
+      .where(eq(platformServices.isActive, true))
+      .orderBy(platformServices.category, platformServices.name);
+  }
+
+  async getPlatformFeatures(category?: string): Promise<PlatformFeature[]> {
+    if (category) {
+      return await db
+        .select()
+        .from(platformFeatures)
+        .where(eq(platformFeatures.category, category));
+    }
+    
+    return await db
+      .select()
+      .from(platformFeatures)
+      .orderBy(platformFeatures.category, platformFeatures.name);
+  }
+
+  async getSuccessMetrics(serviceId?: number, industry?: string): Promise<SuccessMetric[]> {
+    if (serviceId && industry) {
+      return await db
+        .select()
+        .from(successMetrics)
+        .where(and(
+          eq(successMetrics.serviceId, serviceId),
+          eq(successMetrics.industry, industry)
+        ))
+        .orderBy(desc(successMetrics.createdAt));
+    } else if (serviceId) {
+      return await db
+        .select()
+        .from(successMetrics)
+        .where(eq(successMetrics.serviceId, serviceId))
+        .orderBy(desc(successMetrics.createdAt));
+    } else if (industry) {
+      return await db
+        .select()
+        .from(successMetrics)
+        .where(eq(successMetrics.industry, industry))
+        .orderBy(desc(successMetrics.createdAt));
+    }
+    
+    return await db
+      .select()
+      .from(successMetrics)
+      .orderBy(desc(successMetrics.createdAt));
+  }
+
+  async searchPlatformData(query: string): Promise<{
+    services: PlatformService[];
+    features: PlatformFeature[];
+    metrics: SuccessMetric[];
+  }> {
+    const searchTerm = `%${query.toLowerCase()}%`;
+    
+    const services = await db
+      .select()
+      .from(platformServices)
+      .where(
+        and(
+          eq(platformServices.isActive, true),
+          or(
+            ilike(platformServices.name, searchTerm),
+            ilike(platformServices.description, searchTerm),
+            ilike(platformServices.targetAudience, searchTerm)
+          )
+        )
+      );
+    
+    const features = await db
+      .select()
+      .from(platformFeatures)
+      .where(
+        or(
+          ilike(platformFeatures.name, searchTerm),
+          ilike(platformFeatures.description, searchTerm),
+          ilike(platformFeatures.howItHelps, searchTerm)
+        )
+      );
+    
+    const metrics = await db
+      .select()
+      .from(successMetrics)
+      .where(
+        or(
+          ilike(successMetrics.metricName, searchTerm),
+          ilike(successMetrics.description, searchTerm),
+          ilike(successMetrics.industry, searchTerm)
+        )
+      );
+    
+    return { services, features, metrics };
   }
 }
 
