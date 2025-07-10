@@ -30,34 +30,70 @@ const demoAgents = [
     tier: "Elite",
     icon: DollarSign,
     description: "Elite sales agent with GoHighLevel CRM integration and predictive analytics",
-    capabilities: ["Lead Qualification", "CRM Automation", "Revenue Forecasting", "Pipeline Analytics"],
+    capabilities: ["Lead Qualification", "Sales Automation", "Revenue Forecasting", "Pipeline Analytics"],
     metrics: { efficiency: "98%", accuracy: "95%", speed: "< 2s" },
     demoResponse: "I've analyzed your sales pipeline and identified 23 warm leads requiring immediate follow-up. Based on engagement patterns, I recommend prioritizing the 7 enterprise prospects with 80%+ engagement scores. I can create personalized sequences in your GoHighLevel CRM with projected revenue of $47K this quarter. Shall I activate the automation?",
-    integration: "✅ Connected: Stripe Payments, GoHighLevel CRM, OpenAI GPT-4o, Email Marketing"
+    integration: "✅ Connected: Stripe Payments, GoHighLevel CRM, OpenAI GPT-4o, Pipedream Workflows"
   },
   {
-    id: "concierge",
-    name: "GRACE Agent",
-    specialty: "Premium Customer Experience",
-    tier: "Premium", 
+    id: "grace",
+    name: "GRACE Agent", 
+    specialty: "Premium Customer Experience & Live Chat",
+    tier: "Premium",
     icon: Users,
     description: "AI customer service with emotional intelligence and multi-channel support",
-    capabilities: ["24/7 Support", "Sentiment Analysis", "Multi-language", "Escalation Management"],
+    capabilities: ["24/7 Support", "Live Chat", "Sentiment Analysis", "Multi-language"],
     metrics: { efficiency: "96%", accuracy: "94%", speed: "< 1s" },
     demoResponse: "Welcome to Harmonix! I've detected you're exploring our AI agent platform. Based on your browsing pattern, you're interested in sales automation and customer service solutions. I can provide a personalized demo or connect you with our founding team for enterprise pricing. What specific business challenge should I address first?",
-    integration: "✅ Connected: Live Chat Widgets, Support Tickets, Knowledge Base, CRM Systems"
+    integration: "✅ Connected: Live Chat Widgets, Support Tickets, Knowledge Base, Pipedream Workflows"
   },
   {
-    id: "executive",
-    name: "Executive Assistant",
-    specialty: "C-Suite Operations & Productivity",
+    id: "echo",
+    name: "ECHO Agent",
+    specialty: "Social Media & Content Management",
     tier: "Professional",
-    icon: Calendar,
-    description: "AI executive assistant for strategy, scheduling, and decision support",
-    capabilities: ["Calendar Optimization", "Email Prioritization", "Meeting Intelligence", "Strategic Planning"],
-    metrics: { efficiency: "97%", accuracy: "98%", speed: "< 2s" },
-    demoResponse: "I've analyzed your calendar and discovered 4 scheduling conflicts next week that could impact Q4 strategy sessions. I've identified optimal alternatives based on all participants' preferences. Additionally, I've flagged 12 high-priority emails and prepared summaries. The Johnson Industries proposal needs review by Thursday - shall I schedule focused time?",
-    integration: "✅ Connected: Google Calendar, Gmail, Outlook, Slack, Teams, Productivity Suites"
+    icon: MessageSquare,
+    description: "AI social media manager with content creation and engagement automation",
+    capabilities: ["Content Scheduling", "Social Media Posting", "Engagement Tracking", "Trend Analysis"],
+    metrics: { efficiency: "94%", accuracy: "92%", speed: "< 3s" },
+    demoResponse: "I've analyzed your social media presence and identified optimal posting times for 300% higher engagement. I can schedule 15 posts across platforms this week, with trending hashtags and audience-specific content. Your LinkedIn engagement could increase by 45% with my proposed strategy. Ready to activate?",
+    integration: "✅ Connected: Facebook, Instagram, LinkedIn, Twitter, Content Libraries, Pipedream Workflows"
+  },
+  {
+    id: "flow",
+    name: "FLOW Agent",
+    specialty: "Process & Workflow Automation",
+    tier: "Professional", 
+    icon: Target,
+    description: "AI workflow optimizer for business process automation and efficiency",
+    capabilities: ["Process Automation", "Workflow Optimization", "Task Routing", "Integration Sync"],
+    metrics: { efficiency: "97%", accuracy: "96%", speed: "< 2s" },
+    demoResponse: "I've mapped your current business processes and identified 8 automation opportunities that could save 25 hours per week. I can create workflows connecting your CRM, email marketing, and project management tools with 90% less manual work. Shall I implement the automation suite?",
+    integration: "✅ Connected: Zapier, Make, API Integrations, Business Tools, Pipedream Workflows"
+  },
+  {
+    id: "kairos",
+    name: "KAIROS Agent",
+    specialty: "Project Management & Team Coordination",
+    tier: "Professional",
+    icon: Clock,
+    description: "AI project manager with advanced scheduling and team coordination",
+    capabilities: ["Project Management", "Task Scheduling", "Team Coordination", "Progress Tracking"],
+    metrics: { efficiency: "95%", accuracy: "97%", speed: "< 2s" },
+    demoResponse: "I've reviewed your project timeline and detected 3 critical bottlenecks that could delay delivery by 2 weeks. I've optimized resource allocation and identified parallel tasks to maintain your deadline. The development team can gain 40% efficiency with my proposed schedule. Implement changes?",
+    integration: "✅ Connected: Asana, Monday.com, Slack, Teams, Calendar Apps, Pipedream Workflows"
+  },
+  {
+    id: "sol",
+    name: "SŌL Agent",
+    specialty: "AI Orchestration & Harmony Brain",
+    tier: "Elite",
+    icon: Star,
+    description: "Master AI orchestrator coordinating all agents with supreme intelligence",
+    capabilities: ["AI Orchestration", "Agent Coordination", "System Optimization", "Harmony Analysis"],
+    metrics: { efficiency: "99%", accuracy: "98%", speed: "< 1s" },
+    demoResponse: "I am SŌL, the Harmony Brain orchestrating your AI ecosystem. I've analyzed cross-agent performance and identified optimal task distribution. CA$H can handle leads while GRACE manages support and ECHO posts content - all synchronized for maximum efficiency. Your business harmony score: 94%. Shall I optimize further?",
+    integration: "✅ Connected: All Agent Networks, OpenAI GPT-4o, Platform APIs, Pipedream Master Workflows"
   }
 ];
 
@@ -92,6 +128,19 @@ export default function DemoPage() {
     }
   }, []);
 
+  // Get appropriate action for each agent
+  const getAgentAction = (agentId: string) => {
+    switch (agentId) {
+      case 'cash': return 'lead_qualification';
+      case 'grace': return 'customer_support';
+      case 'echo': return 'social_media_posting';
+      case 'flow': return 'process_automation';
+      case 'kairos': return 'project_management';
+      case 'sol': return 'ai_orchestration';
+      default: return 'lead_qualification';
+    }
+  };
+
   const handleDemoSubmit = async () => {
     if (!demoInput.trim()) return;
     
@@ -109,8 +158,8 @@ export default function DemoPage() {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
         body: JSON.stringify({
-          agentId: agent.id === 'cash' ? 'cash-agent' : agent.id === 'concierge' ? 'grace-agent' : 'executive-agent',
-          action: agent.id === 'cash' ? 'lead_qualification' : agent.id === 'concierge' ? 'customer_support' : 'email_prioritization',
+          agentId: `${agent.id}-agent`,
+          action: getAgentAction(agent.id),
           data: {
             user_input: demoInput,
             context: businessProfile,

@@ -153,21 +153,39 @@ class PipedreamIntegrationService {
     return {
       'cash-agent': {
         lead_qualification: process.env.PIPEDREAM_CASH_LEAD_WEBHOOK,
-        crm_sync: process.env.PIPEDREAM_CASH_CRM_WEBHOOK,
-        email_sequence: process.env.PIPEDREAM_CASH_EMAIL_WEBHOOK,
-        revenue_analysis: process.env.PIPEDREAM_CASH_ANALYTICS_WEBHOOK
+        sales_automation: process.env.PIPEDREAM_CASH_SALES_WEBHOOK,
+        revenue_analysis: process.env.PIPEDREAM_CASH_REVENUE_WEBHOOK,
+        crm_sync: process.env.PIPEDREAM_CASH_CRM_WEBHOOK
       },
       'grace-agent': {
         customer_support: process.env.PIPEDREAM_GRACE_SUPPORT_WEBHOOK,
-        sentiment_analysis: process.env.PIPEDREAM_GRACE_SENTIMENT_WEBHOOK,
+        live_chat: process.env.PIPEDREAM_GRACE_CHAT_WEBHOOK,
         ticket_routing: process.env.PIPEDREAM_GRACE_ROUTING_WEBHOOK,
-        knowledge_base: process.env.PIPEDREAM_GRACE_KB_WEBHOOK
+        sentiment_analysis: process.env.PIPEDREAM_GRACE_SENTIMENT_WEBHOOK
       },
-      'executive-agent': {
-        calendar_sync: process.env.PIPEDREAM_EXEC_CALENDAR_WEBHOOK,
-        email_prioritization: process.env.PIPEDREAM_EXEC_EMAIL_WEBHOOK,
-        meeting_scheduling: process.env.PIPEDREAM_EXEC_MEETING_WEBHOOK,
-        task_management: process.env.PIPEDREAM_EXEC_TASKS_WEBHOOK
+      'echo-agent': {
+        social_media_posting: process.env.PIPEDREAM_ECHO_POSTING_WEBHOOK,
+        content_scheduling: process.env.PIPEDREAM_ECHO_SCHEDULING_WEBHOOK,
+        engagement_tracking: process.env.PIPEDREAM_ECHO_ENGAGEMENT_WEBHOOK,
+        trend_analysis: process.env.PIPEDREAM_ECHO_TRENDS_WEBHOOK
+      },
+      'flow-agent': {
+        process_automation: process.env.PIPEDREAM_FLOW_PROCESS_WEBHOOK,
+        workflow_optimization: process.env.PIPEDREAM_FLOW_OPTIMIZATION_WEBHOOK,
+        task_routing: process.env.PIPEDREAM_FLOW_ROUTING_WEBHOOK,
+        integration_sync: process.env.PIPEDREAM_FLOW_INTEGRATION_WEBHOOK
+      },
+      'kairos-agent': {
+        project_management: process.env.PIPEDREAM_KAIROS_PM_WEBHOOK,
+        task_scheduling: process.env.PIPEDREAM_KAIROS_SCHEDULING_WEBHOOK,
+        team_coordination: process.env.PIPEDREAM_KAIROS_COORDINATION_WEBHOOK,
+        progress_tracking: process.env.PIPEDREAM_KAIROS_TRACKING_WEBHOOK
+      },
+      'sol-agent': {
+        ai_orchestration: process.env.PIPEDREAM_SOL_ORCHESTRATION_WEBHOOK,
+        agent_coordination: process.env.PIPEDREAM_SOL_COORDINATION_WEBHOOK,
+        system_optimization: process.env.PIPEDREAM_SOL_OPTIMIZATION_WEBHOOK,
+        harmony_analysis: process.env.PIPEDREAM_SOL_HARMONY_WEBHOOK
       }
     };
   }
