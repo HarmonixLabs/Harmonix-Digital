@@ -27,9 +27,12 @@ class PipedreamIntegrationService {
   private baseUrl = 'https://api.pipedream.com/v1';
   
   constructor() {
-    this.apiKey = process.env.PIPEDREAM_API_KEY || '';
+    // Use CLIENT_ID as API key if PIPEDREAM_API_KEY not available
+    this.apiKey = process.env.PIPEDREAM_API_KEY || process.env.PIPEDREAM_CLIENT_ID || '';
     if (!this.apiKey) {
       console.warn('PIPEDREAM_API_KEY not configured - Pipedream integration disabled');
+    } else {
+      console.log('Pipedream integration initialized');
     }
   }
 
