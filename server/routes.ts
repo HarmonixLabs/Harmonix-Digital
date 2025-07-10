@@ -13,6 +13,7 @@ import { healthCheck, readinessCheck } from "./health-check";
 import { corsMiddleware } from "./middleware/cors";
 import Stripe from "stripe";
 import { pipedreamIntegration } from "./services/pipedream-integration";
+import { generateEnhancedAgentResponse } from "./ai-enhancement-service";
 import { OAuth2Client } from 'google-auth-library';
 
 const JWT_SECRET = process.env.JWT_SECRET || "harmonix-secret-key";
@@ -1847,65 +1848,52 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: 'Unknown agent' });
       }
 
-      // Get relevant platform data based on user question
-      const platformData = await storage.searchPlatformData(data.message);
-      
-      // Create comprehensive context for AI response
-      const platformContext = {
-        services: platformData.services,
-        features: platformData.features,
-        metrics: platformData.metrics,
-        agentCapabilities: {
-          'cash-agent': 'Lead qualification, sales automation, CRM integration, revenue optimization',
-          'grace-agent': 'Customer support, issue resolution, satisfaction improvement, service automation',
-          'echo-agent': 'Social media management, content creation, engagement strategies, brand building',
-          'flow-agent': 'Process automation, workflow optimization, efficiency improvements, system integration',
-          'kairos-agent': 'Project management, timeline optimization, team coordination, deliverable tracking',
-          'sol-agent': 'AI orchestration, system coordination, strategic insights, multi-agent optimization'
-        }
-      };
-
-      // Use OpenAI to generate personalized response with platform data
+      // Generate enhanced AI response with GPT-4o using highest-level data
       try {
-        const contextualPrompt = `${agent.prompt}
+        const enhancedResponse = await generateEnhancedAgentResponse(
+          data.message,
+          agentId,
+          agent.prompt,
+          agent.role
+        );
 
-PLATFORM KNOWLEDGE:
-Services Available: ${JSON.stringify(platformData.services.map(s => ({
-  name: s.name,
-  description: s.description,
-  pricing: s.pricing,
-  benefits: s.benefits
-})))}
+        // Format the comprehensive response for display
+        const formattedResponse = `${enhancedResponse.mainResponse}
 
-Platform Features: ${JSON.stringify(platformData.features.map(f => ({
-  name: f.name,
-  description: f.description,
-  howItHelps: f.howItHelps
-})))}
+**Real Use Case:**
+${enhancedResponse.useCase.scenario}
 
-Success Metrics: ${JSON.stringify(platformData.metrics.map(m => ({
-  metric: m.metricName,
-  value: m.value,
-  description: m.description
-})))}
+**Challenge:** ${enhancedResponse.useCase.challenge}
+**Solution:** ${enhancedResponse.useCase.solution}
 
-User Question: "${data.message}"
+**Implementation Steps:**
+${enhancedResponse.useCase.implementation.map((step, i) => `${i + 1}. ${step}`).join('\n')}
 
-Instructions: Provide a specific, actionable response that:
-1. Directly addresses their question
-2. References specific platform services/features that solve their problem
-3. Includes relevant success metrics and ROI data
-4. Explains exactly how the platform supports their goals
-5. Gives concrete next steps they can take
+**Your Action Plan:**
 
-Respond as ${agent.name} with your expertise in ${platformContext.agentCapabilities[agentId as keyof typeof platformContext.agentCapabilities]}:`;
+🎯 **Immediate (Today):**
+${enhancedResponse.actionSteps.immediate.map(step => `• ${step}`).join('\n')}
 
-        const aiResponse = await processAgentTask({
-          prompt: contextualPrompt,
-          context: platformContext,
-          agentType: agent.role,
-          maxTokens: 300
-        });
+📈 **Short-term (30 days):**
+${enhancedResponse.actionSteps.shortTerm.map(step => `• ${step}`).join('\n')}
+
+🚀 **Long-term (90 days):**
+${enhancedResponse.actionSteps.longTerm.map(step => `• ${step}`).join('\n')}
+
+**Platform Integration:**
+${enhancedResponse.platformIntegration.recommendedServices.map(service => 
+  `• **${service.service}** - $${service.price.toLocaleString()} (${service.roi} ROI in ${service.timeline})`
+).join('\n')}
+
+**Expected Outcomes:**
+${enhancedResponse.platformIntegration.expectedOutcomes.map(outcome => `• ${outcome}`).join('\n')}
+
+**Success Metrics to Track:**
+${enhancedResponse.successMetrics.map(metric => 
+  `• **${metric.metric}**: From "${metric.baseline}" to "${metric.target}" in ${metric.timeframe}`
+).join('\n')}`;
+
+        const aiResponse = formattedResponse;
 
         // Execute the live workflow in the background (non-blocking)
         try {
@@ -1926,9 +1914,10 @@ Respond as ${agent.name} with your expertise in ${platformContext.agentCapabilit
         });
 
       } catch (aiError) {
-        console.error('AI processing failed:', aiError);
+        console.error('Enhanced AI processing failed:', aiError);
         
-        // Create data-driven fallback response
+        // Get platform data for fallback
+        const platformData = await storage.searchPlatformData(data.message);
         const relevantServices = platformData.services.slice(0, 2);
         const relevantMetrics = platformData.metrics.slice(0, 2);
         
