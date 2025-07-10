@@ -1857,54 +1857,104 @@ export async function registerRoutes(app: Express): Promise<Server> {
           agent.role
         );
 
-        // Format response with clarifying questions if needed
-        let formattedResponse = enhancedResponse.mainResponse;
+        // Format response with enhanced structure and readability
+        let formattedResponse = `# ${agent.name} Response
+
+## Executive Summary
+${enhancedResponse.mainResponse}
+
+---`;
 
         // Add clarifying questions section if agent needs more info
         if (enhancedResponse.needsMoreInfo && enhancedResponse.clarifyingQuestions?.length) {
           formattedResponse += `
 
-**To give you the most personalized recommendations, I'd like to know:**
-${enhancedResponse.clarifyingQuestions.map((q, i) => `${i + 1}. ${q}`).join('\n')}
+## 💭 Quick Questions for Better Recommendations
 
-Meanwhile, here's what I can recommend based on your current question:`;
+To provide you with the most targeted and effective solution, I'd like to understand:
+
+${enhancedResponse.clarifyingQuestions.map((q, i) => `**${i + 1}.** ${q}`).join('\n\n')}
+
+---
+
+## Immediate Recommendations
+
+Based on your current question, here's what I recommend:
+
+---`;
         }
 
-        // Add comprehensive details
+        // Add comprehensive details with enhanced formatting
         formattedResponse += `
 
-**Real Use Case:**
-${enhancedResponse.useCase.scenario}
+## 🎯 Real-World Use Case
 
-**Challenge:** ${enhancedResponse.useCase.challenge}
-**Solution:** ${enhancedResponse.useCase.solution}
+**Scenario:** ${enhancedResponse.useCase.scenario}
 
-**Implementation Steps:**
+**The Challenge You're Facing:**
+${enhancedResponse.useCase.challenge}
+
+**Our Solution:**
+${enhancedResponse.useCase.solution}
+
+**Step-by-Step Implementation:**
 ${enhancedResponse.useCase.implementation.map((step, i) => `${i + 1}. ${step}`).join('\n')}
 
-**Your Action Plan:**
+---
 
-🎯 **Immediate (Today):**
+## 📋 Your Strategic Action Plan
+
+### 🚀 **Take Action Today**
 ${enhancedResponse.actionSteps.immediate.map(step => `• ${step}`).join('\n')}
 
-📈 **Short-term (30 days):**
+### 📈 **30-Day Objectives**
 ${enhancedResponse.actionSteps.shortTerm.map(step => `• ${step}`).join('\n')}
 
-🚀 **Long-term (90 days):**
+### 🎯 **90-Day Goals**
 ${enhancedResponse.actionSteps.longTerm.map(step => `• ${step}`).join('\n')}
 
-**Platform Integration:**
+---
+
+## 🔧 Platform Integration & Investment
+
+### Recommended Services:
 ${enhancedResponse.platformIntegration.recommendedServices.map(service => 
-  `• **${service.service}** - $${service.price.toLocaleString()} (${service.roi} ROI in ${service.timeline})`
-).join('\n')}
+  `**${service.service}**
+   • Investment: $${service.price.toLocaleString()}
+   • Expected ROI: ${service.roi}
+   • Timeline: ${service.timeline}`
+).join('\n\n')}
 
-**Expected Outcomes:**
-${enhancedResponse.platformIntegration.expectedOutcomes.map(outcome => `• ${outcome}`).join('\n')}
+### Agent Workflow:
+${enhancedResponse.platformIntegration.agentWorkflow.map((workflow, i) => `${i + 1}. ${workflow}`).join('\n')}
 
-**Success Metrics to Track:**
+### Expected Business Outcomes:
+${enhancedResponse.platformIntegration.expectedOutcomes.map(outcome => `✅ ${outcome}`).join('\n')}
+
+---
+
+## 📊 Success Metrics & KPIs
+
+Track these key performance indicators to measure your progress:
+
 ${enhancedResponse.successMetrics.map(metric => 
-  `• **${metric.metric}**: From "${metric.baseline}" to "${metric.target}" in ${metric.timeframe}`
-).join('\n')}`;
+  `**${metric.metric}**
+   • Current State: ${metric.baseline}
+   • Target Goal: ${metric.target}
+   • Timeframe: ${metric.timeframe}`
+).join('\n\n')}
+
+---
+
+## 🤝 Next Steps
+
+Ready to move forward? Here's how to get started:
+
+1. **Schedule a Consultation**: Let's discuss your specific needs in detail
+2. **Platform Demo**: See exactly how our agents will work for your business
+3. **Implementation Planning**: Create a customized deployment strategy
+
+*This analysis is powered by our AI platform's comprehensive business intelligence and real-world success data.*`;
 
         const aiResponse = formattedResponse;
 
@@ -1934,23 +1984,47 @@ ${enhancedResponse.successMetrics.map(metric =>
         const relevantServices = platformData.services.slice(0, 2);
         const relevantMetrics = platformData.metrics.slice(0, 2);
         
-        const fallbackResponse = `Hello! I'm ${agent.name}, your ${agent.role}. 
+        const fallbackResponse = `# ${agent.name} Response
 
-Regarding your question: "${data.message}"
+## Executive Summary
+Hello! I'm ${agent.name}, your ${agent.role}. I'm here to help you with your question: "${data.message}"
 
-Based on our platform capabilities, I can help you with:
+---
+
+## 🛠️ Platform Capabilities
+
+Based on our comprehensive platform, here's how I can assist you:
 
 ${relevantServices.map(service => 
-  `• **${service.name}**: ${service.description.substring(0, 100)}... 
-    Starting at $${service.pricing.fullPayment.toLocaleString()}`
-).join('\n')}
+  `### ${service.name}
+   • **Description**: ${service.description.substring(0, 120)}...
+   • **Investment**: Starting at $${service.pricing.fullPayment.toLocaleString()}
+   • **Benefits**: Proven solution for businesses like yours`
+).join('\n\n')}
 
-Here's what our clients typically see:
+---
+
+## 📈 Proven Results
+
+Here's what our clients typically achieve:
+
 ${relevantMetrics.map(metric => 
-  `• ${metric.metricName}: ${metric.value} - ${metric.description}`
-).join('\n')}
+  `**${metric.metricName}**
+   • **Achievement**: ${metric.value}
+   • **Impact**: ${metric.description}`
+).join('\n\n')}
 
-Let me connect you with our platform for a detailed consultation. I can provide specific recommendations based on your exact needs.`;
+---
+
+## 🤝 Next Steps
+
+Ready to explore how our platform can specifically help your business?
+
+1. **Schedule a Consultation**: Let's discuss your unique needs in detail
+2. **Custom Analysis**: I'll provide targeted recommendations for your situation
+3. **Implementation Planning**: We'll create a roadmap tailored to your goals
+
+*Let me connect you with our platform for a detailed consultation where I can provide specific recommendations based on your exact requirements.*`;
         
         res.json({ 
           success: true,
