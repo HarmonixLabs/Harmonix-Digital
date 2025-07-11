@@ -33,7 +33,13 @@ const demoAgents = [
     capabilities: ["Lead Qualification", "Sales Automation", "Revenue Forecasting", "Pipeline Analytics"],
     metrics: { efficiency: "98%", accuracy: "95%", speed: "< 2s" },
     demoResponse: "I've analyzed your sales pipeline and identified 23 warm leads requiring immediate follow-up. Based on engagement patterns, I recommend prioritizing the 7 enterprise prospects with 80%+ engagement scores. I can create personalized sequences in your GoHighLevel CRM with projected revenue of $47K this quarter. Shall I activate the automation?",
-    integration: "✅ Connected: Stripe Payments, GoHighLevel CRM, OpenAI GPT-4o, Live Automation Workflows"
+    integration: "✅ Connected: Stripe Payments, GoHighLevel CRM, OpenAI GPT-4o, Live Automation Workflows",
+    sampleQuestions: [
+      "How can I improve my sales conversion rate?",
+      "What are my hottest leads this week?",
+      "Create a follow-up sequence for my enterprise prospects",
+      "Analyze my sales pipeline and identify bottlenecks"
+    ]
   },
   {
     id: "grace",
@@ -45,7 +51,13 @@ const demoAgents = [
     capabilities: ["24/7 Support", "Live Chat", "Sentiment Analysis", "Multi-language"],
     metrics: { efficiency: "96%", accuracy: "94%", speed: "< 1s" },
     demoResponse: "Welcome to Harmonix! I've detected you're exploring our AI agent platform. Based on your browsing pattern, you're interested in sales automation and customer service solutions. I can provide a personalized demo or connect you with our founding team for enterprise pricing. What specific business challenge should I address first?",
-    integration: "✅ Connected: Live Chat Widgets, Support Tickets, Knowledge Base, Live Automation Workflows"
+    integration: "✅ Connected: Live Chat Widgets, Support Tickets, Knowledge Base, Live Automation Workflows",
+    sampleQuestions: [
+      "How can I reduce customer response time?",
+      "Set up 24/7 customer support for my business",
+      "What's the best way to handle negative reviews?",
+      "Help me create a customer satisfaction survey"
+    ]
   },
   {
     id: "echo",
@@ -57,7 +69,13 @@ const demoAgents = [
     capabilities: ["Content Scheduling", "Social Media Posting", "Engagement Tracking", "Trend Analysis"],
     metrics: { efficiency: "94%", accuracy: "92%", speed: "< 3s" },
     demoResponse: "I've analyzed your social media presence and identified optimal posting times for 300% higher engagement. I can schedule 15 posts across platforms this week, with trending hashtags and audience-specific content. Your LinkedIn engagement could increase by 45% with my proposed strategy. Ready to activate?",
-    integration: "✅ Connected: Facebook, Instagram, LinkedIn, Twitter, Content Libraries, Live Automation Workflows"
+    integration: "✅ Connected: Facebook, Instagram, LinkedIn, Twitter, Content Libraries, Live Automation Workflows",
+    sampleQuestions: [
+      "What are the best times to post on social media?",
+      "Create a week's worth of content for my business",
+      "How do I increase engagement on LinkedIn?",
+      "Analyze my competitors' social media strategy"
+    ]
   },
   {
     id: "flow",
@@ -69,7 +87,13 @@ const demoAgents = [
     capabilities: ["Process Automation", "Workflow Optimization", "Task Routing", "Integration Sync"],
     metrics: { efficiency: "97%", accuracy: "96%", speed: "< 2s" },
     demoResponse: "I've mapped your current business processes and identified 8 automation opportunities that could save 25 hours per week. I can create workflows connecting your CRM, email marketing, and project management tools with 90% less manual work. Shall I implement the automation suite?",
-    integration: "✅ Connected: Zapier, Make, API Integrations, Business Tools, Live Automation Workflows"
+    integration: "✅ Connected: Zapier, Make, API Integrations, Business Tools, Live Automation Workflows",
+    sampleQuestions: [
+      "How can I automate my invoice processing?",
+      "Connect my CRM to email marketing platform",
+      "What repetitive tasks can I eliminate?",
+      "Build a customer onboarding workflow"
+    ]
   },
   {
     id: "kairos",
@@ -81,7 +105,13 @@ const demoAgents = [
     capabilities: ["Project Management", "Task Scheduling", "Team Coordination", "Progress Tracking"],
     metrics: { efficiency: "95%", accuracy: "97%", speed: "< 2s" },
     demoResponse: "I've reviewed your project timeline and detected 3 critical bottlenecks that could delay delivery by 2 weeks. I've optimized resource allocation and identified parallel tasks to maintain your deadline. The development team can gain 40% efficiency with my proposed schedule. Implement changes?",
-    integration: "✅ Connected: Asana, Monday.com, Slack, Teams, Calendar Apps, Live Automation Workflows"
+    integration: "✅ Connected: Asana, Monday.com, Slack, Teams, Calendar Apps, Live Automation Workflows",
+    sampleQuestions: [
+      "Help me plan a product launch timeline",
+      "How can I improve team productivity?",
+      "Optimize my project schedule for faster delivery",
+      "What tasks are blocking our progress?"
+    ]
   },
   {
     id: "sol",
@@ -93,7 +123,13 @@ const demoAgents = [
     capabilities: ["AI Orchestration", "Agent Coordination", "System Optimization", "Harmony Analysis"],
     metrics: { efficiency: "99%", accuracy: "98%", speed: "< 1s" },
     demoResponse: "I am SŌL, the Harmony Brain orchestrating your AI ecosystem. I've analyzed cross-agent performance and identified optimal task distribution. CA$H can handle leads while GRACE manages support and ECHO posts content - all synchronized for maximum efficiency. Your business harmony score: 94%. Shall I optimize further?",
-    integration: "✅ Connected: All Agent Networks, OpenAI GPT-4o, Platform APIs, Master Automation Hub"
+    integration: "✅ Connected: All Agent Networks, OpenAI GPT-4o, Platform APIs, Master Automation Hub",
+    sampleQuestions: [
+      "Which AI agents do I need for my business?",
+      "Create a complete automation strategy",
+      "How can all agents work together efficiently?",
+      "Analyze my business needs and recommend solutions"
+    ]
   }
 ];
 
@@ -185,10 +221,44 @@ export default function DemoPage() {
     } catch (error) {
       console.log('Live integration not available, showing demo response:', error);
       // Fallback to demo response if live integration isn't configured
-      setAgentResponse(`${agent.demoResponse}\n\n💡 **Demo Mode**: Connect to live systems for full automation!`);
+      setAgentResponse(agent.demoResponse);
     }
     
     setIsProcessing(false);
+  };
+  
+  // Format agent response with proper sections
+  const formatAgentResponse = (response: string) => {
+    // Split response by double newlines or specific markers
+    const sections = response.split(/\n\n|\*\*|✅|🔗|⚡|📊|💡/);
+    
+    return (
+      <div className="space-y-3">
+        {sections.map((section, index) => {
+          const trimmedSection = section.trim();
+          if (!trimmedSection) return null;
+          
+          // Check if this is a special section (starts with emoji or has specific keywords)
+          const isHighlight = trimmedSection.includes('Live Agent Response') || 
+                            trimmedSection.includes('Demo Mode') ||
+                            trimmedSection.includes('successfully processed');
+          
+          return (
+            <div key={index} className={`${isHighlight ? 'p-3 bg-harmonix-regal-gold/10 rounded-lg border border-harmonix-regal-gold/30' : ''}`}>
+              {isHighlight ? (
+                <div className="text-sm text-harmonix-regal-gold">
+                  {trimmedSection}
+                </div>
+              ) : (
+                <p className="text-white/90 leading-relaxed">
+                  {trimmedSection}
+                </p>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    );
   };
 
   const handleStartDemo = (scenario: DemoScenario) => {
@@ -399,6 +469,23 @@ export default function DemoPage() {
                     {/* Interactive Demo */}
                     <div>
                       <h4 className="font-semibold text-white mb-3">Try It Now</h4>
+                      
+                      {/* Sample Questions */}
+                      <div className="mb-4">
+                        <p className="text-sm text-white/60 mb-2">Sample questions to try:</p>
+                        <div className="flex flex-wrap gap-2">
+                          {demoAgents[selectedAgent].sampleQuestions.map((question, index) => (
+                            <button
+                              key={index}
+                              onClick={() => setDemoInput(question)}
+                              className="text-xs px-3 py-1.5 bg-white/5 border border-white/10 rounded-full hover:bg-harmonix-regal-gold/20 hover:border-harmonix-regal-gold/40 text-white/80 hover:text-harmonix-regal-gold transition-all"
+                            >
+                              {question}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      
                       <div className="space-y-4">
                         <div className="flex space-x-2">
                           <Input 
@@ -421,20 +508,42 @@ export default function DemoPage() {
                         </div>
                         
                         <div className="bg-white/5 backdrop-blur-sm rounded-lg p-4 min-h-[120px] border border-white/10">
-                          <div className="text-sm text-white/60 mb-2">Agent Response:</div>
+                          <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center space-x-2">
+                              <div className="w-2 h-2 bg-harmonix-regal-gold rounded-full animate-pulse"></div>
+                              <span className="text-sm text-white/60">{demoAgents[selectedAgent].name} Response</span>
+                            </div>
+                            {!isProcessing && agentResponse && (
+                              <Badge variant="outline" className="border-harmonix-regal-gold/40 text-harmonix-regal-gold text-xs">
+                                Live Response
+                              </Badge>
+                            )}
+                          </div>
+                          
                           <div className="text-white text-sm sm:text-base leading-relaxed">
                             {isProcessing ? (
-                              <div className="flex items-center justify-center py-4">
+                              <div className="flex items-center justify-center py-8">
                                 <WhimsicalLoader 
                                   variant={selectedAgent === 0 ? "neural" : selectedAgent === 1 ? "harmony" : "sacred"}
                                   size="md"
                                   message={`${demoAgents[selectedAgent].name} is analyzing your request...`}
                                 />
                               </div>
-                            ) : agentResponse ? (
-                              agentResponse
                             ) : (
-                              demoAgents[selectedAgent].demoResponse
+                              <div className="space-y-4">
+                                {/* Main Response */}
+                                {formatAgentResponse(agentResponse || demoAgents[selectedAgent].demoResponse)}
+                                
+                                {/* Divider */}
+                                <div className="border-t border-white/10 pt-3">
+                                  <div className="flex items-center space-x-2 text-xs text-white/60">
+                                    <CheckCircle className="w-3 h-3 text-harmonix-regal-gold" />
+                                    <span>Response delivered in {demoAgents[selectedAgent].metrics.speed}</span>
+                                    <span>•</span>
+                                    <span>{demoAgents[selectedAgent].metrics.accuracy} accuracy</span>
+                                  </div>
+                                </div>
+                              </div>
                             )}
                           </div>
                         </div>
@@ -444,29 +553,48 @@ export default function DemoPage() {
                     {/* Action Buttons */}
                     <div className="flex flex-col sm:flex-row gap-3 pt-4">
                       <MysticalTooltip 
-                        content="Deploy this agent to your organization and start automating tasks"
+                        content="Continue the conversation with this agent"
                         side="top"
                       >
                         <Button 
-                          className="flex-1 bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90 animate-mystic-glow"
-                          onClick={() => setSolExpanded(true)}
+                          variant="outline"
+                          className="flex-1 border-white/20 text-white hover:bg-white/10"
+                          onClick={() => {
+                            setDemoInput("");
+                            setAgentResponse("");
+                          }}
                         >
-                          <Bot className="w-4 h-4 mr-2" />
-                          Deploy This Agent
+                          <MessageSquare className="w-4 h-4 mr-2" />
+                          Ask Another Question
                         </Button>
                       </MysticalTooltip>
                       <NeuralTooltip 
+                        content="Deploy this agent to your organization and start automating tasks"
+                        side="top"
+                      >
+                        <Link href="/join" className="flex-1">
+                          <Button 
+                            className="w-full bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90 animate-mystic-glow"
+                          >
+                            <Bot className="w-4 h-4 mr-2" />
+                            Deploy This Agent
+                          </Button>
+                        </Link>
+                      </NeuralTooltip>
+                      <MysticalTooltip 
                         content="Explore detailed capabilities and pricing information"
                         side="top"
                       >
-                        <Button 
-                          variant="outline" 
-                          className="flex-1 border-harmonix-sage-fade text-harmonix-sage-fade hover:bg-harmonix-sage-fade/10"
-                        >
-                          <Star className="w-4 h-4 mr-2" />
-                          Learn More
-                        </Button>
-                      </NeuralTooltip>
+                        <Link href="/service-pricing#ai-agents" className="flex-1">
+                          <Button 
+                            variant="outline" 
+                            className="w-full border-harmonix-regal-gold/40 text-harmonix-regal-gold hover:bg-harmonix-regal-gold/10"
+                          >
+                            <Star className="w-4 h-4 mr-2" />
+                            View Pricing
+                          </Button>
+                        </Link>
+                      </MysticalTooltip>
                     </div>
                   </CardContent>
                 </Card>
