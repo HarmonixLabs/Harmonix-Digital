@@ -23,7 +23,7 @@ export function Footer() {
     { href: "/case-studies", label: "Case Studies" },
     { href: "/demo", label: "Demo" },
     { href: "/dashboard/roi", label: "ROI Calculator" },
-    { href: "/harmony-waitlist", label: "Join Waitlist" },
+    { href: "/join", label: "Join Harmonix" },
     { href: "/contact", label: "Contact" },
     { href: "/careers", label: "Careers" },
     { href: "/system-health", label: "System Health" },

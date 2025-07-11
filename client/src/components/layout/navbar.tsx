@@ -46,7 +46,7 @@ export function Navbar() {
     { href: "/service-pricing", label: "Pricing" },
     { href: "/dashboard/roi", label: "ROI Calculator" },
     { href: "/demo", label: "Demo" },
-    { href: "/harmony-waitlist", label: "Join Waitlist" },
+    { href: "/join", label: "Join Harmonix" },
     { href: "/case-studies", label: "Success Stories" },
     { href: "/faq", label: "FAQ" },
   ];
@@ -193,15 +193,13 @@ export function Navbar() {
                 >
                   Sign In
                 </Button>
-                <Button 
-                  className="bg-harmonix-gold hover:bg-harmonix-gold/90 text-deep-space-black"
-                  onClick={() => {
-                    setAuthModalTab('signup');
-                    setShowAuthModal(true);
-                  }}
-                >
-                  Pay 30% Deposit & Get 15% Off, Priority Access
-                </Button>
+                <Link href="/join">
+                  <Button 
+                    className="bg-harmonix-gold hover:bg-harmonix-gold/90 text-deep-space-black"
+                  >
+                    Join Now - Early Access
+                  </Button>
+                </Link>
               </div>
             )}
 

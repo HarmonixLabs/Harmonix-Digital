@@ -16,6 +16,7 @@ import EnhancedMarketplace from "@/pages/marketplace/EnhancedMarketplace";
 import Harmony from "@/pages/harmony";
 // Standardized to sol-brain route
 import Join from "@/pages/join";
+import UnifiedJoin from "@/pages/unified-join";
 import FAQ from "@/pages/faq";
 import CaseStudies from "@/pages/case-studies";
 import DemoDeploy from "@/pages/demo-deploy";
@@ -60,8 +61,10 @@ function Router() {
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/harmony" component={Harmony} />
-          {/* Standardized to /sol-brain - see sol-brain.tsx */}
-          <Route path="/join" component={Join} />
+          {/* Unified Join Page - combines all entry points */}
+          <Route path="/join" component={UnifiedJoin} />
+          {/* Legacy pages redirect to unified join */}
+          <Route path="/join-legacy" component={Join} />
           <Route path="/faq" component={FAQ} />
           <Route path="/case-studies" component={CaseStudies} />
           <Route path="/demo-deploy" component={DemoDeploy} />
