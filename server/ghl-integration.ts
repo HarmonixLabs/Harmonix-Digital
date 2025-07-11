@@ -249,3 +249,36 @@ class GHLIntegrationService {
 }
 
 export const ghlIntegration = new GHLIntegrationService();
+
+/**
+ * Convenience function to send contact data to GHL
+ * This is a wrapper around the ghlIntegration.createContact method
+ */
+export async function sendToGHL(contactData: {
+  email: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  companyName?: string;
+  source?: string;
+  tags?: string[];
+  customFields?: Record<string, any>;
+}): Promise<GHLResponse> {
+  // Extract first and last name from email if not provided
+  const emailLocalPart = contactData.email.split('@')[0];
+  const firstName = contactData.firstName || emailLocalPart;
+  const lastName = contactData.lastName || '';
+
+  const ghlContactData: GHLContact = {
+    firstName,
+    lastName,
+    email: contactData.email,
+    phone: contactData.phone,
+    companyName: contactData.companyName,
+    source: contactData.source,
+    tags: contactData.tags,
+    customFields: contactData.customFields
+  };
+
+  return await ghlIntegration.createContact(ghlContactData);
+}
