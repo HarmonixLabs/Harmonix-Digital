@@ -1,0 +1,111 @@
+Absolutely. Here’s a fully copy-pasteable execution-ready prompt for Riplet (or any dev using Replit) to enhance and upgrade the Agent Demo UI/UX system for Harmony’s platform — integrating discovery → strategy → execution flows in a smooth chat + agent selector UI.
+
+⸻
+
+🧠 Prompt for Riplet: Agent Demo UX Enhancement + Execution Logic Integration
+
+Objective:
+Upgrade the Agent Demo Section and chat widget interface so users can experience the agents across 3 distinct modes:
+	1.	Discovery – Learning the user’s context
+	2.	Strategy – Delivering a personalized gameplan
+	3.	Execution – Triggering the next step (waitlist, reserve, or purchase)
+
+⸻
+
+✅ 1. DEMO CHAT UI – INTERFACE UPGRADE
+
+UI Enhancements:
+	•	🧭 Add a top banner above the chat:
+“You're chatting with [Agent Name] in Discovery Mode → Strategy Mode → Execution Mode.”
+	•	💬 Enable dropdown menu on the chat widget to switch between agents instantly.
+	•	🔄 Keep active memory in chat when switching between agents. (Use local storage/session context.)
+	•	🖼 Agent Avatar visible beside each message bubble with hoverable Agent Card Preview.
+	•	🧠 Add top-right badge that says:
+	•	“Mode: Discovery”
+	•	Then animates to: “Mode: Strategy”
+	•	Then: “Mode: Execution”
+
+⸻
+
+✅ 2. CHAT LOGIC – 3-MODE WORKFLOW FLOW
+
+DISCOVERY MODE (Default Start State):
+
+Purpose: Ask context-building questions and qualify the lead.
+
+Agent behavior:
+	•	2–3 natural language prompts like:
+	•	“Tell me about your current goals.”
+	•	“What are your biggest roadblocks?”
+	•	“What’s your timeline or urgency?”
+	•	Once data collected → pass context into agent memory and upgrade to strategy mode.
+
+UI:
+	•	Tag “Discovery Complete ✅” → Transition to Strategy Mode
+
+⸻
+
+STRATEGY MODE:
+
+Purpose: Output tailored strategic blueprint based on Discovery data.
+
+Agent behavior:
+	•	Suggests a 3–step or 5–step gameplan
+	•	Highlights tools/automations it would use if deployed
+	•	Shows estimated ROI/impact if executed
+
+User sees:
+✅ Gameplan visual (simple card UI)
+✅ Summary list of strategy steps
+✅ Prompt: “Do you want to move to Execution Mode?”
+
+Button: Yes, Let’s Execute 🚀
+
+⸻
+
+EXECUTION MODE:
+
+Purpose: Convert curiosity into commitment.
+
+3 Call-To-Action buttons:
+	•	🔒 Join Waitlist → Collect email + confirmation → trigger HarmonyEmailBot
+	•	💎 Reserve My Spot → Go to Stripe checkout flow
+	•	⚙️ Pick a Plan → Modal with tier options (1 Agent, 3, 6, Full Suite)
+
+After action, response:
+
+“Thanks for confirming! You’ll receive your execution strategy + next steps by email. You can upgrade or schedule a setup call at any time.”
+
+⸻
+
+✅ 3. SYSTEM FEATURES & ENHANCEMENTS
+	•	🌐 Logged Out Users: Can explore agents in demo → Execution mode requires login/signup. Auto redirect if needed.
+	•	📈 Log Agent Interactions: Update demo usage count + collect usage stats per agent (for dashboard + NFT stats).
+	•	🧩 Waitlist API: POST email + agentName + timestamp to waitlist_harmony.db
+	•	🔔 Slack Alert: Notify team in #demo_signups when someone finishes execution mode (agent, email, selected option)
+	•	🛡 Error Handling: If API call fails, show:
+“Something went wrong. Please try again or contact support.”
+
+⸻
+
+🧠 PROMPT TO RIPLET
+
+“Riplet, you are tasked with enhancing the Harmony platform’s Agent Demo Interface. Please implement the following:
+
+	1.	A 3-mode UI/UX flow inside the agent chat widget: Discovery → Strategy → Execution
+	2.	Dynamic behavior for each agent demo (use existing GPT/Pipedream agents)
+	3.	Enhanced UI to switch between agents, see current mode, and view their profile card
+	4.	Execution Mode must trigger one of three final actions:
+	•	Join Waitlist (email)
+	•	Reserve Spot (Stripe checkout)
+	•	Pick a Plan (modal options)
+
+Ensure all interaction data syncs to Harmony’s analytics engine, updates usage stats per agent, and sends Slack alerts for qualified demos.
+
+If user is not logged in, prompt login modal before allowing execution.
+
+Please match branding and UX quality seen in GoHighLevel, ChatGPT, and V7Labs for modern SaaS interfaces.
+
+Once complete, push to staging for QA testing and final agent walkthrough.”
+
+⸻

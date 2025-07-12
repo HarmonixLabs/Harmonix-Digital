@@ -18,7 +18,8 @@ import {
   DollarSign,
   Calendar,
   Target,
-  Users
+  Users,
+  Settings
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -336,13 +337,85 @@ export function InteractiveAgentChat({ agent, businessProfile, className }: Inte
     window.location.href = `/pricing?agent=${agent.id}&upgrade=true`;
   };
 
+  const handleJoinWaitlist = (message: ChatMessage) => {
+    // Log the demo interaction
+    logDemoInteraction('waitlist', message);
+    
+    toast({
+      title: "Joining Waitlist",
+      description: "You'll receive updates and early access notifications",
+      variant: "default"
+    });
+    
+    window.location.href = `/signup?source=demo&agent=${agent.id}&action=waitlist`;
+  };
+
+  const handlePickPlan = (message: ChatMessage) => {
+    // Log the demo interaction
+    logDemoInteraction('pick_plan', message);
+    
+    toast({
+      title: "Exploring Plans",
+      description: "Choose the perfect package for your needs",
+      variant: "default"
+    });
+    
+    window.location.href = `/pricing?agent=${agent.id}&demo=true&context=${encodeURIComponent(message.content)}`;
+  };
+
+  const logDemoInteraction = async (action: string, message: ChatMessage) => {
+    try {
+      // Log demo usage statistics
+      await fetch('/api/demo/log', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          agentId: agent.id,
+          agentName: agent.name,
+          action,
+          conversationPhase,
+          messageCount: messages.length,
+          userContext: businessProfile,
+          timestamp: new Date().toISOString()
+        })
+      });
+    } catch (error) {
+      console.log('Demo tracking error:', error);
+    }
+  };
+
   return (
     <Card className={cn("bg-white/10 backdrop-blur-sm border-white/20", className)}>
+      {/* Top Banner with Mode Indicator */}
+      <div className="bg-gradient-to-r from-harmonix-regal-gold/20 to-harmonix-sage-fade/20 p-3 border-b border-white/20">
+        <div className="flex items-center justify-between">
+          <div className="text-sm text-white">
+            🧭 You're chatting with <span className="font-semibold text-harmonix-regal-gold">{agent.name}</span> in{' '}
+            <span className={cn(
+              "font-semibold",
+              conversationPhase === 'discovery' && "text-blue-400",
+              conversationPhase === 'strategy' && "text-yellow-400", 
+              conversationPhase === 'execution' && "text-green-400"
+            )}>
+              {conversationPhase.charAt(0).toUpperCase() + conversationPhase.slice(1)} Mode
+            </span>
+          </div>
+          <div className={cn(
+            "px-3 py-1 rounded-full text-xs font-medium",
+            conversationPhase === 'discovery' && "bg-blue-400/20 text-blue-400",
+            conversationPhase === 'strategy' && "bg-yellow-400/20 text-yellow-400",
+            conversationPhase === 'execution' && "bg-green-400/20 text-green-400"
+          )}>
+            Mode: {conversationPhase.charAt(0).toUpperCase() + conversationPhase.slice(1)}
+          </div>
+        </div>
+      </div>
+
       <CardHeader>
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-lg bg-harmonix-regal-gold/30 flex items-center justify-center">
-              {React.createElement(agent.icon, { className: "w-6 h-6 text-harmonix-regal-gold" })}
+            <div className="w-12 h-12 rounded-lg bg-harmonix-regal-gold/30 flex items-center justify-center border border-harmonix-regal-gold/40">
+              {React.createElement(agent.icon, { className: "w-7 h-7 text-harmonix-regal-gold" })}
             </div>
             <div>
               <CardTitle className="text-harmonix-regal-gold text-lg">
@@ -352,21 +425,20 @@ export function InteractiveAgentChat({ agent, businessProfile, className }: Inte
             </div>
           </div>
           <div className="flex items-center space-x-4">
-            {/* Conversation Phase Indicator */}
+            {/* 3-Mode Progress Indicator */}
             <div className="flex items-center space-x-2">
               <div className={cn(
-                "w-2 h-2 rounded-full",
-                conversationPhase === 'discovery' ? 'bg-blue-400 animate-pulse' : 'bg-white/30'
+                "w-3 h-3 rounded-full border-2",
+                conversationPhase === 'discovery' ? 'bg-blue-400 border-blue-400 animate-pulse' : 'bg-white/20 border-white/30'
               )}></div>
               <div className={cn(
-                "w-2 h-2 rounded-full",
-                conversationPhase === 'strategy' ? 'bg-yellow-400 animate-pulse' : 'bg-white/30'
+                "w-3 h-3 rounded-full border-2",
+                conversationPhase === 'strategy' ? 'bg-yellow-400 border-yellow-400 animate-pulse' : 'bg-white/20 border-white/30'
               )}></div>
               <div className={cn(
-                "w-2 h-2 rounded-full",
-                conversationPhase === 'execution' ? 'bg-green-400 animate-pulse' : 'bg-white/30'
+                "w-3 h-3 rounded-full border-2",
+                conversationPhase === 'execution' ? 'bg-green-400 border-green-400 animate-pulse' : 'bg-white/20 border-white/30'
               )}></div>
-              <span className="text-xs text-white/60 capitalize">{conversationPhase}</span>
             </div>
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
@@ -413,20 +485,43 @@ export function InteractiveAgentChat({ agent, businessProfile, className }: Inte
                 message.type === 'user' ? 'justify-end' : 'justify-start'
               )}
             >
+              {/* Agent Avatar */}
+              {message.type === 'agent' && (
+                <div className="flex-shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-harmonix-regal-gold/30 flex items-center justify-center border border-harmonix-regal-gold/40">
+                    {React.createElement(agent.icon, { className: "w-4 h-4 text-harmonix-regal-gold" })}
+                  </div>
+                </div>
+              )}
+
               <div className={cn(
-                "max-w-[80%] rounded-lg p-3",
+                "max-w-[75%] rounded-lg",
                 message.type === 'user' 
-                  ? 'bg-harmonix-regal-gold text-harmonix-deep-forest ml-auto' 
+                  ? 'bg-harmonix-regal-gold text-harmonix-deep-forest ml-auto p-3' 
                   : 'bg-white/10 text-white'
               )}>
                 {message.type === 'agent' && (
-                  <div className="flex items-center gap-2 mb-2">
-                    <Bot className="w-4 h-4 text-harmonix-regal-gold" />
+                  <div className="flex items-center gap-2 mb-2 px-3 pt-3">
                     <span className="text-xs text-harmonix-regal-gold font-medium">
                       {message.agentName}
                     </span>
+                    <div className={cn(
+                      "text-xs px-2 py-0.5 rounded-full",
+                      conversationPhase === 'discovery' && "bg-blue-400/20 text-blue-400",
+                      conversationPhase === 'strategy' && "bg-yellow-400/20 text-yellow-400",
+                      conversationPhase === 'execution' && "bg-green-400/20 text-green-400"
+                    )}>
+                      {conversationPhase}
+                    </div>
                   </div>
                 )}
+                
+                <div className={cn(
+                  "text-sm whitespace-pre-line",
+                  message.type === 'agent' ? 'px-3 pb-3' : ''
+                )}>
+                  {message.content}
+                </div>
                 
                 <div className="text-sm whitespace-pre-line">
                   {message.content}
@@ -489,58 +584,79 @@ export function InteractiveAgentChat({ agent, businessProfile, className }: Inte
                   </div>
                 )}
 
-                {/* Execution Buttons */}
-                {message.canExecute && (
-                  <div className="mt-4 space-y-2">
-                    <div className="flex flex-wrap gap-2">
-                      {message.requiresAuth ? (
-                        <>
-                          <Button
-                            size="sm"
-                            onClick={handleReserveSpot}
-                            className="bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90"
-                          >
-                            <Crown className="w-4 h-4 mr-1" />
-                            Reserve Spot ($444)
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => window.location.href = '/signup'}
-                            className="border-white/30 text-white hover:bg-white/10"
-                          >
-                            <Users className="w-4 h-4 mr-1" />
-                            Join Waitlist (Free)
-                          </Button>
-                        </>
-                      ) : (
-                        <Button
-                          size="sm"
-                          onClick={() => handleExecutePlan(message)}
-                          className="bg-green-600 hover:bg-green-700 text-white"
-                        >
-                          <Rocket className="w-4 h-4 mr-1" />
-                          Execute This Plan
-                        </Button>
-                      )}
-                      
+                {/* Strategy Completion Badge */}
+                {conversationPhase === 'strategy' && message.type === 'agent' && (
+                  <div className="mt-4 px-3 pb-3">
+                    <div className="bg-green-400/20 border border-green-400/40 rounded-lg p-3">
+                      <div className="flex items-center gap-2 mb-2">
+                        <CheckCircle className="w-4 h-4 text-green-400" />
+                        <span className="text-sm font-medium text-green-400">Strategy Complete</span>
+                      </div>
+                      <p className="text-xs text-white/80 mb-3">
+                        Ready to move to execution mode and take action on this strategy?
+                      </p>
                       <Button
                         size="sm"
-                        variant="outline"
-                        onClick={handleUpgrade}
-                        className="border-harmonix-regal-gold text-harmonix-regal-gold hover:bg-harmonix-regal-gold/10"
+                        onClick={() => setConversationPhase('execution')}
+                        className="bg-green-600 hover:bg-green-700 text-white w-full"
                       >
-                        <ArrowRight className="w-4 h-4 mr-1" />
-                        View Packages
+                        <Rocket className="w-4 h-4 mr-2" />
+                        Yes, Let's Execute 🚀
                       </Button>
                     </div>
-                    
-                    <p className="text-xs text-white/60">
-                      {message.requiresAuth 
-                        ? "Sign up to deploy this strategy in your dashboard"
-                        : "Deploy this plan to your live dashboard with one click"
-                      }
-                    </p>
+                  </div>
+                )}
+
+                {/* Execution Mode - Three CTA Options */}
+                {conversationPhase === 'execution' && message.canExecute && (
+                  <div className="mt-4 px-3 pb-3">
+                    <div className="bg-gradient-to-r from-harmonix-regal-gold/20 to-harmonix-sage-fade/20 border border-harmonix-regal-gold/40 rounded-lg p-4">
+                      <h4 className="text-sm font-semibold text-harmonix-regal-gold mb-3 flex items-center gap-2">
+                        <Target className="w-4 h-4" />
+                        Ready to Execute? Choose Your Next Step:
+                      </h4>
+                      
+                      <div className="space-y-3">
+                        {/* Join Waitlist */}
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleJoinWaitlist(message)}
+                          className="w-full justify-start border-blue-400/40 text-blue-400 hover:bg-blue-400/10"
+                        >
+                          <Users className="w-4 h-4 mr-2" />
+                          🔒 Join Waitlist
+                          <span className="ml-auto text-xs opacity-70">Free • Get Updates</span>
+                        </Button>
+
+                        {/* Reserve Spot */}
+                        <Button
+                          size="sm"
+                          onClick={handleReserveSpot}
+                          className="w-full justify-start bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90"
+                        >
+                          <Crown className="w-4 h-4 mr-2" />
+                          💎 Reserve My Spot
+                          <span className="ml-auto text-xs opacity-80">$444 • Priority Access</span>
+                        </Button>
+
+                        {/* Pick a Plan */}
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handlePickPlan(message)}
+                          className="w-full justify-start border-harmonix-regal-gold/40 text-harmonix-regal-gold hover:bg-harmonix-regal-gold/10"
+                        >
+                          <Settings className="w-4 h-4 mr-2" />
+                          ⚙️ Pick a Plan
+                          <span className="ml-auto text-xs opacity-70">Custom • Full Setup</span>
+                        </Button>
+                      </div>
+                      
+                      <p className="text-xs text-white/60 mt-3 text-center">
+                        Choose your commitment level to get started with {agent.name}
+                      </p>
+                    </div>
                   </div>
                 )}
               </div>

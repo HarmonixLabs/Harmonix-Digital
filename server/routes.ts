@@ -61,6 +61,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Health check endpoints
   app.get('/health', healthCheck);
   app.get('/health/ready', readinessCheck);
+
+  // Demo interaction logging
+  app.post('/api/demo/log', async (req, res) => {
+    try {
+      const { agentId, agentName, action, conversationPhase, messageCount, userContext, timestamp } = req.body;
+      
+      // Log demo interaction for analytics
+      console.log('Demo Interaction:', {
+        agentId,
+        agentName,
+        action,
+        conversationPhase,
+        messageCount,
+        timestamp
+      });
+
+      // Send Slack notification for qualified demos (execution actions)
+      if (action === 'waitlist' || action === 'reserve_spot' || action === 'pick_plan') {
+        console.log(`🎯 Demo Conversion: ${agentName} - ${action} - ${conversationPhase}`);
+      }
+
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Demo logging error:', error);
+      res.status(500).json({ error: 'Failed to log demo interaction' });
+    }
+  });
   
   // WebSocket setup for real-time updates with connection management
   const wss = new WebSocketServer({ 
