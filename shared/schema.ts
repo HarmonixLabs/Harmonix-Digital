@@ -17,6 +17,12 @@ export const users = pgTable("users", {
   tokenBalance: integer("token_balance").notNull().default(0),
   onboardingCompleted: boolean("onboarding_completed").default(false),
   onboardingData: text("onboarding_data"),
+  // Stripe integration fields
+  stripeCustomerId: text("stripe_customer_id"),
+  stripeSubscriptionId: text("stripe_subscription_id"),
+  subscriptionStatus: text("subscription_status"), // active, canceled, past_due, etc.
+  subscriptionTier: text("subscription_tier"), // starter, growth, expansion, enterprise
+  paymentStatus: text("payment_status"), // paid, pending, failed
   // Referral system fields
   referralId: text("referral_id").unique(), // Unique referral code for this user
   referredBy: integer("referred_by").references(() => users.id), // Who referred this user

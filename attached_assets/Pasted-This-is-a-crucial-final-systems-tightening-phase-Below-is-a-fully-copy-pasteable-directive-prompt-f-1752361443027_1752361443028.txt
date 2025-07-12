@@ -1,0 +1,139 @@
+This is a crucial final systems tightening phase. Below is a fully copy-pasteable directive prompt for Riplet that ties everything together based on your instructions — from the Join Waitlist UX bugs to Stripe real payment verification, CRM tagging, Marketplace enhancements, and Creator onboarding into Agent Marketplace.
+
+⸻
+
+🔧📦 Final Prompt for Riplet: Marketplace + Payments + Waitlist Fixes + Creator Integration
+
+“Riplet, this is your full scope enhancement prompt for finalizing and launching the Harmony Agent Marketplace, Join Waitlist system, and Stripe integration flow.
+
+⸻
+
+🛒 1. AGENT MARKETPLACE – FULL UI/UX + DEPLOYMENT FLOW
+
+Marketplace Features (Logged In & Logged Out):
+	•	✅ Search + Filter agents by:
+	•	Use Case (Sales, Content, Ops, etc.)
+	•	Creator
+	•	Deployment Count / Ratings
+	•	Cost / ROI Impact
+	•	✅ Card Hover Effect:
+	•	Agent Visual (Front)
+	•	Lore, Description, Stats, Integrations (Back)
+	•	✅ Click = Agent Detail Modal:
+	•	Full overview (functions, preview flow, creator info, integrations)
+	•	Preview Demo (link to open in Demo Chat)
+	•	“Deploy” button (leads to Plan Selection → Stripe Payment or Dashboard)
+
+NAB Bar Link:
+Ensure Marketplace is present in the top nav, visible when logged out or logged in. Logged out users can still explore, but must log in to deploy or reserve agents.
+
+⸻
+
+🧑‍💻 2. CREATOR ONBOARDING + AGENT IMPORT
+
+Creators must be able to:
+	•	🛠 Upload agent from:
+	•	n8n / JSON
+	•	Other platforms (String, Pipedream, etc.)
+	•	Harmony’s own Sandbox (native builder)
+	•	🖼 Add:
+	•	Visual avatar
+	•	Lore & Description
+	•	Price / Model (Pay-per-deploy, Pay-per-use, Subscription)
+	•	💸 Set recurring monthly price:
+	•	Minimum $280–$350/month
+	•	Setup Fee (Default: $800–$1200 unless plan is selected)
+	•	✅ Agent Listing → goes to Marketplace (Pending Approval if new creator)
+	•	📊 Creator Dashboard includes:
+	•	Earnings
+	•	Deployment Stats
+	•	Usage Logs
+	•	Reviews
+
+⸻
+
+💳 3. STRIPE PAYMENT: REAL INTEGRATION CONFIRMATION
+
+Stripe must be fully integrated and operational with:
+	•	🧾 Real Charges → Confirm test transactions go to Harmony’s connected Stripe account
+	•	📦 Subscription Plans:
+	•	1 Agent
+	•	3 Agents
+	•	6 Agents
+	•	9–12 Agents (Full Suite)
+	•	🛠 Setup Fees:
+	•	Waived if plan includes selected agent
+	•	Charged if custom one-off deployment
+	•	🪙 Accept:
+	•	Credit/Debit
+	•	Crypto (NowPayments/HRMNY toggle)
+	•	🔁 Recurring Billing Enabled for Monthly Agents
+	•	📬 On success:
+	•	Send confirmation to CRM
+	•	Add Tags:
+	•	Harmonics-Join Waitlist
+	•	Harmonics-Reserved
+	•	Harmonics-Plan-[X]
+
+⸻
+
+📝 4. JOIN WAITLIST PAGE – CRITICAL BUG FIX
+
+Current Bug:
+	•	Text boxes do not display typed content
+	•	Submit process stalls before final confirmation
+
+Fix Instructions:
+	•	Ensure all form fields render input in real-time
+	•	Validate required fields before submission
+	•	Final confirmation screen:
+	•	“🎉 You’re on the Harmony Waitlist!”
+	•	Includes email sent and option to reserve or upgrade
+
+CRM Tagging Workflow:
+	•	Waitlist = Harmonics-Join Waitlist
+	•	Reserve = Harmonics-Reserved
+	•	Plan selection = Harmonics-Plan-[Tier]
+
+Form should also:
+	•	POST into CRM pipeline
+	•	Trigger confirmation email
+	•	Trigger Slack webhook in #demo_signups
+
+⸻
+
+🛠 5. DEPLOYMENT FLOW – AGENT ACCESSIBILITY
+
+When agent is deployed:
+	•	Setup Stripe session → Confirmed purchase → Inject agent into:
+	•	Harmony Dashboard instance
+	•	Assign usage quota
+	•	Confirm integrations (CRM, social, scheduler, etc.)
+	•	Show user:
+	•	Mini Dashboard (Agent Logs, Tasks, API/webhook links, activity)
+	•	Option to upgrade plan or add new agent
+
+⸻
+
+📬 CLOSING NOTES TO RIPLET:
+
+Please test the entire end-to-end flow:
+	•	Marketplace discovery → agent card → agent detail
+	•	Waitlist form → CRM tag
+	•	Demo chat widget → strategy → execution → Stripe
+	•	Plan selector modal → agent sync → dashboard
+	•	Creator login → upload agent → publish
+
+Sync all functionality to match Harmonix visual identity, ensure Zero UI/UX friction, and confirm live Stripe payments and CRM logging are functional.
+
+Confirm system health at: /status
+Push final version to staging for QA approval.
+
+⸻
+
+Replit please also create or ask me to give me more information for :
+	•	Figma UI mockups of Marketplace & Creator Setup
+	•	JSON schema for Agent Listings
+	•	Stripe Webhook response logs for verification
+
+Let’s finalize and launch. 🚀

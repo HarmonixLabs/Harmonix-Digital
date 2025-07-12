@@ -1248,8 +1248,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Stripe payment routes
-  app.post('/api/checkout/create-session', async (req, res) => {
+  // Enhanced Stripe Payment Routes with Subscription Management
+  app.post('/api/stripe/create-checkout-session', async (req, res) => {
     try {
       const { 
         tier, 
@@ -1259,47 +1259,61 @@ export async function registerRoutes(app: Express): Promise<Server> {
         roiAdjustment = 0,
         promoCode,
         isDeposit = false,
-        paymentType = 'full', // 'full', 'split_upfront', 'split_milestone1', 'split_completion'
-        splitPaymentId = null
+        paymentType = 'full', // 'full', 'split_upfront', 'split_milestone1', 'split_completion', 'subscription'
+        splitPaymentId = null,
+        isSubscription = false,
+        customerEmail,
+        customerName,
+        agentId,
+        subscriptionTier = 'monthly'
       } = req.body;
 
       const pricingTiers = {
         starter: { 
           setupFee: 440000, 
+          monthlyFee: 30000, // $300/month
           name: 'Harmony Starter Package',
           splitTotal: 514800, // 17% increase for split payments
           upfront: 257400, // 50% upfront
           milestone1: 128700, // 25% at milestone 1
-          completion: 128700 // 25% at completion
+          completion: 128700, // 25% at completion
+          agents: 1
         },
         growth: { 
           setupFee: 800000, 
+          monthlyFee: 50000, // $500/month
           name: 'Harmony Growth Package',
           splitTotal: 936000, // 17% increase for split payments
           upfront: 468000, // 50% upfront
           milestone1: 234000, // 25% at milestone 1
-          completion: 234000 // 25% at completion
+          completion: 234000, // 25% at completion
+          agents: 3
         },
         expansion: { 
           setupFee: 1500000, 
+          monthlyFee: 80000, // $800/month
           name: 'Harmony Expansion Package',
           splitTotal: 1755000, // 17% increase for split payments
           upfront: 877500, // 50% upfront
           milestone1: 438750, // 25% at milestone 1
-          completion: 438750 // 25% at completion
+          completion: 438750, // 25% at completion
+          agents: 6
         },
         enterprise: { 
           setupFee: 2150000, 
+          monthlyFee: 120000, // $1200/month
           name: 'Harmony Enterprise Package',
           splitTotal: 2515500, // 17% increase for split payments
           upfront: 1257750, // 50% upfront
           milestone1: 628875, // 25% at milestone 1
-          completion: 628875 // 25% at completion
+          completion: 628875, // 25% at completion
+          agents: 12
         },
-        deposit: { setupFee: 44400, name: 'Harmony Early Bird Deposit' }
+        deposit: { setupFee: 44400, name: 'Harmony Early Bird Deposit' },
+        agent_purchase: { setupFee: 19900, monthlyFee: 4900, name: 'Individual Agent Purchase' } // $199 + $49/month
       };
 
-      const selectedTier = isDeposit ? 'deposit' : tier;
+      const selectedTier = isDeposit ? 'deposit' : (agentId ? 'agent_purchase' : tier);
       const tierData = (pricingTiers as any)[selectedTier];
       
       if (!tierData) {
@@ -1308,6 +1322,70 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       let finalAmount;
       let paymentDescription = tierData.name;
+      let lineItems = [];
+
+      // Handle subscription payments
+      if (isSubscription) {
+        // Create or retrieve subscription product and price
+        const product = await stripe.products.create({
+          name: `${tierData.name} - Monthly Subscription`,
+          description: `Monthly subscription for ${tierData.agents} AI agents`,
+          metadata: {
+            tier: selectedTier,
+            agents_included: tierData.agents?.toString() || '1',
+            subscription_type: subscriptionTier
+          }
+        });
+
+        const price = await stripe.prices.create({
+          unit_amount: tierData.monthlyFee,
+          currency: 'usd',
+          recurring: { interval: 'month' },
+          product: product.id,
+          metadata: {
+            tier: selectedTier,
+            subscription_type: subscriptionTier
+          }
+        });
+
+        lineItems.push({
+          price: price.id,
+          quantity: 1
+        });
+
+        // Create Stripe Checkout Session for subscription
+        const session = await stripe.checkout.sessions.create({
+          payment_method_types: ['card', 'apple_pay', 'google_pay'],
+          mode: 'subscription',
+          line_items: lineItems,
+          customer_email: customerEmail,
+          success_url: `${process.env.CLIENT_URL || 'http://localhost:5000'}/success?session_id={CHECKOUT_SESSION_ID}&type=subscription`,
+          cancel_url: `${process.env.CLIENT_URL || 'http://localhost:5000'}/marketplace?cancelled=true`,
+          metadata: {
+            tier: selectedTier,
+            payment_type: 'subscription',
+            customer_name: customerName || '',
+            agent_id: agentId || '',
+            subscription_tier: subscriptionTier,
+            source: 'harmonix_marketplace'
+          },
+          subscription_data: {
+            metadata: {
+              tier: selectedTier,
+              agents_included: tierData.agents?.toString() || '1',
+              source: 'harmonix_marketplace'
+            }
+          },
+          automatic_tax: { enabled: true }
+        });
+
+        return res.json({ 
+          url: session.url, 
+          sessionId: session.id, 
+          type: 'subscription',
+          monthlyAmount: tierData.monthlyFee / 100 
+        });
+      }
 
       // Determine payment amount based on type
       if (isDeposit) {
@@ -1412,6 +1490,265 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('CRM payment update error:', error);
       res.status(500).json({ error: 'Failed to update CRM' });
+    }
+  });
+
+  // Enhanced Subscription Management Routes
+  app.post('/api/stripe/create-subscription', authenticateToken, async (req, res) => {
+    try {
+      const { tier, priceId, customerEmail } = req.body;
+      const user = req.user;
+
+      // Create or get Stripe customer
+      let customerId = user.stripeCustomerId;
+      if (!customerId) {
+        const customer = await stripe.customers.create({
+          email: customerEmail || user.email,
+          name: user.name,
+          metadata: {
+            user_id: user.id.toString(),
+            tier: tier,
+            source: 'harmonix_subscription'
+          }
+        });
+        customerId = customer.id;
+        
+        // Update user with Stripe customer ID
+        await storage.updateUser(user.id, { stripeCustomerId: customerId });
+      }
+
+      // Create subscription
+      const subscription = await stripe.subscriptions.create({
+        customer: customerId,
+        items: [{ price: priceId }],
+        payment_behavior: 'default_incomplete',
+        payment_settings: { save_default_payment_method: 'on_subscription' },
+        expand: ['latest_invoice.payment_intent'],
+        metadata: {
+          user_id: user.id.toString(),
+          tier: tier,
+          source: 'harmonix_subscription'
+        }
+      });
+
+      res.json({
+        subscriptionId: subscription.id,
+        clientSecret: subscription.latest_invoice?.payment_intent?.client_secret,
+        status: subscription.status
+      });
+
+    } catch (error) {
+      console.error('Subscription creation error:', error);
+      res.status(500).json({ error: 'Failed to create subscription' });
+    }
+  });
+
+  // Get subscription status
+  app.get('/api/stripe/subscription-status', authenticateToken, async (req, res) => {
+    try {
+      const user = req.user;
+      
+      if (!user.stripeSubscriptionId) {
+        return res.json({ status: 'none', subscription: null });
+      }
+
+      const subscription = await stripe.subscriptions.retrieve(user.stripeSubscriptionId);
+      
+      res.json({
+        status: subscription.status,
+        subscription: {
+          id: subscription.id,
+          current_period_start: subscription.current_period_start,
+          current_period_end: subscription.current_period_end,
+          cancel_at_period_end: subscription.cancel_at_period_end,
+          items: subscription.items.data.map(item => ({
+            price_id: item.price.id,
+            quantity: item.quantity,
+            amount: item.price.unit_amount
+          }))
+        }
+      });
+
+    } catch (error) {
+      console.error('Subscription status error:', error);
+      res.status(500).json({ error: 'Failed to get subscription status' });
+    }
+  });
+
+  // Update subscription
+  app.post('/api/stripe/update-subscription', authenticateToken, async (req, res) => {
+    try {
+      const { priceId, quantity = 1 } = req.body;
+      const user = req.user;
+
+      if (!user.stripeSubscriptionId) {
+        return res.status(400).json({ error: 'No active subscription found' });
+      }
+
+      const subscription = await stripe.subscriptions.retrieve(user.stripeSubscriptionId);
+      
+      const updatedSubscription = await stripe.subscriptions.update(
+        user.stripeSubscriptionId,
+        {
+          items: [{
+            id: subscription.items.data[0].id,
+            price: priceId,
+            quantity: quantity
+          }],
+          proration_behavior: 'create_prorations'
+        }
+      );
+
+      res.json({
+        subscription: updatedSubscription,
+        status: updatedSubscription.status
+      });
+
+    } catch (error) {
+      console.error('Subscription update error:', error);
+      res.status(500).json({ error: 'Failed to update subscription' });
+    }
+  });
+
+  // Cancel subscription
+  app.post('/api/stripe/cancel-subscription', authenticateToken, async (req, res) => {
+    try {
+      const { immediate = false } = req.body;
+      const user = req.user;
+
+      if (!user.stripeSubscriptionId) {
+        return res.status(400).json({ error: 'No active subscription found' });
+      }
+
+      let canceledSubscription;
+      if (immediate) {
+        canceledSubscription = await stripe.subscriptions.cancel(user.stripeSubscriptionId);
+      } else {
+        canceledSubscription = await stripe.subscriptions.update(user.stripeSubscriptionId, {
+          cancel_at_period_end: true
+        });
+      }
+
+      res.json({
+        subscription: canceledSubscription,
+        status: canceledSubscription.status,
+        canceled_at: canceledSubscription.canceled_at,
+        cancel_at_period_end: canceledSubscription.cancel_at_period_end
+      });
+
+    } catch (error) {
+      console.error('Subscription cancellation error:', error);
+      res.status(500).json({ error: 'Failed to cancel subscription' });
+    }
+  });
+
+  // Customer portal access
+  app.post('/api/stripe/customer-portal', authenticateToken, async (req, res) => {
+    try {
+      const user = req.user;
+
+      if (!user.stripeCustomerId) {
+        return res.status(400).json({ error: 'No Stripe customer found' });
+      }
+
+      const portalSession = await stripe.billingPortal.sessions.create({
+        customer: user.stripeCustomerId,
+        return_url: `${process.env.CLIENT_URL || 'http://localhost:5000'}/dashboard`,
+      });
+
+      res.json({ url: portalSession.url });
+
+    } catch (error) {
+      console.error('Customer portal error:', error);
+      res.status(500).json({ error: 'Failed to create portal session' });
+    }
+  });
+
+  // Stripe webhooks endpoint
+  app.post('/api/stripe/webhooks', express.raw({ type: 'application/json' }), async (req, res) => {
+    const sig = req.headers['stripe-signature'] as string;
+    let event;
+
+    try {
+      event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET!);
+    } catch (err: any) {
+      console.log(`Webhook signature verification failed.`, err.message);
+      return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    // Handle the event
+    try {
+      switch (event.type) {
+        case 'checkout.session.completed':
+          const session = event.data.object as any;
+          console.log('Payment successful:', session.id);
+          
+          // Update user payment status in database
+          if (session.metadata?.user_id) {
+            await storage.updateUser(parseInt(session.metadata.user_id), {
+              paymentStatus: 'paid',
+              subscriptionTier: session.metadata.tier
+            });
+          }
+          break;
+
+        case 'customer.subscription.created':
+          const subscription = event.data.object as any;
+          console.log('Subscription created:', subscription.id);
+          
+          // Update user subscription in database
+          if (subscription.metadata?.user_id) {
+            await storage.updateUser(parseInt(subscription.metadata.user_id), {
+              stripeSubscriptionId: subscription.id,
+              subscriptionStatus: subscription.status,
+              subscriptionTier: subscription.metadata.tier
+            });
+          }
+          break;
+
+        case 'customer.subscription.updated':
+          const updatedSub = event.data.object as any;
+          console.log('Subscription updated:', updatedSub.id);
+          
+          // Update subscription status
+          if (updatedSub.metadata?.user_id) {
+            await storage.updateUser(parseInt(updatedSub.metadata.user_id), {
+              subscriptionStatus: updatedSub.status
+            });
+          }
+          break;
+
+        case 'customer.subscription.deleted':
+          const deletedSub = event.data.object as any;
+          console.log('Subscription canceled:', deletedSub.id);
+          
+          // Update subscription status
+          if (deletedSub.metadata?.user_id) {
+            await storage.updateUser(parseInt(deletedSub.metadata.user_id), {
+              subscriptionStatus: 'canceled',
+              stripeSubscriptionId: null
+            });
+          }
+          break;
+
+        case 'invoice.payment_succeeded':
+          const invoice = event.data.object as any;
+          console.log('Invoice payment succeeded:', invoice.id);
+          break;
+
+        case 'invoice.payment_failed':
+          const failedInvoice = event.data.object as any;
+          console.log('Invoice payment failed:', failedInvoice.id);
+          break;
+
+        default:
+          console.log(`Unhandled event type ${event.type}`);
+      }
+
+      res.json({ received: true });
+    } catch (error) {
+      console.error('Webhook handler error:', error);
+      res.status(500).json({ error: 'Webhook processing failed' });
     }
   });
 

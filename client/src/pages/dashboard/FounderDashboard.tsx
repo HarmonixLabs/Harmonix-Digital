@@ -15,6 +15,7 @@ import { Link } from 'wouter';
 import { useToast } from '@/hooks/use-toast';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
+import SubscriptionManager from '@/components/enhanced/SubscriptionManager';
 
 // Mock data for demonstration
 const mockMetrics = {
@@ -181,10 +182,11 @@ export default function FounderDashboard() {
 
       {/* Main Content Tabs */}
       <Tabs defaultValue="analytics" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-4 bg-harmonix-deep-forest/50">
+        <TabsList className="grid w-full grid-cols-5 bg-harmonix-deep-forest/50">
           <TabsTrigger value="analytics">Analytics</TabsTrigger>
           <TabsTrigger value="team">Team</TabsTrigger>
           <TabsTrigger value="agents">Agents</TabsTrigger>
+          <TabsTrigger value="subscription">Subscription</TabsTrigger>
           <TabsTrigger value="billing">Billing</TabsTrigger>
         </TabsList>
 
@@ -411,6 +413,11 @@ export default function FounderDashboard() {
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        {/* Subscription Management Tab */}
+        <TabsContent value="subscription" className="space-y-4">
+          <SubscriptionManager />
         </TabsContent>
       </Tabs>
     </div>

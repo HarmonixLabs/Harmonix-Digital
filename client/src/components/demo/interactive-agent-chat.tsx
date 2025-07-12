@@ -459,7 +459,7 @@ export function InteractiveAgentChat({ agent, businessProfile, className }: Inte
             <div className="grid grid-cols-1 gap-2">
               {getSuggestedQuestions(agent.id, businessProfile).map((question, idx) => (
                 <Button
-                  key={idx}
+                  key={`${agent.id}-question-${idx}`}
                   variant="ghost"
                   size="sm"
                   className="text-left justify-start h-auto p-3 text-white/80 hover:text-white hover:bg-white/5 border border-white/10 hover:border-harmonix-regal-gold/30"

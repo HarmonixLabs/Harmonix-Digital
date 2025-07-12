@@ -103,13 +103,14 @@ function Router() {
           <Route path="/signup" component={Signup} />
           <Route path="/thank-you" component={ThankYou} />
           <Route path="/checkout" component={Checkout} />
+          <Route path="/enhanced-checkout" component={lazy(() => import("./pages/enhanced-checkout"))} />
           <Route path="/terms-and-conditions" component={TermsAndConditions} />
           <Route path="/privacy-policy" component={PrivacyPolicy} />
           <Route path="/service-pricing" component={ServicePricing} />
           <Route path="/harmony-waitlist" component={Waitlist} />
           <Route path="/dashboard" component={RoleDashboard} />
           <Route path="/dashboard/legacy" component={Dashboard} />
-          <Route path="/marketplace" component={lazy(() => import("./pages/enhanced-marketplace"))} />
+          <Route path="/marketplace" component={lazy(() => import("./components/enhanced/EnhancedMarketplace"))} />
           <Route path="/marketplace/legacy" component={Marketplace} />
           <Route path="/auth/login" component={EnhancedLogin} />
           <Route path="/create-agent" component={lazy(() => import("./pages/create-agent"))} />

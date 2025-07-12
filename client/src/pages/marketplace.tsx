@@ -26,7 +26,14 @@ import {
   Plus,
   Gem,
   Lock,
-  Unlock
+  Unlock,
+  Grid,
+  List,
+  SlidersHorizontal,
+  BarChart,
+  Calendar,
+  ExternalLink,
+  ChevronDown
 } from 'lucide-react';
 import { OneClickMarketplace } from '@/components/one-click-marketplace';
 import { useAuth } from '@/lib/auth';
@@ -207,6 +214,10 @@ export default function Marketplace() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [sortBy, setSortBy] = useState('popular');
   const [favorites, setFavorites] = useState<string[]>([]);
+  const [priceRange, setPriceRange] = useState('all');
+  const [rarityFilter, setRarityFilter] = useState('all');
+  const [creatorFilter, setCreatorFilter] = useState('all');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   useEffect(() => {
     let filtered = agents;
@@ -223,6 +234,29 @@ export default function Marketplace() {
     // Filter by category
     if (selectedCategory !== 'All') {
       filtered = filtered.filter(agent => agent.category === selectedCategory);
+    }
+
+    // Filter by price range
+    if (priceRange !== 'all') {
+      if (priceRange === 'free') {
+        filtered = filtered.filter(agent => agent.monthlyPrice === 0);
+      } else if (priceRange === 'budget') {
+        filtered = filtered.filter(agent => agent.monthlyPrice > 0 && agent.monthlyPrice <= 500);
+      } else if (priceRange === 'premium') {
+        filtered = filtered.filter(agent => agent.monthlyPrice > 500 && agent.monthlyPrice <= 1000);
+      } else if (priceRange === 'enterprise') {
+        filtered = filtered.filter(agent => agent.monthlyPrice > 1000);
+      }
+    }
+
+    // Filter by rarity
+    if (rarityFilter !== 'all') {
+      filtered = filtered.filter(agent => agent.rarity === rarityFilter);
+    }
+
+    // Filter by creator (for future expansion)
+    if (creatorFilter !== 'all') {
+      filtered = filtered.filter(agent => agent.creator === creatorFilter);
     }
 
     // Sort
@@ -245,7 +279,7 @@ export default function Marketplace() {
     }
 
     setFilteredAgents(filtered);
-  }, [searchTerm, selectedCategory, sortBy, agents]);
+  }, [searchTerm, selectedCategory, sortBy, priceRange, rarityFilter, creatorFilter, agents]);
 
   const toggleFavorite = (agentId: string) => {
     setFavorites(prev => 
@@ -350,6 +384,68 @@ export default function Marketplace() {
                 <SelectItem value="newest" className="text-emerald-100">Newest</SelectItem>
               </SelectContent>
             </Select>
+            
+            {/* View Mode Toggle */}
+            <div className="flex border border-slate-600 rounded-lg overflow-hidden bg-slate-800/50">
+              <Button
+                variant={viewMode === 'grid' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => setViewMode('grid')}
+                className="rounded-none px-3"
+              >
+                <Grid className="w-4 h-4" />
+              </Button>
+              <Button
+                variant={viewMode === 'list' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => setViewMode('list')}
+                className="rounded-none px-3"
+              >
+                <List className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+
+          {/* Advanced Filters */}
+          <div className="flex flex-wrap gap-3 mb-4">
+            <Select value={priceRange} onValueChange={setPriceRange}>
+              <SelectTrigger className="w-40 bg-slate-800/50 border-slate-600 text-emerald-100">
+                <SelectValue placeholder="Price Range" />
+              </SelectTrigger>
+              <SelectContent className="bg-slate-800 border-slate-600">
+                <SelectItem value="all" className="text-emerald-100">All Prices</SelectItem>
+                <SelectItem value="free" className="text-emerald-100">Free</SelectItem>
+                <SelectItem value="budget" className="text-emerald-100">$1-500</SelectItem>
+                <SelectItem value="premium" className="text-emerald-100">$501-1000</SelectItem>
+                <SelectItem value="enterprise" className="text-emerald-100">$1000+</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Select value={rarityFilter} onValueChange={setRarityFilter}>
+              <SelectTrigger className="w-36 bg-slate-800/50 border-slate-600 text-emerald-100">
+                <SelectValue placeholder="Rarity" />
+              </SelectTrigger>
+              <SelectContent className="bg-slate-800 border-slate-600">
+                <SelectItem value="all" className="text-emerald-100">All Rarities</SelectItem>
+                <SelectItem value="common" className="text-emerald-100">Common</SelectItem>
+                <SelectItem value="rare" className="text-emerald-100">Rare</SelectItem>
+                <SelectItem value="epic" className="text-emerald-100">Epic</SelectItem>
+                <SelectItem value="legendary" className="text-emerald-100">Legendary</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Button
+              variant="outline"
+              size="sm"
+              className="border-slate-600 text-slate-400 hover:text-emerald-100"
+            >
+              <SlidersHorizontal className="w-4 h-4 mr-2" />
+              More Filters
+            </Button>
+
+            <div className="ml-auto text-sm text-slate-400">
+              Showing {filteredAgents.length} of {agents.length} agents
+            </div>
           </div>
 
           {/* Quick Stats */}
@@ -400,9 +496,9 @@ export default function Marketplace() {
 
           <TabsContent value="browse" className="space-y-6">
             {/* Agent Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'}`}>
               {filteredAgents.map((agent) => (
-                <Card key={agent.id} className={`bg-slate-800/50 border-slate-600 hover:border-emerald-400/50 transition-all duration-300 group ${isAgentLocked(agent.id) ? 'opacity-90' : ''}`}>
+                <Card key={agent.id} className={`bg-slate-800/50 border-slate-600 hover:border-emerald-400/50 hover:shadow-xl hover:shadow-emerald-400/10 hover:scale-105 transition-all duration-300 group ${isAgentLocked(agent.id) ? 'opacity-90' : ''} ${viewMode === 'list' ? 'flex flex-row' : ''}`}>
                   <CardHeader className="relative">
                     {/* Lock overlay for locked agents */}
                     {isAgentLocked(agent.id) && (
