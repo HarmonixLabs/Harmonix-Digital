@@ -280,7 +280,12 @@ function PurchaseModal({ agent, isOpen, onClose }: PurchaseModalProps) {
   const { toast } = useToast();
 
   const createCheckoutMutation = useMutation({
-    mutationFn: async (data: any) => {
+    mutationFn: async (data: {
+      agentId: string;
+      tier: string;
+      subscriptionTier: string;
+      purchaseType: string;
+    }) => {
       return await apiRequest('POST', '/api/stripe/create-subscription', data);
     },
     onSuccess: (data) => {
@@ -390,7 +395,7 @@ function PurchaseModal({ agent, isOpen, onClose }: PurchaseModalProps) {
           {/* Pricing */}
           <div className="border rounded-lg p-4">
             <h4 className="font-semibold mb-3">Pricing Options</h4>
-            <Tabs value={purchaseType} onValueChange={(value: any) => setPurchaseType(value)}>
+            <Tabs value={purchaseType} onValueChange={(value) => setPurchaseType(value as 'one-time' | 'subscription')}>
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="subscription">Subscription</TabsTrigger>
                 <TabsTrigger value="one-time">One-Time</TabsTrigger>
