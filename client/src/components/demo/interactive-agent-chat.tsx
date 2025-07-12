@@ -60,6 +60,8 @@ export function InteractiveAgentChat({ agent, businessProfile, className }: Inte
   const [inputValue, setInputValue] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [conversationPhase, setConversationPhase] = useState<'discovery' | 'strategy' | 'execution'>('discovery');
+  const [collectedInfo, setCollectedInfo] = useState<{[key: string]: string}>({});
+  const [questionsAsked, setQuestionsAsked] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -95,6 +97,58 @@ export function InteractiveAgentChat({ agent, businessProfile, className }: Inte
     return actions[agentId as keyof typeof actions] || 'lead_qualification';
   };
 
+  // Agent-specific discovery questions based on their specialty
+  const getDiscoveryQuestions = (agentId: string, userInput: string) => {
+    const questionSets = {
+      'cash': [
+        "What's your current monthly revenue target?",
+        "Which lead sources are performing best for you?", 
+        "What's your biggest challenge in closing deals?",
+        "How many leads do you typically get per month?"
+      ],
+      'grace': [
+        "What's your most common customer complaint?",
+        "How do you currently handle customer support?",
+        "What's your average response time to customers?",
+        "Which customer interaction channels do you use most?"
+      ],
+      'echo': [
+        "Which social media platforms are most important for your business?",
+        "How often do you currently post on social media?",
+        "What type of content gets the best engagement?",
+        "What's your biggest social media challenge?"
+      ],
+      'flow': [
+        "Which business processes take up most of your time?",
+        "How many manual tasks do you repeat daily?",
+        "What software tools are you currently using?",
+        "Which workflow bottlenecks slow you down most?"
+      ],
+      'kairos': [
+        "How many projects are you managing simultaneously?",
+        "What's your biggest project management challenge?",
+        "Which project management tools do you use?",
+        "How do you currently track project progress?"
+      ],
+      'sol': [
+        "What's your biggest business challenge right now?",
+        "Which business areas need the most improvement?",
+        "How do you currently coordinate different business functions?",
+        "What's your vision for business automation?"
+      ]
+    };
+    
+    return questionSets[agentId as keyof typeof questionSets] || questionSets['cash'];
+  };
+
+  // Check if user input provides sufficient detail for strategy/solution
+  const hassufficientDetail = (input: string) => {
+    const detailIndicators = ['because', 'currently', 'need', 'problem', 'challenge', 'goal', 'want', 'trying', 'revenue', 'customers', 'monthly', 'daily', 'using', 'tools'];
+    const wordCount = input.split(' ').length;
+    const hasDetails = detailIndicators.some(indicator => input.toLowerCase().includes(indicator));
+    return wordCount > 15 && hasDetails;
+  };
+
   const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
     
@@ -106,69 +160,117 @@ export function InteractiveAgentChat({ agent, businessProfile, className }: Inte
     };
 
     setMessages(prev => [...prev, userMessage]);
+    
+    // Update collected information
+    setCollectedInfo(prev => ({
+      ...prev,
+      [`response_${questionsAsked + 1}`]: inputValue
+    }));
+    
     setInputValue("");
     setIsProcessing(true);
 
     try {
-      const response = await fetch('/api/test-pipedream', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          agentId: `${agent.id}-agent`,
-          action: getAgentAction(agent.id),
-          data: {
-            message: inputValue,
-            context: businessProfile,
-            conversation_history: messages,
-            conversation_phase: conversationPhase,
-            demo_mode: true,
-            agent_name: agent.name
-          }
-        })
-      });
-
+      // Determine response type based on conversation phase and input quality
       let agentResponse = "";
       let actionPlan = undefined;
       let recommendedServices = undefined;
       let canExecute = false;
+      let shouldAskQuestion = false;
 
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success && result.response) {
-          agentResponse = result.response;
-          
-          // Enhanced response parsing for interactive elements
-          if (result.enhanced_response) {
-            actionPlan = result.enhanced_response.actionSteps;
-            recommendedServices = result.enhanced_response.platformIntegration?.recommendedServices;
-            canExecute = conversationPhase === 'strategy' || messages.length >= 3;
-          }
+      // Phase 1: Discovery - Ask clarifying questions if needed
+      if (conversationPhase === 'discovery') {
+        const hasDetail = hassufficientDetail(inputValue);
+        const questions = getDiscoveryQuestions(agent.id, inputValue);
+        
+        if (!hasDetail && questionsAsked < 2) {
+          // Ask a clarifying question
+          shouldAskQuestion = true;
+          const questionIndex = questionsAsked;
+          agentResponse = `Thank you for that information! To provide you with the most personalized strategy, I need to understand your situation better.\n\n**${questions[questionIndex]}**\n\nThis will help me create a targeted solution for your ${agent.specialty.toLowerCase()} needs.`;
+          setQuestionsAsked(prev => prev + 1);
         } else {
-          throw new Error('Invalid response');
+          // Move to strategy phase
+          setConversationPhase('strategy');
+          agentResponse = `Perfect! Based on what you've shared, I can see the key opportunities for improvement. Let me create a strategic approach for you.\n\n## 🎯 **Strategic Analysis**\n\nI've identified your main challenges and I'm analyzing the best approach to solve them. Let me provide you with a comprehensive strategy...`;
         }
-      } else {
-        throw new Error('Agent processing failed');
+      }
+      
+      // Phase 2: Strategy - Provide high-level strategic approach
+      else if (conversationPhase === 'strategy') {
+        // Call the API for strategic response
+        const response = await fetch('/api/test-pipedream', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            agentId: `${agent.id}-agent`,
+            action: getAgentAction(agent.id),
+            data: {
+              message: inputValue,
+              context: businessProfile,
+              conversation_history: messages,
+              conversation_phase: 'strategy',
+              collected_info: collectedInfo,
+              demo_mode: true,
+              agent_name: agent.name,
+              request_type: 'strategy'
+            }
+          })
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          if (result.success && result.response) {
+            agentResponse = `## 📋 **Strategic Roadmap**\n\n${result.response}\n\n---\n\n**Ready for the detailed implementation plan?** Type "yes" or ask me to dive deeper into any specific area.`;
+            setConversationPhase('execution');
+          }
+        }
+      }
+      
+      // Phase 3: Execution - Provide detailed personalized solution
+      else if (conversationPhase === 'execution') {
+        const response = await fetch('/api/test-pipedream', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            agentId: `${agent.id}-agent`,
+            action: getAgentAction(agent.id),
+            data: {
+              message: inputValue,
+              context: businessProfile,
+              conversation_history: messages,
+              conversation_phase: 'execution',
+              collected_info: collectedInfo,
+              demo_mode: true,
+              agent_name: agent.name,
+              request_type: 'detailed_solution'
+            }
+          })
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          if (result.success && result.response) {
+            agentResponse = `## 🚀 **Detailed Implementation Plan**\n\n${result.response}`;
+            canExecute = true;
+            
+            // Parse enhanced response elements
+            if (result.enhanced_response) {
+              actionPlan = result.enhanced_response.actionSteps;
+              recommendedServices = result.enhanced_response.platformIntegration?.recommendedServices;
+            }
+          }
+        }
       }
 
-      // Fallback to enhanced demo response
+      // Fallback response if no specific phase response
       if (!agentResponse) {
-        agentResponse = generateEnhancedDemoResponse(inputValue, agent, businessProfile, messages.length);
-        actionPlan = generateActionPlan(agent.id, inputValue);
-        recommendedServices = generateRecommendedServices(agent.id);
-        canExecute = messages.length >= 2; // Allow execution after a few exchanges
+        agentResponse = `I understand. Let me provide you with a comprehensive solution based on our conversation.\n\n${agent.demoResponse}`;
+        canExecute = true;
       }
 
-      // Determine next conversation phase
-      let nextPhase = conversationPhase;
-      if (messages.length >= 2 && conversationPhase === 'discovery') {
-        nextPhase = 'strategy';
-      } else if (messages.length >= 4 && conversationPhase === 'strategy') {
-        nextPhase = 'execution';
-      }
-      setConversationPhase(nextPhase);
-
-      const agentMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
+      const responseMessage: ChatMessage = {
+        id: Date.now().toString(),
         type: 'agent',
         content: agentResponse,
         timestamp: new Date(),
@@ -176,30 +278,24 @@ export function InteractiveAgentChat({ agent, businessProfile, className }: Inte
         actionPlan,
         recommendedServices,
         canExecute,
-        requiresAuth: !isAuthenticated
+        requiresAuth: !isAuthenticated && canExecute
       };
 
-      setMessages(prev => [...prev, agentMessage]);
+      setMessages(prev => [...prev, responseMessage]);
 
     } catch (error) {
-      console.error('Chat error:', error);
-      
-      // Enhanced fallback response
-      const fallbackResponse = generateEnhancedDemoResponse(inputValue, agent, businessProfile, messages.length);
-      
-      const agentMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
+      console.log('Error processing message:', error);
+      // Fallback to default agent response
+      const fallbackMessage: ChatMessage = {
+        id: Date.now().toString(),
         type: 'agent',
-        content: fallbackResponse,
+        content: `Based on your question, here's what I recommend:\n\n${agent.demoResponse}`,
         timestamp: new Date(),
         agentName: agent.name,
-        actionPlan: generateActionPlan(agent.id, inputValue),
-        recommendedServices: generateRecommendedServices(agent.id),
-        canExecute: messages.length >= 1,
+        canExecute: true,
         requiresAuth: !isAuthenticated
       };
-
-      setMessages(prev => [...prev, agentMessage]);
+      setMessages(prev => [...prev, fallbackMessage]);
     }
 
     setIsProcessing(false);
@@ -255,9 +351,27 @@ export function InteractiveAgentChat({ agent, businessProfile, className }: Inte
               <p className="text-sm text-white/70">{agent.specialty}</p>
             </div>
           </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-            <span className="text-xs text-green-400">Live Demo</span>
+          <div className="flex items-center space-x-4">
+            {/* Conversation Phase Indicator */}
+            <div className="flex items-center space-x-2">
+              <div className={cn(
+                "w-2 h-2 rounded-full",
+                conversationPhase === 'discovery' ? 'bg-blue-400 animate-pulse' : 'bg-white/30'
+              )}></div>
+              <div className={cn(
+                "w-2 h-2 rounded-full",
+                conversationPhase === 'strategy' ? 'bg-yellow-400 animate-pulse' : 'bg-white/30'
+              )}></div>
+              <div className={cn(
+                "w-2 h-2 rounded-full",
+                conversationPhase === 'execution' ? 'bg-green-400 animate-pulse' : 'bg-white/30'
+              )}></div>
+              <span className="text-xs text-white/60 capitalize">{conversationPhase}</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <span className="text-xs text-green-400">Live Demo</span>
+            </div>
           </div>
         </div>
       </CardHeader>
@@ -289,8 +403,8 @@ export function InteractiveAgentChat({ agent, businessProfile, className }: Inte
           </div>
         )}
 
-        {/* Chat Messages */}
-        <div className="h-96 overflow-y-auto space-y-4 p-4 bg-black/20 rounded-lg">
+        {/* Chat Messages - Expanded Area */}
+        <div className="h-[500px] overflow-y-auto space-y-4 p-4 bg-black/20 rounded-lg">
           {messages.map((message) => (
             <div
               key={message.id}

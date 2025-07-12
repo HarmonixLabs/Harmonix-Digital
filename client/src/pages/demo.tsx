@@ -471,41 +471,41 @@ I've analyzed your business context and uploaded materials. Based on your ${busi
               </p>
             </div>
 
-            <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
-              {/* Agent Selection Tabs */}
-              <div className="lg:w-1/3 space-y-3">
+            <div className="flex flex-col gap-6 lg:gap-8">
+              {/* Agent Selection Tabs - Horizontal on larger screens */}
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
                 {demoAgents.map((agent, index) => (
                   <Card 
                     key={agent.id}
                     className={cn(
-                      "bg-white/10 backdrop-blur-sm border-white/20 hover:border-harmonix-regal-gold/50 transition-all cursor-pointer min-h-[80px]",
+                      "bg-white/10 backdrop-blur-sm border-white/20 hover:border-harmonix-regal-gold/50 transition-all cursor-pointer",
                       selectedAgent === index && "border-harmonix-regal-gold bg-harmonix-regal-gold/20"
                     )}
                     onClick={() => setSelectedAgent(index)}
                   >
-                    <CardContent className="p-4 sm:p-6">
-                      <div className="flex items-center space-x-3 sm:space-x-4">
-                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-harmonix-regal-gold/30 flex items-center justify-center flex-shrink-0">
-                          {React.createElement(agent.icon, { className: "w-5 h-5 sm:w-6 sm:h-6 text-harmonix-regal-gold" })}
+                    <CardContent className="p-3 lg:p-4">
+                      <div className="flex flex-col items-center text-center space-y-2">
+                        <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-lg bg-harmonix-regal-gold/30 flex items-center justify-center">
+                          {React.createElement(agent.icon, { className: "w-4 h-4 lg:w-5 lg:h-5 text-harmonix-regal-gold" })}
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <h3 className="font-semibold text-white text-sm sm:text-base truncate">{agent.name}</h3>
-                          <p className="text-xs sm:text-sm text-white/70 truncate">{agent.specialty}</p>
+                        <div>
+                          <h3 className="font-semibold text-white text-xs lg:text-sm">{agent.name}</h3>
+                          <Badge variant="outline" className="border-harmonix-regal-gold/40 text-harmonix-regal-gold text-xs mt-1">
+                            {agent.tier}
+                          </Badge>
                         </div>
-                        <Badge variant="outline" className="border-harmonix-regal-gold/40 text-harmonix-regal-gold text-xs hidden sm:inline-flex">
-                          {agent.tier}
-                        </Badge>
                       </div>
                     </CardContent>
                   </Card>
                 ))}
               </div>
 
-              {/* Interactive Agent Chat */}
-              <div className="lg:w-2/3">
+              {/* Interactive Agent Chat - Full Width */}
+              <div className="w-full">
                 <InteractiveAgentChat 
                   agent={demoAgents[selectedAgent]}
                   businessProfile={businessProfile}
+                  className="min-h-[600px]"
                 />
               </div>
             </div>
