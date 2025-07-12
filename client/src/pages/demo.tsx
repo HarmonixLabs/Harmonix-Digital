@@ -11,6 +11,8 @@ import { WhimsicalLoader } from "@/components/loading/whimsical-loader";
 import { MysticalTooltip, NeuralTooltip } from "@/components/ui/animated-tooltip";
 import { DemoScenarioCard } from "@/components/demo/demo-scenario-card";
 import { DemoExecution } from "@/components/demo/demo-execution";
+import { InteractiveAgentChat } from "@/components/demo/interactive-agent-chat";
+import { ConversionModal } from "@/components/demo/conversion-modal";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 import { 
@@ -154,6 +156,8 @@ export default function DemoPage() {
   const [runningDemo, setRunningDemo] = useState<DemoScenario | null>(null);
   const [showDemoExecution, setShowDemoExecution] = useState(false);
   const [demoView, setDemoView] = useState<'simple' | 'scenarios'>('simple');
+  const [showConversionModal, setShowConversionModal] = useState(false);
+  const [conversionContext, setConversionContext] = useState<any>(null);
 
   // Handle URL parameters for direct navigation
   useEffect(() => {
@@ -400,204 +404,12 @@ export default function DemoPage() {
                 ))}
               </div>
 
-              {/* Agent Demo Interface */}
+              {/* Interactive Agent Chat */}
               <div className="lg:w-2/3">
-                <Card className="bg-white/10 backdrop-blur-sm border-white/20">
-                  <CardHeader>
-                    <div className="flex items-center justify-between flex-wrap gap-4">
-                      <div className="flex items-center space-x-3 sm:space-x-4 min-w-0 flex-1">
-                        <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg bg-harmonix-regal-gold/30 flex items-center justify-center flex-shrink-0">
-                          {React.createElement(demoAgents[selectedAgent].icon, { className: "w-6 h-6 sm:w-8 sm:h-8 text-harmonix-regal-gold" })}
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <CardTitle className="text-harmonix-regal-gold font-serif text-lg sm:text-xl truncate">
-                            {demoAgents[selectedAgent].name}
-                          </CardTitle>
-                          <CardDescription className="text-white/70 text-sm sm:text-base">
-                            {demoAgents[selectedAgent].description}
-                          </CardDescription>
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <div className="w-2 h-2 bg-harmonix-regal-gold rounded-full animate-pulse"></div>
-                        <span className="text-sm text-harmonix-regal-gold">Live Demo</span>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  
-                  <CardContent className="space-y-6">
-                    {/* Agent Capabilities */}
-                    <div>
-                      <h4 className="font-semibold text-white mb-3">Core Capabilities</h4>
-                      <div className="grid grid-cols-2 gap-3">
-                        {demoAgents[selectedAgent].capabilities.map((capability, index) => (
-                          <div key={index} className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-harmonix-regal-gold" />
-                            <span className="text-sm text-harmonix-sage-fade">{capability}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Demo Metrics */}
-                    <div>
-                      <h4 className="font-semibold text-white mb-3">Performance Metrics</h4>
-                      <div className="grid grid-cols-3 gap-3 sm:gap-4">
-                        <div className="text-center p-2 sm:p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
-                          <div className="text-lg sm:text-2xl font-bold text-harmonix-regal-gold">{demoAgents[selectedAgent].metrics.efficiency}</div>
-                          <div className="text-xs text-white/60">Efficiency</div>
-                        </div>
-                        <div className="text-center p-2 sm:p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
-                          <div className="text-lg sm:text-2xl font-bold text-harmonix-regal-gold">{demoAgents[selectedAgent].metrics.accuracy}</div>
-                          <div className="text-xs text-white/60">Accuracy</div>
-                        </div>
-                        <div className="text-center p-2 sm:p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
-                          <div className="text-lg sm:text-2xl font-bold text-harmonix-regal-gold">{demoAgents[selectedAgent].metrics.speed}</div>
-                          <div className="text-xs text-white/60">Response Time</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Integration Status */}
-                    <div>
-                      <h4 className="font-semibold text-white mb-3">Platform Integration</h4>
-                      <div className="bg-white/5 backdrop-blur-sm rounded-lg p-3 sm:p-4 border border-white/10">
-                        <div className="text-sm text-white/80">{demoAgents[selectedAgent].integration}</div>
-                      </div>
-                    </div>
-
-                    {/* Interactive Demo */}
-                    <div>
-                      <h4 className="font-semibold text-white mb-3">Try It Now</h4>
-                      
-                      {/* Sample Questions */}
-                      <div className="mb-4">
-                        <p className="text-sm text-white/60 mb-2">Sample questions to try:</p>
-                        <div className="flex flex-wrap gap-2">
-                          {demoAgents[selectedAgent].sampleQuestions.map((question, index) => (
-                            <button
-                              key={index}
-                              onClick={() => setDemoInput(question)}
-                              className="text-xs px-3 py-1.5 bg-white/5 border border-white/10 rounded-full hover:bg-harmonix-regal-gold/20 hover:border-harmonix-regal-gold/40 text-white/80 hover:text-harmonix-regal-gold transition-all"
-                            >
-                              {question}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                      
-                      <div className="space-y-4">
-                        <div className="flex space-x-2">
-                          <Input 
-                            value={demoInput}
-                            onChange={(e) => setDemoInput(e.target.value)}
-                            placeholder={`Ask ${demoAgents[selectedAgent].name} a question...`}
-                            className="flex-1 bg-white/5 backdrop-blur-sm border-white/20 text-white placeholder:text-white/50 focus:border-harmonix-regal-gold"
-                            onKeyPress={(e) => e.key === 'Enter' && handleDemoSubmit()}
-                          />
-                          <NeuralTooltip content="Send your question to the AI agent for processing">
-                            <Button 
-                              size="icon"
-                              onClick={handleDemoSubmit}
-                              disabled={isProcessing || !demoInput.trim()}
-                              className="bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90 disabled:opacity-50"
-                            >
-                              <Send className="w-4 h-4" />
-                            </Button>
-                          </NeuralTooltip>
-                        </div>
-                        
-                        <div className="bg-white/5 backdrop-blur-sm rounded-lg p-4 min-h-[120px] border border-white/10">
-                          <div className="flex items-center justify-between mb-3">
-                            <div className="flex items-center space-x-2">
-                              <div className="w-2 h-2 bg-harmonix-regal-gold rounded-full animate-pulse"></div>
-                              <span className="text-sm text-white/60">{demoAgents[selectedAgent].name} Response</span>
-                            </div>
-                            {!isProcessing && agentResponse && (
-                              <Badge variant="outline" className="border-harmonix-regal-gold/40 text-harmonix-regal-gold text-xs">
-                                Live Response
-                              </Badge>
-                            )}
-                          </div>
-                          
-                          <div className="text-white text-sm sm:text-base leading-relaxed">
-                            {isProcessing ? (
-                              <div className="flex items-center justify-center py-8">
-                                <WhimsicalLoader 
-                                  variant={selectedAgent === 0 ? "neural" : selectedAgent === 1 ? "harmony" : "sacred"}
-                                  size="md"
-                                  message={`${demoAgents[selectedAgent].name} is analyzing your request...`}
-                                />
-                              </div>
-                            ) : (
-                              <div className="space-y-4">
-                                {/* Main Response */}
-                                {formatAgentResponse(agentResponse || demoAgents[selectedAgent].demoResponse)}
-                                
-                                {/* Divider */}
-                                <div className="border-t border-white/10 pt-3">
-                                  <div className="flex items-center space-x-2 text-xs text-white/60">
-                                    <CheckCircle className="w-3 h-3 text-harmonix-regal-gold" />
-                                    <span>Response delivered in {demoAgents[selectedAgent].metrics.speed}</span>
-                                    <span>•</span>
-                                    <span>{demoAgents[selectedAgent].metrics.accuracy} accuracy</span>
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                      <MysticalTooltip 
-                        content="Continue the conversation with this agent"
-                        side="top"
-                      >
-                        <Button 
-                          variant="outline"
-                          className="flex-1 border-white/20 text-white hover:bg-white/10"
-                          onClick={() => {
-                            setDemoInput("");
-                            setAgentResponse("");
-                          }}
-                        >
-                          <MessageSquare className="w-4 h-4 mr-2" />
-                          Ask Another Question
-                        </Button>
-                      </MysticalTooltip>
-                      <NeuralTooltip 
-                        content="Deploy this agent to your organization and start automating tasks"
-                        side="top"
-                      >
-                        <Link href="/join" className="flex-1">
-                          <Button 
-                            className="w-full bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90 animate-mystic-glow"
-                          >
-                            <Bot className="w-4 h-4 mr-2" />
-                            Deploy This Agent
-                          </Button>
-                        </Link>
-                      </NeuralTooltip>
-                      <MysticalTooltip 
-                        content="Explore detailed capabilities and pricing information"
-                        side="top"
-                      >
-                        <Link href="/service-pricing#ai-agents" className="flex-1">
-                          <Button 
-                            variant="outline" 
-                            className="w-full border-harmonix-regal-gold/40 text-harmonix-regal-gold hover:bg-harmonix-regal-gold/10"
-                          >
-                            <Star className="w-4 h-4 mr-2" />
-                            View Pricing
-                          </Button>
-                        </Link>
-                      </MysticalTooltip>
-                    </div>
-                  </CardContent>
-                </Card>
+                <InteractiveAgentChat 
+                  agent={demoAgents[selectedAgent]}
+                  businessProfile={businessProfile}
+                />
               </div>
             </div>
           </div>
@@ -833,6 +645,15 @@ export default function DemoPage() {
       </div>
 
       <Footer />
+      
+      {/* Conversion Modal */}
+      <ConversionModal
+        isOpen={showConversionModal}
+        onClose={() => setShowConversionModal(false)}
+        agent={conversionContext?.agent || demoAgents[selectedAgent]}
+        actionPlan={conversionContext?.actionPlan}
+        context={conversionContext?.context}
+      />
     </div>
   );
 }
