@@ -263,6 +263,32 @@ export function InteractiveAgentChat({ agent, businessProfile, className }: Inte
       </CardHeader>
       
       <CardContent className="space-y-4">
+        {/* Suggested Questions (show when chat is empty) */}
+        {messages.length === 0 && (
+          <div className="mb-4 p-4 bg-harmonix-regal-gold/10 border border-harmonix-regal-gold/20 rounded-lg">
+            <h4 className="text-sm font-semibold text-harmonix-regal-gold mb-3 flex items-center gap-2">
+              <Sparkles className="w-4 h-4" />
+              Suggested Questions for {agent.name}
+            </h4>
+            <div className="grid grid-cols-1 gap-2">
+              {getSuggestedQuestions(agent.id, businessProfile).map((question, idx) => (
+                <Button
+                  key={idx}
+                  variant="ghost"
+                  size="sm"
+                  className="text-left justify-start h-auto p-3 text-white/80 hover:text-white hover:bg-white/5 border border-white/10 hover:border-harmonix-regal-gold/30"
+                  onClick={() => {
+                    setInputValue(question);
+                    setTimeout(() => handleSendMessage(), 100);
+                  }}
+                >
+                  <span className="text-xs leading-relaxed">{question}</span>
+                </Button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Chat Messages */}
         <div className="h-96 overflow-y-auto space-y-4 p-4 bg-black/20 rounded-lg">
           {messages.map((message) => (
@@ -588,4 +614,66 @@ function generateRecommendedServices(agentId: string) {
   };
 
   return services[agentId as keyof typeof services] || services['cash'];
+}
+
+function getSuggestedQuestions(agentId: string, businessProfile: any): string[] {
+  const baseQuestions = {
+    'cash': [
+      "How can I increase my monthly sales by 50% in the next 90 days?",
+      "What's the best way to qualify leads in my industry?",
+      "How do I create a high-converting sales funnel for my business?",
+      "What metrics should I track to optimize my sales process?"
+    ],
+    'grace': [
+      "How can I reduce customer support response time by 80%?",
+      "What's the best strategy for handling difficult customer complaints?",
+      "How do I implement a customer satisfaction system?",
+      "What are the key metrics for measuring customer experience?"
+    ],
+    'echo': [
+      "How can I grow my social media following organically?",
+      "What content strategy works best for my industry?",
+      "How do I create viral social media campaigns?",
+      "What's the best posting schedule for maximum engagement?"
+    ],
+    'flow': [
+      "Which business processes should I automate first?",
+      "How can I eliminate manual data entry in my workflows?",
+      "What's the ROI of implementing process automation?",
+      "How do I identify bottlenecks in my current operations?"
+    ],
+    'kairos': [
+      "How can I improve my team's project delivery time by 40%?",
+      "What's the best project management methodology for my business?",
+      "How do I prevent scope creep and keep projects on track?",
+      "What metrics should I use to measure project success?"
+    ],
+    'sol': [
+      "How can multiple AI agents work together for my business?",
+      "What's the strategic roadmap for AI implementation?",
+      "How do I coordinate different AI tools and platforms?",
+      "What's the expected ROI timeline for AI transformation?"
+    ]
+  };
+
+  const questions = baseQuestions[agentId as keyof typeof baseQuestions] || baseQuestions['cash'];
+  
+  // Customize questions based on business profile
+  if (businessProfile.industry && businessProfile.goal) {
+    const customizedQuestions = questions.map(q => {
+      if (businessProfile.industry === 'technology' && q.includes('industry')) {
+        return q.replace('my industry', 'the technology sector');
+      }
+      if (businessProfile.industry === 'healthcare' && q.includes('industry')) {
+        return q.replace('my industry', 'healthcare');
+      }
+      if (businessProfile.industry === 'finance' && q.includes('industry')) {
+        return q.replace('my industry', 'financial services');
+      }
+      return q;
+    });
+    return customizedQuestions;
+  }
+  
+  return questions;
 }

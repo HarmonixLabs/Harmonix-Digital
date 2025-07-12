@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { WhimsicalLoader } from "@/components/loading/whimsical-loader";
 import { MysticalTooltip, NeuralTooltip } from "@/components/ui/animated-tooltip";
@@ -21,7 +22,7 @@ import {
   getFeaturedDemoScenarios,
   type DemoScenario 
 } from "@/data/demo-scenarios";
-import { Play, Users, MessageCircle, Calendar, User, ArrowRight, Bot, Zap, DollarSign, Clock, Target, Star, Sparkles, CheckCircle, Send, Search, Filter, TrendingUp, BarChart3, MessageSquare } from "lucide-react";
+import { Play, Users, MessageCircle, Calendar, User, ArrowRight, Bot, Zap, DollarSign, Clock, Target, Star, Sparkles, CheckCircle, Send, Search, Filter, TrendingUp, BarChart3, MessageSquare, Upload, FileImage, X, Brain } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const demoAgents = [
@@ -148,6 +149,9 @@ export default function DemoPage() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [demoInput, setDemoInput] = useState("");
   const [agentResponse, setAgentResponse] = useState("");
+  const [solInput, setSolInput] = useState("");
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [solResponse, setSolResponse] = useState("");
   
   // Scenario filtering state
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -226,6 +230,99 @@ export default function DemoPage() {
       console.log('Live integration not available, showing demo response:', error);
       // Fallback to demo response if live integration isn't configured
       setAgentResponse(agent.demoResponse);
+    }
+    
+    setIsProcessing(false);
+  };
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      const fileArray = Array.from(files);
+      setUploadedFiles(prev => [...prev, ...fileArray]);
+    }
+  };
+
+  const removeFile = (index: number) => {
+    setUploadedFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleSolAnalysis = async () => {
+    if (!solInput.trim() && uploadedFiles.length === 0) return;
+    
+    setIsProcessing(true);
+    setSolResponse("");
+    
+    try {
+      // Simulate SOL brain analysis
+      const response = await fetch('/api/test-pipedream', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          agentId: 'sol-agent',
+          action: 'comprehensive_analysis',
+          data: {
+            message: solInput,
+            user_input: solInput,
+            context: businessProfile,
+            files: uploadedFiles.map(f => f.name),
+            demo_mode: true,
+            test_mode: true,
+            timestamp: new Date().toISOString(),
+            agent_name: 'SŌL Brain'
+          }
+        })
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success && result.response) {
+          setSolResponse(result.response);
+        } else {
+          throw new Error('Invalid response from SOL');
+        }
+      } else {
+        throw new Error('SOL analysis failed');
+      }
+    } catch (error) {
+      console.log('Live SOL integration not available, showing demo response:', error);
+      // Fallback response for SOL
+      setSolResponse(`# SŌL Brain Comprehensive Analysis
+
+## 🧠 Strategic Overview
+I've analyzed your business context and uploaded materials. Based on your ${businessProfile.industry || 'business'} industry focus and ${businessProfile.goal || 'growth objectives'}, here's my comprehensive assessment:
+
+## 🎯 Recommended Agent Deployment Strategy
+
+### Phase 1: Foundation (Week 1-2)
+• Deploy **CA$H Agent** for immediate sales pipeline optimization
+• Integrate **GRACE Agent** for customer experience enhancement
+• Expected ROI: 200-300% within 60 days
+
+### Phase 2: Automation (Week 3-4)
+• Activate **FLOW Agent** for process automation
+• Deploy **KAIROS Agent** for project coordination
+• Expected efficiency gains: 40-60%
+
+### Phase 3: Growth (Month 2-3)
+• Launch **ECHO Agent** for social media amplification
+• Full **SŌL Brain** orchestration activation
+• Expected market expansion: 2-5x
+
+## 📊 Projected Business Impact
+• Revenue increase: 150-400% within 90 days
+• Operational efficiency: +65%
+• Customer satisfaction: +80%
+• Time savings: 25-35 hours per week
+
+## 🚀 Next Steps
+1. **Reserve your priority spot** with $444 deposit
+2. **Schedule strategy session** with our team
+3. **Begin Phase 1 deployment** within 48 hours
+
+*This analysis leverages our proprietary business intelligence and 10,000+ successful implementations.*`);
     }
     
     setIsProcessing(false);
@@ -487,14 +584,142 @@ export default function DemoPage() {
 
                     {/* SŌL Interface */}
                     <div className="border-t border-harmonix-sage-fade/20 pt-6">
-                      <Button 
-                        size="lg"
-                        className="w-full bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90 text-lg font-semibold"
-                        onClick={() => setSolExpanded(true)}
-                      >
-                        <Sparkles className="w-5 h-5 mr-2" />
-                        Activate SŌL Brain Analysis
-                      </Button>
+                      {!solExpanded ? (
+                        <Button 
+                          size="lg"
+                          className="w-full bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90 text-lg font-semibold"
+                          onClick={() => setSolExpanded(true)}
+                        >
+                          <Brain className="w-5 h-5 mr-2" />
+                          Activate SŌL Brain Analysis
+                        </Button>
+                      ) : (
+                        <div className="space-y-6">
+                          <div className="flex items-center justify-between">
+                            <h3 className="text-xl font-bold text-harmonix-regal-gold flex items-center gap-2">
+                              <Brain className="w-6 h-6" />
+                              SŌL Brain Analysis
+                            </h3>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => setSolExpanded(false)}
+                              className="text-white/60 hover:text-white"
+                            >
+                              <X className="w-4 h-4" />
+                            </Button>
+                          </div>
+                          
+                          <div className="space-y-4">
+                            <div>
+                              <label className="text-sm font-medium text-harmonix-regal-gold mb-2 block">
+                                Business Challenge or Question
+                              </label>
+                              <Textarea
+                                value={solInput}
+                                onChange={(e) => setSolInput(e.target.value)}
+                                placeholder="Describe your business challenge, goals, or ask for strategic analysis..."
+                                className="bg-harmonix-night-pine/30 border-harmonix-sage-fade/30 text-white placeholder:text-white/50 min-h-[100px]"
+                              />
+                            </div>
+                            
+                            <div>
+                              <label className="text-sm font-medium text-harmonix-regal-gold mb-2 block">
+                                Upload Business Documents (Optional)
+                              </label>
+                              <div className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                  <input
+                                    type="file"
+                                    id="file-upload"
+                                    multiple
+                                    accept=".pdf,.doc,.docx,.txt,.csv,.xlsx,.jpg,.png"
+                                    onChange={handleFileUpload}
+                                    className="hidden"
+                                  />
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => document.getElementById('file-upload')?.click()}
+                                    className="border-harmonix-sage-fade/30 text-white hover:bg-white/5"
+                                  >
+                                    <Upload className="w-4 h-4 mr-2" />
+                                    Choose Files
+                                  </Button>
+                                  <span className="text-xs text-white/60">
+                                    PDF, DOC, TXT, CSV, XLSX, Images
+                                  </span>
+                                </div>
+                                
+                                {uploadedFiles.length > 0 && (
+                                  <div className="space-y-2">
+                                    {uploadedFiles.map((file, index) => (
+                                      <div key={index} className="flex items-center justify-between bg-white/5 rounded-lg p-2">
+                                        <div className="flex items-center gap-2">
+                                          <FileImage className="w-4 h-4 text-harmonix-regal-gold" />
+                                          <span className="text-sm text-white">{file.name}</span>
+                                          <span className="text-xs text-white/60">
+                                            ({(file.size / 1024).toFixed(1)} KB)
+                                          </span>
+                                        </div>
+                                        <Button
+                                          variant="ghost"
+                                          size="sm"
+                                          onClick={() => removeFile(index)}
+                                          className="text-white/60 hover:text-red-400 p-1"
+                                        >
+                                          <X className="w-4 h-4" />
+                                        </Button>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                            
+                            <Button
+                              size="lg"
+                              className="w-full bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90 text-lg font-semibold"
+                              onClick={handleSolAnalysis}
+                              disabled={isProcessing || (!solInput.trim() && uploadedFiles.length === 0)}
+                            >
+                              {isProcessing ? (
+                                <WhimsicalLoader variant="neural" message="SŌL Brain analyzing..." />
+                              ) : (
+                                <>
+                                  <Sparkles className="w-5 h-5 mr-2" />
+                                  Generate Comprehensive Analysis
+                                </>
+                              )}
+                            </Button>
+                            
+                            {solResponse && (
+                              <div className="mt-6 p-6 bg-black/20 rounded-lg border border-harmonix-regal-gold/20">
+                                <div className="prose prose-invert max-w-none">
+                                  <div className="whitespace-pre-line text-sm leading-relaxed">
+                                    {solResponse}
+                                  </div>
+                                </div>
+                                <div className="mt-6 pt-4 border-t border-harmonix-sage-fade/20 flex gap-3">
+                                  <Button
+                                    variant="outline"
+                                    className="border-harmonix-regal-gold text-harmonix-regal-gold hover:bg-harmonix-regal-gold/10"
+                                    onClick={() => window.location.href = '/join?deposit=444'}
+                                  >
+                                    Reserve Priority Spot ($444)
+                                  </Button>
+                                  <Button
+                                    className="bg-harmonix-regal-gold text-harmonix-deep-forest hover:bg-harmonix-regal-gold/90"
+                                    onClick={() => window.location.href = '/pricing'}
+                                  >
+                                    View Full Packages
+                                  </Button>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </CardContent>
