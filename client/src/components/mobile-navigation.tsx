@@ -23,6 +23,7 @@ export function MobileNavigation() {
   
   const publicLinks = [
     { href: '/', label: 'Home', icon: Home },
+    { href: '/marketplace', label: 'Marketplace', icon: Zap },
     { href: '/harmony', label: 'About', icon: Users },
     { href: '/demo', label: 'Demo', icon: Zap },
     { href: '/pricing', label: 'Pricing', icon: DollarSign },
