@@ -9,13 +9,18 @@ import { useAuth } from '@/lib/auth';
 import { 
   Users, TrendingUp, DollarSign, Cpu, Activity, Settings,
   UserPlus, CreditCard, BarChart3, PieChart, AlertCircle,
-  Zap, Shield, Building2, Briefcase, RefreshCw, Loader2
+  Zap, Shield, Building2, Briefcase, RefreshCw, Loader2,
+  Brain, Calendar, MessageSquare, Package
 } from 'lucide-react';
 import { Link } from 'wouter';
 import { useToast } from '@/hooks/use-toast';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import SubscriptionManager from '@/components/enhanced/SubscriptionManager';
+import MyAgentsHub from '@/components/dashboard/MyAgentsHub';
+import PipelinesHub from '@/components/dashboard/PipelinesHub';
+import ContentCenter from '@/components/dashboard/ContentCenter';
+import SolBrainCenter from '@/components/dashboard/SolBrainCenter';
 
 // Mock data for demonstration
 const mockMetrics = {
@@ -36,10 +41,11 @@ const mockTeamMembers = [
 ];
 
 export default function FounderDashboard() {
-  const { user } = useAuth();
+  const { user, organization } = useAuth();
   const { toast } = useToast();
   const [selectedPeriod, setSelectedPeriod] = useState('7d');
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [activeTab, setActiveTab] = useState('overview');
 
   const handlePlatformRefresh = async () => {
     setIsRefreshing(true);
@@ -181,17 +187,18 @@ export default function FounderDashboard() {
       </div>
 
       {/* Main Content Tabs */}
-      <Tabs defaultValue="analytics" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-5 bg-harmonix-deep-forest/50">
-          <TabsTrigger value="analytics">Analytics</TabsTrigger>
-          <TabsTrigger value="team">Team</TabsTrigger>
-          <TabsTrigger value="agents">Agents</TabsTrigger>
-          <TabsTrigger value="subscription">Subscription</TabsTrigger>
-          <TabsTrigger value="billing">Billing</TabsTrigger>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+        <TabsList className="grid w-full grid-cols-3 lg:grid-cols-6 bg-harmonix-deep-forest/50">
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="agents">My Agents</TabsTrigger>
+          <TabsTrigger value="pipelines">Pipelines</TabsTrigger>
+          <TabsTrigger value="content">Content</TabsTrigger>
+          <TabsTrigger value="sol-brain">SŌL Brain</TabsTrigger>
+          <TabsTrigger value="settings">Settings</TabsTrigger>
         </TabsList>
 
-        {/* Analytics Tab */}
-        <TabsContent value="analytics" className="space-y-4">
+        {/* Overview Tab */}
+        <TabsContent value="overview" className="space-y-4">
           <div className="grid gap-4 lg:grid-cols-2">
             <Card className="bg-harmonix-night-pine/50 border-harmonix-sage-fade/20">
               <CardHeader>
@@ -269,8 +276,28 @@ export default function FounderDashboard() {
           </Card>
         </TabsContent>
 
-        {/* Team Tab */}
-        <TabsContent value="team" className="space-y-4">
+        {/* My Agents Tab */}
+        <TabsContent value="agents" className="space-y-4">
+          <MyAgentsHub />
+        </TabsContent>
+
+        {/* Pipelines Tab */}
+        <TabsContent value="pipelines" className="space-y-4">
+          <PipelinesHub />
+        </TabsContent>
+
+        {/* Content Center Tab */}
+        <TabsContent value="content" className="space-y-4">
+          <ContentCenter />
+        </TabsContent>
+
+        {/* SŌL Brain Tab */}
+        <TabsContent value="sol-brain" className="space-y-4">
+          <SolBrainCenter />
+        </TabsContent>
+
+        {/* Settings Tab (formerly Team Tab) */}
+        <TabsContent value="settings" className="space-y-4">
           <Card className="bg-harmonix-night-pine/50 border-harmonix-sage-fade/20">
             <CardHeader>
               <div className="flex items-center justify-between">
@@ -349,75 +376,6 @@ export default function FounderDashboard() {
               </div>
             </CardContent>
           </Card>
-        </TabsContent>
-
-        {/* Agents Tab */}
-        <TabsContent value="agents" className="space-y-4">
-          <Card className="bg-harmonix-night-pine/50 border-harmonix-sage-fade/20">
-            <CardHeader>
-              <CardTitle className="text-harmonix-regal-gold">Agent Overview</CardTitle>
-              <CardDescription className="text-harmonix-sage-fade">
-                Manage your organization's AI agents
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center py-8">
-                <Cpu className="h-12 w-12 mx-auto text-harmonix-sage-fade/50 mb-4" />
-                <p className="text-harmonix-sage-fade">Agent management interface coming soon</p>
-                <Button className="mt-4" asChild>
-                  <Link href="/marketplace">
-                    Browse Marketplace
-                  </Link>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Billing Tab */}
-        <TabsContent value="billing" className="space-y-4">
-          <Card className="bg-harmonix-night-pine/50 border-harmonix-sage-fade/20">
-            <CardHeader>
-              <CardTitle className="text-harmonix-regal-gold">Billing Overview</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="flex items-center justify-between p-4 bg-harmonix-deep-forest/50 rounded-lg">
-                <div>
-                  <p className="font-medium text-white">Current Plan</p>
-                  <p className="text-sm text-harmonix-sage-fade">Enterprise - 12 Agents</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-2xl font-bold text-harmonix-regal-gold">$21,500</p>
-                  <p className="text-sm text-harmonix-sage-fade">per month</p>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="text-harmonix-sage-fade">Next billing date</span>
-                  <span className="text-white">January 30, 2025</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-harmonix-sage-fade">Payment method</span>
-                  <span className="text-white">•••• 4242</span>
-                </div>
-              </div>
-
-              <div className="flex gap-2">
-                <Button variant="outline" className="flex-1">
-                  Update Payment
-                </Button>
-                <Button className="flex-1 bg-harmonix-regal-gold hover:bg-harmonix-regal-gold/90 text-harmonix-deep-forest">
-                  Upgrade Plan
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Subscription Management Tab */}
-        <TabsContent value="subscription" className="space-y-4">
-          <SubscriptionManager />
         </TabsContent>
       </Tabs>
     </div>
