@@ -691,6 +691,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin routes for token and role management
+  app.post('/api/admin/update-tokens', authenticateToken, async (req, res) => {
+    try {
+      const { userId, tokenBalance } = req.body;
+      const requestingUser = req.user as any;
+      
+      // Only super_admin can update tokens
+      if (requestingUser.role !== 'super_admin') {
+        return res.status(403).json({ message: 'Access denied' });
+      }
+      
+      const updatedUser = await storage.updateUser(userId, { tokenBalance });
+      res.json({ message: 'Tokens updated successfully', user: updatedUser });
+    } catch (error) {
+      console.error('Error updating tokens:', error);
+      res.status(500).json({ message: 'Failed to update tokens' });
+    }
+  });
+
+  app.post('/api/admin/update-role', authenticateToken, async (req, res) => {
+    try {
+      const { userId, role } = req.body;
+      const requestingUser = req.user as any;
+      
+      // Only super_admin can update roles
+      if (requestingUser.role !== 'super_admin') {
+        return res.status(403).json({ message: 'Access denied' });
+      }
+      
+      const updatedUser = await storage.updateUser(userId, { role });
+      res.json({ message: 'Role updated successfully', user: updatedUser });
+    } catch (error) {
+      console.error('Error updating role:', error);
+      res.status(500).json({ message: 'Failed to update role' });
+    }
+  });
+
   // Google OAuth routes
   app.get('/api/auth/google', (req, res) => {
     const authUrl = googleClient.generateAuthUrl({

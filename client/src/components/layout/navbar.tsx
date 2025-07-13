@@ -47,7 +47,7 @@ export function Navbar() {
     { href: "/pricing", label: "Pricing" },
     { href: "/case-studies", label: "Success Stories" },
     { href: "/harmony", label: "About" },
-    { href: "/join", label: "Join Harmonix" },
+    { href: "/join", label: "Join Waitlist" },
   ];
 
   const privateLinks = [
