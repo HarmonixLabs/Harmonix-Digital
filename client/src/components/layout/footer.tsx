@@ -26,7 +26,6 @@ export function Footer() {
     { href: "/join", label: "Join Harmonix" },
     { href: "/contact", label: "Contact" },
     { href: "/careers", label: "Careers" },
-    { href: "/system-health", label: "System Health" },
   ];
 
   return (
