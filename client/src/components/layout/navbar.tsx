@@ -43,21 +43,18 @@ export function Navbar() {
   const publicLinks = [
     { href: "/", label: "Home" },
     { href: "/marketplace", label: "Marketplace" },
-    { href: "/service-pricing", label: "Pricing" },
-    { href: "/dashboard/roi", label: "ROI Calculator" },
     { href: "/demo", label: "Demo" },
-    { href: "/join", label: "Join Harmonix" },
+    { href: "/service-pricing", label: "Pricing" },
     { href: "/case-studies", label: "Success Stories" },
-    { href: "/faq", label: "FAQ" },
+    { href: "/join", label: "Join Harmonix" },
   ];
 
   const privateLinks = [
     { href: "/dashboard", label: "Dashboard" },
-    { href: "/my-agents", label: "My Agents" },
     { href: "/marketplace", label: "Marketplace" },
-    { href: "/dashboard/roi", label: "ROI Analytics" },
-    { href: "/create", label: "Create" },
+    { href: "/creator", label: "Creator Zone" },
     { href: "/wallet", label: "Wallet" },
+    { href: "/settings", label: "Settings" },
   ];
 
   const navigationLinks = user ? privateLinks : publicLinks;

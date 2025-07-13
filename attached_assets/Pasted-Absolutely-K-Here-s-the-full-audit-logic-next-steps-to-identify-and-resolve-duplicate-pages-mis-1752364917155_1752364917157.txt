@@ -1,0 +1,180 @@
+Absolutely, K. Here’s the full audit logic + next steps to identify and resolve duplicate pages, misrouted links, and page redundancies across the Harmony platform on Replit, Pipedream, and the dashboard stack.
+
+⸻
+
+✅ PRIMARY GOAL:
+
+Unify platform navigation and backend logic.
+Eliminate duplicate or fragmented pages, so the experience is clean, centralized, and all routes are tracked with no breaks.
+
+⸻
+
+🧹 DUPLICATION CHECKLIST (PAGES TO AUDIT + UNIFY)
+
+1. ✅ Agent Marketplace
+
+Check for duplicates of:
+	•	/marketplace
+	•	/agent-store
+	•	/agents
+	•	/browse
+
+✅ Action:
+	•	Keep only: /marketplace
+	•	Redirect all others to /marketplace
+	•	Ensure that it works public (not logged in) and logged-in mode with different states
+
+⸻
+
+2. ✅ Join Waitlist Page
+
+Check for duplicates of:
+	•	/join
+	•	/waitlist
+	•	/early-access
+	•	/reserve
+
+✅ Action:
+	•	Keep only: /join
+	•	Add parameters or steps inside the same page: ?step=1, ?reserve=true
+	•	Fix issue where form fields aren’t displaying typed text
+	•	Fix submission success and CRM tagging
+	•	Confirm Stripe works at end of waitlist conversion (if selected)
+
+⸻
+
+3. ✅ Dashboard Home
+
+Check for duplicates of:
+	•	/dashboard
+	•	/home
+	•	/my-agents
+	•	/app
+
+✅ Action:
+	•	Keep only: /dashboard
+	•	Route all agents to their mini-dashboard panels under /dashboard/agents/:agentID
+	•	Redirect legacy/test URLs
+
+⸻
+
+4. ✅ Login / Signup / Auth Pages
+
+Check for duplicates of:
+	•	/login
+	•	/signin
+	•	/auth
+	•	/signup
+	•	/register
+
+✅ Action:
+	•	Use one unified OAuth + Email login page
+	•	Keep: /login
+	•	Auto-detect role → route to correct dashboard
+	•	Admins → /admin
+	•	Creators → /creator
+	•	Users → /dashboard
+	•	Unauthenticated visitors → redirected back to /login
+
+⸻
+
+5. ✅ Creator Zone
+
+Check for duplicates of:
+	•	/create-agent
+	•	/creator
+	•	/upload
+	•	/builder
+
+✅ Action:
+	•	Centralize to: /creator
+	•	Tabs inside: [My Agents], [Upload], [Earnings], [Sandbox Builder]
+	•	Make sure all upload routes (JSON, Pipedream, Sandbox build) are synced into the same deploy flow
+
+⸻
+
+6. ✅ Agent Demo Pages
+
+Check for duplicates of:
+	•	/demo
+	•	/try
+	•	/agents/demo
+	•	/sandbox-demo
+
+✅ Action:
+	•	Use: /demo
+	•	4 Agents available in demo:
+	•	Cash
+	•	Echo
+	•	Flow
+	•	Sol (Harmony Brain)
+	•	Locked agents show signup CTA
+	•	Agents load with: Discovery → Strategy → Execution UX flow
+	•	Chat widget = universal, but loaded with context from /demo?agent=sol
+
+⸻
+
+7. ✅ Agent Cards
+
+Ensure there’s not duplicated logic/components for:
+	•	Presale vs Marketplace vs Demo view
+
+✅ Action:
+	•	Use one reusable card component with different mode:
+	•	mode=presale
+	•	mode=marketplace
+	•	mode=demo
+	•	Show dynamic stats, NFT license, preview video, purchase/reserve/deploy button based on state
+
+⸻
+
+🔁 REDIRECT LOGIC
+
+Set up redirect logic in your Replit routes or Netlify (or Vercel) config:
+
+[[redirects]]
+  from = "/agents"
+  to = "/marketplace"
+  status = 301
+
+[[redirects]]
+  from = "/join-waitlist"
+  to = "/join"
+  status = 301
+
+[[redirects]]
+  from = "/create-agent"
+  to = "/creator"
+  status = 301
+
+
+⸻
+
+🧠 SYSTEM-WIDE ROUTE MAP (SINGULARIZED)
+
+Feature	Final Route
+Agent Marketplace	/marketplace
+Join Waitlist	/join
+Main Dashboard	/dashboard
+Creator Upload Hub	/creator
+Agent Demos	/demo
+Login/Auth	/login
+Admin	/admin
+
+
+⸻
+
+✅ NEXT STEP: RIPLET IMPLEMENTATION PROMPT
+
+Prompt for Riplet:
+
+“Please review all platform routes and ensure that all legacy, duplicate, or test URLs are properly redirected or merged into their final singular form:
+
+	•	/marketplace, /join, /dashboard, /creator, /demo, /login, /admin
+Please remove any duplicates or misrouted pages.
+Ensure all UI components (Agent Cards, Agent Logs, Join Forms) reference the same back-end or shared state components. Fix the Join Waitlist form field visibility and CRM tagging.
+Finally, confirm Stripe is properly integrated and pushing payments to the correct account.”
+
+⸻
+
+Ready to run this across the stack and deploy a clean, unified platform? Say the word and I’ll generate any route JSON, Netlify config, or Replit page maps you need.

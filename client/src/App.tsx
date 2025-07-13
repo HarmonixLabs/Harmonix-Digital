@@ -8,6 +8,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/lib/auth";
 import { ErrorBoundary } from "@/components/error-boundary";
 import { PageTransition, SacredLoader } from "@/components/transitions/page-transition";
+import RedirectHandler from "@/components/RedirectHandler";
 import Home from "@/pages/home";
 import Dashboard from "@/pages/dashboard";
 import RoleDashboard from "@/pages/dashboard/RoleDashboard";
@@ -58,71 +59,67 @@ function Router() {
   return (
     <AnimatePresence mode="wait">
       <PageTransition>
+        <RedirectHandler />
         <Switch>
+          {/* === UNIFIED CORE ROUTES === */}
           <Route path="/" component={Home} />
-          <Route path="/harmony" component={Harmony} />
-          {/* Unified Join Page - combines all entry points */}
+          
+          {/* Agent Marketplace - UNIFIED */}
+          <Route path="/marketplace" component={lazy(() => import("./components/enhanced/EnhancedMarketplace"))} />
+          
+          {/* Join/Waitlist - UNIFIED */}
           <Route path="/join" component={UnifiedJoin} />
-          {/* Legacy pages redirect to unified join */}
-          <Route path="/join-legacy" component={Join} />
+          
+          {/* Dashboard - UNIFIED */}
+          <Route path="/dashboard" component={RoleDashboard} />
+          
+          {/* Creator Zone - UNIFIED */}
+          <Route path="/creator" component={lazy(() => import("./pages/creator-dashboard"))} />
+          
+          {/* Demo - UNIFIED */}
+          <Route path="/demo" component={Demo} />
+          
+          {/* Login/Auth - UNIFIED */}
+          <Route path="/login" component={SimpleLoginPage} />
+          
+          {/* Admin - UNIFIED */}
+          <Route path="/admin" component={lazy(() => import("./pages/admin"))} />
+
+          {/* === SUPPORT PAGES === */}
           <Route path="/faq" component={FAQ} />
           <Route path="/case-studies" component={CaseStudies} />
-          <Route path="/demo-deploy" component={DemoDeploy} />
-          <Route path="/demo" component={Demo} />
-          <Route path="/sol-brain-demo" component={SolBrainDemo} />
-
-          <Route path="/features-demo" component={FeaturesDemo} />
-          <Route path="/enhanced-dashboard" component={EnhancedDashboard} />
-          <Route path="/lead-capture-demo" component={LeadCaptureDemo} />
-          <Route path="/system-health" component={SystemHealth} />
-          <Route path="/responsive-test" component={ResponsiveTest} />
-          <Route path="/interactive-demo" component={InteractiveDemo} />
-          <Route path="/agent-test" component={AgentTest} />
-          <Route path="/my-agents" component={MyAgents} />
-          <Route path="/create" component={Create} />
+          <Route path="/service-pricing" component={ServicePricing} />
+          <Route path="/terms-and-conditions" component={TermsAndConditions} />
+          <Route path="/privacy-policy" component={PrivacyPolicy} />
+          
+          {/* === EXTENDED FUNCTIONALITY === */}
+          <Route path="/wallet" component={lazy(() => import("./pages/wallet"))} />
           <Route path="/settings" component={Settings} />
-          <Route path="/pricing" component={lazy(() => import("./pages/pricing-enhanced"))} />
-          <Route path="/success" component={lazy(() => import("./pages/success"))} />
-          <Route path="/thank-you" component={lazy(() => import("./pages/thank-you"))} />
+          <Route path="/checkout" component={Checkout} />
+          <Route path="/enhanced-checkout" component={lazy(() => import("./pages/enhanced-checkout"))} />
+          <Route path="/thank-you" component={ThankYou} />
           <Route path="/sol-brain" component={lazy(() => import("./pages/sol-brain"))} />
           <Route path="/dashboard/roi" component={lazy(() => import("./pages/dashboard/roi"))} />
-          <Route path="/gamified-onboarding" component={lazy(() => import("./pages/gamified-onboarding"))} />
-          <Route path="/get-started" component={lazy(() => import("./pages/get-started"))} />
-          <Route path="/sign-in" component={lazy(() => import("./pages/sign-in"))} />
-
+          <Route path="/nft-marketplace" component={NFTMarketplace} />
+          <Route path="/nft-mint" component={NFTMint} />
+          
+          {/* === DEVELOPMENT & TESTING === */}
+          <Route path="/features-demo" component={FeaturesDemo} />
+          <Route path="/system-health" component={SystemHealth} />
+          <Route path="/loading-showcase" component={LoadingShowcase} />
+          
+          {/* === LEGACY ROUTES (will auto-redirect via RedirectHandler) === */}
+          <Route path="/harmony" component={Harmony} />
+          <Route path="/onboarding" component={OnboardingPage} />
+          <Route path="/auth/callback" component={AuthCallback} />
+          
+          {/* === LEGAL PAGES === */}
           <Route path="/legal/privacy" component={lazy(() => import("./pages/legal/privacy"))} />
           <Route path="/legal/terms" component={lazy(() => import("./pages/legal/terms"))} />
           <Route path="/legal/cookies" component={lazy(() => import("./pages/legal/cookies"))} />
           <Route path="/legal/sms-terms" component={lazy(() => import("./pages/legal/sms-terms"))} />
           <Route path="/contact" component={lazy(() => import("./pages/contact"))} />
           <Route path="/careers" component={lazy(() => import("./pages/careers"))} />
-          <Route path="/onboarding" component={OnboardingPage} />
-          <Route path="/login" component={SimpleLoginPage} />
-          <Route path="/signin" component={Signin} />
-          <Route path="/auth/callback" component={AuthCallback} />
-          <Route path="/signup" component={Signup} />
-          <Route path="/thank-you" component={ThankYou} />
-          <Route path="/checkout" component={Checkout} />
-          <Route path="/enhanced-checkout" component={lazy(() => import("./pages/enhanced-checkout"))} />
-          <Route path="/terms-and-conditions" component={TermsAndConditions} />
-          <Route path="/privacy-policy" component={PrivacyPolicy} />
-          <Route path="/service-pricing" component={ServicePricing} />
-          <Route path="/harmony-waitlist" component={Waitlist} />
-          <Route path="/dashboard" component={RoleDashboard} />
-          <Route path="/dashboard/legacy" component={Dashboard} />
-          <Route path="/marketplace" component={lazy(() => import("./components/enhanced/EnhancedMarketplace"))} />
-          <Route path="/marketplace/legacy" component={Marketplace} />
-          <Route path="/auth/login" component={EnhancedLogin} />
-          <Route path="/create-agent" component={lazy(() => import("./pages/create-agent"))} />
-          <Route path="/agent-builder" component={lazy(() => import("./pages/agent-builder"))} />
-          <Route path="/creator-dashboard" component={lazy(() => import("./pages/creator-dashboard"))} />
-          <Route path="/marketplace/deploy/:agentId" component={lazy(() => import("./pages/marketplace-deploy"))} />
-          <Route path="/agent-marketplace" component={AgentMarketplace} />
-          <Route path="/nft-marketplace" component={NFTMarketplace} />
-          <Route path="/nft-mint" component={NFTMint} />
-          <Route path="/agent-cash" component={AgentCash} />
-          <Route path="/agent-dashboard" component={AgentDashboard} />
-          <Route path="/wallet" component={lazy(() => import("./pages/wallet"))} />
           <Route path="/system-health" component={lazy(() => import("./pages/system-health"))} />
           <Route path="/platform-status" component={lazy(() => import("./pages/platform-status"))} />
           <Route path="/admin-panel" component={lazy(() => import("./pages/admin-panel"))} />
