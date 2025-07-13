@@ -46,14 +46,18 @@ export function Navbar() {
     { href: "/demo", label: "Demo" },
     { href: "/service-pricing", label: "Pricing" },
     { href: "/case-studies", label: "Success Stories" },
+    { href: "/harmony", label: "About" },
     { href: "/join", label: "Join Harmonix" },
   ];
 
   const privateLinks = [
     { href: "/dashboard", label: "Dashboard" },
     { href: "/marketplace", label: "Marketplace" },
-    { href: "/creator", label: "Creator Zone" },
+    { href: "/agent-builder", label: "Agent Builder" },
+    { href: "/creator-dashboard", label: "Creator Hub" },
+    { href: "/my-agents", label: "My Agents" },
     { href: "/wallet", label: "Wallet" },
+    { href: "/analytics", label: "Analytics" },
     { href: "/settings", label: "Settings" },
   ];
 
