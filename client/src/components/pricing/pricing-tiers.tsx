@@ -6,6 +6,7 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Check, Sparkles, Crown, Zap, Building2 } from "lucide-react";
 import { StripeCheckout } from "./stripe-checkout";
+import { DASHBOARD_PLANS, CORE_AGENTS } from '@/data/harmonixAgentPricing';
 
 interface PricingTier {
   id: string;

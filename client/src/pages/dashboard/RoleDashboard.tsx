@@ -1,7 +1,6 @@
 import { useAuth } from '@/lib/auth';
 import FounderDashboard from './FounderDashboard';
 import TeamMemberDashboard from './TeamMemberDashboard';
-import AgentCreatorDashboard from './AgentCreatorDashboard';
 import ViewerDashboard from './ViewerDashboard';
 
 /**
@@ -28,7 +27,7 @@ export default function RoleDashboard() {
       return <TeamMemberDashboard />;
     
     case 'agent_creator':
-      return <AgentCreatorDashboard />;
+      return <FounderDashboard />;
     
     case 'viewer':
       return <ViewerDashboard />;

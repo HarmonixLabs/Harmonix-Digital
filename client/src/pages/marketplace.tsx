@@ -38,6 +38,8 @@ import {
 import { OneClickMarketplace } from '@/components/one-click-marketplace';
 import { useAuth } from '@/lib/auth';
 import { Link } from 'wouter';
+import { MarketplaceQuickAccess } from '@/components/marketplace/MarketplaceQuickAccess';
+import { CORE_AGENTS, DASHBOARD_PLANS } from '@/data/harmonixAgentPricing';
 
 interface Agent {
   id: string;
@@ -70,14 +72,14 @@ const FEATURED_AGENTS: Agent[] = [
     avatar: '💰',
     description: 'Elite revenue generation specialist with advanced CRM integration and Loom script generation',
     category: 'Sales',
-    monthlyPrice: 497,
-    setupPrice: 2500,
+    monthlyPrice: 350,
+    setupPrice: 1000,
     rating: 4.9,
     reviews: 247,
     deployments: 1240,
     features: ['Lead Processing', 'CRM Sync', 'Loom Scripts', 'Follow-up Automation', 'Pipeline Management'],
     creator: {
-      name: 'Harmonix Core',
+      name: 'Harmonix Labs',
       verified: true,
       avatar: '🌟'
     },
@@ -92,14 +94,14 @@ const FEATURED_AGENTS: Agent[] = [
     avatar: '👸',
     description: 'Sophisticated concierge agent for premium customer experience management',
     category: 'Customer Service',
-    monthlyPrice: 297,
-    setupPrice: 1800,
+    monthlyPrice: 300,
+    setupPrice: 900,
     rating: 4.8,
     reviews: 189,
     deployments: 890,
     features: ['24/7 Support', 'VIP Handling', 'Appointment Booking', 'Knowledge Base', 'Escalation Management'],
     creator: {
-      name: 'Harmonix Core',
+      name: 'Harmonix Labs',
       verified: true,
       avatar: '🌟'
     },
@@ -114,14 +116,14 @@ const FEATURED_AGENTS: Agent[] = [
     avatar: '📱',
     description: 'Complete social media automation with trend analysis and content generation',
     category: 'Marketing',
-    monthlyPrice: 197,
-    setupPrice: 1200,
+    monthlyPrice: 320,
+    setupPrice: 1000,
     rating: 4.7,
     reviews: 156,
     deployments: 675,
     features: ['Content Generation', 'Trend Analysis', 'Scheduling', 'Engagement Tracking', 'Multi-Platform'],
     creator: {
-      name: 'Harmonix Core',
+      name: 'Harmonix Labs',
       verified: true,
       avatar: '🌟'
     },
@@ -136,14 +138,14 @@ const FEATURED_AGENTS: Agent[] = [
     avatar: '👥',
     description: 'Comprehensive human resources management with onboarding and training automation',
     category: 'HR',
-    monthlyPrice: 347,
-    setupPrice: 2000,
+    monthlyPrice: 280,
+    setupPrice: 800,
     rating: 4.6,
     reviews: 134,
     deployments: 542,
     features: ['Onboarding', 'Training Management', 'Performance Tracking', 'Compliance', 'Team Analytics'],
     creator: {
-      name: 'Harmonix Core',
+      name: 'Harmonix Labs',
       verified: true,
       avatar: '🌟'
     },
@@ -158,14 +160,14 @@ const FEATURED_AGENTS: Agent[] = [
     avatar: '📊',
     description: 'Advanced project management with timeline optimization and resource allocation',
     category: 'Operations',
-    monthlyPrice: 397,
-    setupPrice: 2200,
+    monthlyPrice: 280,
+    setupPrice: 800,
     rating: 4.8,
     reviews: 198,
     deployments: 723,
     features: ['Project Planning', 'Resource Management', 'Timeline Optimization', 'Risk Assessment', 'Team Coordination'],
     creator: {
-      name: 'Harmonix Core',
+      name: 'Harmonix Labs',
       verified: true,
       avatar: '🌟'
     },
@@ -180,14 +182,14 @@ const FEATURED_AGENTS: Agent[] = [
     avatar: '📋',
     description: 'Intelligent standard operating procedure creation and workflow optimization',
     category: 'Operations',
-    monthlyPrice: 267,
-    setupPrice: 1600,
+    monthlyPrice: 300,
+    setupPrice: 950,
     rating: 4.5,
     reviews: 112,
     deployments: 445,
     features: ['SOP Creation', 'Workflow Design', 'Process Optimization', 'Documentation', 'Training Materials'],
     creator: {
-      name: 'Harmonix Core',
+      name: 'Harmonix Labs',
       verified: true,
       avatar: '🌟'
     },
@@ -346,6 +348,11 @@ export default function Marketplace() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Marketplace Quick Access Navigation */}
+        <div className="mb-8">
+          <MarketplaceQuickAccess />
+        </div>
+
         {/* Search and Filters */}
         <div className="mb-8">
           <div className="flex flex-col lg:flex-row gap-4 mb-6">

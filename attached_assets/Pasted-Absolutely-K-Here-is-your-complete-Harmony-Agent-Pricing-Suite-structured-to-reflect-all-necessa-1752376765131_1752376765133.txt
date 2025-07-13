@@ -1,0 +1,88 @@
+Absolutely, K. Here is your complete Harmony Agent Pricing Suite — structured to reflect all necessary tiers, fees, and use cases across setup, subscription, and integrated dashboard plans.
+
+⸻
+
+🔐 HARMONY AGENT PRICING TABLE
+
+For Founders, Creators, and Clients
+
+⸻
+
+🔹 CORE PRINCIPLES:
+	•	Minimum Monthly Subscription: $280 USD/month per agent
+	•	Setup Fees (1-time): Required unless waived by active dashboard plan
+	•	Dashboard Plan Discount: Setup fees are waived based on tier
+	•	Setup includes: Personalization, integrations (CRM, calendar, platform), onboarding
+
+⸻
+
+🧠 CORE AGENTS PRICING (Base)
+
+Agent Name	Role / Use Case	Monthly Price	Setup Fee (No Plan)	Setup Fee (With Plan)
+SŌL	Harmony Brain / Orchestrator	$350/month	$1,200	Waived
+CASH	Sales AI Closer / Lead Qualifier	$350/month	$1,000	Waived
+Concierge	Client Success / CRM Agent	$300/month	$900	Waived
+Flow	Process Optimizer / SOP Builder	$300/month	$950	Waived
+Kairos	Project Manager / Time Sync Agent	$280/month	$800	Waived
+Echo	Content / Storytelling / Social AI	$320/month	$1,000	Waived
+Forge	Developer / DevOps / AI Builder	$400/month	$1,500	Waived
+
+
+⸻
+
+🎯 PLAN-BASED DISCOUNTS (Bundles)
+
+Plan Name	Monthly Fee	# Agents Included	Setup Fees	Dashboard Access	Additional Agent Add-On
+Starter	$1,200	3	Waived	✅ Yes	$250/month each
+Growth	$1,950	5	Waived	✅ Yes	$240/month each
+Enterprise	$3,200	8	Waived	✅ Yes	$220/month each
+Creator Sandbox (Add-On)	$300	N/A (For creators)	N/A	🧪 Limited	Creator Upload Access
+
+
+⸻
+
+📦 A LA CARTE OPTIONS
+
+Add-On / Function	Price
+Agent NFT Minting (w/ metadata)	$80 / agent
+Dashboard Setup Only (no agents)	$350 one-time
+Platform White-labeling	$2,000+ (Custom)
+Creator Marketplace Activation	$150 / agent listing
+Concierge Onboarding Support (Live)	$180 / hour
+API Syncs (CRM, Calendars, GDrive)	Included in Setup
+Recharge Wallet (HRMNY Top-Up)	Dynamic ($50–$500+)
+
+
+⸻
+
+🔁 PAYMENT STRUCTURE
+
+Method	Notes
+💳 Stripe (Default)	Credit/Debit for Setup & Subscriptions
+🪙 NowPay (BTC/ETH/Stable)	Optional via NowPayments Wallet
+💼 Custom Invoicing	Enterprise only
+
+
+⸻
+
+🔒 CONDITIONS
+	•	Plans billed monthly (Net 0)
+	•	Setup fees non-refundable
+	•	Agent updates and optimizations included in monthly subscription
+	•	All agents require an active fuel balance (HRMNY token) to run advanced tasks
+(System will auto-prompt user to top up when low)
+
+⸻
+
+🧩 SUMMARY
+
+Scenario	Setup Fee	Monthly	Access Level
+One Agent, No Plan	Yes	$280–400	Dashboard + Agent
+Agent with Dashboard Plan	Waived	Incl.	Full Dashboard
+Creator Uploading Agent	N/A	$150	Marketplace + Royalties
+Add-On Agent (Bundle User)	Waived	$220–250	Plug + Deploy
+
+
+⸻
+
+Would you like me to format this into a downloadable pricing deck (PDF or slide) next? Or export it into a pricing page JSON for your frontend?
