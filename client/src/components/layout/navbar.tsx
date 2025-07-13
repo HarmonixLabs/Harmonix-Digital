@@ -44,7 +44,7 @@ export function Navbar() {
     { href: "/", label: "Home" },
     { href: "/marketplace", label: "Marketplace" },
     { href: "/demo", label: "Demo" },
-    { href: "/service-pricing", label: "Pricing" },
+    { href: "/pricing", label: "Pricing" },
     { href: "/case-studies", label: "Success Stories" },
     { href: "/harmony", label: "About" },
     { href: "/join", label: "Join Harmonix" },

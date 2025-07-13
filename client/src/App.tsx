@@ -44,6 +44,7 @@ import LoadingShowcase from "@/pages/loading-showcase";
 import TermsAndConditions from "@/pages/TermsAndConditions";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import ServicePricing from "@/pages/ServicePricing";
+import Pricing from "@/pages/pricing";
 import Waitlist from "@/pages/Waitlist";
 import FeaturesDemo from "@/pages/features-demo";
 import EnhancedDashboard from "@/pages/enhanced-dashboard";
@@ -88,6 +89,7 @@ function Router() {
           {/* === SUPPORT PAGES === */}
           <Route path="/faq" component={FAQ} />
           <Route path="/case-studies" component={CaseStudies} />
+          <Route path="/pricing" component={Pricing} />
           <Route path="/service-pricing" component={ServicePricing} />
           <Route path="/terms-and-conditions" component={TermsAndConditions} />
           <Route path="/privacy-policy" component={PrivacyPolicy} />

@@ -524,7 +524,6 @@ export default function UnifiedJoinPage() {
                               onChange={(e) => updateFormData('phone', e.target.value)}
                               placeholder="+1 (555) 123-4567"
                               className="bg-gray-900/50 border-gray-600 text-white placeholder:text-gray-400 focus:border-emerald-500 focus:ring-emerald-500"
-                              className="bg-deep-space-black/50 border-jade-forest/30 text-white"
                             />
                           </div>
                           
