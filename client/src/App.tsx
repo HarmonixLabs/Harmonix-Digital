@@ -65,7 +65,7 @@ function Router() {
           <Route path="/" component={Home} />
           
           {/* Agent Marketplace - UNIFIED */}
-          <Route path="/marketplace" component={lazy(() => import("./components/enhanced/EnhancedMarketplace"))} />
+          <Route path="/marketplace" component={Marketplace} />
           
           {/* Join/Waitlist - UNIFIED */}
           <Route path="/join" component={UnifiedJoin} />

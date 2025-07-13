@@ -3,6 +3,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { PricingTiers } from "@/components/pricing/pricing-tiers";
 import { ROICalculator } from "@/components/pricing/roi-calculator";
+import { SplitPaymentOptions } from "@/components/pricing/split-payment-options";
 import { HarmonixLogo } from "@/components/brand/HarmonixLogo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";

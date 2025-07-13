@@ -493,7 +493,7 @@ export default function UnifiedJoinPage() {
                               value={formData.name}
                               onChange={(e) => updateFormData('name', e.target.value)}
                               placeholder="John Doe"
-                              className="bg-deep-space-black/50 border-jade-forest/30 text-white"
+                              className="bg-gray-900/50 border-gray-600 text-white placeholder:text-gray-400 focus:border-emerald-500 focus:ring-emerald-500"
                               required
                             />
                           </div>
@@ -508,7 +508,7 @@ export default function UnifiedJoinPage() {
                               value={formData.email}
                               onChange={(e) => updateFormData('email', e.target.value)}
                               placeholder="john@company.com"
-                              className="bg-deep-space-black/50 border-jade-forest/30 text-white"
+                              className="bg-gray-900/50 border-gray-600 text-white placeholder:text-gray-400 focus:border-emerald-500 focus:ring-emerald-500"
                               required
                             />
                           </div>
@@ -523,6 +523,7 @@ export default function UnifiedJoinPage() {
                               value={formData.phone}
                               onChange={(e) => updateFormData('phone', e.target.value)}
                               placeholder="+1 (555) 123-4567"
+                              className="bg-gray-900/50 border-gray-600 text-white placeholder:text-gray-400 focus:border-emerald-500 focus:ring-emerald-500"
                               className="bg-deep-space-black/50 border-jade-forest/30 text-white"
                             />
                           </div>

@@ -308,9 +308,13 @@ export default function Marketplace() {
     }
     
     try {
+      const token = localStorage.getItem('harmonix_token');
       const response = await fetch('/api/marketplace/purchase', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': token ? `Bearer ${token}` : ''
+        },
         body: JSON.stringify({
           agentId: agent.id,
           agentName: agent.name,
