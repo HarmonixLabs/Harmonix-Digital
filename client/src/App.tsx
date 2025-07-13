@@ -96,7 +96,6 @@ function Router() {
           <Route path="/wallet" component={lazy(() => import("./pages/wallet"))} />
           <Route path="/settings" component={Settings} />
           <Route path="/checkout" component={Checkout} />
-          <Route path="/enhanced-checkout" component={lazy(() => import("./pages/enhanced-checkout"))} />
           <Route path="/thank-you" component={ThankYou} />
           <Route path="/sol-brain" component={lazy(() => import("./pages/sol-brain"))} />
           <Route path="/dashboard/roi" component={lazy(() => import("./pages/dashboard/roi"))} />

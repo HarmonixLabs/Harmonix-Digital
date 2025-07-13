@@ -1248,6 +1248,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Marketplace Agent Purchase Endpoint - Fixed for VITE_STRIPE_PUBLIC_KEY
+  app.post('/api/marketplace/purchase', async (req, res) => {
+    try {
+      const { agentId, agentName, monthlyPrice, setupPrice, paymentType = 'subscription' } = req.body;
+      
+      if (!agentId || !agentName || !monthlyPrice) {
+        return res.status(400).json({ error: 'Missing required fields: agentId, agentName, monthlyPrice' });
+      }
+
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        mode: paymentType === 'subscription' ? 'subscription' : 'payment',
+        line_items: [{
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: `${agentName} - Harmonix Labs`,
+              description: `Monthly subscription for ${agentName} AI agent`,
+            },
+            unit_amount: monthlyPrice * 100, // Convert to cents
+            recurring: paymentType === 'subscription' ? { interval: 'month' } : undefined,
+          },
+          quantity: 1,
+        }],
+        success_url: `${req.headers.origin || 'http://localhost:5000'}/success?session_id={CHECKOUT_SESSION_ID}&agent=${agentId}`,
+        cancel_url: `${req.headers.origin || 'http://localhost:5000'}/marketplace?cancelled=true`,
+        metadata: {
+          agentId,
+          agentName,
+          monthlyPrice: monthlyPrice.toString(),
+          setupPrice: setupPrice?.toString() || '0',
+          source: 'marketplace'
+        }
+      });
+
+      res.json({ url: session.url, sessionId: session.id });
+    } catch (error) {
+      console.error('Marketplace purchase error:', error);
+      res.status(500).json({ error: 'Failed to create checkout session' });
+    }
+  });
+
   // Enhanced Stripe Payment Routes with Subscription Management
   app.post('/api/stripe/create-checkout-session', async (req, res) => {
     try {

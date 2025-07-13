@@ -35,8 +35,8 @@ import {
   ExternalLink,
   ChevronDown
 } from 'lucide-react';
-import { OneClickMarketplace } from '@/components/one-click-marketplace';
 import { useAuth } from '@/lib/auth';
+import { useToast } from '@/hooks/use-toast';
 import { Link } from 'wouter';
 import { MarketplaceQuickAccess } from '@/components/marketplace/MarketplaceQuickAccess';
 import { CORE_AGENTS, DASHBOARD_PLANS } from '@/data/harmonixAgentPricing';
@@ -210,6 +210,7 @@ const RARITY_COLORS = {
 
 export default function Marketplace() {
   const { user, isAuthenticated } = useAuth();
+  const { toast } = useToast();
   const [agents, setAgents] = useState(FEATURED_AGENTS);
   const [filteredAgents, setFilteredAgents] = useState(FEATURED_AGENTS);
   const [searchTerm, setSearchTerm] = useState('');
@@ -299,16 +300,41 @@ export default function Marketplace() {
     return !isAuthenticated && !DEMO_AGENT_IDS.includes(agentId);
   };
 
-  const handleDeploy = (agent: Agent) => {
+  const handleDeploy = async (agent: Agent) => {
     if (!isAuthenticated) {
       // Prompt login/signup if user is anonymous
       window.location.href = '/get-started';
       return;
     }
     
-    // All agents are currently available for deployment
-    // Launch deploy flow to checkout page with selected agent
-    window.location.href = `/checkout?agent=${agent.id}&tier=growth`;
+    try {
+      const response = await fetch('/api/marketplace/purchase', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          agentId: agent.id,
+          agentName: agent.name,
+          monthlyPrice: agent.monthlyPrice,
+          setupPrice: agent.setupPrice,
+          paymentType: 'subscription'
+        })
+      });
+
+      if (response.ok) {
+        const { url } = await response.json();
+        window.location.href = url;
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Purchase failed');
+      }
+    } catch (error) {
+      console.error('Purchase error:', error);
+      toast({
+        title: "Purchase Failed",
+        description: error.message || "Unable to process purchase. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   const getRarityIcon = (rarity: string) => {
