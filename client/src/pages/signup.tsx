@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { HarmonixLogo } from "@/components/brand/HarmonixLogo";
+import { HarmonixLogo } from "@/components/ui/harmonix-logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -95,7 +95,7 @@ export default function SignupPage() {
         <Card className="bg-gray-900/50 border-harmony-gold/30 backdrop-blur-sm">
           <CardHeader className="text-center space-y-6">
             <div className="flex justify-center">
-              <HarmonixLogo size="lg" variant="gold" showText={false} />
+              <HarmonixLogo size="lg" variant="full" />
             </div>
             <div>
               <CardTitle className="text-3xl font-bold text-white font-serif">

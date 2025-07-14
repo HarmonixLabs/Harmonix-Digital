@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { HarmonixLogo } from '@/components/brand/HarmonixLogo';
+import { HarmonixLogo } from '@/components/ui/harmonix-logo';
 import { useAuth } from '@/lib/auth';
 import { useToast } from '@/hooks/use-toast';
 import { Link } from 'wouter';
@@ -108,7 +108,7 @@ export function UnifiedAuthModal({
           <DialogHeader className="p-6 pb-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <HarmonixLogo size="sm" variant="icon" showText={false} />
+                <HarmonixLogo size="sm" variant="icon" />
                 <DialogTitle className="text-xl font-bold text-harmonix-gold">
                   {activeTab === 'login' ? 'Welcome Back' : 'Join Harmonix'}
                 </DialogTitle>

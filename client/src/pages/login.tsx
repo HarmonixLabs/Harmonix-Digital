@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { HarmonixLogo } from "@/components/brand/HarmonixLogo";
+import { HarmonixLogo } from "@/components/ui/harmonix-logo";
 import { PlatformLayout } from "@/components/layout/platform-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -76,7 +76,7 @@ export default function LoginPage() {
           <Card className="bg-gray-900/50 border-harmony-gold/30 backdrop-blur-sm">
           <CardHeader className="text-center space-y-6">
             <div className="flex justify-center">
-              <HarmonixLogo size="lg" variant="h-mark" />
+              <HarmonixLogo size="lg" variant="full" />
             </div>
             <div>
               <CardTitle className="text-3xl font-bold text-white font-serif">

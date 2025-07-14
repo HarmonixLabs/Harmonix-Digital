@@ -27,7 +27,6 @@ import MyAgents from "@/pages/my-agents";
 import Create from "@/pages/create";
 import Settings from "@/pages/settings";
 import Login from "@/pages/login";
-import Signin from "@/pages/signin";
 import AuthCallback from "@/pages/auth-callback";
 import OnboardingPage from "@/pages/onboarding";
 import Signup from "@/pages/signup";
@@ -50,7 +49,7 @@ import FeaturesDemo from "@/pages/features-demo";
 import EnhancedDashboard from "@/pages/enhanced-dashboard";
 import LeadCaptureDemo from "@/pages/lead-capture-demo";
 import SystemHealth from "@/pages/system-health";
-import SimpleLoginPage from "@/pages/simple-login";
+// Removed duplicate authentication imports
 import ResponsiveTest from "@/pages/responsive-test";
 import InteractiveDemo from "@/pages/interactive-demo";
 import AgentTest from "@/pages/agent-test";
@@ -80,8 +79,9 @@ function Router() {
           {/* Demo - UNIFIED */}
           <Route path="/demo" component={Demo} />
           
-          {/* Login/Auth - UNIFIED */}
-          <Route path="/login" component={SimpleLoginPage} />
+          {/* Authentication - UNIFIED */}
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
           
           {/* Admin - UNIFIED */}
           <Route path="/admin" component={lazy(() => import("./pages/admin"))} />
