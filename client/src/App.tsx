@@ -109,6 +109,12 @@ function Router() {
           <Route path="/nft-marketplace" component={NFTMarketplace} />
           <Route path="/nft-mint" component={NFTMint} />
           
+          {/* === AUTHENTICATION === */}
+          <Route path="/auth/signin" component={lazy(() => import("./pages/auth/signin"))} />
+          <Route path="/auth/signup" component={lazy(() => import("./pages/auth/signup"))} />
+          <Route path="/signin" component={lazy(() => import("./pages/auth/signin"))} />
+          <Route path="/signup" component={lazy(() => import("./pages/auth/signup"))} />
+
           {/* === DEVELOPMENT & TESTING === */}
           <Route path="/features-demo" component={FeaturesDemo} />
           <Route path="/system-health" component={SystemHealth} />

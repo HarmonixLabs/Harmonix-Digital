@@ -271,8 +271,18 @@ export default function UnifiedJoinPage() {
           break;
           
         case "premium":
-          // Redirect to checkout with selected plan
-          setLocation(`/checkout?plan=${formData.selectedPlan}&deposit=true`);
+          // Create checkout session for premium plan
+          const premiumCheckout = await fetch('/api/create-checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              plan: formData.selectedPlan || 'growth',
+              customerData: formData,
+              depositPercentage: 30
+            }),
+          });
+          const { url: premiumUrl } = await premiumCheckout.json();
+          window.location.href = premiumUrl;
           break;
       }
       

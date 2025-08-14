@@ -1,0 +1,102 @@
+
+⸻
+
+📌 Prompt for Riplet – Authentication + Payments + Waitlist Integration
+
+⸻
+
+Project: Harmony OS – Final Auth, Payment, and Lead Capture Systems
+
+Hey Riplet Team,
+
+We are now locking in three mission-critical systems for launch:
+	1.	Join the Waitlist (Lead capture → CRM & Google Sheets)
+	2.	Payment Integration + Checkout (Setup fees + deposits)
+	3.	Sign In / Sign Out (Multi-provider authentication)
+
+Additional Authentication Option:
+	•	Enable Passkey / Biometric Login support where possible, including:
+	•	Face ID / Touch ID on supported devices.
+	•	Windows Hello / fingerprint on compatible hardware.
+	•	Secure WebAuthn passkeys for cross-device sign-ins.
+	•	These should be optional convenience logins that layer on top of existing account security.
+
+⸻
+
+1️⃣ Join the Waitlist – MUST BE 100% FUNCTIONAL
+	•	All “Join Waitlist” buttons and forms across the site must:
+	•	Submit data to Go High Level (primary CRM)
+	•	Submit data to Google Sheets (backup)
+	•	Fire a success confirmation message or redirect.
+	•	Webhooks and API calls must be verified in both sandbox and live mode.
+	•	Fields to capture:
+	•	Full Name
+	•	Email
+	•	Phone (optional, but captured if provided)
+	•	Organization Name (optional)
+	•	Source/Referrer (hidden field if possible)
+	•	Waitlist form must work on desktop and mobile with no layout issues.
+
+⸻
+
+2️⃣ Payment Integration + Checkout
+	•	Integrate Stripe as the primary payment processor (unless otherwise noted).
+	•	Allow users to:
+	•	Pay 30% deposit of setup fee to reserve their spot.
+	•	Apply 15% off setup fee automatically if deposit is paid.
+	•	Checkout flow must:
+	•	Work seamlessly on desktop and mobile.
+	•	Include clear breakdown of costs, discounts, and deposit.
+	•	Save transaction data to:
+	•	Go High Level
+	•	Google Sheets (optional backup)
+	•	Payments must be secure (SSL, PCI compliant).
+	•	Users must receive email confirmation/receipt after payment.
+
+⸻
+
+3️⃣ Sign In / Sign Out System (Multi-Provider)
+	•	Authentication options:
+	•	Google Login
+	•	Email + Password
+	•	Phone Number (SMS code verification)
+	•	Apple Login
+	•	Microsoft Login
+	•	Requirements:
+	•	OAuth integration for Google, Apple, Microsoft.
+	•	Secure token/session management (JWT).
+	•	Ability to reset password and manage account profile.
+	•	Works across all devices (responsive UI).
+	•	Sign out option visible on dashboard.
+	•	After login:
+	•	Redirect users to their Harmony Dashboard.
+	•	Show their plan, active agents, and token balance.
+
+⸻
+
+🔍 Testing Checklist (All Must Pass)
+
+Feature	Status
+Waitlist form sends to GHL & Sheets	✅ / ❌
+Payment checkout works (Stripe live)	✅ / ❌
+Deposit & discount logic works	✅ / ❌
+Auth works for all providers	✅ / ❌
+Email receipt after payment	✅ / ❌
+Mobile responsiveness	✅ / ❌
+Dashboard redirect after login	✅ / ❌
+
+
+⸻
+
+Branding Note:
+All UI must match Harmony’s brand guidelines:
+	•	Monogram logo PNG (no background)
+	•	Gold/Jade accent colors
+	•	Poppins/Inter typography
+
+⸻
+
+Deliverable:
+Fully functional, branded, and tested Join Waitlist → Payment → Login/Logout pipeline, ready for production.
+
+⸻

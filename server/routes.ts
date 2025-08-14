@@ -61,9 +61,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Apply CORS middleware
   app.use(corsMiddleware);
 
-  // Import and setup GHL submission routes
+  // Import and setup additional routes
   const ghlSubmitRouter = (await import('./routes/ghl-submit')).default;
+  const checkoutRouter = (await import('./routes/checkout')).default;
   app.use(ghlSubmitRouter);
+  app.use(checkoutRouter);
 
   // Health check endpoints
   app.get('/health', healthCheck);
