@@ -1,0 +1,208 @@
+Got it. Here’s a tight, do‑now prompt for Riplet that locks the nav/footer spec and fixes the jumble across all pages.
+
+⸻
+
+PROMPT FOR RIPLET — NAVBAR & FOOTER FIX (GLOBAL)
+
+Objective: Standardize the global navigation and footer across every page, aligned to Harmony brand and UX rules. Remove the System Health widget from the footer (link only). Ensure responsive behavior and consistent spacing on desktop/tablet/mobile.
+
+⸻
+
+1) Global Layout Contracts
+	•	Convert the app to a single shared layout:
+	•	components/layout/AppShell.tsx used by all routes.
+	•	Contains <Navbar /> and <Footer /> and a <main> with proper max-width & paddings.
+	•	Purge page‑local nav/footers. If duplicates exist, delete and point pages to AppShell.
+
+⸻
+
+2) Navbar — Order, Behavior, States
+
+Required order (left → right)
+	1.	Logo (monogram SVG, transparent) → routes to /
+	2.	Home
+	3.	Marketplace
+	4.	Demo
+	5.	Pricing
+	6.	Join (Early Access)
+	7.	Sign In (switches to Dashboard once authenticated)
+	8.	SŌL Indicator (status chip, read‑only)
+
+Interaction rules
+	•	Sticky at top, blur/alpha background on scroll (80–90% opacity).
+	•	Active link shows gold underline + color.
+	•	Join (Early Access) is a gold pill CTA.
+	•	SŌL Indicator: small chip on the far right
+	•	Connected: green dot + “SŌL Connected”
+	•	Disconnected: red dot + “SŌL Disconnected”
+	•	Tooltip on hover: “Org‑level state. Manage in Dashboard → System Health.”
+
+Responsive
+	•	Desktop ≥1024px: inline menu as above.
+	•	Mobile <1024px: left Logo, right hamburger → full‑height drawer with the same order. Join CTA sits pinned at the bottom of the drawer.
+
+Reference component (Next + Tailwind)
+
+// components/nav/Navbar.tsx
+import Link from "next/link";
+import { useState, useEffect } from "react";
+import clsx from "clsx";
+
+export default function Navbar({ solStatus = "disconnected", isAuthed = false }:{
+  solStatus?: "connected"|"disconnected",
+  isAuthed?: boolean
+}) {
+  const [atTop, setAtTop] = useState(true);
+  useEffect(() => {
+    const onScroll = () => setAtTop(window.scrollY < 8);
+    onScroll(); window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const Dot = ({ ok }: { ok: boolean }) => (
+    <span className={clsx("inline-block h-2 w-2 rounded-full mr-2",
+      ok ? "bg-[#16a34a]" : "bg-[#ef4444]")} />
+  );
+
+  return (
+    <header className={clsx(
+      "sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-[#0b0b0bcc] bg-[#0b0b0c]/85",
+      atTop ? "border-b border-transparent" : "border-b border-white/5"
+    )}>
+      <nav className="mx-auto max-w-7xl px-4 lg:px-6">
+        <div className="flex h-14 items-center justify-between">
+          {/* Left: Logo */}
+          <Link href="/" className="flex items-center gap-2">
+            <img src="/brand/monogram.svg" alt="Harmonix" className="h-6 w-6" />
+            <span className="sr-only">Harmonix</span>
+          </Link>
+
+          {/* Center: Primary Nav (desktop) */}
+          <ul className="hidden lg:flex items-center gap-6 text-sm text-white/80">
+            <li><Link className="hover:text-white" href="/">Home</Link></li>
+            <li><Link className="hover:text-white" href="/marketplace">Marketplace</Link></li>
+            <li><Link className="hover:text-white" href="/demo">Demo</Link></li>
+            <li><Link className="hover:text-white" href="/pricing">Pricing</Link></li>
+            <li>
+              <Link
+                href="/join"
+                className="rounded-full px-3 py-1.5 text-sm font-medium bg-[#FDC500] text-black hover:shadow-[0_0_0_3px_rgba(253,197,0,.25)] transition">
+                Join – Early Access
+              </Link>
+            </li>
+            <li>
+              <Link className="hover:text-white" href={isAuthed ? "/dashboard" : "/auth/signin"}>
+                {isAuthed ? "Dashboard" : "Sign In"}
+              </Link>
+            </li>
+          </ul>
+
+          {/* Right: SOL chip (desktop) */}
+          <div className="hidden lg:flex items-center text-xs text-white/80">
+            <span className="inline-flex items-center rounded-full border border-white/10 px-2 py-1">
+              <Dot ok={solStatus === "connected"} />
+              {solStatus === "connected" ? "SŌL Connected" : "SŌL Disconnected"}
+            </span>
+          </div>
+
+          {/* Mobile burger */}
+          <MobileMenu isAuthed={isAuthed} solStatus={solStatus} />
+        </div>
+      </nav>
+    </header>
+  );
+}
+
+function MobileMenu({ isAuthed, solStatus }:{ isAuthed:boolean, solStatus:"connected"|"disconnected" }) {
+  const [open,setOpen]=useState(false);
+  return (
+    <div className="lg:hidden">
+      <button aria-label="Open menu" onClick={()=>setOpen(true)} className="p-2 text-white/80">☰</button>
+      {open && (
+        <div className="fixed inset-0 z-50 bg-[#0b0b0f]/95 backdrop-blur">
+          <div className="mx-auto max-w-lg p-6 space-y-4">
+            <button onClick={()=>setOpen(false)} className="text-white/70">Close ✕</button>
+            <nav className="flex flex-col text-lg text-white/90 gap-3">
+              <Link href="/" onClick={()=>setOpen(false)}>Home</Link>
+              <Link href="/marketplace" onClick={()=>setOpen(false)}>Marketplace</Link>
+              <Link href="/demo" onClick={()=>setOpen(false)}>Demo</Link>
+              <Link href="/pricing" onClick={()=>setOpen(false)}>Pricing</Link>
+              <Link
+                href="/join"
+                onClick={()=>setOpen(false)}
+                className="mt-2 rounded-xl px-4 py-3 bg-[#FDC500] text-black font-semibold">
+                Join – Early Access
+              </Link>
+              <Link href={isAuthed?"/dashboard":"/auth/signin"} onClick={()=>setOpen(false)}>
+                {isAuthed? "Dashboard":"Sign In"}
+              </Link>
+              <div className="pt-4 text-sm text-white/70">
+                <span className="inline-flex items-center gap-2">
+                  <span className={`h-2 w-2 rounded-full ${solStatus==="connected"?"bg-[#16a34a]":"bg-[#ef4444]"}`}/>
+                  {solStatus==="connected"?"SŌL Connected":"SŌL Disconnected"}
+                </span>
+              </div>
+            </nav>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
+⸻
+
+3) Footer — Clean, Centered, Correct
+	•	Center the footer content within max-w-7xl mx-auto px-4 lg:px-6 py-10.
+	•	Items (left → right on desktop, stacked on mobile):
+	•	Monogram logo
+	•	Slim nav: Home, Marketplace, Demo, Pricing, Join
+	•	Legal: Privacy, Terms
+	•	Contact: connect@harmonixdigital.com
+	•	Remove the System Health widget from the footer entirely.
+	•	Add a small text link to the System Health page (org‑founders only):
+	•	“System Health (Founders)” → routes to /dashboard/system-health (guarded by role).
+
+// components/footer/Footer.tsx
+export default function Footer(){
+  return (
+    <footer className="border-t border-white/10 bg-[#0b0b0b]">
+      <div className="mx-auto max-w-7xl px-4 lg:px-6 py-10 text-white/70">
+        <div className="flex flex-col items-center gap-6">
+          <img src="/brand/monogram.svg" alt="Harmonix" className="h-7 w-7" />
+          <nav className="flex flex-wrap justify-center gap-5 text-sm">
+            <a href="/">Home</a>
+            <a href="/marketplace">Marketplace</a>
+            <a href="/demo">Demo</a>
+            <a href="/pricing">Pricing</a>
+            <a href="/join" className="text-[#FDC500]">Join</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+            <a href="/dashboard/system-health" className="opacity-70">System Health (Founders)</a>
+          </nav>
+          <div className="text-xs">Contact: <a className="underline" href="mailto:connect@harmonixdigital.com">connect@harmonixdigital.com</a></div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+
+⸻
+
+4) QA & Acceptance (must pass before close)
+	•	✅ Same nav order & spacing on every page
+	•	✅ Logo = monogram (transparent) everywhere
+	•	✅ No overlap/jumble at any width (check 360, 414, 768, 1024, 1280, 1536px)
+	•	✅ System Health absent from footer; present under Dashboard → System Health, founder‑only
+	•	✅ All links/CTAs route correctly (including Join → waitlist)
+	•	✅ Pages using old local nav/footers removed or refactored to AppShell
+
+⸻
+
+5) Notes
+	•	Use brand tokens already defined (deep jade, gold, obsidian); keep contrasts AA+.
+	•	If a route isn’t implemented, redirect to /join (join waitlist) rather than a dead page.
+
+Run this across the codebase now and push to staging. Once done, I’ll have you run the full platform audit checklist and sign off.
