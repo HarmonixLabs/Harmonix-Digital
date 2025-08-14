@@ -1,0 +1,194 @@
+You’re right—when everything hugs the left edge it’s almost always a layout container issue (wrong wrapper widths) plus a couple of flex/grid gotchas (missing min-w-0, children not allowed to grow). Here’s a dead‑simple, copy‑paste fix path with Tailwind (works in Next.js or plain HTML). Use this as the new Demo layout shell.
+
+⸻
+
+1) Use a real page container
+
+Make sure your page root gives the content a centered, responsive max width and side padding.
+
+// app/demo/page.tsx (or pages/demo.tsx)
+export default function DemoPage() {
+  return (
+    <main className="min-h-screen bg-slate-950 text-white">
+      <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Navbar sits above or inside this container */}
+        <DemoConsole />
+      </div>
+    </main>
+  );
+}
+
+Keys: container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 centers and pads; without it, children can stick left or be constrained by a too‑small parent.
+
+⸻
+
+2) Grid the console (stack on mobile, 12‑col on desktop)
+
+function DemoConsole() {
+  return (
+    <section className="w-full">
+      {/* Top bar */}
+      <div className="flex flex-wrap items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-3 mb-6">
+        {/* agent selector / mode toggle / actions */}
+        {/* ... */}
+      </div>
+
+      {/* Main 3‑pane layout */}
+      <div
+        className="
+          grid gap-4
+          grid-cols-1
+          lg:grid-cols-12
+        "
+      >
+        {/* LEFT: Chat */}
+        <aside
+          className="
+            lg:col-span-4
+            rounded-xl border border-white/10 bg-white/5
+            min-h-[60vh] flex flex-col
+            min-w-0  /* critical: prevents overflow+shrinking weirdness */
+          "
+        >
+          <ChatPane />
+        </aside>
+
+        {/* CENTER: Strategy / Timeline / Artifacts (tabs) */}
+        <section
+          className="
+            lg:col-span-5
+            rounded-xl border border-white/10 bg-white/5
+            min-h-[60vh] flex flex-col
+            min-w-0
+          "
+        >
+          <CenterPane />
+        </section>
+
+        {/* RIGHT: KPIs / Integrations / CTAs */}
+        <aside
+          className="
+            lg:col-span-3
+            rounded-xl border border-white/10 bg-white/5
+            min-h-[60vh] flex flex-col
+            min-w-0
+          "
+        >
+          <RightPane />
+        </aside>
+      </div>
+    </section>
+  );
+}
+
+Keys:
+	•	Mobile stacks (grid-cols-1), desktop spreads (lg:grid-cols-12).
+	•	Give each child a column span (lg:col-span-*).
+	•	Add min-w-0 on every grid/flex child so content can shrink and wrap instead of blowing the layout.
+
+⸻
+
+3) Let children actually fill space
+
+Inside each pane, ensure things can grow horizontally and vertically:
+
+function ChatPane() {
+  return (
+    <div className="flex flex-col flex-1 min-h-0 min-w-0">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+        {/* title / controls */}
+      </div>
+      <div className="flex-1 min-h-0 min-w-0 overflow-auto px-4 py-3 space-y-3">
+        {/* messages stream */}
+      </div>
+      <div className="sticky bottom-0 p-3 border-t border-white/10 bg-slate-950/60 backdrop-blur">
+        {/* composer */}
+      </div>
+    </div>
+  );
+}
+
+Keys: flex-1 min-h-0 lets the scroll area actually scroll; min-w-0 avoids text forcing the column wider; overflow-auto gives you the scroll.
+
+⸻
+
+4) Remove widths that fight responsiveness
+
+Audit and delete any of these from children:
+	•	Hard widths like w-[320px] or inline style={{ width: 300 }} on panes.
+	•	max-w-md/max-w-lg on containers (keep those only on small text blocks).
+	•	Legacy wrappers like .wrapper { width: 960px; }.
+
+Instead, rely on:
+	•	Outer: container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8
+	•	Inner: grid spans + w-full on cards/lists/forms
+	•	For ultra‑wide pages, you can bump to max-w-screen-2xl.
+
+⸻
+
+5) Fix common “squish left” culprits
+	•	Missing mx-auto on the main container → add it.
+	•	Parent has display:flex without justify-center and a child with fixed width → center with mx-auto or convert to grid.
+	•	Sidebar set to position:absolute → it will overlap and push content visually. Replace with grid columns.
+	•	Invisible overflow: parent missing min-w-0 or child has long unbreakable strings → add min-w-0 break-words.
+
+⸻
+
+6) Make it look great across devices
+
+<!-- Add these safe paddings for iOS notches if needed -->
+<div class="pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]"></div>
+
+And keep consistent spacing on sections:
+
+<div className="space-y-6 md:space-y-8">
+  {/* sections */}
+</div>
+
+
+⸻
+
+7) Quick CSS override (if you’re not using Tailwind everywhere)
+
+/* Global */
+html, body { height: 100%; }
+* { box-sizing: border-box; }
+
+/* Page container */
+.hx-container {
+  max-width: 1280px; /* ~7xl */
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Three-column */
+.hx-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 1024px) {
+  .hx-grid { grid-template-columns: 4fr 5fr 3fr; }
+}
+.hx-card { 
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  min-height: 60vh;
+  display: flex; flex-direction: column;
+  min-width: 0; /* IMPORTANT */
+}
+.hx-scroll { flex: 1 1 auto; min-height: 0; overflow: auto; }
+
+
+⸻
+
+8) Sanity checklist (takes 2 minutes)
+	•	Page root uses container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8.
+	•	Main console is grid grid-cols-1 lg:grid-cols-12 gap-4.
+	•	Left/Center/Right panes have proper lg:col-span-4/5/3.
+	•	All panes have min-w-0, scroll areas min-h-0 overflow-auto.
+	•	No hard widths on panes; children use w-full.
+	•	Mobile stacks cleanly; no horizontal scroll at 360px wide.
+
+If you want, paste me your current Demo page JSX (or the relevant wrappers) and I’ll mark up exactly which classes to change.

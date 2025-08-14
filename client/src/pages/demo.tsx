@@ -282,20 +282,20 @@ export default function Demo() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+    <main className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-white">
       {/* Top Control Bar */}
       <div className="sticky top-0 z-40 bg-gray-900/80 backdrop-blur-xl border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex items-center justify-between">
+        <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             {/* Agent Selector */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-2">
+            <div className="flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0 scrollbar-hide">
               {agents.map(agent => (
                 <motion.button
                   key={agent.id}
                   onClick={() => handleAgentSwitch(agent)}
                   className={cn(
-                    "relative flex items-center gap-2 px-4 py-2 rounded-xl transition-all",
-                    "border backdrop-blur-sm",
+                    "relative flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl transition-all whitespace-nowrap",
+                    "border backdrop-blur-sm text-sm sm:text-base",
                     selectedAgent.id === agent.id
                       ? `${agent.bgColor} ${agent.borderColor} border-2`
                       : "border-white/10 hover:border-white/20 bg-white/5"
@@ -311,9 +311,9 @@ export default function Demo() {
             </div>
 
             {/* Mode Toggle & Actions */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
               <div className="flex items-center gap-2">
-                <Label htmlFor="mode-toggle" className="text-sm text-gray-400">
+                <Label htmlFor="mode-toggle" className="text-xs sm:text-sm text-gray-400 hidden sm:inline">
                   Mode:
                 </Label>
                 <Switch
@@ -322,47 +322,47 @@ export default function Demo() {
                   onCheckedChange={setIsLiveMode}
                   disabled={connectedIntegrations.length === 0}
                 />
-                <Badge variant={isLiveMode ? "default" : "secondary"}>
-                  {isLiveMode ? "LIVE" : "SIMULATION"}
+                <Badge variant={isLiveMode ? "default" : "secondary"} className="text-xs">
+                  {isLiveMode ? "LIVE" : "SIM"}
                 </Badge>
               </div>
               
-              <Button variant="ghost" size="sm" className="text-gray-400">
+              <Button variant="ghost" size="sm" className="text-gray-400 hidden sm:inline-flex">
                 <RefreshCw className="w-4 h-4 mr-2" />
                 Reset
               </Button>
               
-              <Button variant="ghost" size="sm" className="text-gray-400">
+              <Button variant="ghost" size="sm" className="text-gray-400 hidden md:inline-flex">
                 <Download className="w-4 h-4 mr-2" />
                 Export
               </Button>
               
               <Link href="/join">
-                <Button className="bg-gradient-to-r from-harmony-gold to-yellow-500 text-black font-semibold">
+                <Button className="bg-gradient-to-r from-harmony-gold to-yellow-500 text-black font-semibold text-sm sm:text-base">
                   Deploy Agent
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                  <ArrowRight className="w-4 h-4 ml-2 hidden sm:inline" />
                 </Button>
               </Link>
             </div>
           </div>
 
           {/* Progress Indicator */}
-          <div className="flex items-center gap-4 mt-3">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 sm:gap-4 mt-3 overflow-x-auto">
+            <div className="flex items-center gap-1 sm:gap-2">
               <Badge 
                 variant={phase === 'discovery' ? 'default' : 'secondary'}
                 className="text-xs"
               >
                 Discovery
               </Badge>
-              <ChevronRight className="w-4 h-4 text-gray-500" />
+              <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-gray-500" />
               <Badge 
                 variant={phase === 'strategy' ? 'default' : 'secondary'}
                 className="text-xs"
               >
                 Strategy
               </Badge>
-              <ChevronRight className="w-4 h-4 text-gray-500" />
+              <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-gray-500" />
               <Badge 
                 variant={phase === 'execution' ? 'default' : 'secondary'}
                 className="text-xs"
@@ -375,11 +375,11 @@ export default function Demo() {
       </div>
 
       {/* Main Content Area */}
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="grid gap-4 grid-cols-1 lg:grid-cols-12">
           {/* Left Panel - Chat Console */}
-          <div className="lg:col-span-4">
-            <Card className="h-[600px] bg-gray-900/50 border-white/10">
+          <aside className="lg:col-span-4 min-w-0">
+            <Card className="min-h-[500px] lg:h-[600px] bg-gray-900/50 border-white/10 flex flex-col">
               <CardHeader className="border-b border-white/10">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -400,7 +400,7 @@ export default function Demo() {
               
               <CardContent className="p-0 flex flex-col h-[calc(100%-80px)]">
                 {/* Messages Area */}
-                <ScrollArea className="flex-1 p-4">
+                <ScrollArea className="flex-1 p-4 min-h-0">
                   <div className="space-y-4">
                     {messages.map((message) => (
                       <motion.div
@@ -446,7 +446,7 @@ export default function Demo() {
                 </ScrollArea>
 
                 {/* Input Area */}
-                <div className="p-4 border-t border-white/10">
+                <div className="p-4 border-t border-white/10 bg-gray-900/60 backdrop-blur">
                   {/* Quick Prompts */}
                   <div className="mb-3 flex flex-wrap gap-2">
                     {starterPrompts[selectedAgent.id as keyof typeof starterPrompts].slice(0, 2).map((prompt, idx) => (
@@ -481,11 +481,11 @@ export default function Demo() {
                 </div>
               </CardContent>
             </Card>
-          </div>
+          </aside>
 
           {/* Center Panel - Strategy Canvas */}
-          <div className="lg:col-span-5">
-            <Card className="h-[600px] bg-gray-900/50 border-white/10">
+          <section className="lg:col-span-5 min-w-0">
+            <Card className="min-h-[500px] lg:h-[600px] bg-gray-900/50 border-white/10 flex flex-col">
               <CardHeader className="border-b border-white/10">
                 <h3 className="font-semibold">Strategy Canvas</h3>
                 <p className="text-xs text-gray-400">Visual output and execution timeline</p>
@@ -580,11 +580,11 @@ export default function Demo() {
                 </Tabs>
               </CardContent>
             </Card>
-          </div>
+          </section>
 
           {/* Right Panel - Metrics & Actions */}
-          <div className="lg:col-span-3">
-            <div className="space-y-6">
+          <aside className="lg:col-span-3 min-w-0">
+            <div className="space-y-4">
               {/* Live KPIs */}
               <Card className="bg-gray-900/50 border-white/10">
                 <CardHeader>
@@ -690,7 +690,7 @@ export default function Demo() {
                 </Button>
               </Link>
             </div>
-          </div>
+          </aside>
         </div>
       </div>
 
@@ -703,6 +703,6 @@ export default function Demo() {
           </Badge>
         </div>
       )}
-    </div>
+    </main>
   );
 }
