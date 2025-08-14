@@ -1,0 +1,87 @@
+Absolutely, Commander. Here’s your Precision Prompt for Riplet to finalize the Harmony Dashboard Integration based on the files Manus will provide.
+
+⸻
+
+🚀 Prompt for Riplet
+
+Title: Final Harmony Dashboard Integration – From Manus Handoff
+
+⸻
+
+Hey Riplet Team,
+
+Please complete the final dashboard integration using the latest build and handoff files provided by Manus (link below). This integration must follow the Harmony design system and agent orchestration logic with full fidelity, clarity, and pixel-perfect UI alignment.
+
+⸻
+
+📁 File Link from Manus:
+
+[Insert Final Dashboard Build Link Here]
+
+⸻
+
+🔧 Key Instructions:
+
+1. 🧠 Dashboard Layout
+	•	Integrate the full Founder Dashboard layout as provided (desktop and responsive mobile views).
+	•	Sections to include:
+	•	Agent Status Panel (with preview cards)
+	•	Token Meter + Auto Recharge Toggle
+	•	Organization Settings (Logo, Name, Permissions)
+	•	Self-Heal Button (visible only to Founder role)
+	•	Invite Team Member flow
+	•	Role Management (Admin, Operator, Viewer, etc.)
+	•	Plan & Billing Summary (syncs with Stripe)
+
+2. 🧩 Agent Integration (Micro-Dashboards)
+	•	Ensure agent preview cards are pulling real status and token usage values.
+	•	Locked agents should be visually distinguishable with upgrade tooltips or mint button logic.
+	•	Demo agents (4 allowed) must be clickable and interactive.
+	•	Trigger pipe-based workflows for each demo agent test (e.g. Content → Manus → Output).
+
+3. 🎨 Brand Guidelines
+	•	Use Harmony’s approved color palette:
+	•	Deep Jade Forest: #002a2d
+	•	Golden Sovereign: #D8C9A9
+	•	Midnight Matte: #1b1b1b
+	•	UI Grey + White Variants for background layering
+	•	Apply branding to:
+	•	All buttons (rounded corners, hover glow, ripple click effect)
+	•	Cards (12px radius, soft inner shadows, micro hover animation)
+	•	Typography: Poppins / Inter with proper hierarchy
+	•	Replace any incorrect logos with the monogram-only PNG/SVG with transparent background
+
+4. ⚙️ Functional Requirements
+	•	All Join Waitlist, Demo, and CTA buttons must function and route properly.
+	•	Auto-refresh and manual refresh token logic must be wired.
+	•	Self-Heal button must isolate to org-level and be functional.
+	•	CRM Logic:
+	•	GHL (primary) and Google Sheets (backup) must populate simultaneously from all relevant forms.
+	•	Responsive layout must adapt fluidly to mobile and tablet.
+	•	Error handling: any broken routes or 404s should redirect to the Join Waitlist page with an invite CTA.
+
+5. 🧪 Quality Checks
+	•	Spacing, margins, padding must be fully aligned (no overflows or misalignments)
+	•	Nav bar and footer use the correct monogram-only logo
+	•	Verify Logout/Login state renders proper screens
+	•	Verify agent states reflect actual usage or lock state
+	•	Verify Harmony system health panel is on its own page, not footer-stuck
+
+⸻
+
+🔄 Continuous Collaboration
+
+Once completed, notify K + Manus for review and any missing assets or logic will be upgraded directly.
+
+If anything is missing in the build file or agent data, please tag those in comments — don’t guess or skip over.
+
+⸻
+
+✅ Final Outcome:
+
+A fully integrated, responsive, and branded dashboard with live agent orchestration preview, CRM collection, token logic, and user role flow — aligned with the Harmony standard.
+
+⸻
+
+Ready for Riplet to deploy.
+Just drop the link to Manus’ file and I’ll finish formatting this prompt for delivery.
