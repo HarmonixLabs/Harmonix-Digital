@@ -1,0 +1,88 @@
+Here’s your Riplet build prompt incorporating everything we’ve discussed — full-width responsive design, dashboard-ready deployment interface, Stripe/crypto integration, and alignment with your Harmonix brand guidelines.
+
+⸻
+
+🎯 Riplet Build Prompt — Harmony Public Demo + Dashboard Integration
+
+Goal:
+Create a fully responsive public demo experience for the 6 core Harmony Agents (SŌL, CA$H, ECHO, FLOW, KAIROS, CONCIERGE) with the ability to toggle between SIM and LIVE mode, capture leads, and deploy directly into the user’s private dashboard after account creation and payment (Stripe or crypto).
+
+⸻
+
+1️⃣ Layout & Responsiveness
+	•	Full-width, responsive design — content should span the available viewport while maintaining balanced padding/margins for readability.
+	•	Must be device-adaptive: desktop, laptop, tablet (portrait/landscape), and mobile.
+	•	Use a flexible grid system (CSS Grid or Tailwind responsive classes) so modules and widgets automatically reflow without squishing to the left.
+	•	Sticky top navigation with agent carousel, mode toggle, and action buttons.
+	•	Mobile: stack columns; keep Chat and CTA panel sticky for quick access.
+
+⸻
+
+2️⃣ Core Modules (Main View)
+Top Bar:
+	•	Agent selector carousel (6 avatars + “Locked” slots for future agents).
+	•	SIM/LIVE toggle with status badge.
+	•	“Reset Session,” “Save Transcript,” and primary CTA (“Deploy Now” or “Join Waitlist”).
+
+Left Column:
+	•	Chat view with persona bio popover and quick-intent buttons (Discover → Strategy → Execute).
+	•	File/link drop zone for context.
+
+Right Column:
+	•	Strategy Canvas: Structured plan with objectives, steps, dependencies, and resources.
+	•	Execution Timeline: Gantt-style, showing mock or live tasks/events.
+	•	KPI Snapshot: Live metrics (time saved, leads, posts, bookings).
+	•	Integrations Panel: Shows connected tools vs locked; OAuth prompts for LIVE mode.
+	•	Deploy / Reserve / Waitlist CTA with payment modal.
+
+Bottom Drawer:
+	•	API logs with SIM/LIVE tags, CRM sync preview, compliance/privacy info.
+
+⸻
+
+3️⃣ Account & Deployment Flow
+	•	Clicking “Deploy Now” opens signup/login modal → redirects to private dashboard.
+	•	Once logged in: user sees deployed agent(s) in their dashboard with onboarding wizard.
+	•	Stripe (live + test mode) and NowPayments (crypto) integration for plan checkout.
+	•	Post-payment → auto-provision agent to user’s account.
+
+⸻
+
+4️⃣ API Behavior
+	•	SIM mode: high-fidelity mock responses seeded with realistic data (safe sandbox).
+	•	LIVE mode: per-integration activation (HubSpot, GHL, Slack, Google, Meta).
+	•	Webhook endpoints:
+	•	POST /demo/intake (lead/profile capture)
+	•	POST /demo/strategy (structured plan)
+	•	POST /demo/execute (execution events)
+	•	POST /demo/kpi (metrics)
+
+⸻
+
+5️⃣ Brand & UI Rules (from Harmonix Design Master Prompt)
+	•	Palette: Deep Space Black, Warm Champagne, Ethereal Teal, Soft Cloud, Indigo Star.
+	•	Rounded-2xl cards, subtle glow accents, glass/blur overlays for modals.
+	•	Typography: Headers = Satoshi/Poppins; Body = Inter/Open Sans.
+	•	Embed geometry (Fibonacci/golden ratio) subtly in UI composition.
+	•	Every CTA and layout element must pass the Harmonix QA checklist: color psychology match, emotional resonance, sales alignment, hierarchy clarity, 20-year timelessness.
+
+⸻
+
+6️⃣ Technical Stack
+	•	Frontend: React + Tailwind (componentized: AgentCard, TimelineEvent, ArtifactCard, KPIWidget, DeployModal).
+	•	Backend: Node or serverless functions to proxy APIs (SIM vs LIVE routing).
+	•	State: Per-agent finite state machine (DISCOVERY → STRATEGY → EXECUTION).
+	•	Security: Mask tokens, store credentials in secure vault, role-gate destructive actions, rate limit sensitive endpoints.
+
+⸻
+
+✅ Acceptance Criteria
+	•	Demo works full-width on all devices without squishing modules to the left.
+	•	User can freely switch agents with isolated state per agent.
+	•	Payments via Stripe/crypto fully functional in test/live modes.
+	•	SIM/LIVE status visually distinct in UI and logs.
+	•	Deploying an agent actually provisions it to a logged-in user’s dashboard.
+
+⸻
+
+Do you want me to now also produce the Figma-style wireframe + component map for this so your dev team has the visual + functional blueprint in hand before they start building? That would lock this in 100%.

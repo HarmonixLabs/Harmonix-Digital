@@ -36,7 +36,16 @@ import {
   CheckCircle2,
   AlertCircle,
   Plus,
-  Settings
+  Settings,
+  Rocket,
+  Terminal,
+  X,
+  Calendar,
+  RotateCcw,
+  Target,
+  Search,
+  Mic,
+  Sun
 } from "lucide-react";
 import { Link } from "wouter";
 import { cn } from "@/lib/utils";
@@ -186,6 +195,8 @@ export default function Demo() {
   });
   const [connectedIntegrations, setConnectedIntegrations] = useState<string[]>([]);
   const [metrics, setMetrics] = useState(selectedAgent.metrics);
+  const [showDeployModal, setShowDeployModal] = useState(false);
+  const [sessionTranscript, setSessionTranscript] = useState<any[]>([]);
 
   // Initialize with welcome message
   useEffect(() => {
@@ -249,9 +260,9 @@ export default function Demo() {
   const generateActions = (agent: typeof agents[0], phase: string, live: boolean) => {
     if (phase === 'execution') {
       return [
-        { type: 'task', label: `${agent.skills[0]} initialized`, status: live ? 'completed' : 'simulated' as const },
-        { type: 'integration', label: `Connected to ${agent.integrations[0]}`, status: live ? 'completed' : 'simulated' as const },
-        { type: 'result', label: 'Generated output ready', status: 'pending' as const }
+        { type: 'task', label: `${agent.skills[0]} initialized`, status: (live ? 'completed' : 'simulated') as 'completed' | 'simulated' | 'pending' },
+        { type: 'integration', label: `Connected to ${agent.integrations[0]}`, status: (live ? 'completed' : 'simulated') as 'completed' | 'simulated' | 'pending' },
+        { type: 'result', label: 'Generated output ready', status: 'pending' as 'completed' | 'simulated' | 'pending' }
       ];
     }
     return undefined;
@@ -261,7 +272,11 @@ export default function Demo() {
     setMetrics(prev => {
       const keys = Object.keys(prev);
       const randomKey = keys[Math.floor(Math.random() * keys.length)];
-      return { ...prev, [randomKey]: prev[randomKey as keyof typeof prev] + 1 };
+      const value = prev[randomKey as keyof typeof prev];
+      if (typeof value === 'number') {
+        return { ...prev, [randomKey]: value + 1 };
+      }
+      return prev;
     });
   };
 
@@ -374,12 +389,12 @@ export default function Demo() {
         </div>
       </div>
 
-      {/* Main Content Area */}
-      <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="grid gap-4 grid-cols-1 lg:grid-cols-12">
-          {/* Left Panel - Chat Console */}
-          <aside className="lg:col-span-4 min-w-0">
-            <Card className="min-h-[500px] lg:h-[600px] bg-gray-900/50 border-white/10 flex flex-col">
+      {/* Main Content Area - Full Width Responsive */}
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-6">
+        <div className="grid gap-4 grid-cols-1 xl:grid-cols-12">
+          {/* Left Column - Chat Console */}
+          <aside className="xl:col-span-4 min-w-0">
+            <Card className="min-h-[500px] xl:h-[700px] bg-gray-900/50 border-white/10 flex flex-col">
               <CardHeader className="border-b border-white/10">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -483,9 +498,10 @@ export default function Demo() {
             </Card>
           </aside>
 
-          {/* Center Panel - Strategy Canvas */}
-          <section className="lg:col-span-5 min-w-0">
-            <Card className="min-h-[500px] lg:h-[600px] bg-gray-900/50 border-white/10 flex flex-col">
+          {/* Center Column - Strategy Canvas & Execution Timeline */}
+          <section className="xl:col-span-5 min-w-0 space-y-4">
+            {/* Strategy Canvas */}
+            <Card className="bg-gray-900/50 border-white/10">
               <CardHeader className="border-b border-white/10">
                 <h3 className="font-semibold">Strategy Canvas</h3>
                 <p className="text-xs text-gray-400">Visual output and execution timeline</p>
@@ -580,27 +596,114 @@ export default function Demo() {
                 </Tabs>
               </CardContent>
             </Card>
+
+            {/* Execution Timeline */}
+            <Card className="bg-gray-900/50 border-white/10">
+              <CardHeader>
+                <h3 className="font-semibold flex items-center gap-2">
+                  <Clock className="w-4 h-4" />
+                  Execution Timeline
+                </h3>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {phase === 'execution' ? (
+                    <>
+                      <div className="flex items-center gap-3">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                        <div className="flex-1">
+                          <p className="text-sm font-medium">Task Started</p>
+                          <p className="text-xs text-gray-400">Analyzing requirements...</p>
+                        </div>
+                        <span className="text-xs text-gray-500">Now</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <div className="w-2 h-2 bg-yellow-500 rounded-full" />
+                        <div className="flex-1">
+                          <p className="text-sm font-medium">Processing</p>
+                          <p className="text-xs text-gray-400">Generating strategy...</p>
+                        </div>
+                        <span className="text-xs text-gray-500">+2m</span>
+                      </div>
+                      <div className="flex items-center gap-3 opacity-50">
+                        <div className="w-2 h-2 bg-gray-500 rounded-full" />
+                        <div className="flex-1">
+                          <p className="text-sm font-medium">Completion</p>
+                          <p className="text-xs text-gray-400">Awaiting execution...</p>
+                        </div>
+                        <span className="text-xs text-gray-500">+5m</span>
+                      </div>
+                    </>
+                  ) : (
+                    <p className="text-sm text-gray-500 text-center py-4">
+                      Timeline will appear during execution phase
+                    </p>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           </section>
 
-          {/* Right Panel - Metrics & Actions */}
-          <aside className="lg:col-span-3 min-w-0">
-            <div className="space-y-4">
-              {/* Live KPIs */}
+          {/* Right Column - KPIs, Integrations & Actions */}
+          <aside className="xl:col-span-3 min-w-0">
+            <div className="space-y-4 sticky top-24">
+              {/* KPI Snapshot */}
               <Card className="bg-gray-900/50 border-white/10">
                 <CardHeader>
-                  <h3 className="font-semibold">Live Metrics</h3>
-                  <p className="text-xs text-gray-400">Real-time performance indicators</p>
+                  <h3 className="font-semibold flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4" />
+                    KPI Snapshot
+                  </h3>
+                  <p className="text-xs text-gray-400">Real-time performance metrics</p>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  {Object.entries(metrics).map(([key, value]) => (
-                    <div key={key}>
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-sm capitalize">{key}</span>
-                        <span className="text-lg font-bold text-harmony-gold">{value}</span>
+                <CardContent>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="p-3 bg-yellow-500/10 rounded-lg border border-yellow-500/20">
+                      <p className="text-xl font-bold text-yellow-500">
+                        {Object.values(metrics)[0] || 0}
+                      </p>
+                      <p className="text-xs text-gray-400">{Object.keys(metrics)[0] || 'Metric'}</p>
+                      <div className="mt-1 flex items-center gap-1">
+                        <TrendingUp className="w-3 h-3 text-green-500" />
+                        <span className="text-xs text-green-500">+12%</span>
                       </div>
-                      <Progress value={Math.min(value * 10, 100)} className="h-1" />
                     </div>
-                  ))}
+                    <div className="p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">
+                      <p className="text-xl font-bold text-blue-500">
+                        {Object.values(metrics)[1] || 0}
+                      </p>
+                      <p className="text-xs text-gray-400">{Object.keys(metrics)[1] || 'Tasks'}</p>
+                      <div className="mt-1 flex items-center gap-1">
+                        <TrendingUp className="w-3 h-3 text-green-500" />
+                        <span className="text-xs text-green-500">+8</span>
+                      </div>
+                    </div>
+                    <div className="p-3 bg-green-500/10 rounded-lg border border-green-500/20">
+                      <p className="text-xl font-bold text-green-500">
+                        {Object.values(metrics)[2] || 0}
+                      </p>
+                      <p className="text-xs text-gray-400">{Object.keys(metrics)[2] || 'Value'}</p>
+                      <div className="mt-1 flex items-center gap-1">
+                        <Clock className="w-3 h-3 text-gray-400" />
+                        <span className="text-xs text-gray-400">This week</span>
+                      </div>
+                    </div>
+                    <div className="p-3 bg-purple-500/10 rounded-lg border border-purple-500/20">
+                      <p className="text-xl font-bold text-purple-500">
+                        {(Object.values(metrics)[3] || Object.values(metrics)[0]) || 0}
+                      </p>
+                      <p className="text-xs text-gray-400">Impact</p>
+                      <div className="mt-1 flex items-center gap-1">
+                        <TrendingUp className="w-3 h-3 text-green-500" />
+                        <span className="text-xs text-green-500">+23%</span>
+                      </div>
+                    </div>
+                  </div>
+                  {isLiveMode && (
+                    <div className="mt-3 p-2 bg-green-500/10 rounded-lg border border-green-500/20">
+                      <p className="text-xs text-green-400 text-center">Live data synced</p>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
 
@@ -682,11 +785,19 @@ export default function Demo() {
                 </CardContent>
               </Card>
 
-              {/* CTA */}
+              {/* Primary CTA */}
+              <Button 
+                onClick={() => setShowDeployModal(true)}
+                className="w-full bg-gradient-to-r from-harmony-gold to-yellow-500 text-black font-semibold py-6 hover:from-yellow-500 hover:to-orange-500 transition-all"
+              >
+                <Rocket className="w-5 h-5 mr-2" />
+                Deploy {selectedAgent.name} Now
+              </Button>
+              
+              {/* Secondary CTA */}
               <Link href="/join" className="block">
-                <Button className="w-full bg-gradient-to-r from-harmony-gold to-yellow-500 text-black font-semibold py-6">
-                  <Zap className="w-5 h-5 mr-2" />
-                  Deploy {selectedAgent.name} to Your Dashboard
+                <Button variant="outline" className="w-full border-harmony-gold text-harmony-gold hover:bg-harmony-gold/10">
+                  Join Waitlist for Early Access
                 </Button>
               </Link>
             </div>
@@ -694,13 +805,145 @@ export default function Demo() {
         </div>
       </div>
 
+      {/* Bottom Drawer - API Logs & CRM Preview */}
+      <div className="fixed bottom-0 left-0 right-0 bg-black/90 backdrop-blur-xl border-t border-white/10 transform transition-transform z-30">
+        <div className="w-full px-4 sm:px-6 lg:px-8 py-3">
+          <div className="flex items-center justify-between mb-2">
+            <h4 className="text-sm font-semibold flex items-center gap-2">
+              <Terminal className="w-4 h-4" />
+              API Activity Log
+            </h4>
+            <Badge variant={isLiveMode ? "default" : "secondary"} className="text-xs">
+              {isLiveMode ? "LIVE" : "SIM"} Mode
+            </Badge>
+          </div>
+          <div className="bg-gray-900/50 rounded-lg p-3 max-h-32 overflow-y-auto">
+            <div className="space-y-1 font-mono text-xs">
+              <div className="flex items-start gap-2">
+                <span className="text-green-500">✓</span>
+                <span className="text-gray-400">[{new Date().toLocaleTimeString()}]</span>
+                <span>POST /demo/intake</span>
+                <Badge variant="outline" className="text-xs ml-auto">
+                  {isLiveMode ? "LIVE" : "SIM"}
+                </Badge>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="text-green-500">✓</span>
+                <span className="text-gray-400">[{new Date().toLocaleTimeString()}]</span>
+                <span>POST /demo/strategy</span>
+                <Badge variant="outline" className="text-xs ml-auto">
+                  {isLiveMode ? "LIVE" : "SIM"}
+                </Badge>
+              </div>
+              {phase === 'execution' && (
+                <div className="flex items-start gap-2">
+                  <span className="text-yellow-500">⚡</span>
+                  <span className="text-gray-400">[{new Date().toLocaleTimeString()}]</span>
+                  <span>POST /demo/execute</span>
+                  <Badge variant="outline" className="text-xs ml-auto">
+                    Processing
+                  </Badge>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Floating Badge */}
       {!isLiveMode && (
-        <div className="fixed bottom-8 left-8 z-50">
+        <div className="fixed bottom-48 left-8 z-50">
           <Badge className="px-4 py-2 bg-gray-900/90 border-yellow-500/30 text-yellow-500">
             <AlertCircle className="w-4 h-4 mr-2" />
             DEMO MODE - No real actions taken
           </Badge>
+        </div>
+      )}
+
+      {/* Deploy Modal */}
+      {showDeployModal && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-2xl bg-gray-900 border-white/10">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold">Deploy {selectedAgent.name} to Your Dashboard</h2>
+                  <p className="text-sm text-gray-400 mt-1">Complete setup to activate your AI agent</p>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowDeployModal(false)}
+                  className="text-gray-400 hover:text-white"
+                >
+                  <X className="w-5 h-5" />
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Deployment Options */}
+              <div className="space-y-4">
+                <h3 className="font-semibold">Choose Deployment Option</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Card className="bg-yellow-500/10 border-yellow-500/30 cursor-pointer hover:bg-yellow-500/20 transition-all">
+                    <CardContent className="p-4">
+                      <div className="flex items-start gap-3">
+                        <Rocket className="w-5 h-5 text-yellow-500 mt-1" />
+                        <div>
+                          <h4 className="font-semibold">Deploy Now</h4>
+                          <p className="text-xs text-gray-400 mt-1">Instant activation with 30% deposit</p>
+                          <p className="text-lg font-bold text-yellow-500 mt-2">$297</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <Card className="bg-purple-500/10 border-purple-500/30 cursor-pointer hover:bg-purple-500/20 transition-all">
+                    <CardContent className="p-4">
+                      <div className="flex items-start gap-3">
+                        <Calendar className="w-5 h-5 text-purple-500 mt-1" />
+                        <div>
+                          <h4 className="font-semibold">Reserve Spot</h4>
+                          <p className="text-xs text-gray-400 mt-1">Lock in early bird pricing</p>
+                          <p className="text-lg font-bold text-purple-500 mt-2">$97</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+
+              {/* Integration Setup */}
+              <div className="space-y-4">
+                <h3 className="font-semibold">Required Integrations</h3>
+                <div className="space-y-2">
+                  {selectedAgent.integrations.slice(0, 3).map((integration) => (
+                    <div key={integration} className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg">
+                      <span className="text-sm">{integration}</span>
+                      <Button size="sm" variant="outline" className="text-xs">
+                        Connect
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-3">
+                <Link href="/join" className="flex-1">
+                  <Button className="w-full bg-gradient-to-r from-harmony-gold to-yellow-500 text-black font-semibold">
+                    Continue to Checkout
+                  </Button>
+                </Link>
+                <Button
+                  variant="outline"
+                  onClick={() => setShowDeployModal(false)}
+                  className="flex-1 border-white/20"
+                >
+                  Save for Later
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       )}
     </main>
