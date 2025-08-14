@@ -45,8 +45,8 @@ export function Navbar() {
     { href: "/marketplace", label: "Marketplace" },
     { href: "/demo", label: "Demo" },
     { href: "/pricing", label: "Pricing" },
+    { href: "/case-studies", label: "Join" },
     { href: "/harmony", label: "About" },
-    { href: "/join", label: "Join Waitlist" },
     { href: "/", label: "Home" },
   ];
 

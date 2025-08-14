@@ -62,9 +62,9 @@ export default function FAQPage() {
 
   const ctaOptions = [
     {
-      title: "Try SŌL Brain Demo",
+      title: "Try Live Demo",
       description: "Experience the central intelligence that orchestrates all agents",
-      href: "/soul-brain",
+      href: "/demo",
       variant: "primary" as const
     },
     {

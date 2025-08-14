@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -6,48 +6,20 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
-  Search, 
-  Filter, 
-  Star, 
-  Users, 
-  Zap, 
-  DollarSign, 
-  TrendingUp,
-  Bot,
-  Sparkles,
-  Shield,
-  Wallet,
-  ShoppingCart,
-  Heart,
-  Download,
-  Play,
-  Settings,
-  Crown,
-  Plus,
-  Gem,
-  Lock,
-  Unlock,
-  Grid,
-  List,
-  SlidersHorizontal,
-  BarChart,
-  Calendar,
-  ExternalLink,
-  ChevronDown
+  Search, Filter, Star, Users, Zap, DollarSign, TrendingUp, Bot, Sparkles, Shield,
+  ShoppingCart, Heart, Download, Play, Crown, Plus, Gem, Lock, Grid, List,
+  ChevronRight, Brain, MessageSquare, FileText, Briefcase, Code, Palette, Music
 } from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth';
-import { useToast } from '@/hooks/use-toast';
-import { Link } from 'wouter';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import { PageWrapper } from '@/components/transitions/page-wrapper';
-import { MarketplaceQuickAccess } from '@/components/marketplace/MarketplaceQuickAccess';
-import { CORE_AGENTS, DASHBOARD_PLANS } from '@/data/harmonixAgentPricing';
+import { HarmonixLogo } from '@/components/brand/HarmonixLogo';
+import { cn } from '@/lib/utils';
 
 interface Agent {
   id: string;
   name: string;
-  avatar: string;
+  icon: React.ElementType;
   description: string;
   category: string;
   monthlyPrice: number;
@@ -56,724 +28,417 @@ interface Agent {
   reviews: number;
   deployments: number;
   features: string[];
-  creator: {
-    name: string;
-    verified: boolean;
-    avatar: string;
-  };
   tags: string[];
   rarity: 'common' | 'rare' | 'epic' | 'legendary';
-  nftPrice?: number;
-  royaltyPercentage?: number;
-  available?: boolean;
+  status: 'live' | 'coming-soon' | 'beta';
+  discount?: number;
 }
 
 const FEATURED_AGENTS: Agent[] = [
   {
     id: 'cash-agent',
     name: 'Agent CA$H',
-    avatar: '💰',
-    description: 'Elite revenue generation specialist with advanced CRM integration and Loom script generation',
+    icon: DollarSign,
+    description: 'Elite revenue generation specialist with advanced CRM integration',
     category: 'Sales',
     monthlyPrice: 350,
     setupPrice: 1000,
     rating: 4.9,
     reviews: 247,
     deployments: 1240,
-    features: ['Lead Processing', 'CRM Sync', 'Loom Scripts', 'Follow-up Automation', 'Pipeline Management'],
-    creator: {
-      name: 'Harmonix Labs',
-      verified: true,
-      avatar: '🌟'
-    },
+    features: ['Lead Processing', 'CRM Sync', 'Loom Scripts', 'Follow-up Automation'],
     tags: ['revenue', 'crm', 'automation', 'sales'],
     rarity: 'legendary',
-    nftPrice: 0.5,
-    royaltyPercentage: 15
+    status: 'live',
+    discount: 15
   },
   {
     id: 'grace-concierge',
-    name: 'Grace "The Velvet Bridge"',
-    avatar: '👸',
-    description: 'Sophisticated concierge agent for premium customer experience management',
+    name: 'GRACE',
+    icon: Crown,
+    description: 'Sophisticated concierge agent for premium customer experience',
     category: 'Customer Service',
     monthlyPrice: 300,
     setupPrice: 900,
     rating: 4.8,
     reviews: 189,
     deployments: 890,
-    features: ['24/7 Support', 'VIP Handling', 'Appointment Booking', 'Knowledge Base', 'Escalation Management'],
-    creator: {
-      name: 'Harmonix Labs',
-      verified: true,
-      avatar: '🌟'
-    },
+    features: ['24/7 Support', 'VIP Handling', 'Appointment Booking', 'Knowledge Base'],
     tags: ['customer-service', 'premium', 'support'],
     rarity: 'epic',
-    nftPrice: 0.3,
-    royaltyPercentage: 12
+    status: 'live'
   },
   {
-    id: 'social-maven',
-    name: 'Social Media Maven',
-    avatar: '📱',
-    description: 'Complete social media automation with trend analysis and content generation',
+    id: 'echo-social',
+    name: 'ECHO',
+    icon: MessageSquare,
+    description: 'Social media automation with trend analysis and content generation',
     category: 'Marketing',
     monthlyPrice: 320,
     setupPrice: 1000,
     rating: 4.7,
     reviews: 156,
-    deployments: 675,
-    features: ['Content Generation', 'Trend Analysis', 'Scheduling', 'Engagement Tracking', 'Multi-Platform'],
-    creator: {
-      name: 'Harmonix Labs',
-      verified: true,
-      avatar: '🌟'
-    },
-    tags: ['social-media', 'content', 'automation'],
-    rarity: 'rare',
-    nftPrice: 0.2,
-    royaltyPercentage: 10
-  },
-  {
-    id: 'hr-specialist',
-    name: 'HR Operations Specialist',
-    avatar: '👥',
-    description: 'Comprehensive human resources management with onboarding and training automation',
-    category: 'HR',
-    monthlyPrice: 280,
-    setupPrice: 800,
-    rating: 4.6,
-    reviews: 134,
-    deployments: 542,
-    features: ['Onboarding', 'Training Management', 'Performance Tracking', 'Compliance', 'Team Analytics'],
-    creator: {
-      name: 'Harmonix Labs',
-      verified: true,
-      avatar: '🌟'
-    },
-    tags: ['hr', 'onboarding', 'management'],
+    deployments: 670,
+    features: ['Content Creation', 'Post Scheduling', 'Trend Analysis', 'Engagement Tracking'],
+    tags: ['social-media', 'content', 'marketing'],
     rarity: 'epic',
-    nftPrice: 0.35,
-    royaltyPercentage: 13
+    status: 'live'
   },
   {
-    id: 'project-manager',
-    name: 'Project Orchestrator Pro',
-    avatar: '📊',
-    description: 'Advanced project management with timeline optimization and resource allocation',
+    id: 'flow-operations',
+    name: 'FLOW',
+    icon: Zap,
+    description: 'Operations optimizer with workflow automation and process management',
     category: 'Operations',
     monthlyPrice: 280,
     setupPrice: 800,
     rating: 4.8,
-    reviews: 198,
-    deployments: 723,
-    features: ['Project Planning', 'Resource Management', 'Timeline Optimization', 'Risk Assessment', 'Team Coordination'],
-    creator: {
-      name: 'Harmonix Labs',
-      verified: true,
-      avatar: '🌟'
-    },
-    tags: ['project-management', 'operations', 'optimization'],
-    rarity: 'epic',
-    nftPrice: 0.4,
-    royaltyPercentage: 14
+    reviews: 203,
+    deployments: 1120,
+    features: ['Process Automation', 'Workflow Design', 'Task Management', 'Team Coordination'],
+    tags: ['operations', 'workflow', 'productivity'],
+    rarity: 'rare',
+    status: 'live'
   },
   {
-    id: 'sop-builder',
-    name: 'SOP Master Builder',
-    avatar: '📋',
-    description: 'Intelligent standard operating procedure creation and workflow optimization',
-    category: 'Operations',
-    monthlyPrice: 300,
-    setupPrice: 950,
-    rating: 4.5,
-    reviews: 112,
-    deployments: 445,
-    features: ['SOP Creation', 'Workflow Design', 'Process Optimization', 'Documentation', 'Training Materials'],
-    creator: {
-      name: 'Harmonix Labs',
-      verified: true,
-      avatar: '🌟'
-    },
-    tags: ['sop', 'workflows', 'documentation'],
-    rarity: 'rare',
-    nftPrice: 0.25,
-    royaltyPercentage: 11
+    id: 'kairos-analytics',
+    name: 'KAIROS',
+    icon: TrendingUp,
+    description: 'Advanced analytics and insights with predictive modeling',
+    category: 'Analytics',
+    monthlyPrice: 400,
+    setupPrice: 1200,
+    rating: 4.9,
+    reviews: 98,
+    deployments: 340,
+    features: ['Predictive Analytics', 'Custom Reports', 'Data Visualization', 'KPI Tracking'],
+    tags: ['analytics', 'data', 'insights'],
+    rarity: 'legendary',
+    status: 'beta'
+  },
+  {
+    id: 'sol-brain',
+    name: 'SŌL',
+    icon: Brain,
+    description: 'Master orchestrator connecting all agents for seamless collaboration',
+    category: 'System',
+    monthlyPrice: 500,
+    setupPrice: 1500,
+    rating: 5.0,
+    reviews: 412,
+    deployments: 2100,
+    features: ['Agent Orchestration', 'Cross-Agent Communication', 'System Optimization', 'AI Learning'],
+    tags: ['orchestration', 'ai', 'system'],
+    rarity: 'legendary',
+    status: 'live'
   }
 ];
 
-const CATEGORIES = ['All', 'Sales', 'Marketing', 'Customer Service', 'HR', 'Operations', 'Finance', 'Development'];
-const RARITY_COLORS = {
-  common: 'bg-slate-500',
-  rare: 'bg-blue-500',
-  epic: 'bg-purple-500',
-  legendary: 'bg-yellow-500'
-};
-
 export default function Marketplace() {
-  const { user, isAuthenticated } = useAuth();
-  const { toast } = useToast();
-  const [agents, setAgents] = useState(FEATURED_AGENTS);
-  const [filteredAgents, setFilteredAgents] = useState(FEATURED_AGENTS);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [sortBy, setSortBy] = useState('popular');
-  const [favorites, setFavorites] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState('all');
-  const [rarityFilter, setRarityFilter] = useState('all');
-  const [creatorFilter, setCreatorFilter] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedRarity, setSelectedRarity] = useState('all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [savedAgents, setSavedAgents] = useState<string[]>([]);
 
-  useEffect(() => {
-    let filtered = agents;
+  const categories = ['all', 'Sales', 'Marketing', 'Customer Service', 'Operations', 'Analytics', 'System'];
+  const rarities = ['all', 'common', 'rare', 'epic', 'legendary'];
 
-    // Filter by search term
-    if (searchTerm) {
-      filtered = filtered.filter(agent => 
-        agent.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        agent.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        agent.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
-      );
+  const filteredAgents = FEATURED_AGENTS.filter(agent => {
+    const matchesSearch = agent.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          agent.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = selectedCategory === 'all' || agent.category === selectedCategory;
+    const matchesRarity = selectedRarity === 'all' || agent.rarity === selectedRarity;
+    return matchesSearch && matchesCategory && matchesRarity;
+  });
+
+  const getRarityColor = (rarity: string) => {
+    switch(rarity) {
+      case 'legendary': return 'bg-gradient-to-r from-yellow-500 to-amber-500 text-black';
+      case 'epic': return 'bg-gradient-to-r from-purple-500 to-pink-500 text-white';
+      case 'rare': return 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white';
+      default: return 'bg-gray-600 text-white';
     }
+  };
 
-    // Filter by category
-    if (selectedCategory !== 'All') {
-      filtered = filtered.filter(agent => agent.category === selectedCategory);
+  const getStatusColor = (status: string) => {
+    switch(status) {
+      case 'live': return 'text-green-400';
+      case 'beta': return 'text-yellow-400';
+      default: return 'text-gray-400';
     }
+  };
 
-    // Filter by price range
-    if (priceRange !== 'all') {
-      if (priceRange === 'free') {
-        filtered = filtered.filter(agent => agent.monthlyPrice === 0);
-      } else if (priceRange === 'budget') {
-        filtered = filtered.filter(agent => agent.monthlyPrice > 0 && agent.monthlyPrice <= 500);
-      } else if (priceRange === 'premium') {
-        filtered = filtered.filter(agent => agent.monthlyPrice > 500 && agent.monthlyPrice <= 1000);
-      } else if (priceRange === 'enterprise') {
-        filtered = filtered.filter(agent => agent.monthlyPrice > 1000);
-      }
-    }
-
-    // Filter by rarity
-    if (rarityFilter !== 'all') {
-      filtered = filtered.filter(agent => agent.rarity === rarityFilter);
-    }
-
-    // Filter by creator (for future expansion)
-    if (creatorFilter !== 'all') {
-      filtered = filtered.filter(agent => agent.creator.name === creatorFilter);
-    }
-
-    // Sort
-    switch (sortBy) {
-      case 'popular':
-        filtered.sort((a, b) => b.deployments - a.deployments);
-        break;
-      case 'rating':
-        filtered.sort((a, b) => b.rating - a.rating);
-        break;
-      case 'price-low':
-        filtered.sort((a, b) => a.monthlyPrice - b.monthlyPrice);
-        break;
-      case 'price-high':
-        filtered.sort((a, b) => b.monthlyPrice - a.monthlyPrice);
-        break;
-      case 'newest':
-        // For demo, keeping original order as "newest"
-        break;
-    }
-
-    setFilteredAgents(filtered);
-  }, [searchTerm, selectedCategory, sortBy, priceRange, rarityFilter, creatorFilter, agents]);
-
-  const toggleFavorite = (agentId: string) => {
-    setFavorites(prev => 
+  const toggleSaveAgent = (agentId: string) => {
+    setSavedAgents(prev => 
       prev.includes(agentId) 
         ? prev.filter(id => id !== agentId)
         : [...prev, agentId]
     );
   };
 
-  // Demo agents that are available without authentication
-  const DEMO_AGENT_IDS = ['cash-agent', 'echo-agent', 'flow-agent', 'sol-agent'];
-  
-  const isAgentLocked = (agentId: string) => {
-    // Agents are locked if user is not authenticated AND it's not a demo agent
-    return !isAuthenticated && !DEMO_AGENT_IDS.includes(agentId);
-  };
-
-  const handleDeploy = async (agent: Agent) => {
-    if (!isAuthenticated) {
-      // Prompt login/signup if user is anonymous
-      window.location.href = '/get-started';
-      return;
-    }
-    
-    try {
-      const token = localStorage.getItem('harmonix_token');
-      const response = await fetch('/api/marketplace/purchase', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': token ? `Bearer ${token}` : ''
-        },
-        body: JSON.stringify({
-          agentId: agent.id,
-          agentName: agent.name,
-          monthlyPrice: agent.monthlyPrice,
-          setupPrice: agent.setupPrice,
-          paymentType: 'subscription'
-        })
-      });
-
-      if (response.ok) {
-        const { url } = await response.json();
-        window.location.href = url;
-      } else {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Purchase failed');
-      }
-    } catch (error) {
-      console.error('Purchase error:', error);
-      const errorMessage = error instanceof Error ? error.message : "Unable to process purchase. Please try again.";
-      toast({
-        title: "Purchase Failed",
-        description: errorMessage,
-        variant: "destructive"
-      });
-    }
-  };
-
-  const getRarityIcon = (rarity: string) => {
-    switch (rarity) {
-      case 'legendary': return <Crown className="w-4 h-4 text-yellow-400" />;
-      case 'epic': return <Gem className="w-4 h-4 text-purple-400" />;
-      case 'rare': return <Sparkles className="w-4 h-4 text-blue-400" />;
-      default: return null;
-    }
-  };
-
   return (
     <PageWrapper>
       <div className="min-h-screen bg-gradient-to-br from-[#002a2d] via-[#1b1b1b] to-[#002a2d]">
         <Navbar />
-        <div className="bg-gradient-to-br from-[#002a2d] via-[#1b1b1b] to-[#002a2d] min-h-screen">
-      {/* Header */}
-      <div className="bg-gray-900/50 border-b border-harmony-gold/20 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-4 py-8">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-            <div>
-              <h1 className="text-4xl font-bold text-white font-serif mb-3">
-                Agent <span className="text-harmony-gold">Marketplace</span>
+        
+        {/* Hero Section */}
+        <div className="relative overflow-hidden bg-gradient-to-r from-harmonix-deep-forest/20 to-harmonix-regal-gold/10 border-b border-harmonix-cedar-mist/20">
+          <div className="absolute inset-0 bg-grid-white/[0.02] bg-grid" />
+          <div className="max-w-7xl mx-auto px-4 py-16 sm:py-20">
+            <div className="text-center space-y-6">
+              <HarmonixLogo className="w-20 h-20 mx-auto mb-6" />
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white font-serif">
+                AI Agent <span className="text-harmonix-regal-gold">Marketplace</span>
               </h1>
-              <p className="text-gray-300 text-lg">Deploy, create, and trade elite AI agents for your business empire</p>
-            </div>
-            
-            <div className="flex items-center gap-4">
-              <Button variant="outline" className="border-harmony-gold/50 text-harmony-gold hover:bg-harmony-gold/10 px-6 py-3">
-                <Wallet className="w-5 h-5 mr-2" />
-                Connect Wallet
-              </Button>
-              <Link href="/create-agent">
-                <Button className="bg-harmony-gold hover:bg-harmony-gold/80 text-black font-semibold px-6 py-3">
-                  <Bot className="w-5 h-5 mr-2" />
-                  Create Agent
-                </Button>
-              </Link>
+              <p className="text-xl text-harmonix-sage-fade max-w-3xl mx-auto">
+                Deploy elite AI agents that transform your business operations. 
+                Each agent is expertly crafted to deliver immediate value.
+              </p>
+              
+              {/* Quick Stats */}
+              <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto mt-8">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-harmonix-regal-gold">12+</div>
+                  <div className="text-sm text-harmonix-sage-fade">Elite Agents</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-harmonix-regal-gold">5,000+</div>
+                  <div className="text-sm text-harmonix-sage-fade">Deployments</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-harmonix-regal-gold">40hrs</div>
+                  <div className="text-sm text-harmonix-sage-fade">Saved Weekly</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Marketplace Quick Access Navigation */}
-        <div className="mb-8">
-          <MarketplaceQuickAccess />
+        {/* Filters and Search */}
+        <div className="sticky top-16 z-40 bg-harmonix-night-pine/95 backdrop-blur-md border-b border-harmonix-cedar-mist/20">
+          <div className="max-w-7xl mx-auto px-4 py-4">
+            <div className="flex flex-col lg:flex-row gap-4">
+              {/* Search Bar */}
+              <div className="flex-1">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-harmonix-sage-fade" />
+                  <Input
+                    placeholder="Search agents by name or capability..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10 bg-harmonix-deep-forest/50 border-harmonix-cedar-mist/30 text-white placeholder-harmonix-sage-fade/50 focus:border-harmonix-regal-gold"
+                  />
+                </div>
+              </div>
+              
+              {/* Filters */}
+              <div className="flex gap-3">
+                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                  <SelectTrigger className="w-[150px] bg-harmonix-deep-forest/50 border-harmonix-cedar-mist/30 text-white">
+                    <SelectValue placeholder="Category" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-harmonix-night-pine border-harmonix-cedar-mist/30">
+                    {categories.map(cat => (
+                      <SelectItem key={cat} value={cat} className="text-white hover:bg-harmonix-cedar-mist/20">
+                        {cat === 'all' ? 'All Categories' : cat}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                <Select value={selectedRarity} onValueChange={setSelectedRarity}>
+                  <SelectTrigger className="w-[150px] bg-harmonix-deep-forest/50 border-harmonix-cedar-mist/30 text-white">
+                    <SelectValue placeholder="Rarity" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-harmonix-night-pine border-harmonix-cedar-mist/30">
+                    {rarities.map(rarity => (
+                      <SelectItem key={rarity} value={rarity} className="text-white hover:bg-harmonix-cedar-mist/20">
+                        {rarity === 'all' ? 'All Rarities' : rarity.charAt(0).toUpperCase() + rarity.slice(1)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                <div className="flex gap-2 border-l border-harmonix-cedar-mist/30 pl-3">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setViewMode('grid')}
+                    className={cn(
+                      "text-harmonix-sage-fade hover:text-harmonix-regal-gold",
+                      viewMode === 'grid' && "text-harmonix-regal-gold"
+                    )}
+                  >
+                    <Grid className="h-5 w-5" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setViewMode('list')}
+                    className={cn(
+                      "text-harmonix-sage-fade hover:text-harmonix-regal-gold",
+                      viewMode === 'list' && "text-harmonix-regal-gold"
+                    )}
+                  >
+                    <List className="h-5 w-5" />
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Search and Filters */}
-        <div className="mb-8">
-          <div className="flex flex-col lg:flex-row gap-4 mb-6">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
-              <Input
-                placeholder="Search agents by name, description, or tags..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 bg-slate-800/50 border-slate-600 text-emerald-100 placeholder-slate-400"
-              />
-            </div>
-            
-            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-full lg:w-48 bg-gray-800/50 border-gray-600 text-white">
-                <SelectValue placeholder="Category" />
-              </SelectTrigger>
-              <SelectContent className="bg-slate-800 border-slate-600">
-                {CATEGORIES.map(category => (
-                  <SelectItem key={category} value={category} className="text-emerald-100">
-                    {category}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-full lg:w-48 bg-slate-800/50 border-slate-600 text-emerald-100">
-                <SelectValue placeholder="Sort by" />
-              </SelectTrigger>
-              <SelectContent className="bg-slate-800 border-slate-600">
-                <SelectItem value="popular" className="text-emerald-100">Most Popular</SelectItem>
-                <SelectItem value="rating" className="text-emerald-100">Highest Rated</SelectItem>
-                <SelectItem value="price-low" className="text-emerald-100">Price: Low to High</SelectItem>
-                <SelectItem value="price-high" className="text-emerald-100">Price: High to Low</SelectItem>
-                <SelectItem value="newest" className="text-emerald-100">Newest</SelectItem>
-              </SelectContent>
-            </Select>
-            
-            {/* View Mode Toggle */}
-            <div className="flex border border-slate-600 rounded-lg overflow-hidden bg-slate-800/50">
-              <Button
-                variant={viewMode === 'grid' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => setViewMode('grid')}
-                className="rounded-none px-3"
+        {/* Agent Grid/List */}
+        <div className="max-w-7xl mx-auto px-4 py-12">
+          <div className={cn(
+            "grid gap-6",
+            viewMode === 'grid' ? "md:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"
+          )}>
+            {filteredAgents.map((agent) => (
+              <Card 
+                key={agent.id} 
+                className={cn(
+                  "bg-harmonix-night-pine/50 border-harmonix-cedar-mist/20 hover:border-harmonix-regal-gold/50 transition-all duration-300",
+                  "hover:shadow-lg hover:shadow-harmonix-regal-gold/10 hover:scale-[1.02]",
+                  viewMode === 'list' && "flex"
+                )}
               >
-                <Grid className="w-4 h-4" />
-              </Button>
-              <Button
-                variant={viewMode === 'list' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => setViewMode('list')}
-                className="rounded-none px-3"
-              >
-                <List className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
-
-          {/* Advanced Filters */}
-          <div className="flex flex-wrap gap-3 mb-4">
-            <Select value={priceRange} onValueChange={setPriceRange}>
-              <SelectTrigger className="w-40 bg-slate-800/50 border-slate-600 text-emerald-100">
-                <SelectValue placeholder="Price Range" />
-              </SelectTrigger>
-              <SelectContent className="bg-slate-800 border-slate-600">
-                <SelectItem value="all" className="text-emerald-100">All Prices</SelectItem>
-                <SelectItem value="free" className="text-emerald-100">Free</SelectItem>
-                <SelectItem value="budget" className="text-emerald-100">$1-500</SelectItem>
-                <SelectItem value="premium" className="text-emerald-100">$501-1000</SelectItem>
-                <SelectItem value="enterprise" className="text-emerald-100">$1000+</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <Select value={rarityFilter} onValueChange={setRarityFilter}>
-              <SelectTrigger className="w-36 bg-slate-800/50 border-slate-600 text-emerald-100">
-                <SelectValue placeholder="Rarity" />
-              </SelectTrigger>
-              <SelectContent className="bg-slate-800 border-slate-600">
-                <SelectItem value="all" className="text-emerald-100">All Rarities</SelectItem>
-                <SelectItem value="common" className="text-emerald-100">Common</SelectItem>
-                <SelectItem value="rare" className="text-emerald-100">Rare</SelectItem>
-                <SelectItem value="epic" className="text-emerald-100">Epic</SelectItem>
-                <SelectItem value="legendary" className="text-emerald-100">Legendary</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <Button
-              variant="outline"
-              size="sm"
-              className="border-slate-600 text-slate-400 hover:text-emerald-100"
-            >
-              <SlidersHorizontal className="w-4 h-4 mr-2" />
-              More Filters
-            </Button>
-
-            <div className="ml-auto text-sm text-slate-400">
-              Showing {filteredAgents.length} of {agents.length} agents
-            </div>
-          </div>
-
-          {/* Quick Stats */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            <Card className="bg-slate-800/50 border-slate-600">
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-emerald-400">12+</div>
-                <div className="text-sm text-slate-400">Available Agents</div>
-              </CardContent>
-            </Card>
-            <Card className="bg-slate-800/50 border-slate-600">
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-emerald-400">4.2K+</div>
-                <div className="text-sm text-slate-400">Total Deployments</div>
-              </CardContent>
-            </Card>
-            <Card className="bg-slate-800/50 border-slate-600">
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-emerald-400">98.7%</div>
-                <div className="text-sm text-slate-400">Success Rate</div>
-              </CardContent>
-            </Card>
-            <Card className="bg-slate-800/50 border-slate-600">
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-emerald-400">24/7</div>
-                <div className="text-sm text-slate-400">Agent Support</div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-
-        {/* Marketplace Tabs */}
-        <Tabs defaultValue="browse" className="space-y-6">
-          <TabsList className="bg-slate-800/50 border-slate-600">
-            <TabsTrigger value="browse" className="data-[state=active]:bg-emerald-600 data-[state=active]:text-white">
-              Browse Agents
-            </TabsTrigger>
-            <TabsTrigger value="my-agents" className="data-[state=active]:bg-emerald-600 data-[state=active]:text-white">
-              My Agents ({user ? '3' : '0'})
-            </TabsTrigger>
-            <TabsTrigger value="favorites" className="data-[state=active]:bg-emerald-600 data-[state=active]:text-white">
-              Favorites ({favorites.length})
-            </TabsTrigger>
-            <TabsTrigger value="create" className="data-[state=active]:bg-emerald-600 data-[state=active]:text-white">
-              Create & Sell
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="browse" className="space-y-6">
-            {/* Agent Grid */}
-            <div className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'}`}>
-              {filteredAgents.map((agent) => (
-                <Card key={agent.id} className={`bg-slate-800/50 border-slate-600 hover:border-emerald-400/50 hover:shadow-xl hover:shadow-emerald-400/10 hover:scale-105 transition-all duration-300 group ${isAgentLocked(agent.id) ? 'opacity-90' : ''} ${viewMode === 'list' ? 'flex flex-row' : ''}`}>
-                  <CardHeader className="relative">
-                    {/* Lock overlay for locked agents */}
-                    {isAgentLocked(agent.id) && (
-                      <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px] rounded-t-lg flex items-center justify-center z-10">
-                        <Lock className="w-6 h-6 text-slate-400" />
+                <CardHeader className={cn(viewMode === 'list' && "flex-1")}>
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-14 h-14 bg-harmonix-regal-gold/10 rounded-lg flex items-center justify-center">
+                        <agent.icon className="w-7 h-7 text-harmonix-regal-gold" />
+                      </div>
+                      <div>
+                        <CardTitle className="text-xl text-white flex items-center gap-2">
+                          {agent.name}
+                          {agent.status === 'live' && (
+                            <Badge className="bg-green-500/20 text-green-400 border-green-500/30 text-xs">
+                              LIVE
+                            </Badge>
+                          )}
+                          {agent.status === 'beta' && (
+                            <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30 text-xs">
+                              BETA
+                            </Badge>
+                          )}
+                        </CardTitle>
+                        <div className="flex items-center gap-2 mt-1">
+                          <Badge className={cn("text-xs", getRarityColor(agent.rarity))}>
+                            {agent.rarity.toUpperCase()}
+                          </Badge>
+                          <span className="text-xs text-harmonix-sage-fade">{agent.category}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => toggleSaveAgent(agent.id)}
+                      className="text-harmonix-sage-fade hover:text-harmonix-regal-gold"
+                    >
+                      <Heart className={cn("h-5 w-5", savedAgents.includes(agent.id) && "fill-harmonix-regal-gold text-harmonix-regal-gold")} />
+                    </Button>
+                  </div>
+                  
+                  <p className="text-harmonix-sage-fade text-sm mb-4">{agent.description}</p>
+                  
+                  {/* Features */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {agent.features.slice(0, 3).map((feature, idx) => (
+                      <Badge key={idx} variant="outline" className="border-harmonix-cedar-mist/30 text-harmonix-sage-fade text-xs">
+                        {feature}
+                      </Badge>
+                    ))}
+                    {agent.features.length > 3 && (
+                      <Badge variant="outline" className="border-harmonix-cedar-mist/30 text-harmonix-sage-fade text-xs">
+                        +{agent.features.length - 3} more
+                      </Badge>
+                    )}
+                  </div>
+                  
+                  {/* Stats */}
+                  <div className="grid grid-cols-3 gap-3 text-center py-3 border-y border-harmonix-cedar-mist/20">
+                    <div>
+                      <div className="flex items-center justify-center gap-1">
+                        <Star className="h-4 w-4 text-harmonix-regal-gold fill-harmonix-regal-gold" />
+                        <span className="text-white font-semibold">{agent.rating}</span>
+                      </div>
+                      <span className="text-xs text-harmonix-sage-fade">{agent.reviews} reviews</span>
+                    </div>
+                    <div>
+                      <div className="text-white font-semibold">{agent.deployments}</div>
+                      <span className="text-xs text-harmonix-sage-fade">deployments</span>
+                    </div>
+                    <div>
+                      <div className="text-harmonix-regal-gold font-semibold">${agent.monthlyPrice}</div>
+                      <span className="text-xs text-harmonix-sage-fade">/month</span>
+                    </div>
+                  </div>
+                </CardHeader>
+                
+                <CardContent className={cn("pt-0", viewMode === 'list' && "flex items-center gap-4")}>
+                  {/* Pricing & Actions */}
+                  <div className={cn("space-y-3", viewMode === 'list' && "flex gap-3 space-y-0")}>
+                    {agent.discount && (
+                      <div className="bg-harmonix-regal-gold/10 text-harmonix-regal-gold text-center py-2 px-3 rounded-lg text-sm font-medium">
+                        🎉 {agent.discount}% OFF - Limited Time
                       </div>
                     )}
                     
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="text-3xl relative">
-                          {agent.avatar}
-                          {/* Small lock indicator next to avatar */}
-                          {isAgentLocked(agent.id) && (
-                            <Lock className="w-4 h-4 text-slate-400 absolute -bottom-1 -right-1 bg-slate-800 rounded-full p-0.5" />
-                          )}
-                        </div>
-                        <div>
-                          <CardTitle className="text-emerald-100 text-lg flex items-center gap-2">
-                            {agent.name}
-                            {!isAgentLocked(agent.id) && DEMO_AGENT_IDS.includes(agent.id) && (
-                              <Badge variant="secondary" className="text-xs bg-emerald-600/20 text-emerald-400 border-emerald-400/30">
-                                Demo
-                              </Badge>
-                            )}
-                          </CardTitle>
-                          <div className="flex items-center gap-2">
-                            <Badge className={`${RARITY_COLORS[agent.rarity]} text-white`}>
-                              {getRarityIcon(agent.rarity)}
-                              <span className="ml-1 capitalize">{agent.rarity}</span>
-                            </Badge>
-                            {agent.creator.verified && (
-                              <Shield className="w-4 h-4 text-blue-400" />
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => toggleFavorite(agent.id)}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity"
-                      >
-                        <Heart 
-                          className={`w-4 h-4 ${favorites.includes(agent.id) ? 'text-red-400 fill-current' : 'text-slate-400'}`} 
-                        />
+                    <div className="flex gap-3">
+                      <Button className="flex-1 bg-harmonix-regal-gold hover:bg-harmonix-regal-gold/90 text-harmonix-deep-forest font-semibold">
+                        <ShoppingCart className="mr-2 h-4 w-4" />
+                        Deploy Now
+                      </Button>
+                      <Button variant="outline" className="border-harmonix-regal-gold text-harmonix-regal-gold hover:bg-harmonix-regal-gold/10">
+                        <Play className="h-4 w-4" />
                       </Button>
                     </div>
                     
-                    <p className="text-slate-400 text-sm mt-2 text-truncate-2">{agent.description}</p>
-                  </CardHeader>
-                  
-                  <CardContent className="space-y-4">
-                    {/* Features */}
-                    <div className="flex flex-wrap gap-1">
-                      {agent.features.slice(0, 3).map((feature) => (
-                        <Badge key={feature} variant="secondary" className="text-xs bg-slate-700 text-slate-300">
-                          {feature}
-                        </Badge>
-                      ))}
-                      {agent.features.length > 3 && (
-                        <Badge variant="secondary" className="text-xs bg-slate-700 text-slate-300">
-                          +{agent.features.length - 3} more
-                        </Badge>
-                      )}
+                    <div className="text-center text-xs text-harmonix-sage-fade">
+                      Setup: ${agent.setupPrice} one-time
                     </div>
-
-                    {/* Stats */}
-                    <div className="flex items-center justify-between text-sm text-slate-400">
-                      <div className="flex items-center gap-1">
-                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                        <span>{agent.rating}</span>
-                        <span>({agent.reviews})</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Users className="w-4 h-4" />
-                        <span>{agent.deployments.toLocaleString()}</span>
-                      </div>
-                    </div>
-
-                    {/* Pricing */}
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-emerald-400 font-semibold">${agent.monthlyPrice}/month</span>
-                        <span className="text-slate-400 text-sm">Setup: ${agent.setupPrice}</span>
-                      </div>
-                      
-                      {agent.nftPrice && (
-                        <div className="text-xs text-slate-400">
-                          NFT: {agent.nftPrice} ETH • {agent.royaltyPercentage}% royalty
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Actions */}
-                    <div className="flex gap-2">
-                      {isAgentLocked(agent.id) ? (
-                        <>
-                          <Button 
-                            className="flex-1 bg-slate-600 hover:bg-slate-700 text-white"
-                            onClick={() => window.location.href = '/get-started'}
-                          >
-                            <Lock className="w-4 h-4 mr-2" />
-                            Sign Up to Deploy
-                          </Button>
-                          <Button 
-                            variant="outline" 
-                            className="border-slate-500 text-slate-400"
-                            disabled
-                          >
-                            <Settings className="w-4 h-4" />
-                          </Button>
-                        </>
-                      ) : (
-                        <>
-                          <Button 
-                            className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white"
-                            onClick={() => handleDeploy(agent)}
-                          >
-                            {DEMO_AGENT_IDS.includes(agent.id) && !isAuthenticated ? (
-                              <>
-                                <Play className="w-4 h-4 mr-2" />
-                                Try Demo
-                              </>
-                            ) : (
-                              <>
-                                <Play className="w-4 h-4 mr-2" />
-                                Deploy
-                              </>
-                            )}
-                          </Button>
-                          <Button variant="outline" className="border-emerald-400/50 text-emerald-400 hover:bg-emerald-400/10">
-                            <Download className="w-4 h-4" />
-                          </Button>
-                          <Button variant="outline" className="border-emerald-400/50 text-emerald-400 hover:bg-emerald-400/10">
-                            <Settings className="w-4 h-4" />
-                          </Button>
-                        </>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          
+          {filteredAgents.length === 0 && (
+            <div className="text-center py-20">
+              <Bot className="w-16 h-16 text-harmonix-sage-fade/30 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-white mb-2">No agents found</h3>
+              <p className="text-harmonix-sage-fade">Try adjusting your filters or search query</p>
             </div>
-
-            {filteredAgents.length === 0 && (
-              <div className="text-center py-12">
-                <Bot className="w-16 h-16 text-slate-600 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-slate-400 mb-2">No agents found</h3>
-                <p className="text-slate-500">Try adjusting your search criteria or browse all categories</p>
-              </div>
-            )}
-          </TabsContent>
-
-          <TabsContent value="my-agents">
-            <div className="text-center py-12">
-              <Bot className="w-16 h-16 text-slate-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-slate-400 mb-2">Your Agent Collection</h3>
-              <p className="text-slate-500 mb-4">
-                {isAuthenticated ? 'Deploy your first agent to get started' : 'Sign in to view your agents'}
-              </p>
-              {!isAuthenticated && (
-                <Button className="bg-emerald-600 hover:bg-emerald-700 text-white">
-                  <Link href="/signup">Sign Up to Get Started</Link>
-                </Button>
-              )}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="favorites">
-            <div className="text-center py-12">
-              <Heart className="w-16 h-16 text-slate-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-slate-400 mb-2">Your Favorites</h3>
-              <p className="text-slate-500">
-                {favorites.length === 0 
-                  ? 'Save agents you like by clicking the heart icon'
-                  : `You have ${favorites.length} favorite agents`
-                }
-              </p>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="create">
-            <div className="text-center py-12">
-              <Sparkles className="w-16 h-16 text-slate-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-slate-400 mb-2">Creator Economy</h3>
-              <p className="text-slate-500 mb-6">Build and monetize your own AI agents</p>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                <Card className="bg-slate-800/50 border-slate-600 text-center">
-                  <CardContent className="p-6">
-                    <Bot className="w-12 h-12 text-emerald-400 mx-auto mb-4" />
-                    <h4 className="text-emerald-100 font-semibold mb-2">Create Agents</h4>
-                    <p className="text-slate-400 text-sm">Build custom AI agents with our no-code builder</p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="bg-slate-800/50 border-slate-600 text-center">
-                  <CardContent className="p-6">
-                    <DollarSign className="w-12 h-12 text-emerald-400 mx-auto mb-4" />
-                    <h4 className="text-emerald-100 font-semibold mb-2">Earn Revenue</h4>
-                    <p className="text-slate-400 text-sm">Get monthly recurring revenue from subscriptions</p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="bg-slate-800/50 border-slate-600 text-center">
-                  <CardContent className="p-6">
-                    <Gem className="w-12 h-12 text-emerald-400 mx-auto mb-4" />
-                    <h4 className="text-emerald-100 font-semibold mb-2">Mint NFTs</h4>
-                    <p className="text-slate-400 text-sm">Create tradeable NFTs with royalty splits</p>
-                  </CardContent>
-                </Card>
-              </div>
-              
-              <div className="mt-8">
-                <Link href="/create-agent">
-                  <Button className="bg-emerald-600 hover:bg-emerald-700 text-white">
-                    Start Creating
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </TabsContent>
-        </Tabs>
+          )}
         </div>
+
+        {/* Bottom CTA Section */}
+        <div className="bg-gradient-to-r from-harmonix-regal-gold/20 to-harmonix-regal-gold/10 border-t border-harmonix-cedar-mist/20">
+          <div className="max-w-7xl mx-auto px-4 py-16 text-center">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Ready to Build Your <span className="text-harmonix-regal-gold">AI Workforce?</span>
+            </h2>
+            <p className="text-harmonix-sage-fade mb-8 max-w-2xl mx-auto">
+              Join thousands of businesses automating their operations with Harmony's elite AI agents
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" className="bg-harmonix-regal-gold hover:bg-harmonix-regal-gold/90 text-harmonix-deep-forest font-semibold">
+                <Crown className="mr-2 h-5 w-5" />
+                Get Full Access - $297/month
+              </Button>
+              <Button size="lg" variant="outline" className="border-harmonix-regal-gold text-harmonix-regal-gold hover:bg-harmonix-regal-gold/10">
+                <Plus className="mr-2 h-5 w-5" />
+                Create Custom Agent
+              </Button>
+            </div>
+          </div>
+        </div>
+        
+        <Footer />
       </div>
-      <Footer />
-    </div>
     </PageWrapper>
   );
 }

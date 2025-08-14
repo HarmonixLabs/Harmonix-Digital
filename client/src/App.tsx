@@ -16,6 +16,7 @@ import Marketplace from "@/pages/marketplace";
 import Harmony from "@/pages/harmony";
 import Pricing from "@/pages/pricing";
 import CaseStudies from "@/pages/case-studies";
+import Demo from "@/pages/demo";
 import Contact from "@/pages/contact";
 import Careers from "@/pages/careers";
 import FAQ from "@/pages/faq";
@@ -32,9 +33,6 @@ import RoleDashboard from "@/pages/dashboard/RoleDashboard";
 import MyAgents from "@/pages/my-agents";
 import AgentCash from "@/pages/agent-cash";
 import AgentDashboard from "@/pages/agent-dashboard";
-import DemoDeploy from "@/pages/demo-deploy";
-import SolBrainDemo from "@/pages/sol-brain-demo";
-import FeaturesDemo from "@/pages/features-demo";
 
 // Commerce & NFT
 import Wallet from "@/pages/wallet";
@@ -55,7 +53,6 @@ import SMSTermsPage from "@/pages/legal/sms-terms";
 
 // Development & Testing
 import LoadingShowcase from "@/pages/loading-showcase";
-import LeadCaptureDemo from "@/pages/lead-capture-demo";
 import SystemHealth from "@/pages/system-health";
 import ResponsiveTest from "@/pages/responsive-test";
 import AgentTest from "@/pages/agent-test";
@@ -85,6 +82,7 @@ function Router() {
           <Route path="/harmony" component={Harmony} />
           <Route path="/pricing" component={Pricing} />
           <Route path="/case-studies" component={CaseStudies} />
+          <Route path="/demo" component={Demo} />
           <Route path="/contact" component={Contact} />
           <Route path="/careers" component={Careers} />
           <Route path="/faq" component={FAQ} />
@@ -104,9 +102,6 @@ function Router() {
           <Route path="/agent-dashboard" component={AgentDashboard} />
           
           {/* === DEMO & FEATURES === */}
-          <Route path="/demo-deploy" component={DemoDeploy} />
-          <Route path="/sol-brain-demo" component={SolBrainDemo} />
-          <Route path="/features-demo" component={FeaturesDemo} />
           
           {/* === COMMERCE & NFT === */}
           <Route path="/wallet" component={Wallet} />
@@ -127,7 +122,6 @@ function Router() {
           
           {/* === DEVELOPMENT & TESTING === */}
           <Route path="/loading-showcase" component={LoadingShowcase} />
-          <Route path="/lead-capture-demo" component={LeadCaptureDemo} />
           <Route path="/system-health" component={SystemHealth} />
           <Route path="/responsive-test" component={ResponsiveTest} />
           <Route path="/agent-test" component={AgentTest} />
