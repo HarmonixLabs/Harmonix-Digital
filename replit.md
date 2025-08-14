@@ -65,6 +65,14 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Updates
 
+### August 14, 2025 - Demo Page Complete Redesign & AppShell Layout System
+- **Interactive AI Demo Page**: Redesigned demo page featuring 6 core AI agents (SŌL, CA$H, ECHO, FLOW, KAIROS, CONCIERGE) with live chat interface
+- **Multi-Panel Layout**: Three-panel design with chat console, strategy canvas, and metrics sidebar for comprehensive agent interaction
+- **Simulation & Live Modes**: Toggle between safe demo mode and live API integration with real connections
+- **AppShell Layout System**: Unified global layout wrapper applied to all 36 pages with consistent navbar/footer
+- **Navigation Standardization**: Sign In (far left) to Home (far right) ordering, Join page replacing case-studies route
+- **Psychological UX Design**: Clean, minimalist interface with progress indicators, quick prompts, and real-time metrics to drive engagement
+
 ### August 14, 2025 - Authentication + Payment + Waitlist Integration Complete
 - **Multi-Provider Authentication**: Implemented Google, Apple, Microsoft, Email/Password, Phone/SMS, and Passkey support
 - **Stripe Payment Integration**: 30% deposit system with automatic 15% discount for early payments
