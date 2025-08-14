@@ -54,8 +54,12 @@ import ResponsiveTest from "@/pages/responsive-test";
 import InteractiveDemo from "@/pages/interactive-demo";
 import AgentTest from "@/pages/agent-test";
 import NotFound from "@/pages/not-found";
+import { useAuth } from "@/hooks/useAuth";
 
 function Router() {
+  // Don't block on auth - allow public access
+  const { isAuthenticated } = useAuth();
+
   return (
     <AnimatePresence mode="wait">
       <PageTransition>
@@ -109,6 +113,7 @@ function Router() {
           <Route path="/features-demo" component={FeaturesDemo} />
           <Route path="/system-health" component={SystemHealth} />
           <Route path="/loading-showcase" component={LoadingShowcase} />
+          <Route path="/qa-status" component={lazy(() => import("./pages/qa-status"))} />
           
           {/* === LEGACY ROUTES (will auto-redirect via RedirectHandler) === */}
           <Route path="/harmony" component={Harmony} />

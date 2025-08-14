@@ -61,6 +61,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Apply CORS middleware
   app.use(corsMiddleware);
 
+  // Import and setup GHL submission routes
+  const ghlSubmitRouter = (await import('./routes/ghl-submit')).default;
+  app.use(ghlSubmitRouter);
+
   // Health check endpoints
   app.get('/health', healthCheck);
   app.get('/health/ready', readinessCheck);
@@ -218,6 +222,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       console.log('Processing lead submission:', leadData.email);
 
+      // Import integrations dynamically
+      const { sendToGHL } = await import('./ghl-integration');
+      const { sendToGoogleSheets } = await import('./services/google-sheets-integration');
+
       // Track success of each destination
       const results = {
         ghl: false,
@@ -225,21 +233,54 @@ export async function registerRoutes(app: Express): Promise<Server> {
         sheets: false,
       };
 
-      // Send to GoHighLevel  
+      // 1. Send to GoHighLevel (Primary CRM)
       try {
-        // GHL API integration temporarily disabled
-        console.log('GHL integration skipped for lead:', leadData.email);
-        results.ghl = true;
+        const { sendToGHL } = await import('./ghl-integration');
+        const ghlResponse = await sendToGHL({
+          email: leadData.email,
+          firstName: leadData.firstName || leadData.name?.split(' ')[0],
+          lastName: leadData.lastName || leadData.name?.split(' ')[1],
+          phone: leadData.phone,
+          companyName: leadData.company,
+          source: leadData.source || 'harmonix-platform',
+          tags: leadData.tags || ['platform-lead'],
+          customFields: {
+            business_type: leadData.businessType,
+            interests: leadData.interests,
+            plan_type: leadData.planType,
+            access_type: leadData.accessType
+          }
+        });
+        
+        if (ghlResponse.success) {
+          results.ghl = true;
+          console.log('✅ Lead sent to GoHighLevel');
+        }
       } catch (error) {
-        console.warn('GHL submission failed:', error);
+        console.error('GHL submission error:', error);
       }
+
+      // 2. Send to Google Sheets (Backup)
+      try {
+        const { sendToGoogleSheets } = await import('./services/google-sheets-integration');
+        const sheetsSuccess = await sendToGoogleSheets(leadData);
+        if (sheetsSuccess) {
+          results.sheets = true;
+          console.log('✅ Lead sent to Google Sheets');
+        }
+      } catch (error) {
+        console.error('Google Sheets submission error:', error);
+      }
+
+      // At least one CRM should capture the lead
+      const anySuccess = results.ghl || results.sheets;
 
       // Response with results
       res.json({
-        success: true,
-        message: 'Lead captured successfully',
+        success: anySuccess,
+        message: anySuccess ? 'Lead captured successfully' : 'Lead capture failed - please try again',
         results,
-        leadId: `lead_${Date.now()}`
+        leadId: anySuccess ? `lead_${Date.now()}` : null
       });
 
     } catch (error) {
