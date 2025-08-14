@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Navbar } from '@/components/layout/navbar';
-import { Footer } from '@/components/layout/footer';
+
 import { HarmonixLogo } from '@/components/brand/HarmonixLogo';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -87,7 +86,6 @@ export default function DemoPage() {
   return (
     <PageWrapper>
       <div className="min-h-screen bg-gradient-to-br from-[#002a2d] via-[#1b1b1b] to-[#002a2d]">
-        <Navbar />
         
         {/* Hero Section */}
         <div className="relative overflow-hidden border-b border-harmonix-cedar-mist/20">
@@ -271,8 +269,6 @@ export default function DemoPage() {
             </div>
           </div>
         </div>
-        
-        <Footer />
       </div>
     </PageWrapper>
   );

@@ -9,6 +9,7 @@ import { AuthProvider } from "@/lib/auth";
 import { ErrorBoundary } from "@/components/error-boundary";
 import { PageTransition, SacredLoader } from "@/components/transitions/page-transition";
 import RedirectHandler from "@/components/RedirectHandler";
+import { AppShell } from "@/components/layout/AppShell";
 
 // Core Pages
 import Home from "@/pages/home";
@@ -16,13 +17,14 @@ import Marketplace from "@/pages/marketplace";
 import Harmony from "@/pages/harmony";
 import Pricing from "@/pages/pricing";
 import CaseStudies from "@/pages/case-studies";
+import Join from "@/pages/join";
 import Demo from "@/pages/demo";
 import Contact from "@/pages/contact";
 import Careers from "@/pages/careers";
 import FAQ from "@/pages/faq";
 
 // Authentication
-import EnhancedLogin from "@/pages/auth/Login";
+import Login from "@/pages/auth/Login";
 import AuthCallback from "@/pages/auth-callback";
 
 // Dashboard System
@@ -74,22 +76,24 @@ function Router() {
   return (
     <AnimatePresence mode="wait">
       <PageTransition>
-        <RedirectHandler />
-        <Switch>
+        <AppShell>
+          <RedirectHandler />
+          <Switch>
           {/* === CORE PUBLIC ROUTES === */}
           <Route path="/" component={Home} />
           <Route path="/marketplace" component={Marketplace} />
           <Route path="/harmony" component={Harmony} />
           <Route path="/pricing" component={Pricing} />
           <Route path="/case-studies" component={CaseStudies} />
+          <Route path="/join" component={Join} />
           <Route path="/demo" component={Demo} />
           <Route path="/contact" component={Contact} />
           <Route path="/careers" component={Careers} />
           <Route path="/faq" component={FAQ} />
           
           {/* === AUTHENTICATION === */}
-          <Route path="/auth/signin" component={EnhancedLogin} />
-          <Route path="/auth/signup" component={EnhancedLogin} />
+          <Route path="/auth/signin" component={Login} />
+          <Route path="/auth/signup" component={Login} />
           <Route path="/auth-callback" component={AuthCallback} />
           
           {/* === DASHBOARD SYSTEM === */}
@@ -137,6 +141,7 @@ function Router() {
           {/* === 404 FALLBACK === */}
           <Route component={NotFound} />
         </Switch>
+        </AppShell>
       </PageTransition>
     </AnimatePresence>
   );

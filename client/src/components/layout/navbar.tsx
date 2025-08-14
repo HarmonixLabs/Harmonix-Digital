@@ -1,293 +1,233 @@
-import { Link, useLocation } from "wouter";
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { HarmonixLogo } from "@/components/brand/HarmonixLogo";
-import { 
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useAuth } from "@/lib/auth";
-import { useWebSocket } from "@/hooks/use-websocket";
-import { useOnboarding } from "@/hooks/use-onboarding";
-import { IntegratedChatbot } from "@/components/chat/integrated-chatbot";
-import { OnboardingModal } from "@/components/onboarding/fixed-onboarding-modal";
-import { InteractiveTour } from "@/components/onboarding/interactive-tour";
-import { UnifiedAuthModal } from "@/components/auth/unified-auth-modal";
-import { MysticalTooltip, NeuralTooltip } from "@/components/ui/animated-tooltip";
-import { Coins, User, Settings, LogOut, Menu, X, HelpCircle } from "lucide-react";
-import { useState } from "react";
-import { MobileNavigation } from "@/components/mobile-navigation";
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'wouter';
+import { HarmonixLogo } from '@/components/brand/HarmonixLogo';
+import { Button } from '@/components/ui/button';
+import { Menu, X } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { useAuth } from '@/hooks/useAuth';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 
 export function Navbar() {
   const [location] = useLocation();
-  const { user, organization, logout } = useAuth();
-  const { isConnected } = useWebSocket();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [showTour, setShowTour] = useState(false);
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [authModalTab, setAuthModalTab] = useState<'login' | 'signup'>('login');
-  
-  const {
-    showModal,
-    userState,
-    setupProgress,
-    triggerOnboarding,
-    dismissModal,
-    completeOnboarding,
-    skipOnboarding
-  } = useOnboarding();
+  const { isAuthenticated } = useAuth();
+  const [atTop, setAtTop] = useState(true);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [solStatus, setSolStatus] = useState<'connected' | 'disconnected'>('connected');
 
-  const publicLinks = [
-    { href: "/auth/signin", label: "Sign In" },
-    { href: "/marketplace", label: "Marketplace" },
-    { href: "/demo", label: "Demo" },
-    { href: "/pricing", label: "Pricing" },
-    { href: "/case-studies", label: "Join" },
-    { href: "/harmony", label: "About" },
-    { href: "/", label: "Home" },
-  ];
+  useEffect(() => {
+    const onScroll = () => setAtTop(window.scrollY < 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
-  const privateLinks = [
-    { href: "/dashboard", label: "Dashboard" },
-    { href: "/marketplace", label: "Marketplace" },
-    { href: "/agent-builder", label: "Agent Builder" },
-    { href: "/creator-dashboard", label: "Creator Hub" },
-    { href: "/my-agents", label: "My Agents" },
-    { href: "/wallet", label: "Wallet" },
-    { href: "/analytics", label: "Analytics" },
-    { href: "/settings", label: "Settings" },
-  ];
+  // Simulate SOL status (would be from real connection in production)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSolStatus(prev => prev === 'connected' ? 'connected' : 'disconnected');
+    }, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
-  const navigationLinks = user ? privateLinks : publicLinks;
+  const Dot = ({ ok }: { ok: boolean }) => (
+    <span className={cn(
+      "inline-block h-2 w-2 rounded-full mr-2",
+      ok ? "bg-[#16a34a]" : "bg-[#ef4444]"
+    )} />
+  );
 
   const isActive = (href: string) => location === href;
 
-  const handleStartTour = () => {
-    setShowTour(true);
-  };
-
-  const handleTourComplete = () => {
-    setShowTour(false);
-  };
-
-  const getCurrentPageContext = () => {
-    if (location.includes('onboarding')) return 'onboarding';
-    if (location.includes('dashboard')) return 'dashboard';
-    if (location.includes('marketplace')) return 'marketplace';
-    if (location.includes('agents')) return 'agents';
-    return 'general';
-  };
-
   return (
-    <>
-      <nav 
-        className="border-b border-jade-forest/20 bg-charcoalDeep backdrop-blur-md sticky top-0 z-50"
-        data-tour="navbar"
-        role="navigation"
-        aria-label="Main navigation"
-      >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center" aria-label="Harmonix Home">
-            <HarmonixLogo size="md" variant="monogram" className="harmonix-logo-glow" />
+    <header className={cn(
+      "sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-[#0b0b0bcc] bg-[#0b0b0c]/85",
+      atTop ? "border-b border-transparent" : "border-b border-white/5"
+    )}>
+      <nav className="mx-auto max-w-7xl px-4 lg:px-6">
+        <div className="flex h-14 items-center justify-between">
+          {/* Left: Logo */}
+          <Link href="/">
+            <a className="flex items-center gap-2">
+              <HarmonixLogo size="sm" variant="monogram" />
+              <span className="sr-only">Harmonix</span>
+            </a>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <div className="hidden md:flex items-center space-x-6">
-            {navigationLinks.map((link) => (
-              <Link key={link.href} href={link.href}>
-                <Button 
-                  variant={location === link.href ? "default" : "ghost"}
-                  className={`touch-friendly-btn ${location === link.href ? "bg-harmonix-gold text-deep-space-black" : "text-jade-forest hover:text-harmonix-gold"}`}
-                >
-                  {link.label}
-                </Button>
+          {/* Center: Primary Nav (desktop) */}
+          <ul className="hidden lg:flex items-center gap-6 text-sm">
+            <li>
+              <Link href="/">
+                <a className={cn(
+                  "hover:text-white transition-colors",
+                  isActive('/') ? "text-[#FDC500] border-b-2 border-[#FDC500]" : "text-white/80"
+                )}>
+                  Home
+                </a>
               </Link>
-            ))}
-          </div>
+            </li>
+            <li>
+              <Link href="/marketplace">
+                <a className={cn(
+                  "hover:text-white transition-colors",
+                  isActive('/marketplace') ? "text-[#FDC500] border-b-2 border-[#FDC500]" : "text-white/80"
+                )}>
+                  Marketplace
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/demo">
+                <a className={cn(
+                  "hover:text-white transition-colors",
+                  isActive('/demo') ? "text-[#FDC500] border-b-2 border-[#FDC500]" : "text-white/80"
+                )}>
+                  Demo
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/pricing">
+                <a className={cn(
+                  "hover:text-white transition-colors",
+                  isActive('/pricing') ? "text-[#FDC500] border-b-2 border-[#FDC500]" : "text-white/80"
+                )}>
+                  Pricing
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/join">
+                <a className="rounded-full px-3 py-1.5 text-sm font-medium bg-[#FDC500] text-black hover:shadow-[0_0_0_3px_rgba(253,197,0,.25)] transition">
+                  Join – Early Access
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link href={isAuthenticated ? "/dashboard" : "/auth/signin"}>
+                <a className={cn(
+                  "hover:text-white transition-colors",
+                  (isActive('/dashboard') || isActive('/auth/signin')) ? "text-[#FDC500] border-b-2 border-[#FDC500]" : "text-white/80"
+                )}>
+                  {isAuthenticated ? "Dashboard" : "Sign In"}
+                </a>
+              </Link>
+            </li>
+          </ul>
 
-          {/* User Menu */}
-          <div className="flex items-center space-x-4">
-            {/* SŌL Connection Status */}
-            <div className="flex items-center space-x-2 text-sm text-jade-forest">
-              <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-harmonix-gold' : 'bg-red-400'}`}></div>
-              <span>{isConnected ? 'SŌL Connected' : 'SŌL Disconnected'}</span>
-            </div>
-            
-            {user ? (
-              <>
-                {/* Token Balance */}
-                <div 
-                  className="hidden sm:flex items-center space-x-2 text-sm"
-                  data-tour="tokens"
-                >
-                  <Coins className="harmony-gold" size={16} />
-                  <span className="font-semibold text-jade-forest">{user.tokenBalance.toLocaleString()}</span>
-                  <span className="text-jade-forest/70">Harmony</span>
+          {/* Right: SOL chip (desktop) */}
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="hidden lg:flex items-center text-xs text-white/80">
+                  <span className="inline-flex items-center rounded-full border border-white/10 px-2 py-1">
+                    <Dot ok={solStatus === 'connected'} />
+                    {solStatus === 'connected' ? 'SŌL Connected' : 'SŌL Disconnected'}
+                  </span>
                 </div>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Org-level state. Manage in Dashboard → System Health.</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
 
-                {/* User Dropdown */}
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                      <Avatar className="h-8 w-8 border-2 border-harmony-gold">
-                        <AvatarImage src={user.avatar} alt={user.name} />
-                        <AvatarFallback className="bg-gradient-to-br from-harmony-gold to-harmony-teal text-harmony-dark">
-                          {user.name?.charAt(0).toUpperCase()}
-                        </AvatarFallback>
-                      </Avatar>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-56 bg-deep-space-black border-jade-forest/30" align="end">
-                    <div className="flex items-center justify-start gap-2 p-2">
-                      <div className="flex flex-col space-y-1 leading-none">
-                        <p className="font-medium text-jade-forest">{user.name}</p>
-                        <p className="w-[200px] truncate text-sm text-jade-forest/70">
-                          {user.email}
-                        </p>
-                      </div>
-                    </div>
-                    <DropdownMenuSeparator className="bg-jade-forest/30" />
-                    <DropdownMenuItem className="text-jade-forest hover:bg-jade-forest/10">
-                      <User className="mr-2 h-4 w-4" />
-                      Profile
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="text-jade-forest hover:bg-jade-forest/10">
-                      <Settings className="mr-2 h-4 w-4" />
-                      Settings
-                    </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      className="text-jade-forest hover:bg-jade-forest/10"
-                      onClick={() => triggerOnboarding('setup')}
-                    >
-                      <HelpCircle className="mr-2 h-4 w-4" />
-                      Setup Wizard
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="sm:hidden text-jade-forest hover:bg-jade-forest/10">
-                      <Coins className="mr-2 h-4 w-4" />
-                      {user.tokenBalance} Tokens
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator className="bg-jade-forest/30" />
-                    <DropdownMenuItem 
-                      className="text-red-400 hover:bg-red-900/20"
-                      onClick={logout}
-                    >
-                      <LogOut className="mr-2 h-4 w-4" />
-                      Log out
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </>
-            ) : (
-              <div className="hidden sm:flex items-center space-x-2">
-                <Button 
-                  variant="ghost"
-                  onClick={() => {
-                    setAuthModalTab('login');
-                    setShowAuthModal(true);
-                  }}
-                  className="text-jade-forest hover:text-harmonix-gold"
-                >
-                  Sign In
-                </Button>
-                <Link href="/join">
+          {/* Mobile burger */}
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+            <SheetTrigger asChild className="lg:hidden">
+              <Button variant="ghost" size="icon" className="text-white/80">
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-full bg-[#0b0b0f]/95 backdrop-blur border-l border-white/10">
+              <div className="flex flex-col h-full">
+                <div className="flex items-center justify-between mb-8">
+                  <HarmonixLogo size="sm" variant="monogram" />
                   <Button 
-                    className="bg-harmonix-gold hover:bg-harmonix-gold/90 text-deep-space-black"
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={() => setMobileOpen(false)}
+                    className="text-white/70"
                   >
-                    Join Now - Early Access
-                  </Button>
-                </Link>
-              </div>
-            )}
-
-            {/* Mobile Navigation */}
-            <MobileNavigation />
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 border-t border-gray-800">
-              {navigationLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                    isActive(link.href)
-                      ? 'harmony-gold bg-gray-800'
-                      : 'text-white hover:text-harmony-gold hover:bg-gray-800'
-                  }`}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <Link
-                href="/sol-brain"
-                className="block px-3 py-2 rounded-md text-base font-medium harmony-teal hover:text-white hover:bg-gray-800"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                SŌL Brain
-              </Link>
-              
-              {!user && (
-                <div className="pt-4 space-y-2">
-                  <Button variant="ghost" className="w-full justify-start">
-                    Sign In
-                  </Button>
-                  <Button className="w-full bg-harmony-gold hover:bg-yellow-500 text-harmony-dark">
-                    Get Started
+                    <X className="h-5 w-5" />
                   </Button>
                 </div>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
-      </nav>
-
-      {/* Onboarding Modal */}
-      <OnboardingModal
-        isOpen={showModal}
-        onClose={dismissModal}
-        onStartSetup={() => triggerOnboarding('setup')}
-        onStartTour={handleStartTour}
-        onSkip={skipOnboarding}
-        userState={userState}
-      />
-
-      {/* Interactive Tour */}
-      <InteractiveTour
-        isActive={showTour}
-        onComplete={handleTourComplete}
-        onSkip={handleTourComplete}
-      />
-
-      {/* Integrated AI Chatbot */}
-      {user && (
-        <div data-tour="chat-button">
-          <IntegratedChatbot 
-            userContext={{
-              role: user?.role || 'professional',
-              industry: 'technology',
-              experience: 'intermediate',
-              currentPage: getCurrentPageContext()
-            }}
-          />
+                
+                <nav className="flex flex-col text-lg text-white/90 gap-4 flex-1">
+                  <Link href="/" onClick={() => setMobileOpen(false)}>
+                    <a className={cn(
+                      "py-2 transition-colors",
+                      isActive('/') ? "text-[#FDC500]" : "hover:text-white"
+                    )}>
+                      Home
+                    </a>
+                  </Link>
+                  <Link href="/marketplace" onClick={() => setMobileOpen(false)}>
+                    <a className={cn(
+                      "py-2 transition-colors",
+                      isActive('/marketplace') ? "text-[#FDC500]" : "hover:text-white"
+                    )}>
+                      Marketplace
+                    </a>
+                  </Link>
+                  <Link href="/demo" onClick={() => setMobileOpen(false)}>
+                    <a className={cn(
+                      "py-2 transition-colors",
+                      isActive('/demo') ? "text-[#FDC500]" : "hover:text-white"
+                    )}>
+                      Demo
+                    </a>
+                  </Link>
+                  <Link href="/pricing" onClick={() => setMobileOpen(false)}>
+                    <a className={cn(
+                      "py-2 transition-colors",
+                      isActive('/pricing') ? "text-[#FDC500]" : "hover:text-white"
+                    )}>
+                      Pricing
+                    </a>
+                  </Link>
+                  <Link href={isAuthenticated ? "/dashboard" : "/auth/signin"} onClick={() => setMobileOpen(false)}>
+                    <a className={cn(
+                      "py-2 transition-colors",
+                      (isActive('/dashboard') || isActive('/auth/signin')) ? "text-[#FDC500]" : "hover:text-white"
+                    )}>
+                      {isAuthenticated ? "Dashboard" : "Sign In"}
+                    </a>
+                  </Link>
+                  
+                  <div className="pt-4 text-sm text-white/70">
+                    <span className="inline-flex items-center gap-2">
+                      <span className={cn(
+                        "h-2 w-2 rounded-full",
+                        solStatus === "connected" ? "bg-[#16a34a]" : "bg-[#ef4444]"
+                      )} />
+                      {solStatus === "connected" ? "SŌL Connected" : "SŌL Disconnected"}
+                    </span>
+                  </div>
+                </nav>
+                
+                {/* Join CTA pinned at bottom */}
+                <div className="pt-4 border-t border-white/10">
+                  <Link href="/join" onClick={() => setMobileOpen(false)}>
+                    <Button className="w-full bg-[#FDC500] text-black hover:bg-[#FDC500]/90 font-semibold">
+                      Join – Early Access
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
-      )}
-
-      {/* Unified Auth Modal */}
-      <UnifiedAuthModal
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-        defaultTab={authModalTab}
-      />
-    </>
+      </nav>
+    </header>
   );
 }

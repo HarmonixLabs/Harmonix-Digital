@@ -1,7 +1,5 @@
 import React from "react";
 import { Link } from "wouter";
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
 import { HarmonixLogo } from "@/components/brand/HarmonixLogo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,7 +15,6 @@ export default function EnhancedLogin() {
   return (
     <PageWrapper>
       <div className="min-h-screen bg-gradient-to-br from-[#002a2d] via-[#1b1b1b] to-[#002a2d]">
-        <Navbar />
         
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-12">
           <Card className="w-full max-w-md bg-gray-900/50 border-gray-800">
@@ -150,8 +147,6 @@ export default function EnhancedLogin() {
             </CardContent>
           </Card>
         </div>
-        
-        <Footer />
       </div>
     </PageWrapper>
   );

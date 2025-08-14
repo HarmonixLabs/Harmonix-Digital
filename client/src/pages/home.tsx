@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
+
 import { Section, Container } from "@/components/layout";
 import { PageWrapper } from "@/components/transitions/page-wrapper";
 import { ParallaxText } from "@/components/transitions/parallax-background";
@@ -619,7 +618,6 @@ export default function Home() {
     return (
       <PageWrapper enableParallax={true} enableGeometry={true}>
         <div className="min-h-screen bg-harmonix-deep-forest">
-        <Navbar />
         <div className="harmonix-container py-8 sm:py-12 lg:py-16">
           <div className="text-center mb-12 sm:mb-16">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-harmonix-regal-gold font-serif">
@@ -681,7 +679,6 @@ export default function Home() {
             </Card>
           </div>
         </div>
-        <Footer />
         </div>
       </PageWrapper>
     );
@@ -691,7 +688,6 @@ export default function Home() {
   return (
     <PageWrapper enableParallax={true} enableGeometry={true}>
       <div className="min-h-screen bg-harmonix-deep-forest">
-      <Navbar />
       <OptimizedHero />
       <PlatformPillarsSection />
       <AgentShowcaseSection />
@@ -700,7 +696,6 @@ export default function Home() {
       <SolBrainSection />
       <DemoSuccessSection />
       <JoinMovementSection />
-      <Footer />
       
       {/* Health Monitor */}
       <HealthMonitor />

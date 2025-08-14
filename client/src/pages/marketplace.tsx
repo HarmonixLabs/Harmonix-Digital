@@ -10,8 +10,7 @@ import {
   ShoppingCart, Heart, Download, Play, Crown, Plus, Gem, Lock, Grid, List,
   ChevronRight, Brain, MessageSquare, FileText, Briefcase, Code, Palette, Music
 } from 'lucide-react';
-import { Navbar } from '@/components/layout/navbar';
-import { Footer } from '@/components/layout/footer';
+
 import { PageWrapper } from '@/components/transitions/page-wrapper';
 import { HarmonixLogo } from '@/components/brand/HarmonixLogo';
 import { cn } from '@/lib/utils';
@@ -180,7 +179,6 @@ export default function Marketplace() {
   return (
     <PageWrapper>
       <div className="min-h-screen bg-gradient-to-br from-[#002a2d] via-[#1b1b1b] to-[#002a2d]">
-        <Navbar />
         
         {/* Hero Section */}
         <div className="relative overflow-hidden bg-gradient-to-r from-harmonix-deep-forest/20 to-harmonix-regal-gold/10 border-b border-harmonix-cedar-mist/20">
@@ -436,8 +434,6 @@ export default function Marketplace() {
             </div>
           </div>
         </div>
-        
-        <Footer />
       </div>
     </PageWrapper>
   );

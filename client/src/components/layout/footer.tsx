@@ -1,144 +1,50 @@
-import { Link } from "wouter";
-import { HarmonixLogo } from "@/components/brand/HarmonixLogo";
-import { Mail, Phone, MapPin, Twitter, Linkedin, Github } from "lucide-react";
+import React from 'react';
+import { Link } from 'wouter';
+import { HarmonixLogo } from '@/components/brand/HarmonixLogo';
 
 export function Footer() {
-  const currentYear = new Date().getFullYear();
-
-  const serviceLinks = [
-    { href: "/service-pricing#ai-agents", label: "AI Agents" },
-    { href: "/service-pricing#web-design", label: "Web Design" },
-    { href: "/service-pricing#blockchain", label: "Blockchain" },
-    { href: "/service-pricing#launchpad", label: "The Launchpad" },
-  ];
-
-  const legalLinks = [
-    { href: "/terms-and-conditions", label: "Terms & Conditions" },
-    { href: "/privacy-policy", label: "Privacy Policy" },
-    { href: "/service-pricing", label: "Pricing" },
-    { href: "/faq", label: "FAQ" },
-  ];
-
-  const companyLinks = [
-    { href: "/case-studies", label: "Case Studies" },
-    { href: "/demo", label: "Demo" },
-    { href: "/dashboard/roi", label: "ROI Calculator" },
-    { href: "/join", label: "Join Harmonix" },
-    { href: "/contact", label: "Contact" },
-    { href: "/careers", label: "Careers" },
-  ];
-
   return (
-    <footer className="bg-charcoalDeep border-t border-jadeForest/20">
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <footer className="border-t border-white/10 bg-[#0b0b0b]">
+      <div className="mx-auto max-w-7xl px-4 lg:px-6 py-10 text-white/70">
+        <div className="flex flex-col items-center gap-6">
+          {/* Logo */}
+          <HarmonixLogo size="sm" variant="monogram" />
           
-          {/* Brand Section */}
-          <div className="space-y-4">
+          {/* Navigation */}
+          <nav className="flex flex-wrap justify-center gap-5 text-sm">
             <Link href="/">
-              <HarmonixLogo size="lg" variant="monogram" className="mb-4" />
+              <a className="hover:text-white transition-colors">Home</a>
             </Link>
-            <p className="text-sm text-charcoalDeep/70 leading-relaxed">
-              Intelligent Systems for Timeless Sovereignty. Transform your business with AI-powered digital team members.
-            </p>
-            <p className="text-sm text-jadeForest font-medium mt-2">
-              Harmony By Harmonix
-            </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-jadeForest/60 hover:text-jadeForest transition-colors">
-                <Twitter className="w-5 h-5" />
+            <Link href="/marketplace">
+              <a className="hover:text-white transition-colors">Marketplace</a>
+            </Link>
+            <Link href="/demo">
+              <a className="hover:text-white transition-colors">Demo</a>
+            </Link>
+            <Link href="/pricing">
+              <a className="hover:text-white transition-colors">Pricing</a>
+            </Link>
+            <Link href="/join">
+              <a className="text-[#FDC500] hover:text-[#FDC500]/80 transition-colors">Join</a>
+            </Link>
+            <Link href="/legal/privacy">
+              <a className="hover:text-white transition-colors">Privacy</a>
+            </Link>
+            <Link href="/legal/terms">
+              <a className="hover:text-white transition-colors">Terms</a>
+            </Link>
+            <Link href="/system-health">
+              <a className="opacity-70 hover:opacity-100 transition-opacity text-xs">
+                System Health (Founders)
               </a>
-              <a href="#" className="text-jadeForest/60 hover:text-jadeForest transition-colors">
-                <Linkedin className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-jadeForest/60 hover:text-jadeForest transition-colors">
-                <Github className="w-5 h-5" />
-              </a>
-            </div>
-          </div>
-
-          {/* Services */}
-          <div>
-            <h3 className="text-lg font-semibold text-jadeForest mb-4">Services</h3>
-            <ul className="space-y-2">
-              {serviceLinks.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href}>
-                    <span className="text-sm text-charcoalDeep/70 hover:text-jadeForest transition-colors cursor-pointer">
-                      {link.label}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h3 className="text-lg font-semibold text-jadeForest mb-4">Company</h3>
-            <ul className="space-y-2">
-              {companyLinks.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href}>
-                    <span className="text-sm text-charcoalDeep/70 hover:text-jadeForest transition-colors cursor-pointer">
-                      {link.label}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact & Legal */}
-          <div>
-            <h3 className="text-lg font-semibold text-jadeForest mb-4">Contact</h3>
-            <div className="space-y-3 text-sm text-charcoalDeep/70">
-              <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-jadeForest" />
-                <span>Vancouver, BC, Canada</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-jadeForest" />
-                <span>+1 (604) 757-7771</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-jadeForest" />
-                <span>hello@harmonix.ai</span>
-              </div>
-            </div>
-            
-            <div className="mt-6">
-              <h4 className="text-sm font-medium text-jadeForest mb-2">Legal</h4>
-              <ul className="space-y-1">
-                {legalLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href}>
-                      <span className="text-xs text-charcoalDeep/60 hover:text-jadeForest transition-colors cursor-pointer">
-                        {link.label}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Section */}
-        <div className="border-t border-jadeForest/20 mt-8 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-sm text-charcoalDeep/60">
-              © {currentYear} Harmonix Digital. All rights reserved.
-            </div>
-            <div className="flex items-center space-x-6 text-xs text-charcoalDeep/50">
-              <Link href="/terms-and-conditions">
-                <span className="hover:text-jadeForest transition-colors cursor-pointer">Terms</span>
-              </Link>
-              <Link href="/privacy-policy">
-                <span className="hover:text-jadeForest transition-colors cursor-pointer">Privacy</span>
-              </Link>
-              <span>Built with ❤️ in Vancouver</span>
-            </div>
+            </Link>
+          </nav>
+          
+          {/* Contact */}
+          <div className="text-xs">
+            Contact: <a className="underline hover:text-white transition-colors" href="mailto:connect@harmonixdigital.com">
+              connect@harmonixdigital.com
+            </a>
           </div>
         </div>
       </div>
