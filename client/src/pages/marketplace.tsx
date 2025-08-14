@@ -35,9 +35,12 @@ import {
   ExternalLink,
   ChevronDown
 } from 'lucide-react';
-import { useAuth } from '@/lib/auth';
+import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { Link } from 'wouter';
+import { Navbar } from '@/components/layout/navbar';
+import { Footer } from '@/components/layout/footer';
+import { PageWrapper } from '@/components/transitions/page-wrapper';
 import { MarketplaceQuickAccess } from '@/components/marketplace/MarketplaceQuickAccess';
 import { CORE_AGENTS, DASHBOARD_PLANS } from '@/data/harmonixAgentPricing';
 
@@ -259,7 +262,7 @@ export default function Marketplace() {
 
     // Filter by creator (for future expansion)
     if (creatorFilter !== 'all') {
-      filtered = filtered.filter(agent => agent.creator === creatorFilter);
+      filtered = filtered.filter(agent => agent.creator.name === creatorFilter);
     }
 
     // Sort
@@ -333,9 +336,10 @@ export default function Marketplace() {
       }
     } catch (error) {
       console.error('Purchase error:', error);
+      const errorMessage = error instanceof Error ? error.message : "Unable to process purchase. Please try again.";
       toast({
         title: "Purchase Failed",
-        description: error.message || "Unable to process purchase. Please try again.",
+        description: errorMessage,
         variant: "destructive"
       });
     }
@@ -351,7 +355,10 @@ export default function Marketplace() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900">
+    <PageWrapper>
+      <div className="min-h-screen bg-gradient-to-br from-[#002a2d] via-[#1b1b1b] to-[#002a2d]">
+        <Navbar />
+        <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900">
       {/* Header */}
       <div className="bg-slate-900/50 border-b border-emerald-400/20 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 py-6">
@@ -761,7 +768,10 @@ export default function Marketplace() {
             </div>
           </TabsContent>
         </Tabs>
+        </div>
       </div>
+      <Footer />
     </div>
+    </PageWrapper>
   );
 }
