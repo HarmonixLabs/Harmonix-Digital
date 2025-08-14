@@ -15,12 +15,13 @@ import Stripe from "stripe";
 import { pipedreamIntegration } from "./services/pipedream-integration";
 import { generateEnhancedAgentResponse } from "./ai-enhancement-service";
 import { OAuth2Client } from 'google-auth-library';
+import { registerAuthRoutes } from "./routes/auth";
 
 const JWT_SECRET = process.env.JWT_SECRET || "harmonix-secret-key";
 
 // Initialize Stripe
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-05-28.basil",
+  apiVersion: "2024-06-20",
 });
 
 // Initialize Google OAuth
@@ -30,7 +31,7 @@ const googleClient = new OAuth2Client(
   process.env.GOOGLE_REDIRECT_URI || 'http://localhost:5000/api/auth/google/callback'
 );
 
-// Middleware to verify JWT token
+// Middleware to verify JWT token (keeping for backward compatibility)
 const authenticateToken = async (req: any, res: any, next: any) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -53,6 +54,8 @@ const authenticateToken = async (req: any, res: any, next: any) => {
 };
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Register Replit Auth routes first
+  await registerAuthRoutes(app);
   const httpServer = createServer(app);
 
   // Apply CORS middleware

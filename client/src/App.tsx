@@ -72,6 +72,7 @@ function Router() {
           
           {/* Dashboard - UNIFIED */}
           <Route path="/dashboard" component={RoleDashboard} />
+          <Route path="/replit-dashboard" component={Dashboard} />
           
           {/* Creator Zone - UNIFIED */}
           <Route path="/creator" component={lazy(() => import("./pages/creator-dashboard"))} />

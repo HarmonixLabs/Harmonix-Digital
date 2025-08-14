@@ -1,0 +1,112 @@
+🔁 FINAL PLATFORM QA + LAUNCH PREP PROMPT (FOR RIPLET)
+
+⸻
+
+🧠 Project:
+
+Harmony OS – Final Design + System QA + Feature Completion
+
+⸻
+
+Hey Riplet Team,
+
+We are now at critical launch phase.
+
+This prompt serves as your full-system directive to finalize, audit, and optimize the Harmony platform before launch. We expect a fully responsive, beautiful, and functioning product — that aligns with our brand visuals, agent infrastructure, and user onboarding system.
+
+Please complete the following in sequenced passes, starting with structure & cleanup, then design/UI alignment, then feature/UX functionality, and finally CRM lead flow testing.
+
+⸻
+
+✅ PHASE 1 – SYSTEM STRUCTURE + PAGE CLEANUP
+	1.	Scan entire repo for:
+	•	Duplicate pages or components
+	•	Dead routes / unused components
+	•	Legacy test pages or unused agent templates
+	2.	Merge or delete any duplicates, especially for:
+	•	Agent Demos
+	•	Marketplace Modules
+	•	Login/Signup Routes
+	•	Self-Heal Pages
+	3.	Standardize Routing:
+	•	Navbar and Footer must only route to active, finalized pages.
+	•	No broken links, outdated placeholders, or dead pages.
+	•	Test every button, hyperlink, and CTA.
+
+⸻
+
+🎨 PHASE 2 – UI / UX POLISH (WEB + RESPONSIVE)
+	1.	Design Audit:
+	•	Padding, margins, spacing — must be clean, uniform, and responsive.
+	•	Fix current squished modules — agent demo panels must be centered, spaced, and elegant.
+	•	Fonts: Poppins or Inter only. Correct size and hierarchy throughout.
+	•	Button consistency: Gold + Jade theme, hover glow, ripple feedback on click.
+	•	No broken layout shifts or dev box overflows.
+	2.	Responsive Design:
+	•	Full adaptive experience across:
+	•	Desktop
+	•	Tablet
+	•	Mobile (iOS + Android)
+	•	Homepage animations, header, rain drip grid, scroll fade-ins must remain intact and optimized.
+	3.	Branding Fixes:
+	•	Replace all logo variants with monogram-only PNG with transparent background.
+	•	Use updated Harmony color palette throughout.
+
+⸻
+
+🧩 PHASE 3 – FEATURE INTEGRATION + PAGE COMPLETION
+	1.	System Health Page:
+	•	Must be removed from footer.
+	•	Rebuilt as a section inside the dashboard only accessible to org founders.
+	•	Can trigger an org-level refresh (self-heal).
+	2.	Dashboard Setup:
+	•	Ensure all users have:
+	•	Login/logout flow working.
+	•	Agent dashboard view.
+	•	Token meter + Auto Recharge (toggle + manual)
+	•	Ensure founder accounts (starting with connect@harmonixdigital.com) have:
+	•	Master Admin View:
+	•	Total signups
+	•	Active orgs
+	•	Revenue view
+	•	Agent usage metrics across entire ecosystem
+	•	Invite teammate, assign roles, see org activity.
+	3.	Agent Demos + Locked Logic:
+	•	Only 4 agents can be demoed at launch (per visual):
+	•	Cash
+	•	Content
+	•	Concierge
+	•	SŌL Brain
+	•	All other agents must:
+	•	Appear as preview cards (blurred or locked)
+	•	Show tooltip/CTA: “Unlock by Setting Up Harmony Dashboard”
+	•	Agent demo UI must be not squished, smooth scrollable, with 1-click sample generation.
+	•	Conversation panels must be full-width and not cut off.
+	4.	Marketplace & Creator Sandbox:
+	•	Ensure Marketplace is visually stunning — dynamic cards, filtering, category tagging.
+	•	Creator Sandbox (if stubbed) must be gated or show “Coming Soon.”
+
+⸻
+
+🧾 PHASE 4 – LEAD CAPTURE + CRM FLOW
+	1.	Forms:
+	•	All Waitlist/Join/Contact Forms must:
+	•	Route data to:
+	•	✅ Go High Level (primary)
+	•	✅ Google Sheets (backup)
+	•	Confirmed webhook firing
+	•	Triggers form success message or redirect
+	2.	Authentication:
+	•	Ensure users can:
+	•	Sign up
+	•	Login
+	•	Logout
+	•	Access proper dashboard after login
+	3.	Error Pages:
+	•	All 404 or broken links must:
+	•	Redirect to Homepage or
+	•	Show “Join the Waitlist” CTA
+
+⸻
+
+🛠 SYSTEM READY FLAGS (Final Review Checklist)

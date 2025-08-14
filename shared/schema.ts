@@ -3,15 +3,17 @@ import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-// Users table
+// Session storage table for Replit Auth (removing duplicate declaration)
+
+// Users table - Updated for Replit Auth
 export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  email: text("email").notNull().unique(),
-  password: text("password").notNull(),
-  name: text("name").notNull(),
+  id: varchar("id").primaryKey(), // Changed to varchar for Replit user IDs
+  email: varchar("email").unique(),
+  firstName: varchar("first_name"),
+  lastName: varchar("last_name"),
+  profileImageUrl: varchar("profile_image_url"),
   phone: text("phone"),
   company: text("company"),
-  avatar: text("avatar"),
   organizationId: integer("organization_id").references(() => organizations.id),
   role: text("role").notNull().default("user"), // user, admin, super_admin
   tokenBalance: integer("token_balance").notNull().default(0),
@@ -401,6 +403,7 @@ export const insertReferralSchema = createInsertSchema(referrals).omit({
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
+export type UpsertUser = typeof users.$inferInsert;
 export type Organization = typeof organizations.$inferSelect;
 export type InsertOrganization = z.infer<typeof insertOrganizationSchema>;
 export type AgentType = typeof agentTypes.$inferSelect;
