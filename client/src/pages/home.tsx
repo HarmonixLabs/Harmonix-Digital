@@ -22,7 +22,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "@/lib/auth";
+import { useAuth } from "@/hooks/useAuth";
 import { Link } from "wouter";
 import { cn } from "@/lib/utils";
 import { ChartLine, Cog, Shield, Search, Users, UserRoundCheck, Lock, TrendingUp, Activity, ArrowRight, Play, Zap, Link2, Clock, Brain, Bot, FileText, MessageSquare, Sparkles, CheckCircle, Timer, Star, InfoIcon } from "lucide-react";
@@ -149,7 +149,7 @@ function AgentShowcaseSection() {
             {agentCards.map((agent, index) => (
               <AnimatedCard 
                 key={index}
-                variant={activeAgent === index ? "glow" : "shimmer"}
+                className="group"
               >
                 <Card 
                   className={cn(
@@ -505,7 +505,7 @@ function DemoSuccessSection() {
 
         <div className="grid md:grid-cols-3 gap-8 lg:gap-12 mb-12">
           {metrics.map((metric, index) => (
-            <AnimatedCard key={index} variant="float" delay={index * 0.1}>
+            <AnimatedCard key={index} className="group">
               <Card className="harmonix-card-enhanced p-8 text-center bg-harmonix-night-pine/50 border-harmonix-cedar-mist/20 hover:border-harmonix-regal-gold/50 transition-all duration-300">
                 <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-harmonix-regal-gold/10 rounded-full">
                   <metric.icon className="w-8 h-8 text-harmonix-regal-gold" />

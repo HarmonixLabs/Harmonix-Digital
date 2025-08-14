@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense } from "react";
 import { Switch, Route } from "wouter";
 import { AnimatePresence } from "framer-motion";
 import { queryClient } from "./lib/queryClient";
@@ -9,55 +9,69 @@ import { AuthProvider } from "@/lib/auth";
 import { ErrorBoundary } from "@/components/error-boundary";
 import { PageTransition, SacredLoader } from "@/components/transitions/page-transition";
 import RedirectHandler from "@/components/RedirectHandler";
+
+// Core Pages
 import Home from "@/pages/home";
+import Marketplace from "@/pages/marketplace";
+import Harmony from "@/pages/harmony";
+import Pricing from "@/pages/pricing";
+import CaseStudies from "@/pages/case-studies";
+import Contact from "@/pages/contact";
+import Careers from "@/pages/careers";
+import FAQ from "@/pages/faq";
+
+// Authentication
+import EnhancedLogin from "@/pages/auth/Login";
+import AuthCallback from "@/pages/auth-callback";
+
+// Dashboard System
 import Dashboard from "@/pages/dashboard";
 import RoleDashboard from "@/pages/dashboard/RoleDashboard";
-import EnhancedLogin from "@/pages/auth/Login";
-import EnhancedMarketplace from "@/pages/marketplace/EnhancedMarketplace";
-import Harmony from "@/pages/harmony";
-// Standardized to sol-brain route
-import Join from "@/pages/join";
-import UnifiedJoin from "@/pages/unified-join";
-import FAQ from "@/pages/faq";
-import CaseStudies from "@/pages/case-studies";
-import DemoDeploy from "@/pages/demo-deploy";
-import Demo from "@/pages/demo";
-import SolBrainDemo from "@/pages/sol-brain-demo";
+
+// Agent & Feature Pages
 import MyAgents from "@/pages/my-agents";
-import Create from "@/pages/create";
-import Settings from "@/pages/settings";
-import Login from "@/pages/login";
-import AuthCallback from "@/pages/auth-callback";
-import OnboardingPage from "@/pages/onboarding";
-import Signup from "@/pages/signup";
-import Marketplace from "@/pages/marketplace";
-import AgentMarketplace from "@/pages/agent-marketplace";
-import Wallet from "@/pages/wallet";
 import AgentCash from "@/pages/agent-cash";
 import AgentDashboard from "@/pages/agent-dashboard";
+import DemoDeploy from "@/pages/demo-deploy";
+import SolBrainDemo from "@/pages/sol-brain-demo";
+import FeaturesDemo from "@/pages/features-demo";
+
+// Commerce & NFT
+import Wallet from "@/pages/wallet";
 import NFTMarketplace from "@/pages/nft-marketplace";
 import NFTMint from "@/pages/nft-mint";
-import ThankYou from "@/pages/thank-you";
 import Checkout from "@/pages/checkout";
+import ThankYou from "@/pages/thank-you";
+
+// User Management
+import Settings from "@/pages/settings";
+import OnboardingPage from "@/pages/onboarding";
+
+// Legal & Compliance
+import TermsPage from "@/pages/legal/terms";
+import PrivacyPage from "@/pages/legal/privacy";
+import CookiesPage from "@/pages/legal/cookies";
+import SMSTermsPage from "@/pages/legal/sms-terms";
+
+// Development & Testing
 import LoadingShowcase from "@/pages/loading-showcase";
-import TermsAndConditions from "@/pages/TermsAndConditions";
-import PrivacyPolicy from "@/pages/PrivacyPolicy";
-import ServicePricing from "@/pages/ServicePricing";
-import Pricing from "@/pages/pricing";
-import Waitlist from "@/pages/Waitlist";
-import FeaturesDemo from "@/pages/features-demo";
-import EnhancedDashboard from "@/pages/enhanced-dashboard";
 import LeadCaptureDemo from "@/pages/lead-capture-demo";
 import SystemHealth from "@/pages/system-health";
-// Removed duplicate authentication imports
 import ResponsiveTest from "@/pages/responsive-test";
-import InteractiveDemo from "@/pages/interactive-demo";
 import AgentTest from "@/pages/agent-test";
+import PlatformStatus from "@/pages/platform-status";
+import QAStatus from "@/pages/qa-status";
+
+// Error Pages
 import NotFound from "@/pages/not-found";
+import Error400 from "@/pages/errors/error-400";
+import Error401 from "@/pages/errors/error-401";
+import Error403 from "@/pages/errors/error-403";
+import Error500 from "@/pages/errors/error-500";
+
 import { useAuth } from "@/hooks/useAuth";
 
 function Router() {
-  // Don't block on auth - allow public access
   const { isAuthenticated } = useAuth();
 
   return (
@@ -65,87 +79,68 @@ function Router() {
       <PageTransition>
         <RedirectHandler />
         <Switch>
-          {/* === UNIFIED CORE ROUTES === */}
+          {/* === CORE PUBLIC ROUTES === */}
           <Route path="/" component={Home} />
-          
-          {/* Agent Marketplace - UNIFIED */}
           <Route path="/marketplace" component={Marketplace} />
+          <Route path="/harmony" component={Harmony} />
+          <Route path="/pricing" component={Pricing} />
+          <Route path="/case-studies" component={CaseStudies} />
+          <Route path="/contact" component={Contact} />
+          <Route path="/careers" component={Careers} />
+          <Route path="/faq" component={FAQ} />
           
-          {/* Join/Waitlist - UNIFIED */}
-          <Route path="/join" component={UnifiedJoin} />
+          {/* === AUTHENTICATION === */}
+          <Route path="/auth/signin" component={EnhancedLogin} />
+          <Route path="/auth/signup" component={EnhancedLogin} />
+          <Route path="/auth-callback" component={AuthCallback} />
           
-          {/* Dashboard - UNIFIED */}
+          {/* === DASHBOARD SYSTEM === */}
           <Route path="/dashboard" component={RoleDashboard} />
           <Route path="/replit-dashboard" component={Dashboard} />
           
-          {/* Creator Zone - UNIFIED */}
-          <Route path="/creator" component={lazy(() => import("./pages/creator-dashboard"))} />
+          {/* === AGENT MANAGEMENT === */}
+          <Route path="/my-agents" component={MyAgents} />
+          <Route path="/agent-cash" component={AgentCash} />
+          <Route path="/agent-dashboard" component={AgentDashboard} />
           
-          {/* Demo - UNIFIED */}
-          <Route path="/demo" component={Demo} />
+          {/* === DEMO & FEATURES === */}
+          <Route path="/demo-deploy" component={DemoDeploy} />
+          <Route path="/sol-brain-demo" component={SolBrainDemo} />
+          <Route path="/features-demo" component={FeaturesDemo} />
           
-          {/* Authentication - UNIFIED */}
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={Signup} />
-          
-          {/* Admin - UNIFIED */}
-          <Route path="/admin" component={lazy(() => import("./pages/admin"))} />
-
-          {/* === SUPPORT PAGES === */}
-          <Route path="/faq" component={FAQ} />
-          <Route path="/case-studies" component={CaseStudies} />
-          <Route path="/pricing" component={Pricing} />
-          <Route path="/service-pricing" component={ServicePricing} />
-          <Route path="/terms-and-conditions" component={TermsAndConditions} />
-          <Route path="/privacy-policy" component={PrivacyPolicy} />
-          
-          {/* === EXTENDED FUNCTIONALITY === */}
-          <Route path="/wallet" component={lazy(() => import("./pages/wallet"))} />
-          <Route path="/settings" component={Settings} />
-          <Route path="/checkout" component={Checkout} />
-          <Route path="/thank-you" component={ThankYou} />
-          <Route path="/sol-brain" component={lazy(() => import("./pages/sol-brain"))} />
-          <Route path="/dashboard/roi" component={lazy(() => import("./pages/dashboard/roi"))} />
+          {/* === COMMERCE & NFT === */}
+          <Route path="/wallet" component={Wallet} />
           <Route path="/nft-marketplace" component={NFTMarketplace} />
           <Route path="/nft-mint" component={NFTMint} />
+          <Route path="/checkout" component={Checkout} />
+          <Route path="/thank-you" component={ThankYou} />
           
-          {/* === AUTHENTICATION === */}
-          <Route path="/auth/signin" component={lazy(() => import("./pages/auth/signin"))} />
-          <Route path="/auth/signup" component={lazy(() => import("./pages/auth/signup"))} />
-          <Route path="/signin" component={lazy(() => import("./pages/auth/signin"))} />
-          <Route path="/signup" component={lazy(() => import("./pages/auth/signup"))} />
-
-          {/* === DEVELOPMENT & TESTING === */}
-          <Route path="/features-demo" component={FeaturesDemo} />
-          <Route path="/system-health" component={SystemHealth} />
-          <Route path="/loading-showcase" component={LoadingShowcase} />
-          <Route path="/qa-status" component={lazy(() => import("./pages/qa-status"))} />
-          
-          {/* === LEGACY ROUTES (will auto-redirect via RedirectHandler) === */}
-          <Route path="/harmony" component={Harmony} />
+          {/* === USER MANAGEMENT === */}
+          <Route path="/settings" component={Settings} />
           <Route path="/onboarding" component={OnboardingPage} />
-          <Route path="/auth/callback" component={AuthCallback} />
           
-          {/* === LEGAL PAGES === */}
-          <Route path="/legal/privacy" component={lazy(() => import("./pages/legal/privacy"))} />
-          <Route path="/legal/terms" component={lazy(() => import("./pages/legal/terms"))} />
-          <Route path="/legal/cookies" component={lazy(() => import("./pages/legal/cookies"))} />
-          <Route path="/legal/sms-terms" component={lazy(() => import("./pages/legal/sms-terms"))} />
-          <Route path="/contact" component={lazy(() => import("./pages/contact"))} />
-          <Route path="/careers" component={lazy(() => import("./pages/careers"))} />
-          <Route path="/system-health" component={lazy(() => import("./pages/system-health"))} />
-          <Route path="/platform-status" component={lazy(() => import("./pages/platform-status"))} />
-          <Route path="/admin-panel" component={lazy(() => import("./pages/admin-panel"))} />
-          <Route path="/admin/status" component={lazy(() => import("./pages/admin/status"))} />
-          <Route path="/transitions-demo" component={lazy(() => import("./pages/transitions-demo"))} />
+          {/* === LEGAL & COMPLIANCE === */}
+          <Route path="/legal/terms" component={TermsPage} />
+          <Route path="/legal/privacy" component={PrivacyPage} />
+          <Route path="/legal/cookies" component={CookiesPage} />
+          <Route path="/legal/sms-terms" component={SMSTermsPage} />
+          
+          {/* === DEVELOPMENT & TESTING === */}
           <Route path="/loading-showcase" component={LoadingShowcase} />
+          <Route path="/lead-capture-demo" component={LeadCaptureDemo} />
+          <Route path="/system-health" component={SystemHealth} />
+          <Route path="/responsive-test" component={ResponsiveTest} />
+          <Route path="/agent-test" component={AgentTest} />
+          <Route path="/platform-status" component={PlatformStatus} />
+          <Route path="/qa-status" component={QAStatus} />
           
-          {/* Error Pages */}
-          <Route path="/error/400" component={lazy(() => import("./pages/errors/error-400"))} />
-          <Route path="/error/401" component={lazy(() => import("./pages/errors/error-401"))} />
-          <Route path="/error/403" component={lazy(() => import("./pages/errors/error-403"))} />
-          <Route path="/error/500" component={lazy(() => import("./pages/errors/error-500"))} />
+          {/* === ERROR PAGES === */}
+          <Route path="/error/400" component={Error400} />
+          <Route path="/error/401" component={Error401} />
+          <Route path="/error/403" component={Error403} />
+          <Route path="/error/500" component={Error500} />
           
+          {/* === 404 FALLBACK === */}
           <Route component={NotFound} />
         </Switch>
       </PageTransition>
@@ -159,9 +154,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <TooltipProvider>
-            <Suspense fallback={<SacredLoader />}>
-              <Router />
-            </Suspense>
+            <Router />
             <Toaster />
           </TooltipProvider>
         </AuthProvider>

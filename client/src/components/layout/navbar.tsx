@@ -41,13 +41,13 @@ export function Navbar() {
   } = useOnboarding();
 
   const publicLinks = [
-    { href: "/", label: "Home" },
+    { href: "/auth/signin", label: "Sign In" },
     { href: "/marketplace", label: "Marketplace" },
     { href: "/demo", label: "Demo" },
     { href: "/pricing", label: "Pricing" },
-    { href: "/case-studies", label: "Success Stories" },
     { href: "/harmony", label: "About" },
     { href: "/join", label: "Join Waitlist" },
+    { href: "/", label: "Home" },
   ];
 
   const privateLinks = [

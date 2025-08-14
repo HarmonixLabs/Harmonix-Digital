@@ -358,24 +358,26 @@ export default function Marketplace() {
     <PageWrapper>
       <div className="min-h-screen bg-gradient-to-br from-[#002a2d] via-[#1b1b1b] to-[#002a2d]">
         <Navbar />
-        <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900">
+        <div className="bg-gradient-to-br from-[#002a2d] via-[#1b1b1b] to-[#002a2d] min-h-screen">
       {/* Header */}
-      <div className="bg-slate-900/50 border-b border-emerald-400/20 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div className="bg-gray-900/50 border-b border-harmony-gold/20 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             <div>
-              <h1 className="text-3xl font-bold text-emerald-100 mb-2">Agent Marketplace</h1>
-              <p className="text-slate-400">Deploy, create, and trade AI agents for your business</p>
+              <h1 className="text-4xl font-bold text-white font-serif mb-3">
+                Agent <span className="text-harmony-gold">Marketplace</span>
+              </h1>
+              <p className="text-gray-300 text-lg">Deploy, create, and trade elite AI agents for your business empire</p>
             </div>
             
-            <div className="flex items-center gap-3">
-              <Button variant="outline" className="border-emerald-400/50 text-emerald-400 hover:bg-emerald-400/10">
-                <Wallet className="w-4 h-4 mr-2" />
+            <div className="flex items-center gap-4">
+              <Button variant="outline" className="border-harmony-gold/50 text-harmony-gold hover:bg-harmony-gold/10 px-6 py-3">
+                <Wallet className="w-5 h-5 mr-2" />
                 Connect Wallet
               </Button>
               <Link href="/create-agent">
-                <Button className="bg-emerald-600 hover:bg-emerald-700 text-white">
-                  <Bot className="w-4 h-4 mr-2" />
+                <Button className="bg-harmony-gold hover:bg-harmony-gold/80 text-black font-semibold px-6 py-3">
+                  <Bot className="w-5 h-5 mr-2" />
                   Create Agent
                 </Button>
               </Link>
@@ -404,7 +406,7 @@ export default function Marketplace() {
             </div>
             
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-full lg:w-48 bg-slate-800/50 border-slate-600 text-emerald-100">
+              <SelectTrigger className="w-full lg:w-48 bg-gray-800/50 border-gray-600 text-white">
                 <SelectValue placeholder="Category" />
               </SelectTrigger>
               <SelectContent className="bg-slate-800 border-slate-600">
