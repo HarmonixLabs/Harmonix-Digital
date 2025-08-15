@@ -181,6 +181,7 @@ interface Message {
 }
 
 export default function Demo() {
+  // Force refresh - timestamp: ${Date.now()}
   const [selectedAgent, setSelectedAgent] = useState(agents[0]);
   const [isLiveMode, setIsLiveMode] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
