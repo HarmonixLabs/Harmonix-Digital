@@ -27,24 +27,16 @@ export function Footer() {
             <Link href="/join">
               <a className="text-[#FDC500] hover:text-[#FDC500]/80 transition-colors">Join</a>
             </Link>
-            <Link href="/legal/privacy">
-              <a className="hover:text-white transition-colors">Privacy</a>
-            </Link>
-            <Link href="/legal/terms">
-              <a className="hover:text-white transition-colors">Terms</a>
-            </Link>
-            <Link href="/system-health">
-              <a className="opacity-70 hover:opacity-100 transition-opacity text-xs">
-                System Health (Founders)
-              </a>
-            </Link>
+            <a href="https://trustcenter.harmonixdigital.com/privacy" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Privacy policy</a>
+            <a href="https://trustcenter.harmonixdigital.com/terms" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Public terms</a>
           </nav>
           
           {/* Contact */}
-          <div className="text-xs">
-            Contact: <a className="underline hover:text-white transition-colors" href="mailto:connect@harmonixdigital.com">
-              connect@harmonixdigital.com
-            </a>
+          <div className="max-w-3xl space-y-3 text-center text-xs leading-relaxed">
+            <p>Harmonix Digital is operated by 18068526 CANADA INC.</p>
+            <p>AI assistants may support our team, but can make mistakes. Do not enter sensitive personal, medical, legal, or financial information into unverified public chat. Website terms do not replace signed client agreements.</p>
+            <p>Contact: <a className="underline hover:text-white transition-colors" href="mailto:connect@harmonixdigital.com">connect@harmonixdigital.com</a></p>
+            <p>© {new Date().getFullYear()} 18068526 CANADA INC. · Powered by Harmonix</p>
           </div>
         </div>
       </div>
