@@ -10,6 +10,7 @@ import { ErrorBoundary } from "@/components/error-boundary";
 import { PageTransition, SacredLoader } from "@/components/transitions/page-transition";
 import RedirectHandler from "@/components/RedirectHandler";
 import { AppShell } from "@/components/layout/AppShell";
+import { HarmonixGHLChat } from "@/components/integrations/HarmonixGHLChat";
 
 // Core Pages
 import Home from "@/pages/home";
@@ -78,6 +79,7 @@ function Router() {
       <PageTransition>
         <AppShell>
           <RedirectHandler />
+          <HarmonixGHLChat />
           <Switch>
           {/* === CORE PUBLIC ROUTES === */}
           <Route path="/" component={Home} />
